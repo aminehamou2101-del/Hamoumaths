@@ -9,7 +9,7 @@
         :root {
             --bg-base: #060913;
             --bg-card: #0d1526;
-            --bg-glass: rgba(13, 21, 38, 0.88);
+            --bg-glass: rgba(13, 21, 38, 0.90);
             --primary: #4f46e5;
             --primary-glow: rgba(79, 70, 229, 0.4);
             --secondary: #0ea5e9;
@@ -19,7 +19,7 @@
             --rose: #e11d48;
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
-            --border: rgba(255, 255, 255, 0.08);
+            --border: rgba(255, 255, 255, 0.1);
             --shadow-lux: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
         }
 
@@ -31,13 +31,8 @@
             padding: 0;
             min-height: 100vh;
             overflow-x: hidden;
-            background-image: 
-                radial-gradient(circle at 10% 10%, rgba(79, 70, 229, 0.12) 0%, transparent 40%),
-                radial-gradient(circle at 90% 90%, rgba(14, 165, 233, 0.1) 0%, transparent 40%),
-                radial-gradient(circle at 50% 50%, rgba(245, 158, 11, 0.06) 0%, transparent 60%);
         }
 
-        /* رأس الصفحة الفاخر */
         header {
             background: var(--bg-glass);
             backdrop-filter: blur(20px);
@@ -54,26 +49,24 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 18px 35px;
+            padding: 15px 30px;
             flex-wrap: wrap;
             gap: 15px;
         }
 
         .brand-logo h1 {
             margin: 0;
-            font-size: 20px;
+            font-size: 19px;
             font-weight: 900;
             background: linear-gradient(135deg, #fff 30%, var(--secondary) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            letter-spacing: -0.5px;
         }
 
         .brand-logo span {
             font-size: 11px;
             color: var(--gold);
             font-weight: 700;
-            letter-spacing: 0.5px;
         }
 
         nav {
@@ -82,57 +75,54 @@
             flex-wrap: wrap;
         }
 
-        nav a {
-            text-decoration: none;
+        nav button {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid transparent;
             color: var(--text-muted);
+            font-family: 'Cairo', sans-serif;
             font-weight: 700;
             font-size: 12px;
-            padding: 9px 15px;
+            padding: 8px 14px;
             border-radius: 12px;
-            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
             cursor: pointer;
-            border: 1px solid transparent;
-            background: rgba(255, 255, 255, 0.02);
+            transition: all 0.3s ease;
         }
 
-        nav a:hover, nav a.active {
+        nav button:hover, nav button.active {
             background: var(--primary);
             color: white;
             border-color: var(--primary);
-            box-shadow: 0 0 20px var(--primary-glow);
-            transform: translateY(-2px);
+            box-shadow: 0 0 15px var(--primary-glow);
         }
 
         .workspace {
             max-width: 1350px;
-            margin: 40px auto;
-            padding: 0 25px;
+            margin: 35px auto;
+            padding: 0 20px;
         }
 
         .pane {
             display: none;
-            animation: paneIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
         .pane.active {
             display: block;
+            animation: fadeIn 0.4s ease forwards;
         }
 
-        @keyframes paneIn {
-            from { opacity: 0; transform: translateY(25px) scale(0.98); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        /* البطاقات الفاخرة */
         .card-lux {
             background: var(--bg-card);
             border: 1px solid var(--border);
-            border-radius: 28px;
-            padding: 40px;
+            border-radius: 25px;
+            padding: 35px;
             box-shadow: var(--shadow-lux);
             position: relative;
             overflow: hidden;
-            margin-bottom: 35px;
         }
 
         .card-lux::before {
@@ -143,21 +133,19 @@
         }
 
         h2.title-glow {
-            font-size: 26px;
+            font-size: 24px;
             font-weight: 900;
             text-align: center;
             margin-top: 0;
             margin-bottom: 25px;
             color: #fff;
-            text-shadow: 0 0 20px rgba(79, 70, 229, 0.3);
         }
 
-        /* التبويبات والأطوار */
         .stage-tabs {
             display: flex;
             justify-content: center;
-            gap: 12px;
-            margin-bottom: 30px;
+            gap: 10px;
+            margin-bottom: 25px;
             flex-wrap: wrap;
         }
 
@@ -165,11 +153,12 @@
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid var(--border);
             color: var(--text-muted);
-            padding: 10px 20px;
-            border-radius: 14px;
+            padding: 8px 18px;
+            border-radius: 12px;
             font-weight: 800;
             font-size: 13px;
             cursor: pointer;
+            font-family: 'Cairo', sans-serif;
             transition: 0.3s;
         }
 
@@ -177,83 +166,66 @@
             background: var(--secondary);
             color: #fff;
             border-color: var(--secondary);
-            box-shadow: 0 0 15px var(--secondary-glow);
+            box-shadow: 0 0 12px var(--secondary-glow);
         }
 
-        /* شبكة العناصر */
         .matrix-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
         }
 
         .matrix-box {
-            background: rgba(8, 13, 25, 0.75);
+            background: rgba(6, 9, 19, 0.8);
             border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 25px;
-            transition: all 0.4s ease;
-            position: relative;
+            border-radius: 18px;
+            padding: 22px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            transition: 0.3s;
         }
 
         .matrix-box:hover {
             border-color: var(--secondary);
-            box-shadow: 0 15px 35px rgba(14, 165, 233, 0.2);
-            transform: translateY(-5px);
-            background: rgba(8, 13, 25, 0.95);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(14, 165, 233, 0.15);
         }
 
         .matrix-box h3 {
             margin-top: 0;
-            font-size: 17px;
+            font-size: 16px;
             font-weight: 800;
             color: #fff;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
 
         .matrix-box p {
             color: var(--text-muted);
-            font-size: 13px;
+            font-size: 12px;
             line-height: 1.6;
             margin-bottom: 20px;
         }
 
-        /* الأزرار الفاخرة */
         .btn-lux {
-            background: linear-gradient(135deg, var(--primary), #4338ca);
+            background: linear-gradient(135deg, var(--rose), #be123c);
             color: white;
-            padding: 11px 18px;
+            padding: 11px 16px;
             border: none;
-            border-radius: 12px;
+            border-radius: 10px;
             font-weight: 800;
-            font-size: 13px;
+            font-size: 12px;
             cursor: pointer;
             width: 100%;
             text-align: center;
-            box-sizing: border-box;
+            font-family: 'Cairo', sans-serif;
+            box-shadow: 0 4px 15px rgba(225, 29, 72, 0.3);
             transition: 0.3s;
-            box-shadow: 0 4px 15px var(--primary-glow);
-            text-decoration: none;
-            display: inline-block;
         }
 
         .btn-lux:hover {
-            opacity: 0.95;
-            box-shadow: 0 6px 25px var(--primary-glow);
+            opacity: 0.9;
             transform: scale(1.02);
-        }
-
-        .btn-pdf {
-            background: linear-gradient(135deg, var(--rose), #be123c);
-            box-shadow: 0 4px 15px rgba(225, 29, 72, 0.4);
-        }
-
-        .btn-gold {
-            background: linear-gradient(135deg, var(--gold), #d97706);
-            box-shadow: 0 4px 15px var(--gold-glow);
         }
 
         .btn-cyan {
@@ -261,12 +233,16 @@
             box-shadow: 0 4px 15px var(--secondary-glow);
         }
 
-        /* نافذة تفعيل الحساب */
+        .btn-gold {
+            background: linear-gradient(135deg, var(--gold), #d97706);
+            box-shadow: 0 4px 15px var(--gold-glow);
+        }
+
         #authModal {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(6, 9, 19, 0.92);
-            backdrop-filter: blur(25px);
+            background: rgba(6, 9, 19, 0.95);
+            backdrop-filter: blur(20px);
             z-index: 9999;
             display: none;
             justify-content: center;
@@ -277,55 +253,52 @@
         .auth-card {
             background: var(--bg-card);
             width: 100%;
-            max-width: 480px;
-            padding: 40px;
-            border-radius: 30px;
+            max-width: 440px;
+            padding: 35px;
+            border-radius: 25px;
             border: 1px solid var(--border);
-            box-shadow: 0 30px 60px rgba(0,0,0,0.9);
             text-align: center;
         }
 
         .auth-card h2 {
             color: #fff;
-            font-size: 24px;
-            font-weight: 900;
+            font-size: 22px;
             margin-top: 0;
             margin-bottom: 10px;
         }
 
         .auth-card p {
             color: var(--text-muted);
-            font-size: 13px;
-            margin-bottom: 25px;
-            line-height: 1.6;
+            font-size: 12px;
+            margin-bottom: 20px;
+            line-height: 1.5;
         }
 
         .auth-form label {
             display: block;
             text-align: right;
             font-weight: 800;
-            font-size: 13px;
+            font-size: 12px;
             color: var(--text-main);
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
         .auth-form input {
             width: 100%;
             background: var(--bg-base);
             border: 1px solid var(--border);
-            border-radius: 14px;
-            padding: 14px 18px;
+            border-radius: 12px;
+            padding: 12px 15px;
             color: #fff;
-            font-size: 14px;
+            font-size: 13px;
             font-family: inherit;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             box-sizing: border-box;
         }
 
         .auth-form input:focus {
             outline: none;
             border-color: var(--gold);
-            box-shadow: 0 0 15px var(--gold-glow);
         }
     </style>
 </head>
@@ -334,30 +307,29 @@
 <header>
     <div class="header-wrap">
         <div class="brand-logo">
-            <h1>منصة التعليم الجزائري الشامل</h1>
+            <h1>البوابة الشاملة للتعليم الجزائري</h1>
             <span id="userStatusBadge">إشراف وإعداد الأستاذ: حمو محمد أمين</span>
         </div>
         <nav>
-            <a onclick="switchPane('paneBooks', this)" class="active">الكتب والمراجع 📚</a>
-            <a onclick="switchPane('paneAnnales', this)">الحوليات والامتحانات 🏆</a>
-            <a onclick="switchPane('paneMoudhakkirat', this)">المذكرات والدروس 📝</a>
-            <a onclick="switchPane('paneTadarojat', this)">التدرجات الرسمية الجديدة 📋</a>
-            <a onclick="switchPane('paneSchedule', this)">جداول الإسناد ⏰</a>
+            <button onclick="switchPane('paneBooks', this)" class="active">الكتب والمراجع 📚</button>
+            <button onclick="switchPane('paneAnnales', this)">الحوليات والامتحانات 🏆</button>
+            <button onclick="switchPane('paneMoudhakkirat', this)">المذكرات والدروس 📝</button>
+            <button onclick="switchPane('paneTadarojat', this)">التدرجات الجديدة 📋</button>
+            <button onclick="switchPane('paneSchedule', this)">جداول الإسناد ⏰</button>
         </nav>
     </div>
 </header>
 
-<!-- نافذة تفعيل الحساب الشامل -->
 <div id="authModal">
     <div class="auth-card">
         <h2>👑 تفعيل البوابة الشاملة</h2>
-        <p>لتحميل جميع الكتب، الحوليات، المذكرات والتدرجات بصيغة PDF برسم الاشتراك (500 دج)، يرجى إدخال بياناتك:</p>
+        <p>لتحميل جميع الملفات، الكتب، الحوليات والمذكرات بصيغة PDF برسم الاشتراك (500 دج)، يرجى إدخال بياناتك:</p>
         <form class="auth-form" onsubmit="completeActivation(event)">
             <label>الاسم الكامل أو اللقب المهني:</label>
             <input type="text" id="modalName" placeholder="أدخل اسمك الكريم" required>
             <label>رقم الهاتف الشخصي:</label>
             <input type="text" id="modalPhone" placeholder="06xxxxxxxx" required>
-            <button type="submit" class="btn-lux btn-gold" style="padding: 15px; font-size: 15px;">تفعيل الحساب والبدء الفوري 🚀</button>
+            <button type="submit" class="btn-lux btn-gold" style="padding: 14px; font-size: 14px;">تفعيل الحساب والبدء الفوري 🚀</button>
         </form>
     </div>
 </div>
@@ -425,18 +397,24 @@
             <h2 class="title-glow">⏰ جداول الإسناد واستعمالات الزمن الإدارية</h2>
             <div class="matrix-grid">
                 <div class="matrix-box">
-                    <h3>جدول الإسناد السنوي للأساتذة والأقواج</h3>
-                    <p>توزيع الحجم الساعي والأقسام والمواد بدقة تامة.</p>
-                    <button class="btn-lux btn-pdf" onclick="openDownload('جدول الإسناد السنوي')">📥 تحميل ملف الإسناد PDF</button>
+                    <div>
+                        <h3>جدول الإسناد السنوي للأساتذة والأقواج</h3>
+                        <p>توزيع الحجم الساعي والأقسام والمواد بدقة تامة.</p>
+                    </div>
+                    <button class="btn-lux" onclick="openDownload('جدول الإسناد السنوي')">📥 تحميل ملف الإسناد PDF</button>
                 </div>
                 <div class="matrix-box">
-                    <h3>جداول استعمالات الزمن الأسبوعية</h3>
-                    <p>هندسة وتنظيم أوقات الحصص والقاعات التربوية.</p>
+                    <div>
+                        <h3>جداول استعمالات الزمن الأسبوعية</h3>
+                        <p>هندسة وتنظيم أوقات الحصص والقاعات التربوية.</p>
+                    </div>
                     <button class="btn-lux btn-cyan" onclick="openDownload('جدول استعمال الزمن الأسبوعي')">📥 تحميل استعمال الزمن PDF</button>
                 </div>
                 <div class="matrix-box">
-                    <h3>مخطط المناوبة والتوقيت اليومي</h3>
-                    <p>توزيع مهام الحراسة والمناوبة اليومية للمعلمين والإداريين.</p>
+                    <div>
+                        <h3>مخطط المناوبة والتوقيت اليومي</h3>
+                        <p>توزيع مهام الحراسة والمناوبة اليومية للمعلمين والإداريين.</p>
+                    </div>
                     <button class="btn-lux btn-gold" onclick="openDownload('مخطط المناوبة والتوقيت')">📥 تحميل مخطط المناوبة PDF</button>
                 </div>
             </div>
@@ -456,15 +434,14 @@
         renderAllSections();
     };
 
-    function switchPane(paneId, element) {
+    function switchPane(paneId, btn) {
         document.querySelectorAll('.pane').forEach(p => p.classList.remove('active'));
-        document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+        document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
         document.getElementById(paneId).classList.add('active');
-        if(element) element.classList.add('active');
+        btn.classList.add('active');
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // قواعد البيانات الشاملة لجميع الأقسام
     const database = {
         books: [
             { stage: 'ibtidai', title: 'كتاب الرياضيات المدرسي + دليل الأستاذ (الخامسة ابتدائي)', desc: 'النسخة الرسمية مع الحلول المفصلة للأنشطة والتمارين.' },
@@ -507,7 +484,7 @@
                         <h3>${item.title}</h3>
                         <p>${item.desc}</p>
                     </div>
-                    <button class="btn-lux btn-pdf" onclick="openDownload('${item.title}')">📥 تحميل الملف بصيغة PDF</button>
+                    <button class="btn-lux" onclick="openDownload('${item.title}')">📥 تحميل الملف بصيغة PDF</button>
                 </div>
             `;
         });
@@ -523,7 +500,7 @@
 
     function openDownload(title) {
         if(isUserActive) {
-            alert(`👑 تم التحقق من حسابك! جاري تنزيل ملف "${title}" بصيغة PDF الفاخرة...`);
+            alert(`👑 تم التحقق من حسابك يا أستاذ! جاري تنزيل ملف "${title}" بصيغة PDF...`);
         } else {
             document.getElementById('authModal').style.display = 'flex';
         }
