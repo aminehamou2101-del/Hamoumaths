@@ -3,520 +3,415 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>البوابة الشاملة للتعليم الجزائري | إعداد الأستاذ: حمو محمد أمين</title>
+    <title>البوابة الشاملة للتعليم الجزائري | الأستاذ حمو محمد أمين</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --bg-base: #060913;
-            --bg-card: #0d1526;
-            --bg-glass: rgba(13, 21, 38, 0.90);
-            --primary: #4f46e5;
-            --primary-glow: rgba(79, 70, 229, 0.4);
-            --secondary: #0ea5e9;
-            --secondary-glow: rgba(14, 165, 233, 0.3);
-            --gold: #f59e0b;
-            --gold-glow: rgba(245, 158, 11, 0.3);
-            --rose: #e11d48;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --border: rgba(255, 255, 255, 0.1);
-            --shadow-lux: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
-        }
-
+        * { box-sizing: border-box; }
         body {
             font-family: 'Cairo', sans-serif;
-            background: var(--bg-base);
-            color: var(--text-main);
+            background: #060913;
+            color: #f8fafc;
             margin: 0;
             padding: 0;
             min-height: 100vh;
-            overflow-x: hidden;
         }
 
         header {
-            background: var(--bg-glass);
-            backdrop-filter: blur(20px);
+            background: #0d1526;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
             position: sticky;
             top: 0;
             z-index: 1000;
-            border-bottom: 1px solid var(--border);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-        }
-
-        .header-wrap {
-            max-width: 1450px;
-            margin: 0 auto;
+            padding: 15px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 30px;
             flex-wrap: wrap;
             gap: 15px;
         }
 
-        .brand-logo h1 {
+        .brand h1 {
             margin: 0;
-            font-size: 19px;
-            font-weight: 900;
-            background: linear-gradient(135deg, #fff 30%, var(--secondary) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            font-size: 18px;
+            color: #0ea5e9;
         }
 
-        .brand-logo span {
+        .brand span {
             font-size: 11px;
-            color: var(--gold);
-            font-weight: 700;
+            color: #f59e0b;
         }
 
         nav {
             display: flex;
-            gap: 6px;
+            gap: 5px;
             flex-wrap: wrap;
         }
 
         nav button {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid transparent;
-            color: var(--text-muted);
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: #94a3b8;
             font-family: 'Cairo', sans-serif;
             font-weight: 700;
             font-size: 12px;
-            padding: 8px 14px;
-            border-radius: 12px;
+            padding: 8px 12px;
+            border-radius: 8px;
             cursor: pointer;
-            transition: all 0.3s ease;
         }
 
-        nav button:hover, nav button.active {
-            background: var(--primary);
+        nav button.active {
+            background: #4f46e5;
             color: white;
-            border-color: var(--primary);
-            box-shadow: 0 0 15px var(--primary-glow);
+            border-color: #4f46e5;
         }
 
-        .workspace {
-            max-width: 1350px;
-            margin: 35px auto;
-            padding: 0 20px;
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 15px;
         }
 
-        .pane {
+        .section {
             display: none;
+            background: #0d1526;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 25px;
         }
 
-        .pane.active {
+        .section.active {
             display: block;
-            animation: fadeIn 0.4s ease forwards;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(15px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .card-lux {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 25px;
-            padding: 35px;
-            box-shadow: var(--shadow-lux);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .card-lux::before {
-            content: '';
-            position: absolute;
-            top: 0; right: 0; width: 100%; height: 4px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--gold));
-        }
-
-        h2.title-glow {
-            font-size: 24px;
-            font-weight: 900;
+        h2 {
             text-align: center;
+            font-size: 22px;
             margin-top: 0;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             color: #fff;
         }
 
-        .stage-tabs {
+        .sub-tabs {
             display: flex;
             justify-content: center;
-            gap: 10px;
-            margin-bottom: 25px;
+            gap: 8px;
+            margin-bottom: 20px;
             flex-wrap: wrap;
         }
 
-        .stage-tab {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid var(--border);
-            color: var(--text-muted);
-            padding: 8px 18px;
-            border-radius: 12px;
-            font-weight: 800;
-            font-size: 13px;
+        .sub-tab {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: #94a3b8;
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 12px;
             cursor: pointer;
             font-family: 'Cairo', sans-serif;
-            transition: 0.3s;
         }
 
-        .stage-tab:hover, .stage-tab.active {
-            background: var(--secondary);
+        .sub-tab.active {
+            background: #0ea5e9;
             color: #fff;
-            border-color: var(--secondary);
-            box-shadow: 0 0 12px var(--secondary-glow);
+            border-color: #0ea5e9;
         }
 
-        .matrix-grid {
+        .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 15px;
         }
 
-        .matrix-box {
-            background: rgba(6, 9, 19, 0.8);
-            border: 1px solid var(--border);
-            border-radius: 18px;
-            padding: 22px;
+        .card {
+            background: #060913;
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 12px;
+            padding: 18px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            transition: 0.3s;
         }
 
-        .matrix-box:hover {
-            border-color: var(--secondary);
-            transform: translateY(-4px);
-            box-shadow: 0 10px 25px rgba(14, 165, 233, 0.15);
-        }
-
-        .matrix-box h3 {
-            margin-top: 0;
-            font-size: 16px;
-            font-weight: 800;
+        .card h3 {
+            margin: 0 0 8px 0;
+            font-size: 15px;
             color: #fff;
-            margin-bottom: 8px;
         }
 
-        .matrix-box p {
-            color: var(--text-muted);
+        .card p {
+            margin: 0 0 15px 0;
             font-size: 12px;
-            line-height: 1.6;
-            margin-bottom: 20px;
+            color: #94a3b8;
+            line-height: 1.5;
         }
 
-        .btn-lux {
-            background: linear-gradient(135deg, var(--rose), #be123c);
+        .download-btn {
+            background: #e11d48;
             color: white;
-            padding: 11px 16px;
             border: none;
-            border-radius: 10px;
-            font-weight: 800;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: 700;
             font-size: 12px;
             cursor: pointer;
-            width: 100%;
-            text-align: center;
             font-family: 'Cairo', sans-serif;
-            box-shadow: 0 4px 15px rgba(225, 29, 72, 0.3);
-            transition: 0.3s;
+            width: 100%;
         }
 
-        .btn-lux:hover {
-            opacity: 0.9;
-            transform: scale(1.02);
-        }
-
-        .btn-cyan {
-            background: linear-gradient(135deg, var(--secondary), #0284c7);
-            box-shadow: 0 4px 15px var(--secondary-glow);
-        }
-
-        .btn-gold {
-            background: linear-gradient(135deg, var(--gold), #d97706);
-            box-shadow: 0 4px 15px var(--gold-glow);
-        }
-
-        #authModal {
+        #modal {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(6, 9, 19, 0.95);
-            backdrop-filter: blur(20px);
-            z-index: 9999;
+            background: rgba(6,9,19,0.9);
             display: none;
             justify-content: center;
             align-items: center;
             padding: 20px;
+            z-index: 2000;
         }
 
-        .auth-card {
-            background: var(--bg-card);
+        .modal-box {
+            background: #0d1526;
             width: 100%;
-            max-width: 440px;
-            padding: 35px;
-            border-radius: 25px;
-            border: 1px solid var(--border);
+            max-width: 400px;
+            padding: 25px;
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
             text-align: center;
         }
 
-        .auth-card h2 {
-            color: #fff;
-            font-size: 22px;
-            margin-top: 0;
-            margin-bottom: 10px;
-        }
-
-        .auth-card p {
-            color: var(--text-muted);
-            font-size: 12px;
-            margin-bottom: 20px;
-            line-height: 1.5;
-        }
-
-        .auth-form label {
-            display: block;
-            text-align: right;
-            font-weight: 800;
-            font-size: 12px;
-            color: var(--text-main);
-            margin-bottom: 6px;
-        }
-
-        .auth-form input {
+        .modal-box input {
             width: 100%;
-            background: var(--bg-base);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 12px 15px;
-            color: #fff;
-            font-size: 13px;
-            font-family: inherit;
-            margin-bottom: 15px;
-            box-sizing: border-box;
+            padding: 10px;
+            margin: 10px 0;
+            background: #060913;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            color: white;
+            font-family: 'Cairo', sans-serif;
         }
 
-        .auth-form input:focus {
-            outline: none;
-            border-color: var(--gold);
+        .modal-box button {
+            background: #f59e0b;
+            color: #000;
+            border: none;
+            padding: 10px;
+            width: 100%;
+            border-radius: 8px;
+            font-weight: 800;
+            cursor: pointer;
+            font-family: 'Cairo', sans-serif;
         }
     </style>
 </head>
 <body>
 
 <header>
-    <div class="header-wrap">
-        <div class="brand-logo">
-            <h1>البوابة الشاملة للتعليم الجزائري</h1>
-            <span id="userStatusBadge">إشراف وإعداد الأستاذ: حمو محمد أمين</span>
-        </div>
-        <nav>
-            <button onclick="switchPane('paneBooks', this)" class="active">الكتب والمراجع 📚</button>
-            <button onclick="switchPane('paneAnnales', this)">الحوليات والامتحانات 🏆</button>
-            <button onclick="switchPane('paneMoudhakkirat', this)">المذكرات والدروس 📝</button>
-            <button onclick="switchPane('paneTadarojat', this)">التدرجات الجديدة 📋</button>
-            <button onclick="switchPane('paneSchedule', this)">جداول الإسناد ⏰</button>
-        </nav>
+    <div class="brand">
+        <h1 id="brandTitle">البوابة الشاملة للتعليم الجزائري</h1>
+        <span id="userBadge">إشراف: الأستاذ حمو محمد أمين</span>
     </div>
+    <nav>
+        <button onclick="showSection('secBooks', this)" class="active">الكتب والمراجع</button>
+        <button onclick="showSection('secAnnales', this)">الحوليات والامتحانات</button>
+        <button onclick="showSection('secMoudhakkirat', this)">المذكرات والدروس</button>
+        <button onclick="showSection('secTadarojat', this)">التدرجات الجديدة</button>
+        <button onclick="showSection('secSchedule', this)">جداول الإسناد</button>
+    </nav>
 </header>
 
-<div id="authModal">
-    <div class="auth-card">
-        <h2>👑 تفعيل البوابة الشاملة</h2>
-        <p>لتحميل جميع الملفات، الكتب، الحوليات والمذكرات بصيغة PDF برسم الاشتراك (500 دج)، يرجى إدخال بياناتك:</p>
-        <form class="auth-form" onsubmit="completeActivation(event)">
-            <label>الاسم الكامل أو اللقب المهني:</label>
-            <input type="text" id="modalName" placeholder="أدخل اسمك الكريم" required>
-            <label>رقم الهاتف الشخصي:</label>
-            <input type="text" id="modalPhone" placeholder="06xxxxxxxx" required>
-            <button type="submit" class="btn-lux btn-gold" style="padding: 14px; font-size: 14px;">تفعيل الحساب والبدء الفوري 🚀</button>
-        </form>
+<div id="modal">
+    <div class="modal-box">
+        <h3 style="color:#fff; margin-top:0;">تفعيل البوابة الشاملة</h3>
+        <p style="font-size:12px; color:#94a3b8;">أدخل بياناتك لتنزيل جميع الملفات برسم الاشتراك (500 دج):</p>
+        <input type="text" id="userName" placeholder="الاسم الكريم أو اللقب">
+        <input type="text" id="userPhone" placeholder="رقم الهاتف (06xxxxxxxx)">
+        <button onclick="activateAccount()">تفعيل الحساب والتحميل</button>
     </div>
 </div>
 
-<div class="workspace">
-
-    <!-- 1. الكتب والمراجع -->
-    <div id="paneBooks" class="pane active">
-        <div class="card-lux">
-            <h2 class="title-glow">📚 الكتب المدرسية والمراجع الثمينة لكافة الأطوار</h2>
-            <div class="stage-tabs">
-                <button class="stage-tab active" onclick="filterData('books', 'all', this)">الكل</button>
-                <button class="stage-tab" onclick="filterData('books', 'ibtidai', this)">الابتدائي</button>
-                <button class="stage-tab" onclick="filterData('books', 'mutawasit', this)">المتوسط</button>
-                <button class="stage-tab" onclick="filterData('books', 'thanawi', this)">الثانوي</button>
-            </div>
-            <div class="matrix-grid" id="booksGrid"></div>
+<div class="container">
+    <!-- القسم 1 -->
+    <div id="secBooks" class="section active">
+        <h2>📚 الكتب المدرسية والمراجع الثمينة</h2>
+        <div class="sub-tabs">
+            <button class="sub-tab active" onclick="filterContent('books', 'all', this)">الكل</button>
+            <button class="sub-tab" onclick="filterContent('books', 'ibtidai', this)">الابتدائي</button>
+            <button class="sub-tab" onclick="filterContent('books', 'mutawasit', this)">المتوسط</button>
+            <button class="sub-tab" onclick="filterContent('books', 'thanawi', this)">الثانوي</button>
         </div>
+        <div class="grid" id="gridBooks"></div>
     </div>
 
-    <!-- 2. الحوليات والامتحانات (ليزانال) -->
-    <div id="paneAnnales" class="pane">
-        <div class="card-lux">
-            <h2 class="title-glow">🏆 حوليات البكالوريا وشهادة التعليم المتوسط والامتحانات (L'annales)</h2>
-            <div class="stage-tabs">
-                <button class="stage-tab active" onclick="filterData('annales', 'all', this)">الكل</button>
-                <button class="stage-tab" onclick="filterData('annales', 'bem', this)">شهادة التعليم المتوسط BEM</button>
-                <button class="stage-tab" onclick="filterData('annales', 'bac', this)">شهادة البكالوريا BAC</button>
-            </div>
-            <div class="matrix-grid" id="annalesGrid"></div>
+    <!-- القسم 2 -->
+    <div id="secAnnales" class="section">
+        <h2>🏆 حوليات البكالوريا وشهادة التعليم المتوسط (L'annales)</h2>
+        <div class="sub-tabs">
+            <button class="sub-tab active" onclick="filterContent('annales', 'all', this)">الكل</button>
+            <button class="sub-tab" onclick="filterContent('annales', 'bem', this)">شهادة BEM</button>
+            <button class="sub-tab" onclick="filterContent('annales', 'bac', this)">شهادة BAC</button>
         </div>
+        <div class="grid" id="gridAnnales"></div>
     </div>
 
-    <!-- 3. المذكرات والدروس والملخصات -->
-    <div id="paneMoudhakkirat" class="pane">
-        <div class="card-lux">
-            <h2 class="title-glow">📝 المذكرات اليومية، الدروس والملخصات الاحترافية</h2>
-            <div class="stage-tabs">
-                <button class="stage-tab active" onclick="filterData('moudhakkirat', 'all', this)">الكل</button>
-                <button class="stage-tab" onclick="filterData('moudhakkirat', 'ibtidai', this)">الابتدائي</button>
-                <button class="stage-tab" onclick="filterData('moudhakkirat', 'mutawasit', this)">المتوسط</button>
-                <button class="stage-tab" onclick="filterData('moudhakkirat', 'thanawi', this)">الثانوي</button>
-            </div>
-            <div class="matrix-grid" id="moudhakkiratGrid"></div>
+    <!-- القسم 3 -->
+    <div id="secMoudhakkirat" class="section">
+        <h2>📝 المذكرات اليومية والدروس والملخصات</h2>
+        <div class="sub-tabs">
+            <button class="sub-tab active" onclick="filterContent('moudhakkirat', 'all', this)">الكل</button>
+            <button class="sub-tab" onclick="filterContent('moudhakkirat', 'ibtidai', this)">الابتدائي</button>
+            <button class="sub-tab" onclick="filterContent('moudhakkirat', 'mutawasit', this)">المتوسط</button>
+            <button class="sub-tab" onclick="filterContent('moudhakkirat', 'thanawi', this)">الثانوي</button>
         </div>
+        <div class="grid" id="gridMoudhakkirat"></div>
     </div>
 
-    <!-- 4. التدرجات الرسمية الجديدة -->
-    <div id="paneTadarojat" class="pane">
-        <div class="card-lux">
-            <h2 class="title-glow">📋 التدرجات السنوية الرسمية الجديدة لكافة المواد والأطوار</h2>
-            <div class="stage-tabs">
-                <button class="stage-tab active" onclick="filterData('tadarojat', 'all', this)">الكل</button>
-                <button class="stage-tab" onclick="filterData('tadarojat', 'ibtidai', this)">الابتدائي</button>
-                <button class="stage-tab" onclick="filterData('tadarojat', 'mutawasit', this)">المتوسط</button>
-                <button class="stage-tab" onclick="filterData('tadarojat', 'thanawi', this)">الثانوي</button>
-            </div>
-            <div class="matrix-grid" id="tadarojatGrid"></div>
+    <!-- القسم 4 -->
+    <div id="secTadarojat" class="section">
+        <h2>📋 التدرجات السنوية الرسمية الجديدة</h2>
+        <div class="sub-tabs">
+            <button class="sub-tab active" onclick="filterContent('tadarojat', 'all', this)">الكل</button>
+            <button class="sub-tab" onclick="filterContent('tadarojat', 'ibtidai', this)">الابتدائي</button>
+            <button class="sub-tab" onclick="filterContent('tadarojat', 'mutawasit', this)">المتوسط</button>
+            <button class="sub-tab" onclick="filterContent('tadarojat', 'thanawi', this)">الثانوي</button>
         </div>
+        <div class="grid" id="gridTadarojat"></div>
     </div>
 
-    <!-- 5. جداول الإسناد واستعمالات الزمن -->
-    <div id="paneSchedule" class="pane">
-        <div class="card-lux">
-            <h2 class="title-glow">⏰ جداول الإسناد واستعمالات الزمن الإدارية</h2>
-            <div class="matrix-grid">
-                <div class="matrix-box">
-                    <div>
-                        <h3>جدول الإسناد السنوي للأساتذة والأقواج</h3>
-                        <p>توزيع الحجم الساعي والأقسام والمواد بدقة تامة.</p>
-                    </div>
-                    <button class="btn-lux" onclick="openDownload('جدول الإسناد السنوي')">📥 تحميل ملف الإسناد PDF</button>
+    <!-- القسم 5 -->
+    <div id="secSchedule" class="section">
+        <h2>⏰ جداول الإسناد واستعمالات الزمن</h2>
+        <div class="grid">
+            <div class="card">
+                <div>
+                    <h3>جدول الإسناد السنوي</h3>
+                    <p>توزيع الحجم الساعي والأقسام والمواد بدقة تامة.</p>
                 </div>
-                <div class="matrix-box">
-                    <div>
-                        <h3>جداول استعمالات الزمن الأسبوعية</h3>
-                        <p>هندسة وتنظيم أوقات الحصص والقاعات التربوية.</p>
-                    </div>
-                    <button class="btn-lux btn-cyan" onclick="openDownload('جدول استعمال الزمن الأسبوعي')">📥 تحميل استعمال الزمن PDF</button>
+                <button class="download-btn" onclick="downloadFile('جدول الإسناد السنوي')">تحميل PDF</button>
+            </div>
+            <div class="card">
+                <div>
+                    <h3>جداول استعمالات الزمن الأسبوعية</h3>
+                    <p>هندسة وتنظيم أوقات الحصص والقاعات التربوية.</p>
                 </div>
-                <div class="matrix-box">
-                    <div>
-                        <h3>مخطط المناوبة والتوقيت اليومي</h3>
-                        <p>توزيع مهام الحراسة والمناوبة اليومية للمعلمين والإداريين.</p>
-                    </div>
-                    <button class="btn-lux btn-gold" onclick="openDownload('مخطط المناوبة والتوقيت')">📥 تحميل مخطط المناوبة PDF</button>
+                <button class="download-btn" onclick="downloadFile('جداول استعمال الزمن الأسبوعية')">تحميل PDF</button>
+            </div>
+            <div class="card">
+                <div>
+                    <h3>مخطط المناوبة والتوقيت اليومي</h3>
+                    <p>توزيع مهام الحراسة والمناوبة اليومية للمعلمين.</p>
                 </div>
+                <button class="download-btn" onclick="downloadFile('مخطط المناوبة اليومية')">تحميل PDF</button>
             </div>
         </div>
     </div>
-
 </div>
 
 <script>
-    let isUserActive = localStorage.getItem('hamo_user_active') === 'true';
-
-    window.onload = function() {
-        if(isUserActive) {
-            const savedName = localStorage.getItem('hamo_user_name') || "الأستاذ";
-            document.getElementById('userStatusBadge').innerHTML = `👑 حساب مفعل: ${savedName}`;
-        }
-        renderAllSections();
-    };
-
-    function switchPane(paneId, btn) {
-        document.querySelectorAll('.pane').forEach(p => p.classList.remove('active'));
-        document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
-        document.getElementById(paneId).classList.add('active');
-        btn.classList.add('active');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    const database = {
+    // قاعدة البيانات
+    const db = {
         books: [
-            { stage: 'ibtidai', title: 'كتاب الرياضيات المدرسي + دليل الأستاذ (الخامسة ابتدائي)', desc: 'النسخة الرسمية مع الحلول المفصلة للأنشطة والتمارين.' },
-            { stage: 'mutawasit', title: 'كتاب الرياضيات والفيزياء (الرابعة متوسط - سلسلة النخبة)', desc: 'مراجع وثمينة مدعمة بتمارين محلولة وشاملة لكل المحاور.' },
-            { stage: 'thanawi', title: 'كتاب المغني والمهدوي في الرياضيات والفيزياء (البكالوريا)', desc: 'المرجع الأبرز لطلاب الثانوي مع تمارين شديدة الثراء والصعوبة التدريجية.' }
+            { stage: 'ibtidai', title: 'كتاب الرياضيات + دليل الأستاذ (خامسة ابتدائي)', desc: 'النسخة الرسمية مع الحلول المفصلة.' },
+            { stage: 'mutawasit', title: 'سلسلة النخبة في الرياضيات والفيزياء (رابعة متوسط)', desc: 'مراجع وثمينة مدعمة بتمارين محلولة.' },
+            { stage: 'thanawi', title: 'كتاب المغني والمهدوي (ثالثة ثانوي)', desc: 'المرجع الأبرز لطلاب البكالوريا.' }
         ],
         annales: [
-            { stage: 'bem', title: 'حوليات شهادة التعليم المتوسط BEM الرسمية (من 2018 إلى 2026)', desc: 'مواضيع الامتحانات الرسمية في جميع المواد مع التصحيح النموذجي وسلم التنقيط.' },
-            { stage: 'bac', title: 'حوليات البكالوريا الجزائرية الرسمية (الرياضيات والعلوم والفيزياء)', desc: 'التجميعية الأكبر لليزانال (L'annales) مع الحلول النموذجية الوزارية المفصلة.' },
-            { stage: 'bac', title: 'حوليات البكالوريا التجريبية للمدارس الكبرى والولايات النموذجية', desc: 'اختبارات مقترحة بقوة تحاكي امتحان البكالوريا الحقيقي.' }
+            { stage: 'bem', title: 'حوليات BEM الرسمية من 2018 إلى 2026', desc: 'مع التصحيح النموذجي وسلم التنقيط.' },
+            { stage: 'bac', title: 'حوليات البكالوريا الرسمية (علمي وأدبي)', desc: 'التجميعية الأكبر لليزانال مع الحلول الوزارية.' }
         ],
         moudhakkirat: [
-            { stage: 'ibtidai', title: 'المذكرات اليومية والملخصات الشاملة (التعليم الابتدائي)', desc: 'مذكرات منسقة وفق المناهج الرسمية جاهزة للطباعة والتعديل.' },
-            { stage: 'mutawasit', title: 'مذكرات الأستاذ النموذجية ودروس الفصل الأول والثاني والثالث (المتوسط)', desc: 'صياغة احترافية مبنية على الكفاءات لكل المواد.' },
-            { stage: 'thanawi', title: 'ملخصات شاملة ومذكرات الوحدات التعليمية (الثالثة ثانوي)', desc: 'زبدة الدروس، القواعد الأساسية، وطرق الإجابة النموذجية في الامتحانات.' }
+            { stage: 'ibtidai', title: 'المذكرات اليومية الشاملة (الابتدائي)', desc: 'جاهزة للطباعة والتعديل وفق المناهج.' },
+            { stage: 'mutawasit', title: 'مذكرات الأستاذ ودروس الفصول الثلاثة (المتوسط)', desc: 'صياغة احترافية مبنية على الكفاءات.' },
+            { stage: 'thanawi', title: 'ملخصات ومذكرات الوحدات التعليمية (الثانوي)', desc: 'زبدة الدروس وطرق الإجابة النموذجية.' }
         ],
         tadarojat: [
-            { stage: 'ibtidai', title: 'التدرجات السنوية الرسمية الجديدة (التعليم الابتدائي)', desc: 'التوزيع الزمني والمحتويات البيداغوجية المعتمدة للموسم الدراسي.' },
-            { stage: 'mutawasit', title: 'التدرجات السنوية الرسمية الجديدة لكافة مواد التعليم المتوسط', desc: 'الوثيقة المعتمدة لتوزيع الكفاءات والمقاطع التعلمية بدقة.' },
-            { stage: 'thanawi', title: 'التدرجات السنوية الرسمية الجديدة لشعب التعليم الثانوي (علمي وأدبي)', desc: 'التوزيع الزمني الرسمي الصادر عن وزارة التربية الوطنية.' }
+            { stage: 'ibtidai', title: 'التدرجات السنوية الرسمية (الابتدائي)', desc: 'التوزيع الزمني والمحتويات المعتمدة.' },
+            { stage: 'mutawasit', title: 'التدرجات السنوية الرسمية (المتوسط)', desc: 'توزيع الكفاءات والمقاطع التعلمية.' },
+            { stage: 'thanawi', title: 'التدرجات السنوية الرسمية (الثانوي)', desc: 'الصادرة عن وزارة التربية الوطنية.' }
         ]
     };
 
-    function renderAllSections() {
-        renderGrid('books', 'all');
-        renderGrid('annales', 'all');
-        renderGrid('moudhakkirat', 'all');
-        renderGrid('tadarojat', 'all');
+    // حالة المستخدم
+    let activeUser = localStorage.getItem('hamo_active') === 'true';
+    if(activeUser) {
+        let name = localStorage.getItem('hamo_name') || 'الأستاذ';
+        document.getElementById('userBadge').innerText = `حساب مفعل: ${name} 👑`;
     }
 
-    function renderGrid(section, filter) {
-        const gridEl = document.getElementById(section + 'Grid');
-        const list = filter === 'all' ? database[section] : database[section].filter(item => item.stage === filter);
-        
+    // التنقل بين الأقسام الرئيسية
+    function showSection(secId, btn) {
+        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+        document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+        document.getElementById(secId).classList.add('active');
+        btn.classList.add('active');
+    }
+
+    // عرض ورسم البيانات في الشبكات
+    function renderGrid(cat, filter) {
+        let gridId = 'grid' + cat.charAt(0).toUpperCase() + cat.slice(1);
+        let container = document.getElementById(gridId);
+        if(!container) return;
+
+        let items = filter === 'all' ? db[cat] : db[cat].filter(x => x.stage === filter);
         let html = '';
-        list.forEach(item => {
+        
+        items.forEach(item => {
             html += `
-                <div class="matrix-box">
+                <div class="card">
                     <div>
                         <h3>${item.title}</h3>
                         <p>${item.desc}</p>
                     </div>
-                    <button class="btn-lux" onclick="openDownload('${item.title}')">📥 تحميل الملف بصيغة PDF</button>
+                    <button class="download-btn" onclick="downloadFile('${item.title}')">تحميل PDF</button>
                 </div>
             `;
         });
-        gridEl.innerHTML = html;
+        container.innerHTML = html;
     }
 
-    function filterData(section, filter, btn) {
-        const parent = btn.parentElement;
-        parent.querySelectorAll('.stage-tab').forEach(t => t.classList.remove('active'));
+    // تصفية المحتوى حسب الأطوار
+    function filterContent(cat, filter, btn) {
+        let parent = btn.parentElement;
+        parent.querySelectorAll('.sub-tab').forEach(t => t.classList.remove('active'));
         btn.classList.add('active');
-        renderGrid(section, filter);
+        renderGrid(cat, filter);
     }
 
-    function openDownload(title) {
-        if(isUserActive) {
-            alert(`👑 تم التحقق من حسابك يا أستاذ! جاري تنزيل ملف "${title}" بصيغة PDF...`);
+    // تهيئة الصفحة عند التحميل
+    window.onload = function() {
+        renderGrid('books', 'all');
+        renderGrid('annales', 'all');
+        renderGrid('moudhakkirat', 'all');
+        renderGrid('tadarojat', 'all');
+    };
+
+    // نظام التحميل والنافذة المنبثقة
+    let selectedFile = '';
+    function downloadFile(title) {
+        selectedFile = title;
+        if(activeUser) {
+            alert(`جاري تنزيل ملف "${title}" بصيغة PDF فوراً...`);
         } else {
-            document.getElementById('authModal').style.display = 'flex';
+            document.getElementById('modal').style.display = 'flex';
         }
     }
 
-    function completeActivation(e) {
-        e.preventDefault();
-        const nameVal = document.getElementById('modalName').value;
+    function activateAccount() {
+        let name = document.getElementById('userName').value;
+        let phone = document.getElementById('userPhone').value;
+        
+        if(!name || !phone) {
+            alert('يرجى ملء الاسم ورقم الهاتف للتفعيل');
+            return;
+        }
 
-        localStorage.setItem('hamo_user_active', 'true');
-        localStorage.setItem('hamo_user_name', nameVal);
-        isUserActive = true;
+        localStorage.setItem('hamo_active', 'true');
+        localStorage.setItem('hamo_name', name);
+        activeUser = true;
 
-        document.getElementById('authModal').style.display = 'none';
-        document.getElementById('userStatusBadge').innerHTML = `👑 حساب مفعل: ${nameVal}`;
-        alert(`أهلاً بك أستاذ ${nameVal}! تم تفعيل البوابة الشاملة بنجاح.`);
+        document.getElementById('userBadge').innerText = `حساب مفعل: ${name} 👑`;
+        document.getElementById('modal').style.display = 'none';
+        alert(`أهلاً بك أستاذ ${name}! تم تفعيل الحساب بنجاح. جاري تنزيل "${selectedFile}"...`);
     }
 </script>
 
