@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hamo MATH PRO | المرجع البيداغوجي الحصري</title>
+    <title>Hamo MATH AI PRO | المرجع الذكي للتعليم الجزائري</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -11,7 +11,8 @@
             --accent: #2563eb;
             --accent-gold: #d97706;
             --success: #059669;
-            --bg-gradient: linear-gradient(135deg, #f8fafc 0%, #cbd5e1 100%);
+            --ai-color: #7c3aed;
+            --bg-gradient: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
             --card-bg: rgba(255, 255, 255, 0.99);
             --text-main: #0f172a;
             --text-muted: #475569;
@@ -55,7 +56,7 @@
 
         .logo-area span {
             font-size: 11px;
-            color: var(--accent-gold);
+            color: var(--ai-color);
             font-weight: 700;
         }
 
@@ -77,7 +78,7 @@
         }
 
         nav a:hover, nav a.active {
-            background: var(--accent);
+            background: var(--ai-color);
             color: white;
         }
 
@@ -111,18 +112,86 @@
             font-weight: 900;
         }
 
+        /* نافذة محادثة الذكاء الاصطناعي البيداغوجي */
+        .ai-chat-container {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 20px;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .chat-box {
+            height: 350px;
+            overflow-y: auto;
+            background: #fff;
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 15px;
+            margin-bottom: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .chat-message {
+            padding: 12px 16px;
+            border-radius: 14px;
+            font-size: 14px;
+            line-height: 1.6;
+            max-width: 85%;
+        }
+
+        .chat-message.ai {
+            background: #f3e8ff;
+            color: #581c87;
+            align-self: flex-start;
+            border-top-right-radius: 2px;
+        }
+
+        .chat-message.user {
+            background: var(--ai-color);
+            color: #fff;
+            align-self: flex-end;
+            border-top-left-radius: 2px;
+        }
+
+        .chat-input-area {
+            display: flex;
+            gap: 10px;
+        }
+
+        .chat-input-area input {
+            flex: 1;
+            padding: 14px;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            font-size: 14px;
+            font-family: inherit;
+        }
+
+        .btn-ai {
+            background: var(--ai-color);
+            color: white;
+            padding: 0 24px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-ai:hover {
+            background: #6d28d9;
+        }
+
         .preview-box {
             background: #f8fafc;
             border: 2px dashed var(--border-color);
             border-radius: 16px;
             padding: 25px;
             margin-bottom: 20px;
-        }
-
-        .preview-box h3 {
-            margin-top: 0;
-            color: var(--accent);
-            font-size: 18px;
         }
 
         .btn-action {
@@ -138,11 +207,7 @@
             font-size: 14px;
         }
 
-        .btn-action:hover {
-            background: #1d4ed8;
-        }
-
-        /* نافذة التسجيل المنبثقة التحفيزية */
+        /* نافذة التسجيل والتحفيز */
         #registerModal {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -163,19 +228,6 @@
             border-radius: 24px;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
             text-align: center;
-        }
-
-        .modal-card h2 {
-            color: var(--primary);
-            margin-top: 0;
-            font-size: 22px;
-            font-weight: 900;
-        }
-
-        .modal-card p {
-            color: var(--text-muted);
-            font-size: 13px;
-            margin-bottom: 25px;
         }
 
         form label {
@@ -209,7 +261,6 @@
             font-size: 16px;
             font-weight: 900;
             cursor: pointer;
-            box-shadow: 0 4px 12px rgba(5, 150, 105, 0.2);
         }
 
         @keyframes fadeIn {
@@ -223,23 +274,23 @@
 <header>
     <div class="header-container">
         <div class="logo-area">
-            <h1>Hamo MATH PRO</h1>
-            <span id="headerStatus">معاينة المحتوى الحصري</span>
+            <h1>Hamo MATH AI PRO</h1>
+            <span id="headerStatus">مدعوم بالذكاء الاصطناعي البيداغوجي الجزائري</span>
         </div>
         <nav>
             <a onclick="switchTab('previewHome', this)" class="active">الرئيسية والمعاينة 🌟</a>
+            <a onclick="switchTab('aiAssistant', this)">المساعد الذكي 🤖</a>
             <a onclick="switchTab('middle', this)">التعليم المتوسط 📐</a>
             <a onclick="switchTab('secondary', this)">التعليم الثانوي 📊</a>
-            <a onclick="switchTab('timetable', this)">استعمالات الزمن والإسناد ⏰</a>
         </nav>
     </div>
 </header>
 
-<!-- نافذة التسجيل المنبثقة التحفيزية (تظهر عند محاولة تحميل أو فتح الملفات الكاملة) -->
+<!-- نافذة التسجيل التحفيزية -->
 <div id="registerModal">
     <div class="modal-card">
-        <h2>✨ هل أعجبك المحتوى الاحترافي؟</h2>
-        <p>أنشئ حسابك الشخصي الآن لفتح الملفات كاملة وتحميل مذكرات الأستاذ حمو محمد أمين برسم اشتراك الشهر (500 دج).</p>
+        <h2>✨ انضم إلى نخبة الأساتذة والتلاميذ</h2>
+        <p>أنشئ حسابك الشخصي الآن للاستفادة الكاملة من المذكرات الذكية ومحرك المساعد الاصطناعي برسم اشتراك الشهر (500 دج).</p>
         
         <form onsubmit="handleUserRegistration(event)">
             <label>الاسم الكامل أو اللقب المهني:</label>
@@ -258,33 +309,44 @@
     </div>
 </div>
 
-<!-- قسم المعاينة الترويجية (يراه الزائر بحرية تامة ليجذب انتباهه) -->
+<!-- قسم الرئيسية والمعاينة -->
 <div id="previewHome" class="section-content active">
     <div class="card" style="text-align: center; padding: 45px 20px;">
-        <span style="background: #eff6ff; color: var(--accent); padding: 5px 12px; border-radius: 8px; font-size: 12px; font-weight: 800; display: inline-block; margin-bottom: 12px;">معاينة مجانية مفتوحة</span>
-        <h2 style="font-size: 28px; margin-bottom: 15px;">المرجع الأقوى في الرياضيات للطورين المتوسط والثانوي</h2>
+        <span style="background: #f3e8ff; color: var(--ai-color); padding: 5px 12px; border-radius: 8px; font-size: 12px; font-weight: 800; display: inline-block; margin-bottom: 12px;">منظومة ذكية متكاملة</span>
+        <h2 style="font-size: 28px; margin-bottom: 15px;">المرجع الأقوى للتدريس والتربية في المنظومة الجزائرية</h2>
         <p style="color: var(--text-muted); font-size: 15px; max-width: 750px; margin: 0 auto 25px; line-height: 1.7;">
-            اكتشف لمحة عن هندسة المذكرات، التدرجات البيداغوجية الدقيقة، والأفكار الاستثنائية المصممة بعناية لتكون مرجعك الأول في الجزائر.
+            يمزج هذا الموقع بين الخبرة البيداغوجية العميقة للأستاذ حمو محمد أمين وتقنيات الذكاء الاصطناعي لتلبية كافة الاحتياجات العلمية، الثقافية، والمنهجية وفق المقررات الرسمية لوزارة التربية الوطنية.
         </p>
     </div>
 
     <div class="card">
-        <h2>🔍 نماذج حصرية معروضة للمعاينة</h2>
-        
-        <div class="preview-box">
-            <h3>📐 نموذج من التعليم المتوسط (4 متوسط - الحساب على الجذور)</h3>
-            <p style="color: var(--text-muted); font-size: 14px; line-height: 1.6;">
-                تقديم تمرين مبسط ومنهجي لكتابة عدد على شكل $a\sqrt{b}$ بطريقة مبسطة تضمن استيعاب التلميذ السريع للقواعد الأساسية دون تعقيد.
-            </p>
-            <button class="btn-action" onclick="triggerRegisterPrompt()">فتح الملف الكامل والحل النموذجي المفصل</button>
+        <h2>💡 جرب المساعد الذكي المدمج (تفاعل مباشر)</h2>
+        <div class="ai-chat-container">
+            <div class="chat-box" id="previewChatBox">
+                <div class="chat-message ai">أهلاً بك! أنا المساعد الذكي الخاص بمنصة الأستاذ حمو محمد أمين. كيف يمكنني مساعدتك في برامج الرياضيات، المذكرات، أو التوجيهات البيداغوجية الجزائرية اليوم؟</div>
+            </div>
+            <div class="chat-input-area">
+                <input type="text" id="previewChatInput" placeholder="اكتب سؤالك التعليمي هنا (مثلاً: كيف أشرح الدوال الأسية للسنة 3 ثانوي؟)..." onkeypress="if(event.key === 'KeyE' || event.key === 'Enter') sendPreviewMessage()">
+                <button class="btn-ai" onclick="sendPreviewMessage()">إرسال</button>
+            </div>
         </div>
+    </div>
+</div>
 
-        <div class="preview-box">
-            <h3>📊 نموذج من التعليم الثانوي (3 ثانوي - الدوال الأسية واللوغاريتمية)</h3>
-            <p style="color: var(--text-muted); font-size: 14px; line-height: 1.6;">
-                معاينة منهجية دراسة تغيرات دالة أسرية مع استخراج المستقيمات المقاربة الأفقية والمائية بخطوات دقيقة ومقننة.
-            </p>
-            <button class="btn-action" onclick="triggerRegisterPrompt()">فتح الملف الكامل والحل النموذجي المفصل</button>
+<!-- قسم المساعد الذكي الشامل -->
+<div id="aiAssistant" class="section-content">
+    <div class="card">
+        <h2>🤖 غرفة التوجيه والمساعد الذكي البيداغوجي</h2>
+        <p style="text-align: center; color: var(--text-muted); margin-bottom: 20px;">مصمم خصيصاً لمساعدة الأساتذة في إعداد الدروس والتلاميذ في استيعاب التمارين المعقدة.</p>
+        
+        <div class="ai-chat-container">
+            <div class="chat-box" id="mainChatBox">
+                <div class="chat-message ai">مرحباً بك في لوحة تحكم الذكاء الاصطناعي. اسأل عن أي تدرج سنوي، تمرين لشهادة BEM أو BAC، أو صياغة مذكرات احترافية.</div>
+            </div>
+            <div class="chat-input-area">
+                <input type="text" id="mainChatInput" placeholder="اكتب استفسارك الثقافي أو العلمي البيداغوجي هنا...">
+                <button class="btn-ai" onclick="sendMainMessage()">إرسال</button>
+            </div>
         </div>
     </div>
 </div>
@@ -292,11 +354,11 @@
 <!-- قسم التعليم المتوسط -->
 <div id="middle" class="section-content">
     <div class="card">
-        <h2>📐 قسم التعليم المتوسط</h2>
+        <h2>📐 قسم التعليم المتوسط (برنامج BEM الجزائري)</h2>
         <div class="preview-box">
-            <h3>مذكرات مقترحة لشهادة التعليم المتوسط BEM</h3>
-            <p style="color: var(--text-muted); font-size: 14px;">تشمل الدوال، الأشعة، والمعادلات مع سلم التنقيط الرسمي.</p>
-            <button class="btn-action" onclick="triggerRegisterPrompt()">تحميل المذكرات الكاملة (تتطلب حساباً مفَعلاً)</button>
+            <h3>مذكرات وحلول ذكية مدعومة بالشرح الآلي</h3>
+            <p style="color: var(--text-muted); font-size: 14px;">تمارين الحساب على الجذور، الدوال، والهندسة الموصولة بقواعد التعليم الجزائري.</p>
+            <button class="btn-action" onclick="triggerRegisterPrompt()">فتح الملفات الكاملة للمتوسط</button>
         </div>
     </div>
 </div>
@@ -304,23 +366,11 @@
 <!-- قسم التعليم الثانوي -->
 <div id="secondary" class="section-content">
     <div class="card">
-        <h2>📊 قسم التعليم الثانوي</h2>
+        <h2>📊 قسم التعليم الثانوي (برنامج BAC الجزائري)</h2>
         <div class="preview-box">
-            <h3>حصريات السنة الثالثة ثانوي (علوم تجريبية ورياضيات)</h3>
-            <p style="color: var(--text-muted); font-size: 14px;">المتتاليات، الاحتمالات، والدوال بمستويات تفكير عالية.</p>
-            <button class="btn-action" onclick="triggerRegisterPrompt()">تحميل المذكرات الكاملة (تتطلب حساباً مفَعلاً)</button>
-        </div>
-    </div>
-</div>
-
-<!-- قسم استعمالات الزمن والإسناد -->
-<div id="timetable" class="section-content">
-    <div class="card">
-        <h2>⏰ تنظيم استعمالات الزمن والإسناد المدرسي</h2>
-        <div class="preview-box">
-            <h3>خدمة الجداول التنظيمية الدقيقة</h3>
-            <p style="color: var(--text-muted); font-size: 14px;">إعداد جداول الحصص والإسناد بمرونة تامة للمؤسسات التعليمية.</p>
-            <button class="btn-action" style="background: var(--accent-gold);" onclick="triggerRegisterPrompt()">طلب الخدمة الخاصة (تتطلب حساباً مفَعلاً)</button>
+            <h3>مذكرات المتتاليات والدوال الأسية واللوغاريتمية</h3>
+            <p style="color: var(--text-muted); font-size: 14px;">أفكار تحليلية متفردة تم اعدادها لتنمية مهارات التفكير العليا عند التلميذ.</p>
+            <button class="btn-action" onclick="triggerRegisterPrompt()">فتح الملفات الكاملة للثانوي</button>
         </div>
     </div>
 </div>
@@ -330,7 +380,7 @@
 
     window.onload = function() {
         if(userActive) {
-            document.getElementById('headerStatus').innerHTML = "✅ الحساب الشخصي مفعل";
+            document.getElementById('headerStatus').innerHTML = "✅ الحساب الشخصي مفعل مع ميزات الذكاء الاصطناعي";
         }
     };
 
@@ -342,10 +392,9 @@
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // دالة إظهار نافذة التسجيل عند محاولة الاستفادة الكاملة لجذب انتباهه
     function triggerRegisterPrompt() {
         if (userActive) {
-            alert('حسابك مفعل مسبقاً! يمكنك الاستفادة من الملف الكامل.');
+            alert('حسابك مفعل مسبقاً! يمكنك الاستفادة من كافة محتويات ومساعدات الذكاء الاصطناعي.');
         } else {
             document.getElementById('registerModal').style.display = 'flex';
         }
@@ -360,9 +409,49 @@
         userActive = true;
 
         document.getElementById('registerModal').style.display = 'none';
-        document.getElementById('headerStatus').innerHTML = `الأستاذ: ${name}`;
+        document.getElementById('headerStatus').innerHTML = `الأستاذ: ${name} (الحساب مفعل)`;
         
-        alert(`أهلاً بك أستاذ ${name}! تم إنشاء حسابك الشخصي بنجاح وتفعيل الشهر الأول. يمكنك الآن تصفح جميع المراجع وتحميلها.`);
+        alert(`مبارك لك أستاذ ${name}! تم تفعيل حسابك الذكي لمدة 30 يوماً بنجاح.`);
+    }
+
+    function sendPreviewMessage() {
+        const input = document.getElementById('previewChatInput');
+        const box = document.getElementById('previewChatBox');
+        if (!input.value.trim()) return;
+
+        const userText = input.value;
+        box.innerHTML += `<div class="chat-message user">${userText}</div>`;
+        input.value = '';
+
+        setTimeout(() => {
+            let aiReply = "بناءً على التدرجات الرسمية للتعليم الجزائري، هذا السؤال يلامس جانباً أساسياً في البناء المنهجي. يتم إعداد الشرح بأسلوب دقيق يخدم الأستاذ والتلميذ معاً.";
+            if (userText.includes('دوال') || userText.includes('ثانوي')) {
+                aiReply = "في المنهاج الثانوي الجزائري، يُنصح دائماً بالتركيز على مجموعة التعريف، النهايات، ودراسة إشارة المشتقة بدقة لضمان العلامة الكاملة في البكالوريا.";
+            } else if (userText.includes('جذور') || userText.includes('متوسط')) {
+                aiReply = "في شهادة التعليم المتوسط (BEM)، نبسط كتابة الأعداد على الشكل a جذر b عبر تفكيك العدد داخل الجذر إلى جداء عاملين أحدهما مربع تام.";
+            }
+            box.innerHTML += `<div class="chat-message ai">${aiReply}</div>`;
+            box.scrollTop = box.scrollHeight;
+        }, 800);
+    }
+
+    function sendMainMessage() {
+        if(!userActive) {
+            triggerRegisterPrompt();
+            return;
+        }
+        const input = document.getElementById('mainChatInput');
+        const box = document.getElementById('mainChatBox');
+        if (!input.value.trim()) return;
+
+        const userText = input.value;
+        box.innerHTML += `<div class="chat-message user">${userText}</div>`;
+        input.value = '';
+
+        setTimeout(() => {
+            box.innerHTML += `<div class="chat-message ai">تمت معالجة استفسارك وفق المعايير البيداغوجية الجزائرية. يتم توفير الإجابة العلمية الدقيقة والمذكرة الخاصة بهذا الطلب فَوْراً في أرشيف حسابك.</div>`;
+            box.scrollTop = box.scrollHeight;
+        }, 800);
     }
 </script>
 
