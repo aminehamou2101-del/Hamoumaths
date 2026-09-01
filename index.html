@@ -1,124 +1,170 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <title>مكتبة الملفات - مفتاح التفوق في الرياضيات</title>
-    <!-- استدعاء مكتبة Supabase الرسمية -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <style>
-        body { font-family: Tahoma, sans-serif; text-align: center; margin-top: 30px; background-color: #f9f9f9; }
-        .container { max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        button { padding: 10px 20px; font-size: 16px; cursor: pointer; background-color: #007bff; color: white; border: none; border-radius: 4px; }
-        button:hover { background-color: #0056b3; }
-        ul { list-style: none; padding: 0; text-align: right; }
-        li { background: #f1f1f1; margin: 10px 0; padding: 10px; border-radius: 4px; display: flex; justify-content: space-between; align-items: center; }
-        a { color: #007bff; text-decoration: none; }
-        a:hover { text-decoration: underline; }
-    </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>سلسلة حمو في الرياضيات | مفتاح التفوق</title>
+<!-- استدعاء مكتبة Supabase -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Tahoma,Arial,sans-serif;background:#f5f7fb;color:#172033}
+header{background:linear-gradient(135deg,#101a3a,#263b78);color:white;padding:22px 6%;position:sticky;top:0;z-index:5;box-shadow:0 5px 20px #0002}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:20px;max-width:1200px;margin:auto}.brand{font-weight:800;font-size:20px}.brand span{color:#f4c95d}
+nav a{color:white;text-decoration:none;margin:0 9px;font-size:14px}
+.hero{max-width:1200px;margin:auto;padding:80px 6%;display:grid;grid-template-columns:1.3fr .7fr;gap:35px;align-items:center}
+.badge{display:inline-block;background:#fff1c7;color:#775b00;padding:8px 14px;border-radius:30px;font-weight:bold}
+h1{font-size:48px;line-height:1.15;margin:18px 0}h1 span{color:#c28c16}.lead{font-size:19px;line-height:1.9;color:#56627a}
+.buttons{display:flex;gap:12px;flex-wrap:wrap;margin-top:25px}.btn{padding:13px 20px;border-radius:12px;text-decoration:none;font-weight:bold;border:0;cursor:pointer}
+.primary{background:#c99a2e;color:white}.secondary{background:white;color:#1c2b55;box-shadow:0 5px 18px #18264b18}
+.card{background:white;border-radius:22px;padding:28px;box-shadow:0 15px 40px #15234a14}
+.mathbox{font-size:70px;text-align:center;color:#243b77;background:linear-gradient(145deg,#fff,#edf1fa)}
+section{max-width:1200px;margin:auto;padding:55px 6%}.title{text-align:center;margin-bottom:35px}.title h2{font-size:31px;margin:8px}.title p{color:#68748b}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}.item{background:white;padding:23px;border-radius:18px;box-shadow:0 8px 25px #15234a10}.icon{font-size:30px}.item h3{margin:12px 0 8px}.item p{color:#69758a;line-height:1.7;font-size:14px}
+.challenge{background:#111c3c;color:white;border-radius:25px;padding:35px;display:flex;justify-content:space-between;align-items:center;gap:25px}.challenge p{color:#cbd3e8}.score{font-size:40px;color:#f4c95d;font-weight:900}
+.admin-box { background: #fff; border-radius: 22px; padding: 30px; box-shadow: 0 15px 40px #15234a14; margin-top: 30px; text-align: right; }
+.admin-box input[type="file"] { margin: 15px 0; padding: 10px; border: 1px solid #ccc; border-radius: 8px; width: 100%; }
+ul.file-list { list-style: none; padding: 0; margin-top: 20px; }
+ul.file-list li { background: #f1f5f9; margin: 10px 0; padding: 15px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; border-right: 5px solid #c99a2e; }
+ul.file-list a { background: #263b78; color: white; padding: 8px 15px; border-radius: 8px; text-decoration: none; font-size: 14px; }
+ul.file-list a:hover { background: #101a3a; }
+footer{background:#101a3a;color:#cbd3e8;text-align:center;padding:30px;margin-top:30px}
+@media(max-width:850px){.hero{grid-template-columns:1fr;padding-top:50px}h1{font-size:36px}.grid{grid-template-columns:repeat(2,1fr)}nav{display:none}}
+@media(max-width:520px){.grid{grid-template-columns:1fr}.challenge{display:block}.mathbox{font-size:50px}}
+</style>
 </head>
 <body>
+<header><div class="nav"><div class="brand">سلسلة حمو <span>في الرياضيات</span></div>
+<nav><a href="#home">الرئيسية</a><a href="#lessons">الدروس</a><a href="#exercises">التمارين</a><a href="#files">الملفات</a><a href="#challenge">التحدي</a><a href="#about">الأستاذ</a></nav></div></header>
 
-    <div class="container">
-        <h2>رفع ملف PDF جديد</h2>
-        <input type="file" id="pdfFile" accept="application/pdf"><br><br>
-        <button onclick="uploadPDF()">رفع الملف</button>
-        <p id="status" style="font-weight: bold;"></p>
+<main id="home">
+<section class="hero">
+<div><span class="badge">منصة تعليمية للرياضيات</span>
+<h1>مفتاح التفوق<br><span>يبدأ من هنا.</span></h1>
+<p class="lead">دروس، تمارين، اختبارات وتحديات رياضية بأسلوب واضح ومنظم، لمساعدة تلاميذ التعليم الثانوي على بناء فهم قوي وتحقيق نتائج أفضل.</p>
+<div class="buttons"><a class="btn primary" href="#lessons">اكتشف الدروس</a><a class="btn secondary" href="#files">إدارة وتحميل الملفات</a></div></div>
+<div class="card mathbox">∑ &nbsp; √x &nbsp; π<br><small>ℕ ⊂ ℤ ⊂ ℚ ⊂ ℝ</small></div>
+</section>
 
-        <hr style="margin: 30px 0;">
+<section id="lessons"><div class="title"><h2>الدروس والمحاور</h2><p>محتوى مرتب ليسهل عليك الوصول إلى ما تحتاجه.</p></div>
+<div class="grid">
+<div class="item"><div class="icon">📘</div><h3>الأولى ثانوي</h3><p>أساسيات الرياضيات والمحاور المهمة.</p></div>
+<div class="item"><div class="icon">📗</div><h3>الثانية ثانوي</h3><p>دروس وتمارين لبناء مستوى متقدم.</p></div>
+<div class="item"><div class="icon">📕</div><h3>الثالثة ثانوي</h3><p>مراجعة مركزة وتحضير للبكالوريا.</p></div>
+<div class="item"><div class="icon">🎓</div><h3>البكالوريا</h3><p>تمارين نموذجية واستراتيجيات الحل.</p></div>
+</div></section>
 
-        <h2>الملفات المتاحة للتحميل</h2>
-        <ul id="fileList">
-            <li>جاري تحميل قائمة الملفات...</li>
-        </ul>
-    </div>
+<section id="files">
+<div class="title"><h2>مكتبة ومذكرات الأستاذ</h2><p>رفع وعرض ملفات المذكرات والدروس بصيغة PDF.</p></div>
+<div class="admin-box">
+    <h3 style="color:#263b78; margin-top:0;">رفع ملف PDF جديد</h3>
+    <input type="file" id="pdfFile" accept="application/pdf">
+    <button class="btn primary" onclick="uploadPDF()">رفع الملف إلى المنصة</button>
+    <p id="status" style="font-weight: bold; margin-top: 10px;"></p>
 
-    <script>
-        // إعدادات الاتصال الصحيحة بمشروعك في Supabase
-        const SUPABASE_URL = 'https://qsecmlcjdmpehhcqlali.supabase.co';
-        const SUPABASE_ANON_KEY = 'sb_publishable_2yziw4m4uYzIDj9WWfRYhg_U72Srpts';
+    <hr style="margin: 30px 0; border:0; border-top:1px solid #eee;">
+
+    <h3 style="color:#263b78;">الملفات والمذكرات المتاحة للتحميل</h3>
+    <ul id="fileList" class="file-list">
+        <li>جاري تحميل الملفات...</li>
+    </ul>
+</div>
+</section>
+
+<section id="challenge"><div class="challenge"><div><h2>⚡ تحدي حمو اليومي</h2><p>هل تستطيع حل السؤال قبل انتهاء الوقت؟</p></div><div><div class="score" id="timer">30</div><button class="btn primary" onclick="startChallenge()">ابدأ التحدي</button></div></div></section>
+
+<section id="about"><div class="title"><h2>عن الأستاذ</h2><p>الأستاذ حمو محمد أمين — أستاذ تعليم ثانوي في الرياضيات.</p></div>
+<div class="card"><h3>سلسلة حمو في الرياضيات</h3><p class="lead">هدف المنصة هو تقديم الرياضيات بطريقة منظمة، حديثة وممتعة، مع التركيز على الفهم، التدريب والتدرج نحو التفوق.</p></div></section>
+</main>
+<footer>© 2026 سلسلة حمو في الرياضيات — إعداد الأستاذ: حمو محمد أمين</footer>
+
+<script>
+let t,active=false;
+function startChallenge(){if(active)return;active=true;let n=30;document.getElementById('timer').textContent=n;
+t=setInterval(()=>{n--;document.getElementById('timer').textContent=n;if(n<=0){clearInterval(t);active=false;alert('انتهى الوقت! حاول مرة أخرى 💪');}},1000)}
+
+// إعدادات الاتصال بـ Supabase
+const SUPABASE_URL = 'https://qsecmlcjdmpehhcqlali.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_2yziw4m4uYzIDj9WWfRYhg_U72Srpts';
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+async function uploadPDF() {
+    const fileInput = document.getElementById('pdfFile');
+    const statusText = document.getElementById('status');
+
+    if (fileInput.files.length === 0) {
+        statusText.style.color = 'red';
+        statusText.innerText = 'الرجاء اختيار ملف PDF أولاً!';
+        return;
+    }
+
+    const file = fileInput.files[0];
+    const fileName = `${Date.now()}_${file.name}`;
+
+    statusText.style.color = 'blue';
+    statusText.innerText = 'جاري رفع الملف...';
+
+    const { data, error } = await supabaseClient.storage
+        .from('pdfs')
+        .upload(fileName, file);
+
+    if (error) {
+        statusText.style.color = 'red';
+        statusText.innerText = 'حدث خطأ أثناء الرفع: ' + error.message;
+    } else {
+        statusText.style.color = 'green';
+        statusText.innerText = 'تم رفع ملف الـ PDF بنجاح!';
+        fileInput.value = '';
+        fetchFiles();
+    }
+}
+
+async function fetchFiles() {
+    const fileListUl = document.getElementById('fileList');
+    
+    const { data, error } = await supabaseClient.storage
+        .from('pdfs')
+        .list('', {
+            limit: 100,
+            offset: 0,
+            sortBy: { column: 'created_at', order: 'desc' }
+        });
+
+    if (error) {
+        fileListUl.innerHTML = '<li style="color: red; border-right-color: red;">فشل في تحميل الملفات: ' + error.message + '</li>';
+        return;
+    }
+
+    if (data.length === 0) {
+        fileListUl.innerHTML = '<li>لا توجد ملفات مرفوعة حالياً.</li>';
+        return;
+    }
+
+    fileListUl.innerHTML = '';
+
+    for (const file of data) {
+        if (file.name === 'index.html') continue;
+
+        const { data: publicUrlData } = supabaseClient.storage
+            .from('pdfs')
+            .getPublicUrl(file.name);
+
+        const fileUrl = publicUrlData.publicUrl;
+        const li = document.createElement('li');
         
-        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-        // دالة رفع الملف
-        async function uploadPDF() {
-            const fileInput = document.getElementById('pdfFile');
-            const statusText = document.getElementById('status');
-
-            if (fileInput.files.length === 0) {
-                statusText.style.color = 'red';
-                statusText.innerText = 'الرجاء اختيار ملف PDF أولاً!';
-                return;
-            }
-
-            const file = fileInput.files[0];
-            const fileName = `${Date.now()}_${file.name}`;
-
-            statusText.style.color = 'blue';
-            statusText.innerText = 'جاري رفع الملف...';
-
-            const { data, error } = await supabaseClient.storage
-                .from('pdfs')
-                .upload(fileName, file);
-
-            if (error) {
-                statusText.style.color = 'red';
-                statusText.innerText = 'حدث خطأ أثناء الرفع: ' + error.message;
-            } else {
-                statusText.style.color = 'green';
-                statusText.innerText = 'تم رفع ملف الـ PDF بنجاح!';
-                fileInput.value = '';
-                fetchFiles();
-            }
+        let displayName = file.name;
+        if (displayName.includes('_')) {
+            displayName = displayName.substring(displayName.indexOf('_') + 1);
         }
 
-        // دالة جلب وعرض الملفات الموجودة في المجلد
-        async function fetchFiles() {
-            const fileListUl = document.getElementById('fileList');
-            
-            const { data, error } = await supabaseClient.storage
-                .from('pdfs')
-                .list('', {
-                    limit: 100,
-                    offset: 0,
-                    sortBy: { column: 'created_at', order: 'desc' }
-                });
+        li.innerHTML = `
+            <span>📄 <strong>${displayName}</strong></span>
+            <a href="${fileUrl}" target="_blank">تحميل / معاينة</a>
+        `;
+        fileListUl.appendChild(li);
+    }
+}
 
-            if (error) {
-                fileListUl.innerHTML = '<li style="color: red;">فشل في تحميل الملفات: ' + error.message + '</li>';
-                return;
-            }
-
-            if (data.length === 0) {
-                fileListUl.innerHTML = '<li>لا توجد ملفات مرفوعة حالياً.</li>';
-                return;
-            }
-
-            fileListUl.innerHTML = '';
-
-            for (const file of data) {
-                if (file.name === 'index.html') continue;
-
-                const { data: publicUrlData } = supabaseClient.storage
-                    .from('pdfs')
-                    .getPublicUrl(file.name);
-
-                const fileUrl = publicUrlData.publicUrl;
-                const li = document.createElement('li');
-                
-                let displayName = file.name;
-                if (displayName.includes('_')) {
-                    displayName = displayName.substring(displayName.indexOf('_') + 1);
-                }
-
-                li.innerHTML = `
-                    <span>📄 ${displayName}</span>
-                    <a href="${fileUrl}" target="_blank">تحميل / معاينة</a>
-                `;
-                fileListUl.appendChild(li);
-            }
-        }
-
-        window.onload = fetchFiles;
-    </script>
+window.onload = fetchFiles;
+</script>
 </body>
 </html>
