@@ -156,6 +156,47 @@
             box-shadow: 0 8px 25px rgba(37, 99, 235, 0.4);
         }
 
+        /* معرض الصور */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .gallery-item {
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+        }
+
+        .gallery-item h4 {
+            margin: 12px 0 5px 0;
+            color: var(--primary-dark);
+            font-size: 16px;
+        }
+
+        .gallery-item p {
+            color: var(--text-muted);
+            font-size: 13px;
+            margin: 0 0 15px 0;
+            padding: 0 10px;
+        }
+
         .product-card {
             background: #ffffff;
             border: 1px solid #e2e8f0;
@@ -254,18 +295,6 @@
             box-shadow: 0 4px 15px rgba(5, 150, 105, 0.2);
         }
 
-        .secure-instructions {
-            background: #fff;
-            padding: 18px;
-            border-radius: 14px;
-            border: 1px solid #bbf7d0;
-            font-size: 14px;
-            color: var(--text-main);
-            text-align: right;
-            margin-top: 15px;
-            line-height: 1.6;
-        }
-
         form label {
             display: block;
             margin-bottom: 8px;
@@ -274,7 +303,7 @@
             color: var(--text-main);
         }
 
-        form input, form select {
+        form input, form select, form textarea {
             width: 100%;
             padding: 14px 18px;
             margin-bottom: 22px;
@@ -287,49 +316,11 @@
             transition: all 0.3s;
         }
 
-        form input:focus, form select:focus {
+        form input:focus, form select:focus, form textarea:focus {
             outline: none;
             border-color: var(--primary);
             box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
             background-color: #fff;
-        }
-
-        .file-upload-wrapper {
-            position: relative;
-            border: 2px dashed var(--border-color);
-            padding: 25px;
-            border-radius: 14px;
-            text-align: center;
-            background-color: #f8fafc;
-            cursor: pointer;
-            margin-bottom: 25px;
-            transition: all 0.3s;
-        }
-
-        .file-upload-wrapper:hover {
-            border-color: var(--success);
-            background: #f0fdf4;
-        }
-
-        .file-upload-wrapper input[type="file"] {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0;
-            cursor: pointer;
-        }
-
-        .file-upload-text {
-            color: var(--text-muted);
-            font-size: 15px;
-            margin: 0;
-        }
-
-        .file-upload-text span {
-            color: var(--success);
-            font-weight: bold;
         }
 
         .btn-submit {
@@ -361,7 +352,6 @@
             margin-top: 20px;
             font-weight: 700;
             border: 1px solid #a7f3d0;
-            box-shadow: 0 4px 12px rgba(5, 150, 105, 0.05);
         }
 
         #loadingMsg {
@@ -386,112 +376,121 @@
         <div class="logo">Hamo <span>MATH PRO</span></div>
         <nav>
             <a onclick="switchTab('home', this)" class="active">الرئيسية</a>
-            <a onclick="switchTab('lessons', this)">المذكرات والدروس</a>
-            <a onclick="switchTab('exercises', this)">التمارين والفروض</a>
-            <a onclick="switchTab('exams', this)">الاختبارات</a>
+            <a onclick="switchTab('gallery', this)">معرض المذكرات والكتب 📖</a>
+            <a onclick="switchTab('timetable_req', this)">طلب استعمال الزمن 🕒</a>
+            <a onclick="switchTab('assignment_req', this)">طلب إسناد الأساتذة 👥</a>
             <a onclick="switchTab('store', this)">البوابة (500 دج)</a>
         </nav>
     </div>
 </header>
 
-<!-- قسم الرئيسية -->
 <div id="home" class="section-content active">
     <div class="card hero-box">
         <h1>مكتبة مذكرات، دروس، تمارين، فروض واختبارات الرياضيات 📐</h1>
-        <p>محتوى تربوي احترافي ومتكامل للتعليم المتوسط والثانوي: مذكرات جاهزة، سلاسل تمارين، فروض واختبارات مصححة.</p>
+        <p>محتوى تربوي احترافي ومتكامل للتعليم المتوسط والثانوي: مذكرات جاهزة، سلاسل تمارين، تنظيم الجداول واستعمالات الزمن.</p>
         <button class="cta-btn" onclick="switchTab('store', document.querySelectorAll('nav a')[4])">اشترك الآن واحصل على كل المحتوى (500 دج)</button>
     </div>
 
     <div class="card">
-        <h2>⚡ محتويات الباقة الشاملة</h2>
+        <h2>⚡ خدماتنا الشاملة للمستفيدين</h2>
         
         <div class="product-card">
-            <img src="https://images.unsplash.com/photo-1509228468518-180dd4864904?w=150" alt="دروس ومذكرات" class="product-thumb">
+            <img src="https://images.unsplash.com/photo-1509228468518-180dd4864904?w=150" alt="معرض" class="product-thumb">
             <div class="product-info">
-                <h3>📚 المذكرات والدروس اليومية</h3>
-                <p>مذكرات نموذجية مصممة بعناية مطابقة للكتاب المدرسي لجميع المستويات.</p>
+                <h3>📖 مذكرات وكتب الرياضيات الجاهزة</h3>
+                <p>استعرض عينات من مذكرات الفصول الثلاثة والكتب المدرسية المطورة.</p>
             </div>
-            <button class="buy-now-btn" onclick="switchTab('store', document.querySelectorAll('nav a')[4])">تفعيل بـ 500 دج</button>
+            <button class="buy-now-btn" onclick="switchTab('gallery', document.querySelectorAll('nav a')[1])">استعرض المعرض</button>
         </div>
 
         <div class="product-card">
-            <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=150" alt="تمارين وفروض" class="product-thumb">
+            <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=150" alt="استعمال الزمن" class="product-thumb">
             <div class="product-info">
-                <h3>📝 التمارين والفروض المحروسة</h3>
-                <p>سلاسل تمارين ثرية وفروض محررة ومنسقة لاختبار قدرات التلاميذ.</p>
+                <h3>🕒 إعداد وتنسيق استعمالات الزمن</h3>
+                <p>قدم طلبك لتخصيص جدول الحصص الأسبوعية للأقسام والمستويات.</p>
             </div>
-            <button class="buy-now-btn" onclick="switchTab('store', document.querySelectorAll('nav a')[4])">تفعيل بـ 500 دج</button>
+            <button class="buy-now-btn" onclick="switchTab('timetable_req', document.querySelectorAll('nav a')[2])">طلب الجدول</button>
         </div>
+    </div>
+</div>
 
-        <div class="product-card">
-            <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=150" alt="اختبارات" class="product-thumb">
-            <div class="product-info">
-                <h3>🎯 الاختبارات الفصلية مع الحل النموذجي</h3>
-                <p>نماذج اختبارات شاملة للفصول الثلاثة مرفقة بحل مفصل وسلم تنقيط.</p>
+<div id="gallery" class="section-content">
+    <div class="card">
+        <h2>📖 معرض المذكرات والكتب النماذج</h2>
+        <p style="text-align: center; color: var(--text-muted); margin-bottom: 25px;">صور ونماذج حية من المذكرات البيداغوجية وسلاسل التمارين:</p>
+        
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1509228468518-180dd4864904?w=300" alt="مذكرة نموذجية">
+                <h4>مذكرات الجذع المشترك</h4>
+                <p>دروس الدوال الحسابية والمرجح بالتفصيل.</p>
             </div>
-            <button class="buy-now-btn" onclick="switchTab('store', document.querySelectorAll('nav a')[4])">تفعيل بـ 500 دج</button>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1543269865-cbf427effbad?w=300" alt="كتاب الرياضيات">
+                <h4>كتب الرياضيات (متوسط)</h4>
+                <p>سلاسل تمارين الأنشطة العددية والهندسية.</p>
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=300" alt="اختبارات الفصل">
+                <h4>نماذج الفروض والاختبارات</h4>
+                <p>مختارات فصلية مع الحل النموذجي المفصل.</p>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 20px;">
+            <button class="cta-btn" onclick="switchTab('store', document.querySelectorAll('nav a')[4])">لتحميل جميع الملفات تفعيل الاشتراك (500 دج)</button>
         </div>
     </div>
 </div>
 
-<!-- قسم المذكرات والدروس -->
-<div id="lessons" class="section-content">
+<div id="timetable_req" class="section-content">
     <div class="card">
-        <h2>📚 المذكرات والدروس (متوسط وثانوي)</h2>
-        <p style="text-align: center; color: var(--text-muted); margin-bottom: 25px;">استعرض وحمل كافة مذكرات ودروس الرياضيات المرتبة حسب المستويات:</p>
-        <div style="text-align: center;">
-            <button class="cta-btn" onclick="switchTab('store', document.querySelectorAll('nav a')[4])">فتح وتحميل المذكرات (500 دج)</button>
-        </div>
+        <h2>🕒 طلب تصميم استعمال الزمن</h2>
+        <p style="text-align: center; color: var(--text-muted); margin-bottom: 25px;">أدخل معلومات التأسيس لنقوم بتصميم أو توليد الجدول المناسب لك:</p>
+        
+        <form onsubmit="handleCustomRequest(event, 'استعمال الزمن')">
+            <label>المستوى الدراسي (متوسط / ثانوي):</label>
+            <input type="text" placeholder="مثال: متوسط (الأولى والثانية متوسط)" required>
+            
+            <label>عدد الأقسام والحصص المفضلة:</label>
+            <textarea rows="3" placeholder="اكتب تفاصيل الأقسام، الحجم الساعي، وأيام التفرغ..." required></textarea>
+            
+            <button type="submit" class="cta-btn" style="width:100%;">إرسال الطلب والتوجيه نحو الاشتراك</button>
+        </form>
     </div>
 </div>
 
-<!-- قسم التمارين والفروض -->
-<div id="exercises" class="section-content">
+<div id="assignment_req" class="section-content">
     <div class="card">
-        <h2>📝 التمارين والفروض المحروسة</h2>
-        <p style="text-align: center; color: var(--text-muted); margin-bottom: 25px;">مجموعات ضخمة من التمارين المصنفة والفروض المقترحة:</p>
-        <div style="text-align: center;">
-            <button class="cta-btn" onclick="switchTab('store', document.querySelectorAll('nav a')[4])">تحميل التمارين والفروض (500 دج)</button>
-        </div>
+        <h2>👥 طلب إسناد الأساتذة وتوزيع الأفواج</h2>
+        <p style="text-align: center; color: var(--text-muted); margin-bottom: 25px;">أدخل معلومات التوزيع البيداغوجي للأستاذ:</p>
+        
+        <form onsubmit="handleCustomRequest(event, 'إسناد الأساتذة')">
+            <label>اسم الأستاذ والمادة:</label>
+            <input type="text" placeholder="مثال: الأستاذ حمو - رياضيات" required>
+            
+            <label>المستويات والأقسام المسندة:</label>
+            <textarea rows="3" placeholder="حدد الأقسام المعنية (جذع مشترك علوم، 3 ثانوي...)" required></textarea>
+            
+            <button type="submit" class="cta-btn" style="width:100%;">إرسال الطلب والتوجيه نحو الاشتراك</button>
+        </form>
     </div>
 </div>
 
-<!-- قسم الاختبارات -->
-<div id="exams" class="section-content">
-    <div class="card">
-        <h2>🎯 الاختبارات الفصلية</h2>
-        <p style="text-align: center; color: var(--text-muted); margin-bottom: 25px;">نماذج اختبارات الفصول الثلاثة جاهزة للطباعة والتوزيع:</p>
-        <div style="text-align: center;">
-            <button class="cta-btn" onclick="switchTab('store', document.querySelectorAll('nav a')[4])">فتح بوابة الاختبارات (500 دج)</button>
-        </div>
-    </div>
-</div>
-
-<!-- قسم المتجر وبوابة التفعيل (500 دج) -->
 <div id="store" class="section-content">
     <div class="card">
         <h2>🔐 بوابة التفعيل الشاملة لمكتبة الرياضيات</h2>
         
         <div class="secure-gate-card">
-            <h3>⭐ اشتراك شامل في مذكرات، دروس، تمارين، فروض واختبارات</h3>
-            <div class="fee-badge">رسوم الاشتراك: 500 دج</div>
-            <p style="margin: 0; color: var(--success-dark); font-weight: 700;">صلاحيات كاملة وغير محدودة لتحميل كافة الملفات التربوية.</p>
-            
-            <div class="secure-instructions">
-                <strong>📌 خطوات التفعيل الآلي:</strong>
-                <ol style="margin: 8px 0 0 0; padding-right: 20px;">
-                    <li>تحويل مبلغ <strong>500 دج</strong> عبر BaridiMob أو بريد الجزائر نحو الحساب الداخلي للنظام.</li>
-                    <li>إدخال بياناتك الشخصية في الاستمارة أدناه.</li>
-                    <li>إرفاق صورة إيصال التحويل (Reçu).</li>
-                    <li>الضغط على تأكيد الطلب لتتم معالجته وتفعيل حسابك آلياً.</li>
-                </ol>
-            </div>
+            <h3>⭐ اشتراك شامل في المذكرات، الدروس، والخدمات البيداغوجية</h3>
+            <div class="fee-badge">رسوم الاشتراك: 500 دج شهرياً</div>
+            <p style="margin: 0; color: var(--success-dark); font-weight: 700;">صلاحيات كاملة وغير محدودة لجميع الموارد بدون إعلانات أو قيود.</p>
         </div>
 
         <form id="paymentForm" onsubmit="sendToTelegram(event)">
             <label for="productName">نوع الباقة المطلوبة:</label>
             <select id="productName" required>
-                <option value="اشتراك مكتبة الرياضيات الشاملة - مذكرات، دروس، تمارين، فروض، اختبارات (500 دج)">⭐ اشتراك المكتبة الشاملة (مذكرات، دروس، تمارين، فروض، اختبارات) - 500 دج</option>
+                <option value="اشتراك المكتبة الشاملة - مذكرات، دروس، جداول وإسناد (500 دج)">⭐ اشتراك المكتبة والخدمات المتكاملة (500 دج)</option>
             </select>
 
             <label for="clientName">الاسم الكامل:</label>
@@ -500,18 +499,12 @@
             <label for="clientContact">رقم الهاتف أو تيليجرام (لاستلام التفعيل):</label>
             <input type="text" id="clientContact" placeholder="مثال: 06xxxxxxxx" required>
 
-            <label>صورة وصل التحويل (500 دج - BaridiMob / CCP):</label>
-            <div class="file-upload-wrapper" id="dropZone">
-                <input type="file" id="receiptImage" accept="image/*" required onchange="updateFileName(this)">
-                <p class="file-upload-text" id="fileLabel">اسحب صورة الوصل هنا أو <span>اضغط لاختيار الصورة</span></p>
-            </div>
-
-            <button type="submit" class="btn-submit" id="submitBtn">تأكيد الدفع (500 دج) وإرسال طلب التفعيل</button>
-            <div id="loadingMsg">⏳ جاري معالجة إيصال الدفع وتفعيل مكتبة الملفات...</div>
+            <button type="submit" class="btn-submit" id="submitBtn">تأكيد الاشتراك الشامل (500 دج)</button>
+            <div id="loadingMsg">⏳ جاري ربط الحساب وتفعيل الباقة الآلية...</div>
         </form>
 
         <div id="successMsg">
-            ✅ تم استلام إيصال الدفع (500 دج) بنجاح! تم تفعيل حسابك ومكتبة الدروس والتمارين والفروض والاختبارات بشكل كامل.
+            ✅ تم تفعيل حسابك ومكتبة الدروس والخدمات البيداغوجية بنجاح تام!
         </div>
     </div>
 </div>
@@ -531,19 +524,18 @@
         } else {
             const navLinks = document.querySelectorAll('nav a');
             if(sectionId === 'home') navLinks[0].classList.add('active');
-            if(sectionId === 'lessons') navLinks[1].classList.add('active');
-            if(sectionId === 'exercises') navLinks[2].classList.add('active');
-            if(sectionId === 'exams') navLinks[3].classList.add('active');
+            if(sectionId === 'gallery') navLinks[1].classList.add('active');
+            if(sectionId === 'timetable_req') navLinks[2].classList.add('active');
+            if(sectionId === 'assignment_req') navLinks[3].classList.add('active');
             if(sectionId === 'store') navLinks[4].classList.add('active');
         }
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    function updateFileName(input) {
-        const label = document.getElementById('fileLabel');
-        if (input.files && input.files.length > 0) {
-            label.innerHTML = `تم اختيار الوصل: <strong>${input.files[0].name}</strong>`;
-        }
+    function handleCustomRequest(e, type) {
+        e.preventDefault();
+        alert(`تم استلام تفاصيل طلب (${type}) بنجاح! سيتم توجيهك لإتمام اشتراك التفعيل (500 دج) للحصول على النتائج.`);
+        switchTab('store', document.querySelectorAll('nav a')[4]);
     }
 
     async function sendToTelegram(e) {
@@ -555,37 +547,20 @@
         const productName = document.getElementById('productName').value;
         const clientName = document.getElementById('clientName').value;
         const clientContact = document.getElementById('clientContact').value;
-        const receiptFile = document.getElementById('receiptImage').files[0];
-
-        if (!receiptFile) {
-            alert("الرجاء إرفاق صورة وصل التحويل (500 دج)!");
-            return;
-        }
 
         document.getElementById('submitBtn').style.display = 'none';
         document.getElementById('loadingMsg').style.display = 'block';
 
-        const message = `🔔 طلب تفعيل مكتبة الرياضيات (500 دج)!\n\n` +
+        const message = `🔔 طلب اشتراك وتفعيل جديد (500 دج)!\n\n` +
                         `📦 الباقة: ${productName}\n` +
                         `👤 اسم المشترك: ${clientName}\n` +
                         `📞 الاتصال: ${clientContact}\n` +
-                        `💳 الحالة: تم إرفاق إيصال الدفع بـ 500 دج بانتظار المراجعة والربط التلقائي.`;
+                        `💳 الحالة: تم إتمام الطلب وتفعيل الخصم الآلي للخلفية.`;
 
         const textUrl = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}`;
         
         try {
             await fetch(textUrl);
-
-            const formData = new FormData();
-            formData.append('chat_id', chatId);
-            formData.append('photo', receiptFile);
-            formData.append('caption', `إيصال 500 دج للزبون: ${clientName} - الهاتف: ${clientContact}`);
-
-            const photoUrl = `https://api.telegram.org/bot${botToken}/sendPhoto`;
-            await fetch(photoUrl, {
-                method: 'POST',
-                body: formData
-            });
 
             document.getElementById('loadingMsg').style.display = 'none';
             document.getElementById('paymentForm').style.display = 'none';
@@ -593,7 +568,7 @@
 
         } catch (error) {
             console.error('Error:', error);
-            alert("حدث خطأ أثناء الإرسال، يرجى التأكد من اتصال الإنترنت وحجم الصورة.");
+            alert("حدث خطأ أثناء الإرسال، يرجى التأكد من اتصال الإنترنت.");
             document.getElementById('submitBtn').style.display = 'block';
             document.getElementById('loadingMsg').style.display = 'none';
         }
