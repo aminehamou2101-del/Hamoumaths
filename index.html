@@ -236,4 +236,577 @@ update();
     // ... وباقي دوال الإرسال هنا ...
 </script>
   
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hamo MATH PRO 2.0 - مفتاح التفوق</title>
+    <style>
+        :root {
+            --primary: #1a73e8;
+            --primary-dark: #0d47a1;
+            --success: #28a745;
+            --success-dark: #218838;
+            --bg-color: #f4f6f9;
+            --card-bg: #ffffff;
+            --text-main: #333333;
+            --text-muted: #666666;
+            --border-color: #d1d5db;
+        }
+
+        body {
+            font-family: 'Cairo', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+
+        /* شريط التنقل العلوي */
+        header {
+            background: #ffffff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--primary-dark);
+        }
+
+        .logo span {
+            color: #d93025;
+        }
+
+        nav {
+            display: flex;
+            gap: 15px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--text-main);
+            font-weight: 700;
+            font-size: 15px;
+            padding: 8px 14px;
+            border-radius: 8px;
+            transition: background 0.2s, color 0.2s;
+            cursor: pointer;
+        }
+
+        nav a:hover, nav a.active {
+            background: #e8f0fe;
+            color: var(--primary);
+        }
+
+        /* الأقسام الرئيسية */
+        .section-content {
+            display: none;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .section-content.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .card {
+            background: var(--card-bg);
+            padding: 35px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            box-sizing: border-box;
+            margin-bottom: 25px;
+        }
+
+        h2 {
+            color: var(--primary);
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 25px;
+            font-size: 24px;
+        }
+
+        /* قسم الرئيسية */
+        .hero-box {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .hero-box h1 {
+            font-size: 32px;
+            color: var(--primary-dark);
+            margin-bottom: 15px;
+        }
+
+        .hero-box p {
+            font-size: 16px;
+            color: var(--text-muted);
+            margin-bottom: 30px;
+        }
+
+        .cta-btn {
+            background-color: var(--primary);
+            color: white;
+            padding: 14px 28px;
+            border: none;
+            border-radius: 12px;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+            box-shadow: 0 4px 12px rgba(26, 115, 232, 0.3);
+        }
+
+        .cta-btn:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .cta-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* بطاقة المنتجات في المتجر */
+        .product-card {
+            background: #f8fafc;
+            border: 1px solid var(--border-color);
+            padding: 20px;
+            border-radius: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .product-info h3 {
+            margin: 0 0 5px 0;
+            color: var(--primary-dark);
+            font-size: 18px;
+        }
+
+        .product-info p {
+            margin: 0;
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        .buy-now-btn {
+            background-color: var(--success);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .buy-now-btn:hover {
+            background-color: var(--success-dark);
+        }
+
+        /* بطاقة CCP */
+        .ccp-card {
+            background: linear-gradient(135deg, #e8f0fe 0%, #f1f5ff 100%);
+            border: 2px dashed var(--primary);
+            padding: 20px;
+            border-radius: 14px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .ccp-card h3 {
+            margin: 0 0 8px 0;
+            color: var(--primary-dark);
+            font-size: 16px;
+        }
+
+        .ccp-number-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .ccp-number {
+            font-size: 26px;
+            font-weight: 800;
+            color: #d93025;
+            letter-spacing: 3px;
+            font-family: monospace;
+        }
+
+        .copy-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: bold;
+            transition: background 0.2s;
+        }
+
+        .copy-btn:hover {
+            background: var(--primary-dark);
+        }
+
+        form label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 700;
+            font-size: 14px;
+            color: #4b5563;
+        }
+
+        form input, form select {
+            width: 100%;
+            padding: 12px 15px;
+            margin-bottom: 20px;
+            border: 1.5px solid var(--border-color);
+            border-radius: 10px;
+            box-sizing: border-box;
+            font-size: 15px;
+            font-family: inherit;
+            background-color: #fafafa;
+        }
+
+        form input:focus, form select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(26, 115, 232, 0.15);
+            background-color: #fff;
+        }
+
+        .file-upload-wrapper {
+            position: relative;
+            border: 2px dashed var(--border-color);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            background-color: #fafafa;
+            cursor: pointer;
+            margin-bottom: 20px;
+            transition: border-color 0.2s;
+        }
+
+        .file-upload-wrapper:hover {
+            border-color: var(--primary);
+            background-color: #f1f5ff;
+        }
+
+        .file-upload-wrapper input[type="file"] {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .file-upload-text {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin: 0;
+        }
+
+        .file-upload-text span {
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        .btn-submit {
+            background-color: var(--success);
+            color: white;
+            padding: 14px;
+            border: none;
+            width: 100%;
+            border-radius: 10px;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+            box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+        }
+
+        .btn-submit:hover {
+            background-color: var(--success-dark);
+        }
+
+        #successMsg {
+            display: none;
+            background: #d4edda;
+            color: #155724;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            margin-top: 15px;
+            font-weight: bold;
+            border: 1px solid #c3e6cb;
+        }
+
+        #loadingMsg {
+            display: none;
+            text-align: center;
+            color: var(--primary);
+            font-weight: bold;
+            margin-top: 15px;
+            font-size: 15px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+<!-- شريط التنقل -->
+<header>
+    <div class="header-container">
+        <div class="logo">Hamo <span>MATH PRO</span></div>
+        <nav>
+            <a onclick="switchTab('home', this)" class="active">الرئيسية</a>
+            <a onclick="switchTab('courses', this)">الدروس</a>
+            <a onclick="switchTab('challenge', this)">التحديات</a>
+            <a onclick="switchTab('store', this)">المتجر</a>
+        </nav>
+    </div>
+</header>
+
+<!-- قسم الرئيسية -->
+<div id="home" class="section-content active">
+    <div class="card hero-box">
+        <h1>مفتاح التفوق يبدأ من هنا!</h1>
+        <p>منصة تعليمية تجمع الدروس، التمارين، التحديات والمذكرات الرقمية. طوّر مستواك خطوة بخطوة في الرياضيات.</p>
+        <button class="cta-btn" onclick="switchTab('store', document.querySelectorAll('nav a')[3])">استكشف المتجر والمذكرات</button>
+    </div>
+
+    <!-- قائمة سريعة للمنتجات مع أزرار تفاعلية -->
+    <div class="card">
+        <h2>⚡ منتجات مميزة</h2>
+        
+        <div class="product-card">
+            <div class="product-info">
+                <h3>📘 مفتاح التفوق (مذكرات رقمية)</h3>
+                <p>مذكرات منظمة للمراجعة والتدريب الشامل.</p>
+            </div>
+            <button class="buy-now-btn" onclick="selectProductAndGo('مفتاح التفوق - مذكرات رقمية')">اطلب الآن</button>
+        </div>
+
+        <div class="product-card">
+            <div class="product-info">
+                <h3>🎓 حزمة المراجعة والتمارين</h3>
+                <p>تمارين نموذجية للتحضير للبكالوريا والامتحانات.</p>
+            </div>
+            <button class="buy-now-btn" onclick="selectProductAndGo('حزمة المراجعة للبكالوريا')">اطلب الآن</button>
+        </div>
+
+        <div class="product-card">
+            <div class="product-info">
+                <h3>⭐ اشتراك Premium الشامل</h3>
+                <p>محتوى إضافي وتجارب تعليمية متقدمة.</p>
+            </div>
+            <button class="buy-now-btn" onclick="selectProductAndGo('اشتراك Premium الشامل')">اطلب الآن</button>
+        </div>
+    </div>
+</div>
+
+<!-- قسم الدروس -->
+<div id="courses" class="section-content">
+    <div class="card">
+        <h2>📚 الدروس والملخصات</h2>
+        <p style="text-align: center; color: var(--text-muted);">مجموعة من الدروس المشروحة بأسلوب احترافي مبسط.</p>
+        <div style="background: #f9fafb; padding: 15px; border-radius: 10px; margin-top: 15px; border: 1px solid var(--border-color);">
+            <h3>📖 درس الدوال العددية</h3>
+            <p>شرح مفصل مع أمثلة تطبيقية شاملة.</p>
+        </div>
+    </div>
+</div>
+
+<!-- قسم التحديات -->
+<div id="challenge" class="section-content">
+    <div class="card">
+        <h2>🏆 التحديات اليومية</h2>
+        <p style="text-align: center; color: var(--text-muted);">اختبر ذكاءك وسرعتك في حل تمارين الرياضيات واكسب النقاط.</p>
+        <div style="text-align: center; margin-top: 25px;">
+            <button class="cta-btn" onclick="alert('أنت جاهز للتحدي! انتظر التمارين الجديدة قريباً 🎯')">ابدأ التحدي الآن</button>
+        </div>
+    </div>
+</div>
+
+<!-- قسم المتجر والدفع -->
+<div id="store" class="section-content">
+    <div class="card">
+        <h2>🛒 متجر Hamo MATH - الدفع عبر بريدي موب / CCP</h2>
+        
+        <div class="ccp-card">
+            <h3>معلومات الحساب لتحويل الأموال</h3>
+            <p style="margin: 0 0 5px 0; font-size: 14px; color: var(--text-muted);">رقم الحساب البريدي (CCP):</p>
+            <div class="ccp-number-wrapper">
+                <span class="ccp-number" id="ccpText">0023678484</span>
+                <button class="copy-btn" onclick="copyCCP()">نسخ</button>
+            </div>
+            <p style="font-size: 13px; color: var(--text-muted); margin: 8px 0 0 0;">الاسم: الأستاذ حمو محمد أمين</p>
+        </div>
+
+        <form id="paymentForm" onsubmit="sendToTelegram(event)">
+            <label for="productName">اختر المنتج أو المذكرة:</label>
+            <select id="productName" required>
+                <option value="مفتاح التفوق - مذكرات رقمية">📘 مفتاح التفوق (مذكرات رقمية)</option>
+                <option value="حزمة المراجعة للبكالوريا">🎓 حزمة المراجعة والتمارين</option>
+                <option value="اشتراك Premium الشامل">⭐ اشتراك Premium الشامل</option>
+            </select>
+
+            <label for="clientName">الاسم الكامل:</label>
+            <input type="text" id="clientName" placeholder="أدخل اسمك الكامل" required>
+
+            <label for="clientContact">البريد الإلكتروني أو رقم الهاتف:</label>
+            <input type="text" id="clientContact" placeholder="لإرسال الملف أو تفعيل حسابك عليه" required>
+
+            <label>صورة وصل التحويل (Reçu):</label>
+            <div class="file-upload-wrapper" id="dropZone">
+                <input type="file" id="receiptImage" accept="image/*" required onchange="updateFileName(this)">
+                <p class="file-upload-text" id="fileLabel">اسحب الصورة هنا أو <span>اضغط للاختيار</span></p>
+            </div>
+
+            <button type="submit" class="btn-submit" id="submitBtn">تأكيد إرسال الطلب</button>
+            <div id="loadingMsg">⏳ جاري معالجة وإرسال الطلب، يرجى الانتظار...</div>
+        </form>
+
+        <div id="successMsg">
+            ✅ تم إرسال طلبك بنجاح! سيتم التحقق من وصل التحويل وإرسال المحتوى أو تفعيل حسابك قريباً.
+        </div>
+    </div>
+</div>
+
+<script>
+    // نظام التنقل بين الأقسام
+    function switchTab(sectionId, element) {
+        document.querySelectorAll('.section-content').forEach(section => {
+            section.classList.remove('active');
+        });
+        document.querySelectorAll('nav a').forEach(link => {
+            link.classList.remove('active');
+        });
+        document.getElementById(sectionId).classList.add('active');
+        
+        // تفعيل الزر في القائمة إن وجد
+        if(element) {
+            element.classList.add('active');
+        } else {
+            // تفعيل رابط المتجر تلقائياً إذا تم الانتقال برمجياً
+            const navLinks = document.querySelectorAll('nav a');
+            if(sectionId === 'store') navLinks[3].classList.add('active');
+            if(sectionId === 'home') navLinks[0].classList.add('active');
+        }
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // اختيار المنتج والانتقال تلقائياً لنموذج الدفع
+    function selectProductAndGo(productName) {
+        const select = document.getElementById('productName');
+        select.value = productName;
+        switchTab('store');
+    }
+
+    // زر نسخ رقم CCP
+    function copyCCP() {
+        const ccp = document.getElementById('ccpText').innerText;
+        navigator.clipboard.writeText(ccp).then(() => {
+            const btn = document.querySelector('.copy-btn');
+            btn.innerText = 'تم النسخ!';
+            btn.style.backgroundColor = '#28a745';
+            setTimeout(() => {
+                btn.innerText = 'نسخ';
+                btn.style.backgroundColor = '';
+            }, 2000);
+        });
+    }
+
+    // تحديث اسم الملف عند اختياره
+    function updateFileName(input) {
+        const label = document.getElementById('fileLabel');
+        if (input.files && input.files.length > 0) {
+            label.innerHTML = `تم اختيار الملف: <strong>${input.files[0].name}</strong>`;
+        }
+    }
+
+    // إرسال البيانات إلى تيليجرام
+    async function sendToTelegram(e) {
+        e.preventDefault();
+
+        const botToken = "8815343741:AAExOpgM9_c9skYrecGz1KZGbfDUIuOV1Fs"; 
+        const chatId = "8905887086";     
+
+        const productName = document.getElementById('productName').value;
+        const clientName = document.getElementById('clientName').value;
+        const clientContact = document.getElementById('clientContact').value;
+        const receiptFile = document.getElementById('receiptImage').files[0];
+
+        if (!receiptFile) {
+            alert("الرجاء إرفاق صورة وصل التحويل!");
+            return;
+        }
+
+        document.getElementById('submitBtn').style.display = 'none';
+        document.getElementById('loadingMsg').style.display = 'block';
+
+        const message = `🔔 طلب شراء جديد على منصة Hamo Math!\n\n` +
+                        `📦 المنتج: ${productName}\n` +
+                        `👤 اسم الزبون: ${clientName}\n` +
+                        `📞 الاتصال: ${clientContact}\n` +
+                        `💳 CCP المرسل إليه: 0023678484`;
+
+        const textUrl = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}`;
+        
+        try {
+            await fetch(textUrl);
+
+            const formData = new FormData();
+            formData.append('chat_id', chatId);
+            formData.append('photo', receiptFile);
+            formData.append('caption', `وصل التحويل الخاص بـ: ${clientName}`);
+
+            const photoUrl = `https://api.telegram.org/bot${botToken}/sendPhoto`;
+            await fetch(photoUrl, {
+                method: 'POST',
+                body: formData
+            });
+
+            document.getElementById('loadingMsg').style.display = 'none';
+            document.getElementById('paymentForm').style.display = 'none';
+            document.getElementById('successMsg').style.display = 'block';
+
+        } catch (error) {
+            console.error('Error:', error);
+            alert("حدث خطأ أثناء إرسال الطلب، تأكد من اتصال الإنترنت أو حاول مرة أخرى.");
+            document.getElementById('submitBtn').style.display = 'block';
+            document.getElementById('loadingMsg').style.display = 'none';
+        }
+    }
+</script>
+
+</body>
+</html>
 
