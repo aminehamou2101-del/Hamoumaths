@@ -168,7 +168,7 @@ form.addEventListener('submit', async (e) => {
             }
         }
 
-        // دالة جلب وعرض الملفات الموجودة في المجلد
+              // دالة جلب وعرض الملفات الموجودة في المجلد
         async function fetchFiles() {
             const fileListUl = document.getElementById('fileList');
             
@@ -176,6 +176,45 @@ form.addEventListener('submit', async (e) => {
                 .from('pdfs')
                 .list('', {
                     limit: 100,
+                    offset: 0,
+                    sortBy: { column: 'created_at', order: 'desc' }
+                });
+
+            if (error) {
+                fileListUl.innerHTML = '<li style="color: red;">فشل في تحميل الملفات: ' + error.message + '</li>';
+                return;
+            }
+
+            if (data.length === 0) {
+                fileListUl.innerHTML = '<li>لا توجد ملفات مرفوعة حالياً.</li>';
+                return;
+            }
+
+            fileListUl.innerHTML = '';
+
+            for (const file of data) {
+                if (file.name === 'index.html') continue;
+
+                const { data: publicUrlData } = supabaseClient.storage
+                    .from('pdfs')
+                    .getPublicUrl(file.name);
+
+                const fileUrl = publicUrlData.publicUrl;
+                const li = document.createElement('li');
+                
+                let displayName = file.name;
+                if (displayName.includes('_')) {
+                    displayName = displayName.substring(displayName.indexOf('_') + 1);
+                }
+
+                li.innerHTML = `
+                    <span>📄 ${displayName}</span>
+                    <a href="${fileUrl}" target="_blank">تحميل / معاينة</a>
+                `;
+                fileListUl.appendChild(li);
+            }
+        }
+              limit: 100,
                     offset: 0,
                     sortBy: { column: 'created_at', order: 'desc' }
                 });
