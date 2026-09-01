@@ -1,100 +1,3 @@
-<script>
-function check(v){
-    let r=document.getElementById('result');
-    if(v===10){
-        r.textContent='✅ إجابة صحيحة! ممتاز 👏';
-        r.style.color='#16824a';
-    }else{
-        r.textContent='❌ ليست صحيحة. حاول من جديد.';
-        r.style.color='#b23a3a';
-    }
-}
-
-let running=false, interval;
-function start(){
-    if(running) return;
-    running=true;
-    let n=30, t=document.getElementById('timer');
-    t.textContent=n;
-    interval=setInterval(()=>{
-        n--;
-        t.textContent=n;
-        if(n<=0){
-            clearInterval(interval);
-            running=false;
-            alert('انتهى التحدي! حاول مرة أخرى 💪');
-        }
-    }, 1000);
-}
-
-const SUPABASE_URL = 'https://ifurlsucekmaynuhsfva.supabase.co';
-const SUPABASE_ANON_KEY = 'sb_publishable_WRvn0kt8kJ3SSy2WG1ca4w_dzZQBrBU';
-
-let supabase;
-try {
-    supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-} catch (err) {
-    console.error("Supabase init error:", err);
-}
-
-const form = document.getElementById('uploadForm');
-const message = document.getElementById('message');
-const submitBtn = document.getElementById('submitBtn');
-
-form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    if (!supabase) {
-        message.style.color = 'red';
-        message.textContent = 'خطأ في الاتصال بقاعدة البيانات.';
-        return;
-    }
-
-    const title = document.getElementById('title').value;
-    const fileInput = document.getElementById('fileInput').files[0];
-
-    if (!fileInput) {
-        message.style.color = 'red';
-        message.textContent = 'الرجاء اختيار ملف PDF.';
-        return;
-    }
-
-    submitBtn.disabled = true;
-    submitBtn.textContent = 'جاري الرفع...';
-    message.textContent = '';
-
-    try {
-        const fileName = `${Date.now()}-${fileInput.name}`;
-        const { data: uploadData, error: uploadError } = await supabase.storage
-            .from('pdfs')
-            .upload(fileName, fileInput);
-
-        if (uploadError) throw uploadError;
-
-        const { data: publicUrlData } = supabase.storage
-            .from('pdfs')
-            .getPublicUrl(fileName);
-
-        const fileUrl = publicUrlData.publicUrl;
-
-        const { error: dbError } = await supabase
-            .from('files')
-            .insert([{ Title: title, file_url: fileUrl, status: 'pending' }]);
-
-        if (dbError) throw dbError;
-
-        message.style.color = 'green';
-        message.textContent = 'تم رفع الملف بنجاح! سيتم مراجعته ونشره قريباً.';
-        form.reset();
-    } catch (error) {
-        console.error(error);
-        message.style.color = 'red';
-        message.textContent = 'خطأ: ' + (error.message || 'فشل الرفع، تحقق من إعدادات Supabase');
-    } finally {
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'إرسال للمراجعة';
-    }
-});
-</script>
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -130,7 +33,7 @@ form.addEventListener('submit', async (e) => {
     </div>
 
     <script>
-        // إعدادات الاتصال بمشروعك في Supabase
+        // إعدادات الاتصال الصحيحة بمشروعك في Supabase
         const SUPABASE_URL = 'https://qsecmlcjdmpehhcqlali.supabase.co';
         const SUPABASE_ANON_KEY = 'sb_publishable_2yziw4m4uYzIDj9WWfRYhg_U72Srpts';
         
@@ -148,7 +51,7 @@ form.addEventListener('submit', async (e) => {
             }
 
             const file = fileInput.files[0];
-            const fileName = `${Date.now()}_${file.name}`; // اسم فريد للملف
+            const fileName = `${Date.now()}_${file.name}`;
 
             statusText.style.color = 'blue';
             statusText.innerText = 'جاري رفع الملف...';
@@ -163,12 +66,12 @@ form.addEventListener('submit', async (e) => {
             } else {
                 statusText.style.color = 'green';
                 statusText.innerText = 'تم رفع ملف الـ PDF بنجاح!';
-                fileInput.value = ''; // إعادة تعيين حقل الملف
-                fetchFiles(); // تحديث قائمة الملفات تلقائياً
+                fileInput.value = '';
+                fetchFiles();
             }
         }
 
-              // دالة جلب وعرض الملفات الموجودة في المجلد
+        // دالة جلب وعرض الملفات الموجودة في المجلد
         async function fetchFiles() {
             const fileListUl = document.getElementById('fileList');
             
@@ -214,49 +117,8 @@ form.addEventListener('submit', async (e) => {
                 fileListUl.appendChild(li);
             }
         }
-              limit: 100,
-                    offset: 0,
-                    sortBy: { column: 'created_at', order: 'desc' }
-                });
 
-            if (error) {
-                fileListUl.innerHTML = '<li style="color: red;">فشل في تحميل الملفات: ' + error.message + '</li>';
-                return;
-            }
-
-            if (data.length === 0) {
-                fileListUl.innerHTML = '<li>لا توجد ملفات مرفوعة حالياً.</li>';
-                return;
-            }
-
-            fileListUl.innerHTML = ''; // تفريغ القائمة قبل إضافتها
-
-            for (const file of data) {
-                if (file.name === 'index.html') continue;
-
-                const { data: publicUrlData } = supabaseClient.storage
-                    .from('pdfs')
-                    .getPublicUrl(file.name);
-
-                const fileUrl = publicUrlData.publicUrl;
-                const li = document.createElement('li');
-                
-                let displayName = file.name;
-                if (displayName.includes('_')) {
-                    displayName = displayName.substring(displayName.indexOf('_') + 1);
-                }
-
-                li.innerHTML = `
-                    <span>📄 ${displayName}</span>
-                    <a href="${fileUrl}" target="_blank">تحميل / معاينة</a>
-                `;
-                fileListUl.appendChild(li);
-            }
-        }
-
-        // جلب الملفات بمجرد فتح الصفحة
         window.onload = fetchFiles;
     </script>
 </body>
 </html>
-
