@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hamo MATH PRO | البوابة الرسمية للحسابات الشخصية</title>
+    <title>Hamo MATH PRO | المرجع البيداغوجي الحصري</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -26,42 +26,6 @@
             margin: 0;
             padding: 0;
             min-height: 100vh;
-        }
-
-        /* نافذة تسجيل الدخول الأولية (البوابة الإجبارية) */
-        #authOverlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(15, 23, 42, 0.85);
-            backdrop-filter: blur(10px);
-            z-index: 9999;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-
-        .auth-card {
-            background: #ffffff;
-            width: 100%;
-            max-width: 450px;
-            padding: 35px;
-            border-radius: 24px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-            text-align: center;
-        }
-
-        .auth-card h2 {
-            color: var(--primary);
-            margin-top: 0;
-            font-size: 22px;
-            font-weight: 900;
-        }
-
-        .auth-card p {
-            color: var(--text-muted);
-            font-size: 13px;
-            margin-bottom: 25px;
         }
 
         header {
@@ -147,17 +111,18 @@
             font-weight: 900;
         }
 
-        .account-box {
-            background: #fffbeb;
-            border: 2px solid #f59e0b;
+        .preview-box {
+            background: #f8fafc;
+            border: 2px dashed var(--border-color);
             border-radius: 16px;
             padding: 25px;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
 
-        .account-box.active {
-            background: #ecfdf5;
-            border-color: #059669;
+        .preview-box h3 {
+            margin-top: 0;
+            color: var(--accent);
+            font-size: 18px;
         }
 
         .btn-action {
@@ -175,6 +140,42 @@
 
         .btn-action:hover {
             background: #1d4ed8;
+        }
+
+        /* نافذة التسجيل المنبثقة التحفيزية */
+        #registerModal {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(10px);
+            z-index: 9999;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-card {
+            background: #ffffff;
+            width: 100%;
+            max-width: 450px;
+            padding: 35px;
+            border-radius: 24px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            text-align: center;
+        }
+
+        .modal-card h2 {
+            color: var(--primary);
+            margin-top: 0;
+            font-size: 22px;
+            font-weight: 900;
+        }
+
+        .modal-card p {
+            color: var(--text-muted);
+            font-size: 13px;
+            margin-bottom: 25px;
         }
 
         form label {
@@ -219,73 +220,95 @@
 </head>
 <body>
 
-<!-- شاشة التسجيل والدخول الإجبارية عند فتح الموقع -->
-<div id="authOverlay">
-    <div class="auth-card">
-        <h2>Hamo MATH PRO</h2>
-        <p>أنشئ حسابك الشخصي أو سجل الدخول للوصول إلى المنصة البيداغوجية</p>
-        
-        <form onsubmit="handleUserAuth(event)">
-            <label>الاسم الكامل أو اللقب المهني:</label>
-            <input type="text" id="authName" placeholder="أدخل اسمك الكريم" required>
-
-            <label>رقم الهاتف الشخصي:</label>
-            <input type="text" id="authPhone" placeholder="06xxxxxxxx" required>
-
-            <label>حالة التسجيل / التفعيل:</label>
-            <select id="authType">
-                <option value="new">تسجيل حساب جديد وتفعيل الشهر الأول (500 دج)</option>
-                <option value="renew">تجديد اشتراك الشهر اليدوي (500 دج)</option>
-            </select>
-
-            <button type="submit" class="btn-submit">دخول إلى الحساب الشخصي</button>
-        </form>
-    </div>
-</div>
-
 <header>
     <div class="header-container">
         <div class="logo-area">
             <h1>Hamo MATH PRO</h1>
-            <span id="welcomeUserText">مرحباً بك</span>
+            <span id="headerStatus">معاينة المحتوى الحصري</span>
         </div>
         <nav>
-            <a onclick="switchTab('account', this)" class="active">حسابي الخاص 👤</a>
-            <a onclick="switchTab('library', this)">المذكرات والفروض 📚</a>
+            <a onclick="switchTab('previewHome', this)" class="active">الرئيسية والمعاينة 🌟</a>
+            <a onclick="switchTab('middle', this)">التعليم المتوسط 📐</a>
+            <a onclick="switchTab('secondary', this)">التعليم الثانوي 📊</a>
             <a onclick="switchTab('timetable', this)">استعمالات الزمن والإسناد ⏰</a>
         </nav>
     </div>
 </header>
 
-<!-- قسم الحساب الخاص -->
-<div id="account" class="section-content active">
-    <div class="card" style="max-width: 700px; margin: 0 auto;">
-        <h2>👤 لوحة تحكم الحساب الشخصي</h2>
+<!-- نافذة التسجيل المنبثقة التحفيزية (تظهر عند محاولة تحميل أو فتح الملفات الكاملة) -->
+<div id="registerModal">
+    <div class="modal-card">
+        <h2>✨ هل أعجبك المحتوى الاحترافي؟</h2>
+        <p>أنشئ حسابك الشخصي الآن لفتح الملفات كاملة وتحميل مذكرات الأستاذ حمو محمد أمين برسم اشتراك الشهر (500 دج).</p>
         
-        <div id="accountStatusCard" class="account-box active">
-            <h3 id="accTitle" style="margin-top:0; color:#065f46;">✅ حسابك الخاص مفعل ونشط</h3>
-            <p id="accDesc" style="font-size: 14px; color:#047857;">لديك صلاحية كاملة للدخول وتلبية متطلباتك طوال فترة الـ 30 يوماً. عند انتهائها سيلزمك الدفع اليدوي من جديد.</p>
+        <form onsubmit="handleUserRegistration(event)">
+            <label>الاسم الكامل أو اللقب المهني:</label>
+            <input type="text" id="regName" placeholder="أدخل اسمك الكريم" required>
+
+            <label>رقم الهاتف الشخصي:</label>
+            <input type="text" id="regPhone" placeholder="06xxxxxxxx" required>
+
+            <label>نوع التفعيل:</label>
+            <select>
+                <option>تفعيل الحساب لمدة 30 يوماً (500 دج)</option>
+            </select>
+
+            <button type="submit" class="btn-submit">تأكيد التسجيل والدفع اليدوي</button>
+        </form>
+    </div>
+</div>
+
+<!-- قسم المعاينة الترويجية (يراه الزائر بحرية تامة ليجذب انتباهه) -->
+<div id="previewHome" class="section-content active">
+    <div class="card" style="text-align: center; padding: 45px 20px;">
+        <span style="background: #eff6ff; color: var(--accent); padding: 5px 12px; border-radius: 8px; font-size: 12px; font-weight: 800; display: inline-block; margin-bottom: 12px;">معاينة مجانية مفتوحة</span>
+        <h2 style="font-size: 28px; margin-bottom: 15px;">المرجع الأقوى في الرياضيات للطورين المتوسط والثانوي</h2>
+        <p style="color: var(--text-muted); font-size: 15px; max-width: 750px; margin: 0 auto 25px; line-height: 1.7;">
+            اكتشف لمحة عن هندسة المذكرات، التدرجات البيداغوجية الدقيقة، والأفكار الاستثنائية المصممة بعناية لتكون مرجعك الأول في الجزائر.
+        </p>
+    </div>
+
+    <div class="card">
+        <h2>🔍 نماذج حصرية معروضة للمعاينة</h2>
+        
+        <div class="preview-box">
+            <h3>📐 نموذج من التعليم المتوسط (4 متوسط - الحساب على الجذور)</h3>
+            <p style="color: var(--text-muted); font-size: 14px; line-height: 1.6;">
+                تقديم تمرين مبسط ومنهجي لكتابة عدد على شكل $a\sqrt{b}$ بطريقة مبسطة تضمن استيعاب التلميذ السريع للقواعد الأساسية دون تعقيد.
+            </p>
+            <button class="btn-action" onclick="triggerRegisterPrompt()">فتح الملف الكامل والحل النموذجي المفصل</button>
         </div>
 
-        <div id="manualPaySection" style="display:none; text-align:center; background:#fffbeb; padding:20px; border-radius:16px; border:2px solid #f59e0b; margin-bottom:20px;">
-            <h4 style="color:#b45309; margin-top:0;">⚠️ انتهت صلاحية حسابك (30 يوماً)</h4>
-            <p style="font-size:13px; color:#78350f;">يرجى سداد رسوم الشهر الجديد يدوياً لمتابعة الدخول للملفات.</p>
-            <button class="btn-action" style="background:#d97706;" onclick="payMonthlyFee()">سداد ودفع اشتراك الشهر (500 دج)</button>
-        </div>
-
-        <div style="text-align: center;">
-            <button class="btn-action" style="background: #dc2626;" onclick="logoutAndExpire()">تسجيل الخروج / محاكاة انتهاء الشهر</button>
+        <div class="preview-box">
+            <h3>📊 نموذج من التعليم الثانوي (3 ثانوي - الدوال الأسية واللوغاريتمية)</h3>
+            <p style="color: var(--text-muted); font-size: 14px; line-height: 1.6;">
+                معاينة منهجية دراسة تغيرات دالة أسرية مع استخراج المستقيمات المقاربة الأفقية والمائية بخطوات دقيقة ومقننة.
+            </p>
+            <button class="btn-action" onclick="triggerRegisterPrompt()">فتح الملف الكامل والحل النموذجي المفصل</button>
         </div>
     </div>
 </div>
 
-<!-- قسم المذكرات والفروض -->
-<div id="library" class="section-content">
+<!-- قسم التعليم المتوسط -->
+<div id="middle" class="section-content">
     <div class="card">
-        <h2>📚 المذكرات والفروض الحصرية (متوسط وثانوي)</h2>
-        <p style="color: var(--text-muted); text-align: center;">متاحة فقط للمشتركين الذين لديهم حساب مفعل خلال الـ 30 يوماً الحالية.</p>
-        <div style="text-align: center; margin-top: 20px;">
-            <button class="btn-action" onclick="checkAccountAccess()">تصفح مراجع وحلول الطورين</button>
+        <h2>📐 قسم التعليم المتوسط</h2>
+        <div class="preview-box">
+            <h3>مذكرات مقترحة لشهادة التعليم المتوسط BEM</h3>
+            <p style="color: var(--text-muted); font-size: 14px;">تشمل الدوال، الأشعة، والمعادلات مع سلم التنقيط الرسمي.</p>
+            <button class="btn-action" onclick="triggerRegisterPrompt()">تحميل المذكرات الكاملة (تتطلب حساباً مفَعلاً)</button>
+        </div>
+    </div>
+</div>
+
+<!-- قسم التعليم الثانوي -->
+<div id="secondary" class="section-content">
+    <div class="card">
+        <h2>📊 قسم التعليم الثانوي</h2>
+        <div class="preview-box">
+            <h3>حصريات السنة الثالثة ثانوي (علوم تجريبية ورياضيات)</h3>
+            <p style="color: var(--text-muted); font-size: 14px;">المتتاليات، الاحتمالات، والدوال بمستويات تفكير عالية.</p>
+            <button class="btn-action" onclick="triggerRegisterPrompt()">تحميل المذكرات الكاملة (تتطلب حساباً مفَعلاً)</button>
         </div>
     </div>
 </div>
@@ -293,49 +316,25 @@
 <!-- قسم استعمالات الزمن والإسناد -->
 <div id="timetable" class="section-content">
     <div class="card">
-        <h2>⏰ خدمة استعمالات الزمن والإسناد المدرسي</h2>
-        <p style="text-align: center; color: var(--text-muted);">هذه الخدمة التنظيمية تتطلب طلباً خاصاً ودفعاً إضافياً لتنظيم جداول المؤسسة بدقة.</p>
-        <div style="text-align: center; margin-top: 20px;">
-            <button class="btn-action" style="background: var(--accent-gold);" onclick="requestTimetableService()">طلب إعداد جدول استعمالات الزمن والإسناد</button>
+        <h2>⏰ تنظيم استعمالات الزمن والإسناد المدرسي</h2>
+        <div class="preview-box">
+            <h3>خدمة الجداول التنظيمية الدقيقة</h3>
+            <p style="color: var(--text-muted); font-size: 14px;">إعداد جداول الحصص والإسناد بمرونة تامة للمؤسسات التعليمية.</p>
+            <button class="btn-action" style="background: var(--accent-gold);" onclick="triggerRegisterPrompt()">طلب الخدمة الخاصة (تتطلب حساباً مفَعلاً)</button>
         </div>
     </div>
 </div>
 
 <script>
-    let accountActive = localStorage.getItem('hamo_user_active') === 'true';
-    let storedName = localStorage.getItem('hamo_user_name') || '';
+    let userActive = localStorage.getItem('hamo_active') === 'true';
 
     window.onload = function() {
-        if (accountActive && storedName) {
-            document.getElementById('authOverlay').style.display = 'none';
-            document.getElementById('welcomeUserText').innerHTML = `الأستاذ: ${storedName}`;
-            updateAccountUI();
-        } else {
-            document.getElementById('authOverlay').style.display = 'flex';
+        if(userActive) {
+            document.getElementById('headerStatus').innerHTML = "✅ الحساب الشخصي مفعل";
         }
     };
 
-    function handleUserAuth(e) {
-        e.preventDefault();
-        const name = document.getElementById('authName').value;
-        
-        localStorage.setItem('hamo_user_active', 'true');
-        localStorage.setItem('hamo_user_name', name);
-        accountActive = true;
-        storedName = name;
-
-        document.getElementById('authOverlay').style.display = 'none';
-        document.getElementById('welcomeUserText').innerHTML = `الأستاذ: ${name}`;
-        updateAccountUI();
-        
-        alert(`أهلاً بك أستاذ ${name}! تم فتح حسابك الشخصي بنجاح بصلاحية 30 يوماً.`);
-    }
-
     function switchTab(sectionId, element) {
-        if(!accountActive) {
-            alert('يجب تسجيل الدخول أو تفعيل الحساب أولاً.');
-            return;
-        }
         document.querySelectorAll('.section-content').forEach(s => s.classList.remove('active'));
         document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
         document.getElementById(sectionId).classList.add('active');
@@ -343,59 +342,27 @@
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    function updateAccountUI() {
-        const box = document.getElementById('accountStatusCard');
-        const title = document.getElementById('accTitle');
-        const desc = document.getElementById('accDesc');
-        const manualPay = document.getElementById('manualPaySection');
-
-        if (accountActive) {
-            box.style.display = 'block';
-            manualPay.style.display = 'none';
-            title.style.color = "#065f46";
-            title.innerHTML = "✅ حسابك الخاص مفعل ونشط";
-            desc.innerHTML = "لديك صلاحية كاملة للدخول وتلبية متطلباتك طوال فترة الـ 30 يوماً. عند انتهائها سيلزمك الدفع اليدوي من جديد.";
+    // دالة إظهار نافذة التسجيل عند محاولة الاستفادة الكاملة لجذب انتباهه
+    function triggerRegisterPrompt() {
+        if (userActive) {
+            alert('حسابك مفعل مسبقاً! يمكنك الاستفادة من الملف الكامل.');
         } else {
-            box.style.display = 'none';
-            manualPay.style.display = 'block';
+            document.getElementById('registerModal').style.display = 'flex';
         }
     }
 
-    function payMonthlyFee() {
-        setTimeout(() => {
-            localStorage.setItem('hamo_user_active', 'true');
-            accountActive = true;
-            updateAccountUI();
-            alert('تم تسجيل الدفع اليدوي بنجاح! تم تجديد حسابك لفترة 30 يوماً أخرى.');
-        }, 800);
-    }
+    function handleUserRegistration(e) {
+        e.preventDefault();
+        const name = document.getElementById('regName').value;
 
-    function logoutAndExpire() {
-        localStorage.removeItem('hamo_user_active');
-        accountActive = false;
-        document.getElementById('authOverlay').style.display = 'flex';
-        alert('تم انتهاء صلاحية الشهر أو تسجيل الخروج. يطالبك الموقع بالدفع اليدوي عند الدخول مجدداً.');
-    }
+        localStorage.setItem('hamo_active', 'true');
+        localStorage.setItem('hamo_name', name);
+        userActive = true;
 
-    function checkAccountAccess() {
-        if (accountActive) {
-            alert('أهلاً بك! حسابك مفعل، يمكنك استعراض كافة المذكرات والفروض.');
-        } else {
-            alert('انتهت صلاحية الشهر، يرجى تسديد المبلغ اليدوي في لوحة حسابك.');
-            switchTab('account', document.querySelectorAll('nav a')[0]);
-        }
-    }
-
-    function requestTimetableService() {
-        if (accountActive) {
-            let confirmOrder = confirm('طلب استعمالات الزمن والإسناد يتطلب رسوماً مستقلة. هل تؤكد إرسال الطلب؟');
-            if(confirmOrder) {
-                alert('تم استلام طلبك لإعداد الجداول التنظيمية بنجاح.');
-            }
-        } else {
-            alert('يجب تفعيل حسابك الشخصي أولاً.');
-            switchTab('account', document.querySelectorAll('nav a')[0]);
-        }
+        document.getElementById('registerModal').style.display = 'none';
+        document.getElementById('headerStatus').innerHTML = `الأستاذ: ${name}`;
+        
+        alert(`أهلاً بك أستاذ ${name}! تم إنشاء حسابك الشخصي بنجاح وتفعيل الشهر الأول. يمكنك الآن تصفح جميع المراجع وتحميلها.`);
     }
 </script>
 
