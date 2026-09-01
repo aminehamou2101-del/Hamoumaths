@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hamo MATH PRO | الحسابات الخاصة والمرجع البيداغوجي</title>
+    <title>Hamo MATH PRO | البوابة الرسمية للحسابات الشخصية</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -11,12 +11,12 @@
             --accent: #2563eb;
             --accent-gold: #d97706;
             --success: #059669;
-            --bg-gradient: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            --bg-gradient: linear-gradient(135deg, #f8fafc 0%, #cbd5e1 100%);
             --card-bg: rgba(255, 255, 255, 0.99);
             --text-main: #0f172a;
             --text-muted: #475569;
             --border-color: #cbd5e1;
-            --shadow: 0 20px 25px -5px rgba(15, 23, 42, 0.05);
+            --shadow: 0 20px 25px -5px rgba(15, 23, 42, 0.08);
         }
 
         body {
@@ -26,6 +26,42 @@
             margin: 0;
             padding: 0;
             min-height: 100vh;
+        }
+
+        /* نافذة تسجيل الدخول الأولية (البوابة الإجبارية) */
+        #authOverlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(10px);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .auth-card {
+            background: #ffffff;
+            width: 100%;
+            max-width: 450px;
+            padding: 35px;
+            border-radius: 24px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            text-align: center;
+        }
+
+        .auth-card h2 {
+            color: var(--primary);
+            margin-top: 0;
+            font-size: 22px;
+            font-weight: 900;
+        }
+
+        .auth-card p {
+            color: var(--text-muted);
+            font-size: 13px;
+            margin-bottom: 25px;
         }
 
         header {
@@ -111,7 +147,6 @@
             font-weight: 900;
         }
 
-        /* نافذة الحساب الشخصي وتنبيه انتهاء الشهر اليدوي */
         .account-box {
             background: #fffbeb;
             border: 2px solid #f59e0b;
@@ -146,31 +181,34 @@
             display: block;
             margin-bottom: 8px;
             font-weight: 800;
-            font-size: 14px;
+            font-size: 13px;
             color: var(--text-main);
+            text-align: right;
         }
 
         form input, form select {
             width: 100%;
-            padding: 14px 18px;
-            margin-bottom: 20px;
+            padding: 13px 16px;
+            margin-bottom: 18px;
             border: 2px solid var(--border-color);
             border-radius: 12px;
             box-sizing: border-box;
             font-size: 14px;
             background-color: #fff;
+            font-family: inherit;
         }
 
         .btn-submit {
             background: var(--success);
             color: white;
-            padding: 16px;
+            padding: 15px;
             border: none;
             width: 100%;
-            border-radius: 14px;
-            font-size: 17px;
+            border-radius: 12px;
+            font-size: 16px;
             font-weight: 900;
             cursor: pointer;
+            box-shadow: 0 4px 12px rgba(5, 150, 105, 0.2);
         }
 
         @keyframes fadeIn {
@@ -181,11 +219,35 @@
 </head>
 <body>
 
+<!-- شاشة التسجيل والدخول الإجبارية عند فتح الموقع -->
+<div id="authOverlay">
+    <div class="auth-card">
+        <h2>Hamo MATH PRO</h2>
+        <p>أنشئ حسابك الشخصي أو سجل الدخول للوصول إلى المنصة البيداغوجية</p>
+        
+        <form onsubmit="handleUserAuth(event)">
+            <label>الاسم الكامل أو اللقب المهني:</label>
+            <input type="text" id="authName" placeholder="أدخل اسمك الكريم" required>
+
+            <label>رقم الهاتف الشخصي:</label>
+            <input type="text" id="authPhone" placeholder="06xxxxxxxx" required>
+
+            <label>حالة التسجيل / التفعيل:</label>
+            <select id="authType">
+                <option value="new">تسجيل حساب جديد وتفعيل الشهر الأول (500 دج)</option>
+                <option value="renew">تجديد اشتراك الشهر اليدوي (500 دج)</option>
+            </select>
+
+            <button type="submit" class="btn-submit">دخول إلى الحساب الشخصي</button>
+        </form>
+    </div>
+</div>
+
 <header>
     <div class="header-container">
         <div class="logo-area">
             <h1>Hamo MATH PRO</h1>
-            <span>المنصة الشخصية الخاصة</span>
+            <span id="welcomeUserText">مرحباً بك</span>
         </div>
         <nav>
             <a onclick="switchTab('account', this)" class="active">حسابي الخاص 👤</a>
@@ -195,34 +257,24 @@
     </div>
 </header>
 
-<!-- قسم الحساب الخاص وتسجيل الدخول / الدفع اليدوي -->
+<!-- قسم الحساب الخاص -->
 <div id="account" class="section-content active">
     <div class="card" style="max-width: 700px; margin: 0 auto;">
         <h2>👤 لوحة تحكم الحساب الشخصي</h2>
         
-        <div id="accountStatusCard" class="account-box">
-            <h3 id="accTitle" style="margin-top:0; color:#b45309;">⚠️ حسابك يتطلب الدفع اليدوي للمتابعة</h3>
-            <p id="accDesc" style="font-size: 14px; color:#78350f;">انتهت مدة صلاحية حسابك (30 يوماً) أو لم تقم بتسجيل الدفع اليدوي الجديد. يرجى سداد المبلغ لتفعيل الحساب واستئناف الدخول.</p>
+        <div id="accountStatusCard" class="account-box active">
+            <h3 id="accTitle" style="margin-top:0; color:#065f46;">✅ حسابك الخاص مفعل ونشط</h3>
+            <p id="accDesc" style="font-size: 14px; color:#047857;">لديك صلاحية كاملة للدخول وتلبية متطلباتك طوال فترة الـ 30 يوماً. عند انتهائها سيلزمك الدفع اليدوي من جديد.</p>
         </div>
 
-        <div id="loginRegisterForm">
-            <form onsubmit="handleManualPayment(event)">
-                <label>اسم المستخدم / الأستاذ:</label>
-                <input type="text" id="userNameInput" placeholder="أدخل اسمك الثلاثي" required>
-
-                <label>اختر نوع الخدمة / التجديد:</label>
-                <select id="serviceType">
-                    <option value="500">تجديد صلاحية الحساب لمدة 30 يوماً (500 دج)</option>
-                    <option value="1000">طلب خاص: إعداد استعمالات الزمن والإسناد (رسوم إضافية)</option>
-                </select>
-
-                <button type="submit" class="btn-submit">تأكيد الدفع اليدوي وتفعيل الحساب</button>
-            </form>
+        <div id="manualPaySection" style="display:none; text-align:center; background:#fffbeb; padding:20px; border-radius:16px; border:2px solid #f59e0b; margin-bottom:20px;">
+            <h4 style="color:#b45309; margin-top:0;">⚠️ انتهت صلاحية حسابك (30 يوماً)</h4>
+            <p style="font-size:13px; color:#78350f;">يرجى سداد رسوم الشهر الجديد يدوياً لمتابعة الدخول للملفات.</p>
+            <button class="btn-action" style="background:#d97706;" onclick="payMonthlyFee()">سداد ودفع اشتراك الشهر (500 دج)</button>
         </div>
 
-        <div id="logoutSection" style="display:none; text-align:center;">
-            <p style="font-weight: 700; color: var(--success);">أنت مسجل بحساب مفعل حالياً.</p>
-            <button class="btn-action" style="background: #dc2626;" onclick="logoutAccount()">تسجيل الخروج / محاكاة انتهاء الشهر</button>
+        <div style="text-align: center;">
+            <button class="btn-action" style="background: #dc2626;" onclick="logoutAndExpire()">تسجيل الخروج / محاكاة انتهاء الشهر</button>
         </div>
     </div>
 </div>
@@ -231,9 +283,9 @@
 <div id="library" class="section-content">
     <div class="card">
         <h2>📚 المذكرات والفروض الحصرية (متوسط وثانوي)</h2>
-        <p style="color: varغالتtext-muted; text-align: center;">متاحة فقط للمشتركين الذين لديهم حساب مفعل خلال الـ 30 يوماً الحالية.</p>
+        <p style="color: var(--text-muted); text-align: center;">متاحة فقط للمشتركين الذين لديهم حساب مفعل خلال الـ 30 يوماً الحالية.</p>
         <div style="text-align: center; margin-top: 20px;">
-            <button class="btn-action" onclick="checkAccountAccess()">دخول واستعراض الملفات</button>
+            <button class="btn-action" onclick="checkAccountAccess()">تصفح مراجع وحلول الطورين</button>
         </div>
     </div>
 </div>
@@ -250,14 +302,40 @@
 </div>
 
 <script>
-    // تتبع حالة الحساب في المتصفح محلياً
-    let accountActive = localStorage.getItem('hamo_acc_active') === 'true';
+    let accountActive = localStorage.getItem('hamo_user_active') === 'true';
+    let storedName = localStorage.getItem('hamo_user_name') || '';
 
     window.onload = function() {
-        updateAccountUI();
+        if (accountActive && storedName) {
+            document.getElementById('authOverlay').style.display = 'none';
+            document.getElementById('welcomeUserText').innerHTML = `الأستاذ: ${storedName}`;
+            updateAccountUI();
+        } else {
+            document.getElementById('authOverlay').style.display = 'flex';
+        }
     };
 
+    function handleUserAuth(e) {
+        e.preventDefault();
+        const name = document.getElementById('authName').value;
+        
+        localStorage.setItem('hamo_user_active', 'true');
+        localStorage.setItem('hamo_user_name', name);
+        accountActive = true;
+        storedName = name;
+
+        document.getElementById('authOverlay').style.display = 'none';
+        document.getElementById('welcomeUserText').innerHTML = `الأستاذ: ${name}`;
+        updateAccountUI();
+        
+        alert(`أهلاً بك أستاذ ${name}! تم فتح حسابك الشخصي بنجاح بصلاحية 30 يوماً.`);
+    }
+
     function switchTab(sectionId, element) {
+        if(!accountActive) {
+            alert('يجب تسجيل الدخول أو تفعيل الحساب أولاً.');
+            return;
+        }
         document.querySelectorAll('.section-content').forEach(s => s.classList.remove('active'));
         document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
         document.getElementById(sectionId).classList.add('active');
@@ -269,64 +347,53 @@
         const box = document.getElementById('accountStatusCard');
         const title = document.getElementById('accTitle');
         const desc = document.getElementById('accDesc');
-        const form = document.getElementById('loginRegisterForm');
-        const logoutSec = document.getElementById('logoutSection');
+        const manualPay = document.getElementById('manualPaySection');
 
         if (accountActive) {
-            box.className = "account-box active";
+            box.style.display = 'block';
+            manualPay.style.display = 'none';
             title.style.color = "#065f46";
             title.innerHTML = "✅ حسابك الخاص مفعل ونشط";
-            desc.innerHTML = "لديك صلاحية الدخول وتلبية متطلباتك طوال فترة الـ 30 يوماً الحالية. عند انتهائها سيلزمك الدفع من جديد يدوياً.";
-            form.style.display = 'none';
-            logoutSec.style.display = 'block';
+            desc.innerHTML = "لديك صلاحية كاملة للدخول وتلبية متطلباتك طوال فترة الـ 30 يوماً. عند انتهائها سيلزمك الدفع اليدوي من جديد.";
         } else {
-            box.className = "account-box";
-            title.style.color = "#b45309";
-            title.innerHTML = "⚠️ حسابك يتطلب الدفع اليدوي للمتابعة";
-            desc.innerHTML = "انتهت مدة صلاحية حسابك (30 يوماً) أو لم تقم بتسجيل الدفع اليدوي الجديد. يرجى سداد المبلغ لتفعيل الحساب واستئناف الدخول.";
-            form.style.display = 'block';
-            logoutSec.style.display = 'none';
+            box.style.display = 'none';
+            manualPay.style.display = 'block';
         }
     }
 
-    function handleManualPayment(e) {
-        e.preventDefault();
-        const name = document.getElementById('userNameInput').value;
-        const amount = document.getElementById('serviceType').value;
-
+    function payMonthlyFee() {
         setTimeout(() => {
-            localStorage.setItem('hamo_acc_active', 'true');
+            localStorage.setItem('hamo_user_active', 'true');
             accountActive = true;
             updateAccountUI();
-            alert(`مرحباً بك أستاذ ${name}! تم تسجيل الدفع اليدوي (${amount} دج) بنجاح. حسابك الخاص مفعل الآن لمدة 30 يوماً.`);
-            switchTab('library', document.querySelectorAll('nav a')[1]);
-        }, 1000);
+            alert('تم تسجيل الدفع اليدوي بنجاح! تم تجديد حسابك لفترة 30 يوماً أخرى.');
+        }, 800);
     }
 
-    function logoutAccount() {
-        localStorage.removeItem('hamo_acc_active');
+    function logoutAndExpire() {
+        localStorage.removeItem('hamo_user_active');
         accountActive = false;
-        updateAccountUI();
-        alert('تم تسجيل الخروج وافتراض انتهاء مدة الـ 30 يوماً. سيطالبك الموقع بالدفع اليدوي الجديد عند محاولة الدخول مجدداً.');
+        document.getElementById('authOverlay').style.display = 'flex';
+        alert('تم انتهاء صلاحية الشهر أو تسجيل الخروج. يطالبك الموقع بالدفع اليدوي عند الدخول مجدداً.');
     }
 
     function checkAccountAccess() {
         if (accountActive) {
-            alert('أهلاً بك في حسابك الخاص! تم التحقق من تفعيل الشهر الحالي، يمكنك تصفح الملفات.');
+            alert('أهلاً بك! حسابك مفعل، يمكنك استعراض كافة المذكرات والفروض.');
         } else {
-            alert('عذراً، انتهت صلاحية حسابك أو لم تقم بدفع اشتراك هذا الشهر. يرجى إتمام الدفع اليدوي في صفحة الحساب.');
+            alert('انتهت صلاحية الشهر، يرجى تسديد المبلغ اليدوي في لوحة حسابك.');
             switchTab('account', document.querySelectorAll('nav a')[0]);
         }
     }
 
     function requestTimetableService() {
         if (accountActive) {
-            let confirmOrder = confirm('خدمة استعمالات الزمن والإسناد تتطلب رسوماً إضافية مستقلة عن اشتراك الشهر. هل ترغب في تأكيد الطلب؟');
+            let confirmOrder = confirm('طلب استعمالات الزمن والإسناد يتطلب رسوماً مستقلة. هل تؤكد إرسال الطلب؟');
             if(confirmOrder) {
-                alert('تم استلام طلبك لإعداد استعمالات الزمن والإسناد بنجاح، وسيتم معالجته وربطه بحسابك الخاص.');
+                alert('تم استلام طلبك لإعداد الجداول التنظيمية بنجاح.');
             }
         } else {
-            alert('يجب تفعيل حسابك الخاص أولاً قبل طلب خدمات استعمالات الزمن والإسناد.');
+            alert('يجب تفعيل حسابك الشخصي أولاً.');
             switchTab('account', document.querySelectorAll('nav a')[0]);
         }
     }
