@@ -20,7 +20,9 @@ h1{font-size:48px;line-height:1.15;margin:18px 0}h1 span{color:#c28c16}.lead{fon
 .mathbox{font-size:70px;text-align:center;color:#243b77;background:linear-gradient(145deg,#fff,#edf1fa)}
 section{max-width:1200px;margin:auto;padding:55px 6%}.title{text-align:center;margin-bottom:35px}.title h2{font-size:31px;margin:8px}.title p{color:#68748b}
 .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}.item{background:white;padding:23px;border-radius:18px;box-shadow:0 8px 25px #15234a10}.icon{font-size:30px}.item h3{margin:12px 0 8px}.item p{color:#69758a;line-height:1.7;font-size:14px}
-.challenge{background:#111c3c;color:white;border-radius:25px;padding:35px;display:flex;justify-content:space-between;align-items:center;gap:25px}.challenge p{color:#cbd3e8}.score{font-size:40px;color:#f4c95d;font-weight:900}
+.challenge{background:#111c3c;color:white;border-radius:25px;padding:35px;display:flex;flex-direction:column;gap:20px;box-shadow:0 15px 40px #15234a14}
+.challenge-box { background: rgba(255,255,255,0.05); padding: 20px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.1); }
+.challenge-options { display: flex; gap: 15px; margin-top: 15px; }
 .admin-box { background: #fff; border-radius: 22px; padding: 30px; box-shadow: 0 15px 40px #15234a14; margin-top: 30px; text-align: right; }
 .admin-box input[type="file"] { margin: 15px 0; padding: 10px; border: 1px solid #ccc; border-radius: 8px; width: 100%; }
 ul.file-list { list-style: none; padding: 0; margin-top: 20px; }
@@ -29,18 +31,18 @@ ul.file-list a { background: #263b78; color: white; padding: 8px 15px; border-ra
 ul.file-list a:hover { background: #101a3a; }
 footer{background:#101a3a;color:#cbd3e8;text-align:center;padding:30px;margin-top:30px}
 @media(max-width:850px){.hero{grid-template-columns:1fr;padding-top:50px}h1{font-size:36px}.grid{grid-template-columns:repeat(2,1fr)}nav{display:none}}
-@media(max-width:520px){.grid{grid-template-columns:1fr}.challenge{display:block}.mathbox{font-size:50px}}
+@media(max-width:520px){.grid{grid-template-columns:1fr}.mathbox{font-size:50px}}
 </style>
 </head>
 <body>
 <header><div class="nav"><div class="brand">سلسلة حمو <span>في الرياضيات</span></div>
-<nav><a href="#home">الرئيسية</a><a href="#lessons">الدروس</a><a href="#exercises">التمارين</a><a href="#files">الملفات</a><a href="#challenge">التحدي</a><a href="#about">الأستاذ</a></nav></div></header>
+<nav><a href="#home">الرئيسية</a><a href="#lessons">الدروس</a><a href="#files">الملفات</a><a href="#challenge">التحدي</a><a href="#about">الأستاذ</a></nav></div></header>
 
 <main id="home">
 <section class="hero">
 <div><span class="badge">منصة تعليمية للرياضيات</span>
 <h1>مفتاح التفوق<br><span>يبدأ من هنا.</span></h1>
-<p class="lead">دروس، تمارين، اختبارات وتحديات رياضية بأسلوب واضح ومنظم، لمساعدة تلاميذ التعليم الثانوي على بناء فهم قوي وتحقيق نتائج أفضل.</p>
+<p class="lead">دروس، تمارين، اختبارات وتحديات رياضية بأسلوب واضح ومنظم، لمساعدة تلاميذ التعليم الثانوي على بناء فهم قوي وتحقيق نتائج أفضل[span_0](start_span)[span_0](end_span).</p>
 <div class="buttons"><a class="btn primary" href="#lessons">اكتشف الدروس</a><a class="btn secondary" href="#files">إدارة وتحميل الملفات</a></div></div>
 <div class="card mathbox">∑ &nbsp; √x &nbsp; π<br><small>ℕ ⊂ ℤ ⊂ ℚ ⊂ ℝ</small></div>
 </section>
@@ -70,7 +72,22 @@ footer{background:#101a3a;color:#cbd3e8;text-align:center;padding:30px;margin-to
 </div>
 </section>
 
-<section id="challenge"><div class="challenge"><div><h2>⚡ تحدي حمو اليومي</h2><p>هل تستطيع حل السؤال قبل انتهاء الوقت؟</p></div><div><div class="score" id="timer">30</div><button class="btn primary" onclick="startChallenge()">ابدأ التحدي</button></div></div></section>
+<section id="challenge">
+<div class="challenge">
+    <div>
+        <h2>⚡ تحدي حمو اليومي</h2>
+        <p>اختبر معلوماتك حول المنصة وأجب بصحيح أو خطأ:</p>
+    </div>
+    <div class="challenge-box">
+        <p id="questionText" style="font-size: 18px; font-weight: bold; margin-bottom: 15px;">السؤال: الهدف الأساسي من "سلسلة حمو في الرياضيات" هو تقديم المحتوى بطريقة منظمة مع التركيز على الفهم والتدرج نحو التفوق[span_1](start_span)[span_1](end_span).</p>
+        <div class="challenge-options">
+            <button class="btn primary" onclick="checkAnswer(true)">صحيح ✅</button>
+            <button class="btn secondary" onclick="checkAnswer(false)" style="background:#e74c3c; color:white;">خاطئ ❌</button>
+        </div>
+        <p id="challengeResult" style="margin-top: 15px; font-weight: bold; font-size: 16px;"></p>
+    </div>
+</div>
+</section>
 
 <section id="about"><div class="title"><h2>عن الأستاذ</h2><p>الأستاذ حمو محمد أمين — أستاذ تعليم ثانوي في الرياضيات.</p></div>
 <div class="card"><h3>سلسلة حمو في الرياضيات</h3><p class="lead">هدف المنصة هو تقديم الرياضيات بطريقة منظمة، حديثة وممتعة، مع التركيز على الفهم، التدريب والتدرج نحو التفوق.</p></div></section>
@@ -78,9 +95,18 @@ footer{background:#101a3a;color:#cbd3e8;text-align:center;padding:30px;margin-to
 <footer>© 2026 سلسلة حمو في الرياضيات — إعداد الأستاذ: حمو محمد أمين</footer>
 
 <script>
-let t,active=false;
-function startChallenge(){if(active)return;active=true;let n=30;document.getElementById('timer').textContent=n;
-t=setInterval(()=>{n--;document.getElementById('timer').textContent=n;if(n<=0){clearInterval(t);active=false;alert('انتهى الوقت! حاول مرة أخرى 💪');}},1000)}
+// دالة التحقق من إجابة التحدي (صح أو خطأ)
+function checkAnswer(userChoice) {
+    const resultElement = document.getElementById('challengeResult');
+    // الإجابة صحيحة لأن العبارة صحيحة تماماً بناءً على هدف المنصة
+    if (userChoice === true) {
+        resultElement.style.color = '#2ecc71';
+        resultElement.innerText = '🎉 إجابة صحيحة! ممتاز، أنت متابع رائع للمنصة.';
+    } else {
+        resultElement.style.color = '#e74c3c';
+        resultElement.innerText = '❌ إجابة خاطئة، حاول مرة أخرى!';
+    }
+}
 
 // إعدادات الاتصال بـ Supabase
 const SUPABASE_URL = 'https://qsecmlcjdmpehhcqlali.supabase.co';
