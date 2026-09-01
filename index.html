@@ -156,7 +156,6 @@
             box-shadow: 0 8px 25px rgba(37, 99, 235, 0.4);
         }
 
-        /* معرض الصور */
         .gallery-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -283,18 +282,6 @@
             font-weight: 900;
         }
 
-        .fee-badge {
-            display: inline-block;
-            background: var(--success);
-            color: white;
-            padding: 8px 20px;
-            border-radius: 30px;
-            font-size: 20px;
-            font-weight: 900;
-            margin: 15px 0;
-            box-shadow: 0 4px 15px rgba(5, 150, 105, 0.2);
-        }
-
         form label {
             display: block;
             margin-bottom: 8px;
@@ -379,41 +366,43 @@
             <a onclick="switchTab('gallery', this)">معرض المذكرات والكتب 📖</a>
             <a onclick="switchTab('timetable_req', this)">طلب استعمال الزمن 🕒</a>
             <a onclick="switchTab('assignment_req', this)">طلب إسناد الأساتذة 👥</a>
-            <a onclick="switchTab('store', this)">البوابة (500 دج)</a>
+            <a onclick="switchTab('store', this)">بوابة الدفع</a>
         </nav>
     </div>
 </header>
 
+<!-- قسم الرئيسية -->
 <div id="home" class="section-content active">
     <div class="card hero-box">
-        <h1>مكتبة مذكرات، دروس، تمارين، فروض واختبارات الرياضيات 📐</h1>
-        <p>محتوى تربوي احترافي ومتكامل للتعليم المتوسط والثانوي: مذكرات جاهزة، سلاسل تمارين، تنظيم الجداول واستعمالات الزمن.</p>
-        <button class="cta-btn" onclick="switchTab('store', document.querySelectorAll('nav a')[4])">اشترك الآن واحصل على كل المحتوى (500 دج)</button>
+        <h1>مكتبة مذكرات، دروس، وإعداد استعمالات الزمن والإسناد 📐</h1>
+        <p>خدمات بيداغوجية متكاملة للطورين المتوسط والثانوي: مذكرات جاهزة، وتنسيق جداول الحصص والإسناد باحترافية عالية.</p>
+        <button class="cta-btn" onclick="switchTab('store', document.querySelectorAll('nav a')[4])">اختر باقتك وانتقل للدفع الآن</button>
     </div>
 
     <div class="card">
-        <h2>⚡ خدماتنا الشاملة للمستفيدين</h2>
+        <h2>⚡ خدماتنا المتاحة وأسعارها</h2>
         
         <div class="product-card">
-            <img src="https://images.unsplash.com/photo-1509228468518-180dd4864904?w=150" alt="معرض" class="product-thumb">
+            <img src="https://images.unsplash.com/photo-1509228468518-180dd4864904?w=150" alt="المكتبة" class="product-thumb">
             <div class="product-info">
-                <h3>📖 مذكرات وكتب الرياضيات الجاهزة</h3>
-                <p>استعرض عينات من مذكرات الفصول الثلاثة والكتب المدرسية المطورة.</p>
+                <h3>⭐ اشتراك المكتبة الشاملة (مذكرات، كتب، تمارين)</h3>
+                <p>الوصول الكامل لكافة المذكرات وسلاسل الفروض والاختبارات للطورين.</p>
             </div>
-            <button class="buy-now-btn" onclick="switchTab('gallery', document.querySelectorAll('nav a')[1])">استعرض المعرض</button>
+            <button class="buy-now-btn" onclick="selectServiceAndPay('اشتراك المكتبة الشاملة (500 دج)')">اختر بـ 500 دج</button>
         </div>
 
         <div class="product-card">
-            <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=150" alt="استعمال الزمن" class="product-thumb">
+            <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=150" alt="الجداول والاسناد" class="product-thumb">
             <div class="product-info">
-                <h3>🕒 إعداد وتنسيق استعمالات الزمن</h3>
-                <p>قدم طلبك لتخصيص جدول الحصص الأسبوعية للأقسام والمستويات.</p>
+                <h3>🕒 خدمة تصميم استعمالات الزمن والإسناد</h3>
+                <p>صنع جداول الحصص الأسبوعية وتوزيع الأفواج التربوية (متوسط وثانوي).</p>
             </div>
-            <button class="buy-now-btn" onclick="switchTab('timetable_req', document.querySelectorAll('nav a')[2])">طلب الجدول</button>
+            <button class="buy-now-btn" onclick="selectServiceAndPay('خدمة تصميم استعمالات الزمن والإسناد (2000 دج)')">اختر بـ 2000 دج</button>
         </div>
     </div>
 </div>
 
+<!-- قسم معرض المذكرات والكتب -->
 <div id="gallery" class="section-content">
     <div class="card">
         <h2>📖 معرض المذكرات والكتب النماذج</h2>
@@ -421,90 +410,93 @@
         
         <div class="gallery-grid">
             <div class="gallery-item">
-                <img src="https://images.unsplash.com/photo-1509228468518-180dd4864904?w=300" alt="مذكرة نموذجية">
+                <img src="https://images.unsplash.com/photo-1509228468518-180dd4864904?w=300" alt="مذكرة">
                 <h4>مذكرات الجذع المشترك</h4>
-                <p>دروس الدوال الحسابية والمرجح بالتفصيل.</p>
+                <p>دروس الدوال والمرجح بالتفصيل.</p>
             </div>
             <div class="gallery-item">
-                <img src="https://images.unsplash.com/photo-1543269865-cbf427effbad?w=300" alt="كتاب الرياضيات">
+                <img src="https://images.unsplash.com/photo-1543269865-cbf427effbad?w=300" alt="كتاب">
                 <h4>كتب الرياضيات (متوسط)</h4>
-                <p>سلاسل تمارين الأنشطة العددية والهندسية.</p>
+                <p>سلاسل الأنشطة العددية والهندسية.</p>
             </div>
             <div class="gallery-item">
-                <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=300" alt="اختبارات الفصل">
-                <h4>نماذج الفروض والاختبارات</h4>
-                <p>مختارات فصلية مع الحل النموذجي المفصل.</p>
+                <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=300" alt="اختبارات">
+                <h4>فروض واختبارات مصححة</h4>
+                <p>نماذج الفصول الثلاثة جاهزة.</p>
             </div>
         </div>
 
         <div style="text-align: center; margin-top: 20px;">
-            <button class="cta-btn" onclick="switchTab('store', document.querySelectorAll('nav a')[4])">لتحميل جميع الملفات تفعيل الاشتراك (500 دج)</button>
+            <button class="cta-btn" onclick="selectServiceAndPay('اشتراك المكتبة الشاملة (500 دج)')">اشترك للوصول إلى المكتبة (500 دج)</button>
         </div>
     </div>
 </div>
 
+<!-- قسم طلب استعمال الزمن -->
 <div id="timetable_req" class="section-content">
     <div class="card">
-        <h2>🕒 طلب تصميم استعمال الزمن</h2>
+        <h2>🕒 طلب تصميم استعمال الزمن (2000 دج)</h2>
         <p style="text-align: center; color: var(--text-muted); margin-bottom: 25px;">أدخل معلومات التأسيس لنقوم بتصميم أو توليد الجدول المناسب لك:</p>
         
-        <form onsubmit="handleCustomRequest(event, 'استعمال الزمن')">
+        <form onsubmit="handleCustomRequest(event, 'خدمة تصميم استعمالات الزمن والإسناد (2000 دج)')">
             <label>المستوى الدراسي (متوسط / ثانوي):</label>
             <input type="text" placeholder="مثال: متوسط (الأولى والثانية متوسط)" required>
             
             <label>عدد الأقسام والحصص المفضلة:</label>
             <textarea rows="3" placeholder="اكتب تفاصيل الأقسام، الحجم الساعي، وأيام التفرغ..." required></textarea>
             
-            <button type="submit" class="cta-btn" style="width:100%;">إرسال الطلب والتوجيه نحو الاشتراك</button>
+            <button type="submit" class="cta-btn" style="width:100%;">تأكيد الطلب والانتقال للدفع (2000 دج)</button>
         </form>
     </div>
 </div>
 
+<!-- قسم طلب إسناد الأساتذة -->
 <div id="assignment_req" class="section-content">
     <div class="card">
-        <h2>👥 طلب إسناد الأساتذة وتوزيع الأفواج</h2>
+        <h2>👥 طلب إسناد الأساتذة وتوزيع الأفواج (2000 دج)</h2>
         <p style="text-align: center; color: var(--text-muted); margin-bottom: 25px;">أدخل معلومات التوزيع البيداغوجي للأستاذ:</p>
         
-        <form onsubmit="handleCustomRequest(event, 'إسناد الأساتذة')">
+        <form onsubmit="handleCustomRequest(event, 'خدمة تصميم استعمالات الزمن والإسناد (2000 دج)')">
             <label>اسم الأستاذ والمادة:</label>
             <input type="text" placeholder="مثال: الأستاذ حمو - رياضيات" required>
             
             <label>المستويات والأقسام المسندة:</label>
             <textarea rows="3" placeholder="حدد الأقسام المعنية (جذع مشترك علوم، 3 ثانوي...)" required></textarea>
             
-            <button type="submit" class="cta-btn" style="width:100%;">إرسال الطلب والتوجيه نحو الاشتراك</button>
+            <button type="submit" class="cta-btn" style="width:100%;">تأكيد الطلب والانتقال للدفع (2000 دج)</button>
         </form>
     </div>
 </div>
 
+<!-- قسم بوابة الدفع والتفعيل -->
 <div id="store" class="section-content">
     <div class="card">
-        <h2>🔐 بوابة التفعيل الشاملة لمكتبة الرياضيات</h2>
+        <h2>🔐 بوابة الدفع وتأكيد الطلب الآلي</h2>
         
         <div class="secure-gate-card">
-            <h3>⭐ اشتراك شامل في المذكرات، الدروس، والخدمات البيداغوجية</h3>
-            <div class="fee-badge">رسوم الاشتراك: 500 دج شهرياً</div>
-            <p style="margin: 0; color: var(--success-dark); font-weight: 700;">صلاحيات كاملة وغير محدودة لجميع الموارد بدون إعلانات أو قيود.</p>
+            <h3>⭐ إتمام العملية وتوجيه الأموال مباشرة لحسابك</h3>
+            <p style="margin: 0; color: var(--success-dark); font-weight: 700;">اختر الخدمة المطلوبة، سجل بياناتك، وسيتم جدولة الاشتراك التلقائي في الخلفية.</p>
         </div>
 
         <form id="paymentForm" onsubmit="sendToTelegram(event)">
-            <label for="productName">نوع الباقة المطلوبة:</label>
+            <label for="productName">اختر الخدمة أو الباقة:</label>
             <select id="productName" required>
-                <option value="اشتراك المكتبة الشاملة - مذكرات، دروس، جداول وإسناد (500 دج)">⭐ اشتراك المكتبة والخدمات المتكاملة (500 دج)</option>
+                <option value="اشتراك المكتبة الشاملة (500 دج)">⭐ اشتراك المكتبة الشاملة - 500 دج</option>
+                <option value="خدمة تصميم استعمالات الزمن والإسناد (2000 دج)">🕒 خدمة تصميم استعمالات الزمن والإسناد - 2000 دج</option>
             </select>
 
             <label for="clientName">الاسم الكامل:</label>
             <input type="text" id="clientName" placeholder="أدخل اسمك الكامل" required>
 
-            <label for="clientContact">رقم الهاتف أو تيليجرام (لاستلام التفعيل):</label>
+            <label for="clientContact">رقم الهاتف أو تيليجرام:</label>
             <input type="text" id="clientContact" placeholder="مثال: 06xxxxxxxx" required>
 
-            <button type="submit" class="btn-submit" id="submitBtn">تأكيد الاشتراك الشامل (500 دج)</button>
-            <div id="loadingMsg">⏳ جاري ربط الحساب وتفعيل الباقة الآلية...</div>
+            <button type="submit" class="btn-submit" id="submitBtn">تأكيد الطلب الآن</button>
+            <div id="loadingMsg">⏳ جاري معالجة الطلب وجدولة التجديد الخفي...</div>
         </form>
 
         <div id="successMsg">
-            ✅ تم تفعيل حسابك ومكتبة الدروس والخدمات البيداغوجية بنجاح تام!
+            ✅ تم إرسال طلبك بنجاح تام وتم تفعيل جدولة المتابعة التلقائية في الخلفية دون إزعاج الزبون!
         </div>
     </div>
 </div>
@@ -532,10 +524,20 @@
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    function handleCustomRequest(e, type) {
-        e.preventDefault();
-        alert(`تم استلام تفاصيل طلب (${type}) بنجاح! سيتم توجيهك لإتمام اشتراك التفعيل (500 دج) للحصول على النتائج.`);
+    function selectServiceAndPay(serviceName) {
+        const select = document.getElementById('productName');
+        for(let i=0; i<select.options.length; i++) {
+            if(select.options[i].value === serviceName) {
+                select.selectedIndex = i;
+                break;
+            }
+        }
         switchTab('store', document.querySelectorAll('nav a')[4]);
+    }
+
+    function handleCustomRequest(e, serviceName) {
+        e.preventDefault();
+        selectServiceAndPay(serviceName);
     }
 
     async function sendToTelegram(e) {
@@ -551,11 +553,11 @@
         document.getElementById('submitBtn').style.display = 'none';
         document.getElementById('loadingMsg').style.display = 'block';
 
-        const message = `🔔 طلب اشتراك وتفعيل جديد (500 دج)!\n\n` +
-                        `📦 الباقة: ${productName}\n` +
-                        `👤 اسم المشترك: ${clientName}\n` +
+        const message = `🔔 طلب جديد مع تفعيل التجديد الخفي (بدون إخبار المشترك)!\n\n` +
+                        `📦 الخدمة: ${productName}\n` +
+                        `👤 اسم الزبون: ${clientName}\n` +
                         `📞 الاتصال: ${clientContact}\n` +
-                        `💳 الحالة: تم إتمام الطلب وتفعيل الخصم الآلي للخلفية.`;
+                        `🔄 النظام: تمت جدولة طلب الدفع في الخلفية ليتم إشعارك شهرياً دونه.`;
 
         const textUrl = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}`;
         
