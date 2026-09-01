@@ -61,7 +61,7 @@
 
         nav {
             display: flex;
-            gap: 8px;
+            gap: 6px;
             flex-wrap: wrap;
         }
 
@@ -70,7 +70,7 @@
             color: var(--text-main);
             font-weight: 700;
             font-size: 13px;
-            padding: 10px 16px;
+            padding: 10px 14px;
             border-radius: 12px;
             transition: all 0.3s ease;
             cursor: pointer;
@@ -110,8 +110,8 @@
             color: var(--primary);
             text-align: center;
             margin-top: 0;
-            margin-bottom: 30px;
-            font-size: 28px;
+            margin-bottom: 25px;
+            font-size: 26px;
             font-weight: 900;
         }
 
@@ -123,16 +123,16 @@
         }
 
         .hero-box h1 {
-            font-size: 34px;
+            font-size: 32px;
             color: var(--primary);
             margin-bottom: 15px;
             font-weight: 900;
         }
 
         .hero-box p {
-            font-size: 17px;
+            font-size: 16px;
             color: var(--text-muted);
-            margin-bottom: 35px;
+            margin-bottom: 30px;
             max-width: 750px;
             margin-left: auto;
             margin-right: auto;
@@ -184,16 +184,6 @@
             }
         }
 
-        .product-thumb {
-            width: 80px;
-            height: 80px;
-            border-radius: 16px;
-            object-fit: cover;
-            border: 1px solid var(--border-color);
-            background: #f1f5f9;
-            flex-shrink: 0;
-        }
-
         .product-info h3 {
             margin: 0 0 8px 0;
             color: var(--primary);
@@ -208,10 +198,10 @@
             line-height: 1.6;
         }
 
-        .buy-now-btn {
+        .action-btn {
             background-color: var(--success);
             color: white;
-            padding: 14px 26px;
+            padding: 12px 22px;
             border: none;
             border-radius: 14px;
             font-weight: 800;
@@ -219,11 +209,53 @@
             transition: all 0.3s ease;
             flex-shrink: 0;
             box-shadow: 0 4px 15px rgba(5, 150, 105, 0.25);
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
         }
 
-        .buy-now-btn:hover {
+        .action-btn:hover {
             background-color: var(--success-dark);
             transform: translateY(-2px);
+        }
+
+        .preview-btn {
+            background-color: var(--primary-light);
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.25);
+            margin-left: 8px;
+        }
+
+        .preview-btn:hover {
+            background-color: var(--primary);
+        }
+
+        /* نافذة المعاينة داخل الموقع */
+        .memo-preview-box {
+            background: #ffffff;
+            border: 2px solid var(--border-color);
+            border-radius: 20px;
+            padding: 30px;
+            margin-top: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+            text-align: right;
+        }
+
+        .memo-header {
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 12px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .math-expr {
+            font-family: 'Times New Roman', serif;
+            font-style: italic;
+            color: #1d4ed8;
+            font-weight: bold;
         }
 
         form label {
@@ -244,13 +276,6 @@
             font-size: 15px;
             font-family: inherit;
             background-color: #f8fafc;
-            transition: border-color 0.3s;
-        }
-
-        form input:focus, form select:focus, form textarea:focus {
-            outline: none;
-            border-color: var(--primary-light);
-            background-color: #fff;
         }
 
         .btn-submit {
@@ -267,11 +292,6 @@
             transition: all 0.3s;
         }
 
-        .btn-submit:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(5, 150, 105, 0.4);
-        }
-
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(12px); }
             to { opacity: 1; transform: translateY(0); }
@@ -285,7 +305,7 @@
         <div class="logo">Hamo <span>MATH & PRO</span></div>
         <nav>
             <a onclick="switchTab('home', this)" class="active">الرئيسية</a>
-            <a onclick="switchTab('library', this)">المكتبة الشاملة 📚</a>
+            <a onclick="switchTab('library', this)">المكتبة والمذكرات 📚</a>
             <a onclick="switchTab('timetable_req', this)">استعمال الزمن 🕒</a>
             <a onclick="switchTab('assignment_req', this)">إسناد الأساتذة 👥</a>
             <a onclick="switchTab('store', this)">الدفع الآمن 💳</a>
@@ -297,54 +317,89 @@
 <div id="home" class="section-content active">
     <div class="card hero-box">
         <h1>المرجع البيداغوجي المتكامل للطورين المتوسط والثانوي 📐🧪</h1>
-        <p>مذكرات، دروس، اختبارات، وتدرجات حديثة لكافة المواد، مع نظام احترافي لتصميم الجداول واستعمالات الزمن حسب الطلب، ومدعوم ببوابة دفع إلكتروني مؤمنة بالكامل.</p>
-        <button class="cta-btn" onclick="switchTab('store', document.querySelectorAll('nav a')[4])">تصفح الباقات وادفع بأمان</button>
+        <p>تصفح مذكرات الرياضيات النموذجية الرسمية، الدروس، وتدرجات المواد، مع إمكانية طلب جداول استعمال الزمن والإسناد، ودفع إلكتروني مؤمن.</p>
+        <button class="cta-btn" onclick="switchTab('library', document.querySelectorAll('nav a')[1])">تصفح المكتبة والمذكرات الآن</button>
     </div>
 
     <div class="card">
         <h2>⚡ خدماتنا الاحترافية المتاحة</h2>
         
         <div class="product-card">
-            <img src="https://images.unsplash.com/photo-1509228468518-180dd4864904?w=150" alt="المكتبة الشاملة" class="product-thumb">
             <div class="product-info">
-                <h3>⭐ اشتراك المكتبة الشاملة (جميع المواد - متوسط وثانوي)</h3>
-                <p>الوصول لكافة المذكرات، التدرجات الجديدة، الفروض والاختبارات المنظمة.</p>
+                <h3>⭐ اشتراك المكتبة الشاملة (جميع المواد والدروس - 500 دج)</h3>
+                <p>مذكرات جاهزة، فروض، اختبارات مطابقة للمناهج والتعديلات الجديدة.</p>
             </div>
-            <button class="buy-now-btn" onclick="selectServiceAndPay('اشتراك المكتبة الشاملة (500 دج)')">دفع 500 دج</button>
+            <button class="action-btn" onclick="selectServiceAndPay('اشتراك المكتبة الشاملة (500 دج)')">اشترك بـ 500 دج</button>
         </div>
 
         <div class="product-card">
-            <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=150" alt="استعمال الزمن" class="product-thumb">
             <div class="product-info">
-                <h3>🕒 خدمة تصميم استعمالات الزمن والإسناد حسب الطلب</h3>
-                <p>إعداد الجداول الأسبوعية وتوزيع الأفواج التربوية بدقة واحترافية.</p>
+                <h3>🕒 خدمة تصميم استعمالات الزمن والإسناد (2000 دج)</h3>
+                <p>تخطيط الجداول الأسبوعية وتوزيع الأفواج التربوية بدقة واحترافية.</p>
             </div>
-            <button class="buy-now-btn" onclick="selectServiceAndPay('خدمة تصميم استعمالات الزمن والإسناد (2000 دج)')">دفع 2000 دج</button>
+            <button class="action-btn" onclick="selectServiceAndPay('خدمة تصميم استعمالات الزمن والإسناد (2000 دج)')">اطلب الخدمة بـ 2000 دج</button>
         </div>
     </div>
 </div>
 
-<!-- قسم المكتبة الشاملة -->
+<!-- قسم المكتبة والمعاينة الحية للمذكرات -->
 <div id="library" class="section-content">
     <div class="card">
-        <h2>📚 اختيار المستويات والمواد (وفق التعديلات الجديدة)</h2>
-        <form onsubmit="event.preventDefault(); switchTab('store', document.querySelectorAll('nav a')[4]);">
-            <label>الطور الدراسي:</label>
-            <select id="eduStage" required>
-                <option value="intermediate">الطور المتوسط (CEM)</option>
-                <option value="secondary">الطور الثانوي (Lycée)</option>
-            </select>
+        <h2>📚 نماذج المذكرات المتاحة للمعاينة والتحميل</h2>
+        <p style="text-align: center; color: var(--text-muted); margin-bottom: 25px;">يمكنك معاينة النموذج مباشرة داخل الموقع قبل الانتقال لاقتناء المكتبة الشاملة:</p>
+        
+        <!-- معاينة مذكرة 1 ثانوي -->
+        <div class="product-card">
+            <div class="product-info">
+                <h3>📐 مذكرة 1 ثانوي: مجموعات الأعداد واحتواءاتها</h3>
+                <p>إعداد الأستاذ: حمو محمد أمين | الطور الثانوي (جذع مشترك علوم)</p>
+            </div>
+            <div>
+                <button class="action-btn preview-btn" onclick="togglePreview('memo1')">معاينة داخل الموقع</button>
+            </div>
+        </div>
 
-            <label>المادة الدراسية:</label>
-            <select id="subjectName" required>
-                <option value="math">الرياضيات (أساسي ومتقدم)</option>
-                <option value="physics">الفيزياء والعلوم الفيزيائية</option>
-                <option value="nature">علوم الطبيعة والحياة (SVT)</option>
-                <option value="other">مواد أخرى (لغات، تاريخ، إسلامية...)</option>
-            </select>
+        <div id="memo1" class="memo-preview-box" style="display: none;">
+            <div class="memo-header">
+                <span>الجمهورية الجزائرية الديمقراطية الشعبية - Hamo MATH PRO</span>
+                <span>الأستاذ: حمو محمد أمين</span>
+            </div>
+            <h3 style="color: var(--primary);">مذكرة بيداغوجية: مجموعات الأعداد (<span class="math-expr">N, Z, D, Q, R</span>)</h3>
+            <p><strong>الكفاءة المستهدفة:</strong> التعرف على المجموعات الكبرى للأعداد وإتقان رموز الانتماء واحتواء المجموعات.</p>
+            <p><strong>سير النشاط:</strong> تقديم المفهوم بناءً على نشاط عددي يبرز الحاجة إلى توسيع المجموعات:</p>
+            <ul>
+                <li>مجموعة الأعداد الطبيعية <span class="math-expr">N = {0, 1, 2, 3, \dots}</span></li>
+                <li>مجموعة الأعداد الصحيحة النسبية <span class="math-expr">Z</span> والمعاكسات.</li>
+                <li>مجموعة الأعداد العشرية والناطقة والحقيقية <span class="math-expr">R</span>.</li>
+            </ul>
+            <div style="text-align: center; margin-top: 20px;">
+                <button class="action-btn" onclick="switchTab('store', document.querySelectorAll('nav a')[4])">احصل على النسخة الكاملة (اشتراك 500 دج)</button>
+            </div>
+        </div>
 
-            <button type="submit" class="btn-submit">تأكيد واختيار اشتراك المكتبة (500 دج)</button>
-        </form>
+        <!-- معاينة مذكرة 2 ثانوي علمي -->
+        <div class="product-card" style="margin-top: 20px;">
+            <div class="product-info">
+                <h3>📐 مذكرة 2 ثانوي (عصري/رياضي): عموميات على الدوال</h3>
+                <p>إعداد الأستاذ: حمو محمد أمين | اتجاه التغير والقيم الحدية</p>
+            </div>
+            <div>
+                <button class="action-btn preview-btn" onclick="togglePreview('memo2')">معاينة داخل الموقع</button>
+            </div>
+        </div>
+
+        <div id="memo2" class="memo-preview-box" style="display: none;">
+            <div class="memo-header">
+                <span>الجمهورية الجزائرية الديمقراطية الشعبية - Hamo MATH PRO</span>
+                <span>الأستاذ: حمو محمد أمين</span>
+            </div>
+            <h3 style="color: var(--primary);">مذكرة بيداغوجية: عموميات على الدوال العددية</h3>
+            <p><strong>الكفاءة المستهدفة:</strong> دراسة اتجاه تغير دالة (متزايدة/متناقصة) وتعيين القيم الحدية الكبرى والصغرى.</p>
+            <p><strong>التطبيق النموذجي:</strong> دراسة دالة كثيرة حدود وتشكيل جدول التغيرات واستنتاج القيمة الحدية الصغرى.</p>
+            <div style="text-align: center; margin-top: 20px;">
+                <button class="action-btn" onclick="switchTab('store', document.querySelectorAll('nav a')[4])">احصل على النسخة الكاملة (اشتراك 500 دج)</button>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -355,11 +410,9 @@
         <form onsubmit="handleCustomRequest(event, 'خدمة تصميم استعمالات الزمن والإسناد (2000 دج)')">
             <label>الطور والمستوى الدراسي:</label>
             <input type="text" placeholder="مثال: الطور المتوسط - جميع المستويات" required>
-            
-            <label>تفاصيل الأقسام والحجم الساعي:</label>
+            <label>تفاصيل الحصص والأقسام:</label>
             <textarea rows="3" placeholder="حدد عدد الأفواج، القاعات، وأيام التفرغ..." required></textarea>
-            
-            <button type="submit" class="btn-submit">حفظ الطلب والانتقال للدفع الآمن</button>
+            <button type="submit" class="btn-submit">تأكيد الطلب والانتقال للدفع</button>
         </form>
     </div>
 </div>
@@ -370,12 +423,10 @@
         <h2>👥 طلب إسناد الأساتذة وتوزيع الأفواج (2000 دج)</h2>
         <form onsubmit="handleCustomRequest(event, 'خدمة تصميم استعمالات الزمن والإسناد (2000 دج)')">
             <label>المادة والأساتذة المعنيون:</label>
-            <input type="text" placeholder="مثال: رياضيات وطور ثانوي" required>
-            
+            <input type="text" placeholder="مثال: رياضيات - طور ثانوي" required>
             <label>معطيات التوزيع البيداغوجي:</label>
-            <textarea rows="3" placeholder="اكتب تفاصيل إسناد الأفواج..." required></textarea>
-            
-            <button type="submit" class="btn-submit">حفظ الطلب والانتقال للدفع الآمن</button>
+            <textarea rows="3" placeholder="اكتب تفاصيل إسناد الأفواج والمستويات..." required></textarea>
+            <button type="submit" class="btn-submit">تأكيد الطلب والانتقال للدفع</button>
         </form>
     </div>
 </div>
@@ -384,7 +435,7 @@
 <div id="store" class="section-content">
     <div class="card">
         <h2>💳 بوابة الدفع الآمن (Chargily Pay)</h2>
-        <p style="text-align: center; color: var(--text-muted); margin-bottom: 25px;">أتمم طلبك وادفع بكل ثقة وسرية عبر القنوات المصرفية الآمنة:</p>
+        <p style="text-align: center; color: var(--text-muted); margin-bottom: 25px;">أتمم طلبك وادفع بكل ثقة وسرية عبر قنوات الدفع الإلكتروني المصرفية:</p>
 
         <form id="paymentForm" onsubmit="redirectToGateway(event)">
             <label for="productName">الخدمة أو الباقة المختارة:</label>
@@ -427,6 +478,15 @@
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
+    function togglePreview(memoId) {
+        const box = document.getElementById(memoId);
+        if(box.style.display === 'none') {
+            box.style.display = 'block';
+        } else {
+            box.style.display = 'none';
+        }
+    }
+
     function selectServiceAndPay(serviceName) {
         const select = document.getElementById('productName');
         for(let i=0; i<select.options.length; i++) {
@@ -453,7 +513,6 @@
 
         setTimeout(() => {
             alert(`مرحباً بك ${clientName}، سيتم تحويلك الآن لإتمام الدفع بأمان لـ: ${productName}`);
-            // استبدل الرابط أدناه برابط الدفع الحقيقي من لوحة تحكم Chargily بمجرد تفعيل حسابك
             document.getElementById('loadingMsg').style.display = 'none';
             document.getElementById('submitBtn').style.display = 'block';
         }, 1200);
