@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة الذكاء الاصطناعي للتعليم الجزائري | الأستاذ حمو محمد أمين</title>
+    <title>البوابة الشاملة للمستويات الدراسية | الأستاذ حمو محمد أمين</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; }
@@ -103,8 +103,8 @@
             color: #fff;
         }
 
-        /* اختيار المواد بدقة */
-        .subject-bar {
+        /* شريط اختيار السنوات الدراسية بدقة */
+        .year-bar {
             display: flex;
             justify-content: center;
             gap: 8px;
@@ -112,20 +112,20 @@
             flex-wrap: wrap;
         }
 
-        .sub-btn {
+        .year-btn {
             background: rgba(255,255,255,0.03);
             border: 1px solid rgba(255,255,255,0.1);
             color: #94a3b8;
-            padding: 8px 16px;
+            padding: 8px 14px;
             border-radius: 12px;
             font-weight: 800;
-            font-size: 13px;
+            font-size: 12px;
             cursor: pointer;
             font-family: 'Cairo', sans-serif;
             transition: 0.3s;
         }
 
-        .sub-btn:hover, .sub-btn.active {
+        .year-btn:hover, .year-btn.active {
             background: #0ea5e9;
             color: #fff;
             border-color: #0ea5e9;
@@ -178,6 +178,18 @@
             padding: 3px 10px;
             border-radius: 6px;
             margin-bottom: 10px;
+        }
+
+        .badge-subject {
+            display: inline-block;
+            background: rgba(14, 165, 233, 0.15);
+            color: #38bdf8;
+            font-size: 11px;
+            font-weight: 800;
+            padding: 3px 10px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            margin-right: 5px;
         }
 
         .btn-action {
@@ -333,11 +345,11 @@
 
 <header>
     <div class="brand">
-        <h1>منصة التعليم الجزائري الذكية</h1>
+        <h1>منصة المناهج الدراسية لكل سنة</h1>
         <span id="userBadge">إشراف: الأستاذ حمو محمد أمين</span>
     </div>
     <nav>
-        <button onclick="switchTab('books', this)" class="active">الكتب والمراجع 📚</button>
+        <button onclick="switchTab('books', this)" class="active">الكتب والمراجع الثمينة 📚</button>
         <button onclick="switchTab('annales', this)">الحوليات والامتحانات 🏆</button>
         <button onclick="switchTab('moudhakkirat', this)">المذكرات والدروس 📝</button>
         <button onclick="switchTab('aiAssistant', this)">مساعد الذكاء الاصطناعي 🤖</button>
@@ -347,7 +359,7 @@
 <div id="modal">
     <div class="modal-box">
         <h3 style="color:#fff; margin-top:0;">👑 تفعيل الحساب الشامل</h3>
-        <p style="font-size:12px; color:#94a3b8; line-height:1.5;">لتحميل الكتب، الحوليات الثمينة، والوصول المفتوح لمساعد الذكاء الاصطناعي برسم (500 دج):</p>
+        <p style="font-size:12px; color:#94a3b8; line-height:1.5;">لتحميل كتب كل سنة، الحوليات الغنية، والمذكرات والوصول المفتوح لمساعد الذكاء الاصطناعي برسم (500 دج):</p>
         <input type="text" id="userNameInput" placeholder="الاسم الكريم أو اللقب المهني">
         <input type="text" id="userPhoneInput" placeholder="رقم الهاتف الشخصي (06xxxxxxxx)">
         <button onclick="saveActivation()">تفعيل الحساب والبدء الفوري 🚀</button>
@@ -356,38 +368,46 @@
 
 <div class="container">
 
-    <!-- قسم الكتب والمراجع -->
+    <!-- قسم الكتب والمراجع لكل سنة -->
     <div id="books" class="section active">
-        <h2>📚 الكتب والمراجع الثمينة لكل مادة ومستوى</h2>
-        <div class="subject-bar">
-            <button class="sub-btn active" onclick="filterBooks('all', this)">الكل</button>
-            <button class="sub-btn" onclick="filterBooks('math', this)">الرياضيات</button>
-            <button class="sub-btn" onclick="filterBooks('physics', this)">الفيزياء والعلوم</button>
-            <button class="sub-btn" onclick="filterBooks('arabic', this)">اللغة العربية والأدب</button>
-            <button class="sub-btn" onclick="filterBooks('philosophy', this)">الفلسفة واللغات</button>
+        <h2>📚 الكتب المدرسية والمراجع الغنية (مفصلة لكل سنة على حدة)</h2>
+        <div class="year-bar">
+            <button class="year-btn active" onclick="filterBooks('all', this)">كل السنوات</button>
+            <button class="year-btn" onclick="filterBooks('1am', this)">الأولى متوسط</button>
+            <button class="year-btn" onclick="filterBooks('2am', this)">الثانية متوسط</button>
+            <button class="year-btn" onclick="filterBooks('3am', this)">الثالثة متوسط</button>
+            <button class="year-btn" onclick="filterBooks('4am', this)">الرابعة متوسط (BEM)</button>
+            <button class="year-btn" onclick="filterBooks('1as',this)">الأولى ثانوي</button>
+            <button class="year-btn" onclick="filterBooks('2as',this)">الثانية ثانوي</button>
+            <button class="year-btn" onclick="filterBooks('3as',this)">الثالثة ثانوي (BAC)</button>
         </div>
         <div class="grid" id="booksGrid"></div>
     </div>
 
-    <!-- قسم الحوليات والامتحانات -->
+    <!-- قسم الحوليات والامتحانات لكل سنة -->
     <div id="annales" class="section">
-        <h2>🏆 حوليات الامتحانات الرسمية (L'annales) مع الحلول النموذجية</h2>
-        <div class="subject-bar">
-            <button class="sub-btn active" onclick="filterAnnales('all', this)">الكل</button>
-            <button class="sub-btn" onclick="filterAnnales('bem', this)">شهادة التعليم المتوسط BEM</button>
-            <button class="sub-btn" onclick="filterAnnales('bac', this)">شهادة البكالوريا BAC</button>
+        <h2>🏆 حوليات الامتحانات الرسمية الغنية (مفصلة لكل سنة وسياق)</h2>
+        <div class="year-bar">
+            <button class="year-btn active" onclick="filterAnnales('all', this)">كل الحوليات</button>
+            <button class="year-btn" onclick="filterAnnales('bem', this)">شهادة التعليم المتوسط BEM</button>
+            <button class="year-btn" onclick="filterAnnales('bac', this)">شهادة البكالوريا BAC (جميع الشعب)</button>
+            <button class="year-btn" onclick="filterAnnales('fصول', this)">اختبارات الفصول الثلاثة لكل المستويات</button>
         </div>
         <div class="grid" id="annalesGrid"></div>
     </div>
 
-    <!-- قسم المذكرات والدروس -->
+    <!-- قسم المذكرات والدروس لكل سنة -->
     <div id="moudhakkirat" class="section">
-        <h2>📝 المذكرات اليومية والملخصات لكل الأطوار</h2>
-        <div class="subject-bar">
-            <button class="sub-btn active" onclick="filterMoudh('all', this)">الكل</button>
-            <button class="sub-btn" onclick="filterMoudh('ibtidai', this)">التعليم الابتدائي</button>
-            <button class="sub-btn" onclick="filterMoudh('mutawasit', this)">التعليم المتوسط</button>
-            <button class="sub-btn" onclick="filterMoudh('thanawi', this)">التعليم الثانوي</button>
+        <h2>📝 المذكرات والدروس النموذجية (مفصلة لكل سنة على حدة)</h2>
+        <div class="year-bar">
+            <button class="year-btn active" onclick="filterMoudh('all', this)">كل المستويات</button>
+            <button class="year-btn" onclick="filterMoudh('1am', this)">الأولى متوسط</button>
+            <button class="year-btn" onclick="filterMoudh('2am', this)">الثانية متوسط</button>
+            <button class="year-btn" onclick="filterMoudh('3am', this)">الثالثة متوسط</button>
+            <button class="year-btn" onclick="filterMoudh('4am', this)">الرابعة متوسط</button>
+            <button class="year-btn" onclick="filterMoudh('1as', this)">الأولى ثانوي</button>
+            <button class="year-btn" onclick="filterMoudh('2as', this)">الثانية ثانوي</button>
+            <button class="year-btn" onclick="filterMoudh('3as', this)">الثالثة ثانوي</button>
         </div>
         <div class="grid" id="moudhGrid"></div>
     </div>
@@ -395,14 +415,14 @@
     <!-- قسم مساعد الذكاء الاصطناعي -->
     <div id="aiAssistant" class="section">
         <h2>🤖 مساعد الذكاء الاصطناعي التربوي والرياضي</h2>
-        <p style="text-align:center; color:#94a3b8; font-size:13px; margin-bottom:20px;">اطرح أي سؤال حول التمارين، المعادلات، قواعد الإعراب، أو تحضير الدروس وسأجيبك فوراً بدقة عالية!</p>
+        <p style="text-align:center; color:#94a3b8; font-size:13px; margin-bottom:20px;">اطرح أي سؤال حول تمارين أي سنة، شروحات الدروس، حل المعادلات، أو تحضير المذكرات وسأجيبك فوراً!</p>
         
         <div class="ai-chat-box">
             <div class="ai-messages" id="aiChatMessages">
-                <div class="msg bot">أهلاً بك يا أستاذ حمو أو ولي الأمر/الطالب. أنا مساعدك الذكي المخصص للتعليم الجزائري. كيف يمكنني مساعدتك في الرياضيات، الفيزياء، المناهج، أو تحضير المذكرات اليوم؟</div>
+                <div class="msg bot">أهلاً بك يا أستاذ حمو أو ولي الأمر/الطالب. أنا مساعدك الذكي المنظم لكل سنة دراسية. كيف يمكنني مساعدتك اليوم في تحضير الدروس والتمارين؟</div>
             </div>
             <div class="ai-input-area">
-                <input type="text" id="aiUserInput" placeholder="اكتب سؤالك هنا (مثلاً: اشرح لي المتتاليات الحسابية أو أوجد حل معادلة...)">
+                <input type="text" id="aiUserInput" placeholder="اكتب سؤالك هنا (مثلاً: أعطني تمريناً ودليلاً شاملاً للسنة الرابعة متوسط في الرياضيات...)">
                 <button onclick="sendAiMessage()">إرسال 🚀</button>
             </div>
         </div>
@@ -411,28 +431,34 @@
 </div>
 
 <script>
-    // بيانات الكتب والمراجع الثمينة لكل مادة
+    // قاعدة بيانات الكتب والمراجع الثمينة والغنية لكل سنة وحدها
     const booksData = [
-        { subject: 'math', level: 'الثالثة ثانوي (عق/رياضي/تقني)', title: 'كتاب المغني في الرياضيات (الدوال والمتتاليات والأعداد المركبة)', desc: 'مرجع ثقيل وغني بالتمارين المركبة والشاملة.' },
-        { subject: 'math', level: 'الرابعة متوسط', title: 'سلسلة النخبة في الرياضيات (سحب بيام ممتازة)', desc: 'تمارين مع الحلول المفصلة وفق تدرجات الجيل الثاني.' },
-        { subject: 'physics', level: 'الثالثة ثانوي', title: 'كتاب المهدوي في العلوم الفيزيائية (الميكانيك والنووي والكهرباء)', desc: 'أهم مرجع لتحضير امتحانات البكالوريا بامتياز.' },
-        { subject: 'physics', level: 'الرابعة متوسط', title: 'كتاب التفوق في الفيزياء وعلوم الطبيعة والحياة', desc: 'ملخصات ذكية ورسوم تخطيطية دقيقة.' },
-        { subject: 'arabic', level: 'أطوار التعليم المتوسط والثانوي', title: 'روضة القواعد والبلاغة والوضعيات الإدماجية', desc: 'دليل شامل لتعلم الإعراب والتحليل الأدبي بدقة.' },
-        { subject: 'philosophy', level: 'الثالثة ثانوي (كل الشعب)', title: 'الموسوعة الشاملة في المقالات الفلسفية (الجدلية والاستقصائية)', desc: 'مقاوم للأخطاء ومنهجية وزارية رسمية مضبوطة.' }
+        { year: '4am', subject: 'الرياضيات والفيزياء', title: 'سلسلة النخبة والامتياز الشاملة (الرابعة متوسط)', desc: 'مرجع غني جداً بتمارين شهادة التعليم المتوسط مع حلول نموذجية مفصلة خطوة بخطوة.' },
+        { year: '3as', subject: 'رياضيات وتقني رياضي', title: 'كتاب المغني في الرياضيات - الدوال والمتتاليات والأعداد المركبة (الثالثة ثانوي)', desc: 'الكتاب الأضخم والأغنى بالمسائل المركبة للتحضير المتين لامتحان البكالوريا.' },
+        { year: '3as', subject: 'علوم تجريبية وفيزياء', title: 'كتاب المهدوي في العلوم الفيزيائية والظواهر الكهربائية والميكانيكية', desc: 'مرجع ثقيل وموثوق يضم ملاخصات عميقة وتجارب محلولة.' },
+        { year: '3am', subject: 'جميع المواد الأساسية', title: 'كتاب الإتقان والمرجع المتميز (الثالثة متوسط)', desc: 'تجميعية دروس وملخصات غنية تدعم استيعاب المفاهيم الأساسية.' },
+        { year: '2am', subject: 'الرياضيات والعربية', title: 'المعين الشامل في تمارين الدعم والتحصيل (الثانية متوسط)', desc: 'كتاب غني بالتمارين المتدرجة المطابقة للمناهج الرسمية.' },
+        { year: '1am', subject: 'كل المواد', title: 'دليل التلميذ والأستاذ للانتقال السلس (الأولى متوسط)', desc: 'مرجع تمهيدي غني بالأنشطة والشروحات المبسطة.' },
+        { year: '2as', subject: 'رياضيات وعلوم', title: 'مرجع التميز في التحليل والعلوم الطبيعية (الثانية ثانوي)', desc: 'شروحات عميقة وتمارين مدعمة بالحلول النموذجية لكل الشعب.' },
+        { year: '1as', subject: 'جذع مشترك علوم وتكنولوجيا', title: 'المساعد الأكاديمي في الرياضيات والفيزياء (الأولى ثانوي)', desc: 'كتاب غني بالأساسيات وقواعد الانطلاق نحو الطور الثانوي بنجاح.' }
     ];
 
-    // بيانات الحوليات (L'annales)
+    // قاعدة بيانات الحوليات الغنية
     const annalesData = [
-        { type: 'bac', level: 'البكالوريا - كل الشعب', title: 'حوليات البكالوريا الرسمية في الرياضيات (من 2018 إلى 2026)', desc: 'مواضيع وزارية مع التصحيح النموذجي المفصل وسلم التنقيط الرسمي.' },
-        { type: 'bac', level: 'البكالوريا - علوم تجريبية', title: 'حوليات البكالوريا في العلوم الطبيعية والفيزياء', desc: 'تجميعية ضخمة للامتحانات التجريبية للولايات النموذجية.' },
-        { type: 'bem', level: 'شهادة التعليم المتوسط BEM', title: 'حوليات بيام الرسمية في جميع المواد (مع الحلول النوذجية)', desc: 'المرجع الأساسي الأول لكل تلميذ وطني يستهدف التميز.' }
+        { type: 'bem', level: 'شهادة التعليم المتوسط BEM', title: 'حوليات بيام الرسمية الشاملة لكل المواد (من 2018 إلى 2026)', desc: 'غنية بالمواضيع الوزارية الأصلية والحلول النموذجية وسلالم التنقيط الرسمية الدقيقة.' },
+        { type: 'bac', level: 'شهادة البكالوريا BAC', title: 'حوليات البكالوريا الرسمية في الرياضيات والفيزياء والعلوم (شعب علمية وأدبية)', desc: 'أضخم تجميعية وطنية للامتحانات الرسمية السابقة مع تصحيحات نموذجية معتمدة.' },
+        { type: 'فصول', level: 'اختبارات الفصول الثلاثة', title: 'بنك الفروض والاختبارات النموذجية لكل السنوات (من الأولى متوسط إلى الثالثة ثانوي)', desc: 'مواضيع مقترحة من مختلف ولايات الوطن مع التصحيح النموذجي.' }
     ];
 
-    // بيانات المذكرات والدروس
+    // قاعدة بيانات المذكرات والدروس لكل سنة على حدة
     const moudhData = [
-        { level: 'ibtidai', title: 'المذكرات اليومية والملخصات (التعليم الابتدائي - الأطوار الخمسة)', desc: 'جاهزة للطباعة والتعديل وفق التدرجات السنوية الرسمية.' },
-        { level: 'mutawasit', title: 'مذكرات الأستاذ النموذجية للمتوسط (الفصول الثلاثة كاملة)', desc: 'مبنية على المقاربة بالكفاءات وبأسلوب احترافي رفيع.' },
-        { level: 'thanawi', title: 'مذكرات وملخصات الوحدات التعليمية (الثالثة ثانوي)', desc: 'زبدة الدروس والقواعد الأساسية لطرق الإجابة النموذجية.' }
+        { year: '4am', subject: 'مذكرات رابعة متوسط', title: 'المذكرات اليومية والدروس النموذجية المتكاملة (الرابعة متوسط)', desc: 'مبنية وفق المقاربة بالكفاءات والتدرجات السنوية الجديدة جاهزة للتعديل والطباعة.' },
+        { year: '3as', subject: 'مذكرات الثالثة ثانوي', title: 'مذكرات الوحدات التعليمية والملخصات التحضيرية (البكالوريا)', desc: 'صياغة احترافية دقيقة لطرق معالجة المواضيع الامتحانية.' },
+        { year: '3am', subject: 'مذكرات ثالثة متوسط', title: 'مذكرات الدروس والمقاطع التعلمية (الثالثة متوسط)', desc: 'توزيع دقيق للأنشطة والتقويمات المستمرة.' },
+        { year: '2am', subject: 'مذكرات ثانية متوسط', title: 'المذكرات اليومية للأنشطة والتمارين (الثانية متوسط)', desc: 'محتوى تربوي منسق يغطي فصول السنة الدراسية الثلاثة.' },
+        { year: '1am', subject: 'مذكرات أولى متوسط', title: 'مذكرات وبطاقات الاستقبال والبناء المعرفي (الأولى متوسط)', desc: 'منسقة خصيصاً لتيسير التكيف مع التعليم المتوسط.' },
+        { year: '2as', subject: 'مذكرات ثانية ثانوي', title: 'مذكرات الدروس والوضعيات الإدماجية (الثانية ثانوي)', desc: 'شاملة لكل المواد والشعب الأدبية والعلمية.' },
+        { year: '1as', subject: 'مذكرات أولى ثانوي', title: 'مذكرات الجذوع المشتركة والدروس التأصيلية (الأولى ثانوي)', desc: 'مصممة بعناية فائقة لتغطية المنهاج الرسمي بمرونة.' }
     ];
 
     // حالة الاشتراك والتفعيل
@@ -455,21 +481,22 @@
         btn.classList.add('active');
     }
 
-    // دوال العرض والتصفية
+    // دوال العرض والتصفية المخصصة لكل سنة
     function renderBooks(filter) {
-        let list = filter === 'all' ? booksData : booksData.filter(x => x.subject === filter);
+        let list = filter === 'all' ? booksData : booksData.filter(x => x.year === filter);
         let html = '';
         list.forEach(item => {
             html += `
                 <div class="card">
                     <div>
-                        <span class="badge-level">${item.level}</span>
+                        <span class="badge-level">سنة: ${item.year.toUpperCase()}</span>
+                        <span class="badge-subject">${item.subject}</span>
                         <h3>${item.title}</h3>
                         <p>${item.desc}</p>
                     </div>
                     <div>
-                        <button class="btn-action" onclick="downloadItem('${item.title}')">📥 تحميل الكتاب PDF</button>
-                        <button class="btn-action btn-ai" onclick="askAiAbout('${item.title}')">🤖 اسأل الذكاء الاصطناعي عنه</button>
+                        <button class="btn-action" onclick="downloadItem('${item.title}')">📥 تحميل الكتاب الغني PDF</button>
+                        <button class="btn-action btn-ai" onclick="askAiAbout('${item.title}')">🤖 استشارة الذكاء الاصطناعي</button>
                     </div>
                 </div>
             `;
@@ -478,12 +505,12 @@
     }
 
     function filterBooks(filter, btn) {
-        setActiveSub(btn);
+        setActiveYear(btn);
         renderBooks(filter);
     }
 
     function renderAnnales(filter) {
-        let list = filter === 'all' ? annalesData : annalesData.filter(x => x.type === filter);
+        let list = filter === 'all' ? annalesData : annalesData.filter(x => x.type === filter || (filter === 'bem' && x.type === 'bem') || (filter === 'bac' && x.type === 'bac') || (filter === 'فصول' && x.type === 'فصول'));
         let html = '';
         list.forEach(item => {
             html += `
@@ -494,7 +521,7 @@
                         <p>${item.desc}</p>
                     </div>
                     <div>
-                        <button class="btn-action" onclick="downloadItem('${item.title}')">📥 تحميل الحوليات PDF</button>
+                        <button class="btn-action" onclick="downloadItem('${item.title}')">📥 تحميل الحوليات الغنية PDF</button>
                         <button class="btn-action btn-ai" onclick="askAiAbout('${item.title}')">🤖 طلب تحليل الحلول بالذكاء الاصطناعي</button>
                     </div>
                 </div>
@@ -504,18 +531,19 @@
     }
 
     function filterAnnales(filter, btn) {
-        setActiveSub(btn);
+        setActiveYear(btn);
         renderAnnales(filter);
     }
 
     function renderMoudh(filter) {
-        let list = filter === 'all' ? moudhData : moudhData.filter(x => x.level === filter);
+        let list = filter === 'all' ? moudhData : moudhData.filter(x => x.year === filter);
         let html = '';
         list.forEach(item => {
             html += `
                 <div class="card">
                     <div>
-                        <span class="badge-level">مذكرات رسمية</span>
+                        <span class="badge-level">سنة: ${item.year.toUpperCase()}</span>
+                        <span class="badge-subject">${item.subject}</span>
                         <h3>${item.title}</h3>
                         <p>${item.desc}</p>
                     </div>
@@ -530,13 +558,13 @@
     }
 
     function filterMoudh(filter, btn) {
-        setActiveSub(btn);
+        setActiveYear(btn);
         renderMoudh(filter);
     }
 
-    function setActiveSub(btn) {
+    function setActiveYear(btn) {
         let parent = btn.parentElement;
-        parent.querySelectorAll('.sub-btn').forEach(b => b.classList.remove('active'));
+        parent.querySelectorAll('.year-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
     }
 
@@ -567,20 +595,17 @@
         alert(`أهلاً بك أستاذ ${name}! تم تفعيل حسابك بنجاح. جاري تنزيل "${pendingFile}"...`);
     }
 
-    // محرك الذكاء الاصطناعي التفاعلي المصغر
+    // محرك الذكاء الاصطناعي التفاعلي المخصص
     function sendAiMessage() {
         let inputField = document.getElementById('aiUserInput');
         let text = inputField.value.trim();
         if(!text) return;
 
         let chatContainer = document.getElementById('aiChatMessages');
-        
-        // رسالة المستخدم
         chatContainer.innerHTML += `<div class="msg user">${text}</div>`;
         inputField.value = '';
         chatContainer.scrollTop = chatContainer.scrollHeight;
 
-        // محاكاة استجابة الذكاء الاصطناعي التربوي والرياضي بدقة
         setTimeout(() => {
             let reply = generateAiReply(text);
             chatContainer.innerHTML += `<div class="msg bot">${reply}</div>`;
@@ -589,29 +614,28 @@
     }
 
     function askAiAbout(itemTitle) {
-        // الانتقال التلقائي لقسم الذكاء الاصطناعي وطرح السؤال
         let btnAiNav = document.querySelectorAll('nav button')[3];
         switchTab('aiAssistant', btnAiNav);
 
         let chatContainer = document.getElementById('aiChatMessages');
-        chatContainer.innerHTML += `<div class="msg user">أريد ملخصاً وتحليلاً وافياً حول: ${itemTitle}</div>`;
+        chatContainer.innerHTML += `<div class="msg user">أريد تفاصيل ومساعدة ذكية حول: ${itemTitle}</div>`;
         
         setTimeout(() => {
-            chatContainer.innerHTML += `<div class="msg bot">بخصوص مرجع "${itemTitle}": هذا الملف يعتبر من الركائز الأساسية في المناهج الجزائرية. يتضمن فهماً عميقاً للمفاهيم، ومجموعة من التمارين المتدرجة من السهل إلى الصعب مع تقنيات الإجابة النموذجية في الامتحانات الرسمية. هل تريد أن أشرح لك محوراً معيناً داخله؟</div>`;
+            chatContainer.innerHTML += `<div class="msg bot">بخصوص مرجع "${itemTitle}": هذا الملف غني بالمعلومات والمحتوى التربوي الموجه بدقة لهذه السنة الدراسية. يتيح لك فهم الفروض، الامتحانات، وكيفية بناء مذكرات الدروس. هل ترغب في أن أستخرج لك ملخصاً أو تمريناً محققا داخل هذا المرجع؟</div>`;
             chatContainer.scrollTop = chatContainer.scrollHeight;
         }, 700);
     }
 
     function generateAiReply(query) {
         query = query.toLowerCase();
-        if(query.includes('رياضيات') || query.includes('دوال') || query.includes('معادلة')) {
-            return 'في الرياضيات، يعتمد الحل النموذجي دائماً على: 1. تحديد مجموعة التعريف بدقة. 2. حساب النهايات عند الحدود المفتوحة. 3. دراسة إشارة المشتقة واتجاه التغير. هل ترغب في حل معادلة أو دراسة دالة محددة؟';
-        } else if(query.includes('فيزياء') || query.includes('علوم')) {
-            return 'في العلوم الفيزيائية، التركيز ينصب على البروتوكول التجريبي، التحليل اللحظي للبيانات، وتطبيق القوانين العامة (مثل قانون جمع التوترات أو قوانين نيوتن). اطرح نص التمرين وسأساعدك في حله خطوة بخطوة.';
+        if(query.includes('رابعة متوسط') || query.includes('bem')) {
+            return 'السنة الرابعة متوسط تعتبر سنة حاسمة لشهادة BEM. التركيز فيها يجب أن يكون على التمارين الشاملة في الرياضيات والفيزياء وحل مواضيع السنوات السابقة بدقة مع الالتزام بسلم التنقيط الوزاري.';
+        } else if(query.includes('ثالثة ثانوي') || query.includes('bac')) {
+            return 'في السنة الثالثة ثانوي (البكالوريا)، تعتمد المراجع الغنية مثل كتاب المغني والمهدوي على تكثيف التمارين المركبة، دراسة الدوال الشاملة، والتحليل المنهجي للمقالات والعلوم. اطرح تمرينك وسأقوم بحله خطوة بخطوة.';
         } else if(query.includes('مذكرة') || query.includes('تحضير')) {
-            return 'بناء المذكرات التربوية في النظام الجزائري يستند إلى المقاربة بالكفاءات: الهدف التعلمي، الوضعية الإدماجية الانطلاقية، مرحلة بناء المعارف، ثم التقويم التشخيصي والتكويني والتحصيلي.';
+            return 'تصميم المذكرات لكل سنة يعتمد على التدرجات السنوية الرسمية الصادرة عن الوزارة: الوضعية الانطلاقية، بناء المعارف، والتقويم التكويني. هل تحدد لي السنة والمادة لنصيغها معاً؟';
         } else {
-            return `سؤالك مهم جداً في سياق المنظومة التربوية الجزائرية. بناءً على التدرجات السنوية الرسمية، أنصحك بالتركيز على استغلال الحوليات الرسمية والتمارين التدريجية المذكورة في المكتبة للحصول على أفضل النتائج. هل تحتاج تفاصيل إضافية؟`;
+            return `تم استلام استفسارك بدقة. بناءً على توزيعات البرامج التعليمية لكل سنة دراسية، أنصحك باستغلال الكتب والحوليات الغنية المدرجة في قسم السنة المطلوبة. هل تحتاج مساعدة إضافية في مادة معينة؟`;
         }
     }
 </script>
