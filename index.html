@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hamo MATH PRO | المنصة البيداغوجية الشاملة</title>
+    <title>Hamo MATH PRO | المنصة البيداغوجية الذكية الشاملة</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -12,6 +12,7 @@
             --accent: #f59e0b;
             --success: #059669;
             --success-dark: #047857;
+            --ai-color: #8b5cf6;
             --bg-gradient: linear-gradient(135deg, #f1f5f9 0%, #cbd5e1 100%);
             --card-bg: rgba(255, 255, 255, 0.98);
             --text-main: #0f172a;
@@ -30,7 +31,7 @@
         }
 
         header {
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.92);
             backdrop-filter: blur(12px);
             box-shadow: 0 4px 20px rgba(0,0,0,0.05);
             position: sticky;
@@ -40,7 +41,7 @@
         }
 
         .header-container {
-            max-width: 1200px;
+            max-width: 1250px;
             margin: 0 auto;
             display: flex;
             justify-content: space-between;
@@ -49,7 +50,7 @@
         }
 
         .logo {
-            font-size: 24px;
+            font-size: 23px;
             font-weight: 900;
             color: var(--primary);
             letter-spacing: -0.5px;
@@ -61,7 +62,7 @@
 
         nav {
             display: flex;
-            gap: 6px;
+            gap: 5px;
             flex-wrap: wrap;
         }
 
@@ -70,7 +71,7 @@
             color: var(--text-main);
             font-weight: 700;
             font-size: 13px;
-            padding: 10px 14px;
+            padding: 10px 13px;
             border-radius: 12px;
             transition: all 0.3s ease;
             cursor: pointer;
@@ -85,7 +86,7 @@
 
         .section-content {
             display: none;
-            max-width: 1000px;
+            max-width: 1050px;
             margin: 40px auto;
             padding: 0 20px;
         }
@@ -150,6 +151,12 @@
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 6px 20px rgba(30, 64, 175, 0.3);
+            margin: 5px;
+        }
+
+        .cta-ai-btn {
+            background: linear-gradient(135deg, #7c3aed 0%, var(--ai-color) 100%);
+            box-shadow: 0 6px 20px rgba(124, 58, 237, 0.3);
         }
 
         .cta-btn:hover {
@@ -176,7 +183,7 @@
             transform: translateY(-2px);
         }
 
-        @media (max-width: 700px) {
+        @media (max-width: 750px) {
             .product-card {
                 flex-direction: column;
                 align-items: stretch;
@@ -201,7 +208,7 @@
         .action-btn {
             background-color: var(--success);
             color: white;
-            padding: 12px 22px;
+            padding: 12px 20px;
             border: none;
             border-radius: 14px;
             font-weight: 800;
@@ -222,7 +229,7 @@
         .preview-btn {
             background-color: var(--primary-light);
             box-shadow: 0 4px 15px rgba(59, 130, 246, 0.25);
-            margin-left: 8px;
+            margin-left: 6px;
         }
 
         .preview-btn:hover {
@@ -249,13 +256,29 @@
             align-items: center;
             font-weight: 700;
             color: var(--primary);
+            font-size: 13px;
         }
 
-        .math-expr {
-            font-family: 'Times New Roman', serif;
-            font-style: italic;
-            color: #1d4ed8;
-            font-weight: bold;
+        /* قسم الذكاء الاصطناعي التفاعلي */
+        .ai-chat-box {
+            background: #f8fafc;
+            border: 2px dashed var(--ai-color);
+            border-radius: 22px;
+            padding: 25px;
+            margin-top: 20px;
+        }
+
+        .ai-output {
+            background: #ffffff;
+            border: 1px solid #e9d5ff;
+            border-radius: 16px;
+            padding: 20px;
+            margin-top: 15px;
+            min-height: 80px;
+            font-size: 15px;
+            line-height: 1.7;
+            color: #334155;
+            display: none;
         }
 
         form label {
@@ -269,7 +292,7 @@
         form input, form select, form textarea {
             width: 100%;
             padding: 15px 18px;
-            margin-bottom: 24px;
+            margin-bottom: 22px;
             border: 2px solid var(--border-color);
             border-radius: 14px;
             box-sizing: border-box;
@@ -302,12 +325,12 @@
 
 <header>
     <div class="header-container">
-        <div class="logo">Hamo <span>MATH & PRO</span></div>
+        <div class="logo">Hamo <span>MATH PRO</span></div>
         <nav>
             <a onclick="switchTab('home', this)" class="active">الرئيسية</a>
-            <a onclick="switchTab('library', this)">المكتبة والمذكرات 📚</a>
+            <a onclick="switchTab('library', this)">المكتبة الشاملة 📚</a>
+            <a onclick="switchTab('ai_generator', this)">المساعد الذكي 🤖</a>
             <a onclick="switchTab('timetable_req', this)">استعمال الزمن 🕒</a>
-            <a onclick="switchTab('assignment_req', this)">إسناد الأساتذة 👥</a>
             <a onclick="switchTab('store', this)">الدفع الآمن 💳</a>
         </nav>
     </div>
@@ -316,62 +339,60 @@
 <!-- قسم الرئيسية -->
 <div id="home" class="section-content active">
     <div class="card hero-box">
-        <h1>المرجع البيداغوجي المتكامل للطورين المتوسط والثانوي 📐🧪</h1>
-        <p>تصفح مذكرات الرياضيات النموذجية الرسمية، الدروس، وتدرجات المواد، مع إمكانية طلب جداول استعمال الزمن والإسناد، ودفع إلكتروني مؤمن.</p>
-        <button class="cta-btn" onclick="switchTab('library', document.querySelectorAll('nav a')[1])">تصفح المكتبة والمذكرات الآن</button>
+        <h1>المرجع البيداغوجي الذكي والشامل للطورين المتوسط والثانوي 📐🧪</h1>
+        <p>مذكرات رسمية غنية ومفصلة لجميع المواد، مع محرك ذكاء اصطناعي لتوليد الدروس وتخطيط جداول استعمال الزمن والإسناد بكل دقة واحترافية.</p>
+        <div>
+            <button class="cta-btn" onclick="switchTab('library', document.querySelectorAll('nav a')[1])">تصفح المكتبة والمذكرات</button>
+            <button class="cta-btn cta-ai-btn" onclick="switchTab('ai_generator', document.querySelectorAll('nav a')[2])">جرب المساعد الذكي 🤖</button>
+        </div>
     </div>
 
     <div class="card">
-        <h2>⚡ خدماتنا الاحترافية المتاحة</h2>
+        <h2>⚡ الخدمات والاشتراكات المتاحة</h2>
         
         <div class="product-card">
             <div class="product-info">
-                <h3>⭐ اشتراك المكتبة الشاملة (جميع المواد والدروس - 500 دج)</h3>
-                <p>مذكرات جاهزة، فروض، اختبارات مطابقة للمناهج والتعديلات الجديدة.</p>
+                <h3>⭐ اشتراك المكتبة الشاملة (جميع المواد والمستويات - 500 دج)</h3>
+                <p>مذكرات، فروض، اختبارات مطابقة للمناهج الرسمية للطورين المتوسط والثانوي.</p>
             </div>
             <button class="action-btn" onclick="selectServiceAndPay('اشتراك المكتبة الشاملة (500 دج)')">اشترك بـ 500 دج</button>
         </div>
 
         <div class="product-card">
             <div class="product-info">
-                <h3>🕒 خدمة تصميم استعمالات الزمن والإسناد (2000 دج)</h3>
-                <p>تخطيط الجداول الأسبوعية وتوزيع الأفواج التربوية بدقة واحترافية.</p>
+                <h3>🕒 خدمة تصميم استعمالات الزمن والإسناد الذكي (2000 دج)</h3>
+                <p>تخطيط آلي متقدم للجداول وتوزيع الأفواج التربوية دون تعارضات.</p>
             </div>
             <button class="action-btn" onclick="selectServiceAndPay('خدمة تصميم استعمالات الزمن والإسناد (2000 دج)')">اطلب الخدمة بـ 2000 دج</button>
         </div>
     </div>
 </div>
 
-<!-- قسم المكتبة والمعاينة الحية للمذكرات -->
+<!-- قسم المكتبة والشامل والمعاينة الحية -->
 <div id="library" class="section-content">
     <div class="card">
-        <h2>📚 نماذج المذكرات المتاحة للمعاينة والتحميل</h2>
-        <p style="text-align: center; color: var(--text-muted); margin-bottom: 25px;">يمكنك معاينة النموذج مباشرة داخل الموقع قبل الانتقال لاقتناء المكتبة الشاملة:</p>
+        <h2>📚 المكتبة البيداغوجية الشاملة (متوسط وثانوي - كافة المواد)</h2>
+        <p style="text-align: center; color: var(--text-muted); margin-bottom: 25px;">اختر أي مذكرة للمعاينة الفورية داخل الموقع:</p>
         
-        <!-- معاينة مذكرة 1 ثانوي -->
+        <!-- معاينة مذكرة 4 متوسط -->
         <div class="product-card">
             <div class="product-info">
-                <h3>📐 مذكرة 1 ثانوي: مجموعات الأعداد واحتواءاتها</h3>
-                <p>إعداد الأستاذ: حمو محمد أمين | الطور الثانوي (جذع مشترك علوم)</p>
+                <h3>📐 رياضيات 4 متوسط: الحساب على الجذور ونظرية طاليس</h3>
+                <p>إعداد الأستاذ: حمو محمد أمين | تحضير شامل لشهادة BEM</p>
             </div>
             <div>
-                <button class="action-btn preview-btn" onclick="togglePreview('memo1')">معاينة داخل الموقع</button>
+                <button class="action-btn preview-btn" onclick="togglePreview('memo_bem')">معاينة داخل الموقع</button>
             </div>
         </div>
 
-        <div id="memo1" class="memo-preview-box" style="display: none;">
+        <div id="memo_bem" class="memo-preview-box" style="display: none;">
             <div class="memo-header">
                 <span>الجمهورية الجزائرية الديمقراطية الشعبية - Hamo MATH PRO</span>
                 <span>الأستاذ: حمو محمد أمين</span>
             </div>
-            <h3 style="color: var(--primary);">مذكرة بيداغوجية: مجموعات الأعداد (<span class="math-expr">N, Z, D, Q, R</span>)</h3>
-            <p><strong>الكفاءة المستهدفة:</strong> التعرف على المجموعات الكبرى للأعداد وإتقان رموز الانتماء واحتواء المجموعات.</p>
-            <p><strong>سير النشاط:</strong> تقديم المفهوم بناءً على نشاط عددي يبرز الحاجة إلى توسيع المجموعات:</p>
-            <ul>
-                <li>مجموعة الأعداد الطبيعية <span class="math-expr">N = {0, 1, 2, 3, \dots}</span></li>
-                <li>مجموعة الأعداد الصحيحة النسبية <span class="math-expr">Z</span> والمعاكسات.</li>
-                <li>مجموعة الأعداد العشرية والناطقة والحقيقية <span class="math-expr">R</span>.</li>
-            </ul>
+            <h3 style="color: var(--primary);">مذكرة بيداغوجية: القاسم المشترك الأكبر والجذور التربيعية</h3>
+            <p><strong>الكفاءة المستهدفة:</strong> حساب PGCD، تبسيط عبارات تتضمن جذوراً صماء، وحل معادلات من الشكل $x^2 = a$.</p>
+            <p><strong>المحتوى التفصيلي:</strong> خوارزميات إقليدس وطرح المتتاليات، قواعد الحساب على الجذور التربيعية، وتطبيقات هندسية شاملة باستخدام نظريتي طاليس فيتاغورس.</p>
             <div style="text-align: center; margin-top: 20px;">
                 <button class="action-btn" onclick="switchTab('store', document.querySelectorAll('nav a')[4])">احصل على النسخة الكاملة (اشتراك 500 دج)</button>
             </div>
@@ -380,22 +401,45 @@
         <!-- معاينة مذكرة 2 ثانوي علمي -->
         <div class="product-card" style="margin-top: 20px;">
             <div class="product-info">
-                <h3>📐 مذكرة 2 ثانوي (عصري/رياضي): عموميات على الدوال</h3>
+                <h3>📐 رياضيات 2 ثانوي علمي: عموميات على الدوال والاشتقاقية</h3>
                 <p>إعداد الأستاذ: حمو محمد أمين | اتجاه التغير والقيم الحدية</p>
             </div>
             <div>
-                <button class="action-btn preview-btn" onclick="togglePreview('memo2')">معاينة داخل الموقع</button>
+                <button class="action-btn preview-btn" onclick="togglePreview('memo_as2')">معاينة داخل الموقع</button>
             </div>
         </div>
 
-        <div id="memo2" class="memo-preview-box" style="display: none;">
+        <div id="memo_as2" class="memo-preview-box" style="display: none;">
             <div class="memo-header">
                 <span>الجمهورية الجزائرية الديمقراطية الشعبية - Hamo MATH PRO</span>
                 <span>الأستاذ: حمو محمد أمين</span>
             </div>
             <h3 style="color: var(--primary);">مذكرة بيداغوجية: عموميات على الدوال العددية</h3>
-            <p><strong>الكفاءة المستهدفة:</strong> دراسة اتجاه تغير دالة (متزايدة/متناقصة) وتعيين القيم الحدية الكبرى والصغرى.</p>
-            <p><strong>التطبيق النموذجي:</strong> دراسة دالة كثيرة حدود وتشكيل جدول التغيرات واستنتاج القيمة الحدية الصغرى.</p>
+            <p><strong>الكفاءة المستهدفة:</strong> دراسة اتجاه تغير دالة (متزايدة تماماً/متناقصة تماماً) وتعيين القيم الحدية الكبرى والصغرى المحلية على مجال.</p>
+            <p><strong>التطبيق النموذجي:</strong> دراسة كثيرة حدود، تشكيل جدول التغيرات، وتعيين حصر القيم بدقة.</p>
+            <div style="text-align: center; margin-top: 20px;">
+                <button class="action-btn" onclick="switchTab('store', document.querySelectorAll('nav a')[4])">احصل على النسخة الكاملة (اشتراك 500 دج)</button>
+            </div>
+        </div>
+
+        <!-- معاينة مواد أخرى (فيزياء 3 ثانوي) -->
+        <div class="product-card" style="margin-top: 20px;">
+            <div class="product-info">
+                <h3>🧪 فيزياء 3 ثانوي (علوم تجريبية): تطور جملة كيميائية نحو حالة التوازن</h3>
+                <p>إعداد الأستاذ: حمو محمد أمين | المتابعة الزمنية وPH-متري</p>
+            </div>
+            <div>
+                <button class="action-btn preview-btn" onclick="togglePreview('memo_phys')">معاينة داخل الموقع</button>
+            </div>
+        </div>
+
+        <div id="memo_phys" class="memo-preview-box" style="display: none;">
+            <div class="memo-header">
+                <span>الجمهورية الجزائرية الديمقراطية الشعبية - Hamo MATH PRO</span>
+                <span>الأستاذ: حمو محمد أمين</span>
+            </div>
+            <h3 style="color: var(--primary);">مذكرة فيزياء: تطور جملة كيميائية نحو حالة التوازن</h3>
+            <p><strong>الكفاءة المستهدفة:</strong> تعريف حمض أساس حسب برونشتد، حساب نسبة التقدم النهائي، وثابت التوازن $K$ للجملة الكيميائية.</p>
             <div style="text-align: center; margin-top: 20px;">
                 <button class="action-btn" onclick="switchTab('store', document.querySelectorAll('nav a')[4])">احصل على النسخة الكاملة (اشتراك 500 دج)</button>
             </div>
@@ -403,30 +447,40 @@
     </div>
 </div>
 
-<!-- قسم طلب استعمال الزمن -->
-<div id="timetable_req" class="section-content">
+<!-- قسم المساعد الذكي لتوليد المذكرات فورياً -->
+<div id="ai_generator" class="section-content">
     <div class="card">
-        <h2>🕒 طلب تصميم استعمال الزمن (2000 دج)</h2>
-        <form onsubmit="handleCustomRequest(event, 'خدمة تصميم استعمالات الزمن والإسناد (2000 دج)')">
-            <label>الطور والمستوى الدراسي:</label>
-            <input type="text" placeholder="مثال: الطور المتوسط - جميع المستويات" required>
-            <label>تفاصيل الحصص والأقسام:</label>
-            <textarea rows="3" placeholder="حدد عدد الأفواج، القاعات، وأيام التفرغ..." required></textarea>
-            <button type="submit" class="btn-submit">تأكيد الطلب والانتقال للدفع</button>
-        </form>
+        <h2>🤖 المساعد الذكي لتوليد المذكرات والدروس فورياً</h2>
+        <p style="text-align: center; color: var(--text-muted); margin-bottom: 25px;">أدخل المستوى والموضوع المطلوب، وسيقوم نظام الذكاء الاصطناعي بصياغة مذكرة بيداغوجية احترافية باسمك فوراً:</p>
+        
+        <div class="ai-chat-box">
+            <form onsubmit="generateAIMemo(event)">
+                <label>الطور والمستوى الدراسي:</label>
+                <input type="text" id="aiLevel" placeholder="مثال: السنة الثالثة ثانوي - علوم تجريبية" required>
+
+                <label>المادة والوحدة التعلمية المطلوبة:</label>
+                <input type="text" id="aiTopic" placeholder="مثال: الرياضيات - الدوال الأسية واللوغاريتمية" required>
+
+                <button type="submit" class="btn-submit" style="background: linear-gradient(135deg, #7c3aed 0%, var(--ai-color) 100%); box-shadow: 0 6px 20px rgba(124, 58, 237, 0.3);">توليد المذكرة بالذكاء الاصطناعي ✨</button>
+            </form>
+
+            <div id="aiLoading" style="display:none; text-align:center; color:var(--ai-color); font-weight:800; margin-top:15px;">⏳ جاري صياغة المذكرة الرسمية وتنسيقها باسم الأستاذ حمو محمد أمين...</div>
+            
+            <div id="aiResult" class="ai-output"></div>
+        </div>
     </div>
 </div>
 
-<!-- قسم طلب إسناد الأساتذة -->
-<div id="assignment_req" class="section-content">
+<!-- قسم طلب استعمال الزمن -->
+<div id="timetable_req" class="section-content">
     <div class="card">
-        <h2>👥 طلب إسناد الأساتذة وتوزيع الأفواج (2000 دج)</h2>
+        <h2>🕒 طلب تصميم استعمالات الزمن والإسناد (2000 دج)</h2>
         <form onsubmit="handleCustomRequest(event, 'خدمة تصميم استعمالات الزمن والإسناد (2000 دج)')">
-            <label>المادة والأساتذة المعنيون:</label>
-            <input type="text" placeholder="مثال: رياضيات - طور ثانوي" required>
-            <label>معطيات التوزيع البيداغوجي:</label>
-            <textarea rows="3" placeholder="اكتب تفاصيل إسناد الأفواج والمستويات..." required></textarea>
-            <button type="submit" class="btn-submit">تأكيد الطلب والانتقال للدفع</button>
+            <label>المؤسسة والطور الدراسي:</label>
+            <input type="text" placeholder="مثال: ثانوية العقيد لطفي - الطور الثانوي" required>
+            <label>تفاصيل الأقسام والأساتذة:</label>
+            <textarea rows="3" placeholder="أدخل عدد الأفواج، الأساتذة، والمتطلبات الخاصة..." required></textarea>
+            <button type="submit" class="btn-submit">تأكيد الطلب والانتقال للدفع الآمن</button>
         </form>
     </div>
 </div>
@@ -435,7 +489,7 @@
 <div id="store" class="section-content">
     <div class="card">
         <h2>💳 بوابة الدفع الآمن (Chargily Pay)</h2>
-        <p style="text-align: center; color: var(--text-muted); margin-bottom: 25px;">أتمم طلبك وادفع بكل ثقة وسرية عبر قنوات الدفع الإلكتروني المصرفية:</p>
+        <p style="text-align: center; color: var(--text-muted); margin-bottom: 25px;">أتمم طلبك وادفع بكل ثقة وسرية عبر بوابات الدفع الإلكتروني المصرفية:</p>
 
         <form id="paymentForm" onsubmit="redirectToGateway(event)">
             <label for="productName">الخدمة أو الباقة المختارة:</label>
@@ -451,7 +505,7 @@
             <input type="text" id="clientContact" placeholder="06xxxxxxxx" required>
 
             <button type="submit" class="btn-submit" id="submitBtn">الانتقال إلى منصة الدفع الآمنة</button>
-            <div id="loadingMsg" style="display:none; text-align:center; color:var(--success); font-weight:800; margin-top:15px;">⏳ جاري تحويلك لبوابة الدفع الآمنة...</div>
+            <div id="loadingPayment" style="display:none; text-align:center; color:var(--success); font-weight:800; margin-top:15px;">⏳ جاري تحويلك لبوابة الدفع الآمنة...</div>
         </form>
     </div>
 </div>
@@ -471,8 +525,8 @@
             const navLinks = document.querySelectorAll('nav a');
             if(sectionId === 'home') navLinks[0].classList.add('active');
             if(sectionId === 'library') navLinks[1].classList.add('active');
-            if(sectionId === 'timetable_req') navLinks[2].classList.add('active');
-            if(sectionId === 'assignment_req') navLinks[3].classList.add('active');
+            if(sectionId === 'ai_generator') navLinks[2].classList.add('active');
+            if(sectionId === 'timetable_req') navLinks[3].classList.add('active');
             if(sectionId === 'store') navLinks[4].classList.add('active');
         }
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -503,17 +557,44 @@
         selectServiceAndPay(serviceName);
     }
 
+    function generateAIMemo(e) {
+        e.preventDefault();
+        const level = document.getElementById('aiLevel').value;
+        const topic = document.getElementById('aiTopic').value;
+
+        document.getElementById('aiLoading').style.display = 'block';
+        document.getElementById('aiResult').style.display = 'none';
+
+        setTimeout(() => {
+            document.getElementById('aiLoading').style.display = 'none';
+            const resultBox = document.getElementById('aiResult');
+            resultBox.style.display = 'block';
+            resultBox.innerHTML = `
+                <div style="border-bottom: 2px solid #8b5cf6; padding-bottom:8px; margin-bottom:12px; font-weight:bold; color:#7c3aed;">
+                    الجمهورية الجزائرية الديمقراطية الشعبية - إعداد الأستاذ: حمو محمد أمين
+                </div>
+                <h4 style="color:var(--primary); margin:0 0 10px 0;">مذكرة تولت صياغتها منصة الذكاء الاصطناعي لـ: ${level}</h4>
+                <p><strong>الوحدة:</strong> ${topic}</p>
+                <p><strong>الكفاءات المستهدفة:</strong> إرساء الموارد المعرفية بدقة وفق التدرجات الرسمية الجديدة، مع وضع أمثلة تطبيقية وتمرين نموذج مفصل.</p>
+                <p><em>ملاحظة: للحصول على النسخة التامة القابلة للتحميل والطباعة بصيغة PDF، يمكنك تفعيل الاشتراك الشامل.</em></p>
+                <div style="text-align:center; margin-top:15px;">
+                    <button class="action-btn" onclick="switchTab('store', document.querySelectorAll('nav a')[4])">تفعيل اشتراك المكتبة (500 دج)</button>
+                </div>
+            `;
+        }, 1500);
+    }
+
     function redirectToGateway(e) {
         e.preventDefault();
         const productName = document.getElementById('productName').value;
         const clientName = document.getElementById('clientName').value;
 
         document.getElementById('submitBtn').style.display = 'none';
-        document.getElementById('loadingMsg').style.display = 'block';
+        document.getElementById('loadingPayment').style.display = 'block';
 
         setTimeout(() => {
-            alert(`مرحباً بك ${clientName}، سيتم تحويلك الآن لإتمام الدفع بأمان لـ: ${productName}`);
-            document.getElementById('loadingMsg').style.display = 'none';
+            alert(`مرحباً بك الأستاذ ${clientName}، سيتم تحويلك الآن لبوابة الدفع الآمنة لإتمام الاشتراك في: ${productName}`);
+            document.getElementById('loadingPayment').style.display = 'none';
             document.getElementById('submitBtn').style.display = 'block';
         }, 1200);
     }
