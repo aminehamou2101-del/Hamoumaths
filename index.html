@@ -95,3 +95,129 @@ form.addEventListener('submit', async (e) => {
     }
 });
 </script>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>مكتبة الملفات - مفتاح التفوق في الرياضيات</title>
+    <!-- استدعاء مكتبة Supabase الرسمية -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        body { font-family: Tahoma, sans-serif; text-align: center; margin-top: 30px; background-color: #f9f9f9; }
+        .container { max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        button { padding: 10px 20px; font-size: 16px; cursor: pointer; background-color: #007bff; color: white; border: none; border-radius: 4px; }
+        button:hover { background-color: #0056b3; }
+        ul { list-style: none; padding: 0; text-align: right; }
+        li { background: #f1f1f1; margin: 10px 0; padding: 10px; border-radius: 4px; display: flex; justify-content: space-between; align-items: center; }
+        a { color: #007bff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>رفع ملف PDF جديد</h2>
+        <input type="file" id="pdfFile" accept="application/pdf"><br><br>
+        <button onclick="uploadPDF()">رفع الملف</button>
+        <p id="status" style="font-weight: bold;"></p>
+
+        <hr style="margin: 30px 0;">
+
+        <h2>الملفات المتاحة للتحميل</h2>
+        <ul id="fileList">
+            <li>جاري تحميل قائمة الملفات...</li>
+        </ul>
+    </div>
+
+    <script>
+        // إعدادات الاتصال بمشروعك في Supabase
+        const SUPABASE_URL = 'https://qsecmlcjdmpehhcqlali.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_2yziw4m4uYzIDj9WWfRYhg_U72Srpts';
+        
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // دالة رفع الملف
+        async function uploadPDF() {
+            const fileInput = document.getElementById('pdfFile');
+            const statusText = document.getElementById('status');
+
+            if (fileInput.files.length === 0) {
+                statusText.style.color = 'red';
+                statusText.innerText = 'الرجاء اختيار ملف PDF أولاً!';
+                return;
+            }
+
+            const file = fileInput.files[0];
+            const fileName = `${Date.now()}_${file.name}`; // اسم فريد للملف
+
+            statusText.style.color = 'blue';
+            statusText.innerText = 'جاري رفع الملف...';
+
+            const { data, error } = await supabaseClient.storage
+                .from('pdfs')
+                .upload(fileName, file);
+
+            if (error) {
+                statusText.style.color = 'red';
+                statusText.innerText = 'حدث خطأ أثناء الرفع: ' + error.message;
+            } else {
+                statusText.style.color = 'green';
+                statusText.innerText = 'تم رفع ملف الـ PDF بنجاح!';
+                fileInput.value = ''; // إعادة تعيين حقل الملف
+                fetchFiles(); // تحديث قائمة الملفات تلقائياً
+            }
+        }
+
+        // دالة جلب وعرض الملفات الموجودة في المجلد
+        async function fetchFiles() {
+            const fileListUl = document.getElementById('fileList');
+            
+            const { data, error } = await supabaseClient.storage
+                .from('pdfs')
+                .list('', {
+                    limit: 100,
+                    offset: 0,
+                    sortBy: { column: 'created_at', order: 'desc' }
+                });
+
+            if (error) {
+                fileListUl.innerHTML = '<li style="color: red;">فشل في تحميل الملفات: ' + error.message + '</li>';
+                return;
+            }
+
+            if (data.length === 0) {
+                fileListUl.innerHTML = '<li>لا توجد ملفات مرفوعة حالياً.</li>';
+                return;
+            }
+
+            fileListUl.innerHTML = ''; // تفريغ القائمة قبل إضافتها
+
+            for (const file of data) {
+                if (file.name === 'index.html') continue;
+
+                const { data: publicUrlData } = supabaseClient.storage
+                    .from('pdfs')
+                    .getPublicUrl(file.name);
+
+                const fileUrl = publicUrlData.publicUrl;
+                const li = document.createElement('li');
+                
+                let displayName = file.name;
+                if (displayName.includes('_')) {
+                    displayName = displayName.substring(displayName.indexOf('_') + 1);
+                }
+
+                li.innerHTML = `
+                    <span>📄 ${displayName}</span>
+                    <a href="${fileUrl}" target="_blank">تحميل / معاينة</a>
+                `;
+                fileListUl.appendChild(li);
+            }
+        }
+
+        // جلب الملفات بمجرد فتح الصفحة
+        window.onload = fetchFiles;
+    </script>
+</body>
+</html>
+
