@@ -346,57 +346,46 @@
             box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
         }
 
-        .ccp-card {
-            background: linear-gradient(135deg, #eff6ff 100%, #dbeafe 0%);
-            border: 2px dashed var(--primary);
-            padding: 25px;
-            border-radius: 18px;
+        /* تنسيق بوابة الدفع الآمنة الخالية من كشف الرقم */
+        .secure-gate-card {
+            background: linear-gradient(135deg, #f0fdf4 100%, #dcfce7 0%);
+            border: 2px solid var(--success);
+            padding: 30px;
+            border-radius: 20px;
             text-align: center;
             margin-bottom: 30px;
+            box-shadow: 0 10px 25px rgba(5, 150, 105, 0.08);
         }
 
-        .ccp-card h3 {
-            margin: 0 0 8px 0;
-            color: var(--primary-dark);
-            font-size: 18px;
-            font-weight: 800;
-        }
-
-        .ccp-number-wrapper {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 12px;
-        }
-
-        .ccp-number {
-            font-size: 26px;
+        .secure-gate-card h3 {
+            margin: 0 0 10px 0;
+            color: var(--success-dark);
+            font-size: 20px;
             font-weight: 900;
-            color: #dc2626;
-            letter-spacing: 2.5px;
-            font-family: monospace;
-            background: #fff;
-            padding: 6px 16px;
-            border-radius: 10px;
-            border: 1px solid #bfdbfe;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
         }
 
-        .copy-btn {
-            background: var(--primary);
+        .fee-badge {
+            display: inline-block;
+            background: var(--success);
             color: white;
-            border: none;
-            padding: 10px 18px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 700;
-            transition: background 0.2s;
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-size: 20px;
+            font-weight: 900;
+            margin: 15px 0;
+            box-shadow: 0 4px 15px rgba(5, 150, 105, 0.2);
         }
 
-        .copy-btn:hover {
-            background: var(--primary-dark);
+        .secure-instructions {
+            background: #fff;
+            padding: 18px;
+            border-radius: 14px;
+            border: 1px solid #bbf7d0;
+            font-size: 14px;
+            color: var(--text-main);
+            text-align: right;
+            margin-top: 15px;
+            line-height: 1.6;
         }
 
         form label {
@@ -440,8 +429,8 @@
         }
 
         .file-upload-wrapper:hover {
-            border-color: var(--primary);
-            background: #f1f5f9;
+            border-color: var(--success);
+            background: #f0fdf4;
         }
 
         .file-upload-wrapper input[type="file"] {
@@ -461,7 +450,7 @@
         }
 
         .file-upload-text span {
-            color: var(--primary);
+            color: var(--success);
             font-weight: bold;
         }
 
@@ -500,7 +489,7 @@
         #loadingMsg {
             display: none;
             text-align: center;
-            color: var(--primary);
+            color: var(--success);
             font-weight: 700;
             margin-top: 20px;
             font-size: 16px;
@@ -523,7 +512,7 @@
             <a onclick="switchTab('timetable', this)">استعمال الزمن</a>
             <a onclick="switchTab('teachers', this)">إسناد الأساتذة</a>
             <a onclick="switchTab('exams', this)">البكالوريات</a>
-            <a onclick="switchTab('store', this)">متجر الحزم</a>
+            <a onclick="switchTab('store', this)">بوابة الدخول (500 دج)</a>
         </nav>
     </div>
 </header>
@@ -533,11 +522,11 @@
     <div class="card hero-box">
         <h1>مفتاح التفوق في الرياضيات 🎓</h1>
         <p>المنصة الاحترافية للأستاذ حمو محمد أمين: مذكرات رقمية مطابقة للكتاب المدرسي، كتب، ملخصات، وأدوات تنظيم العمل الإداري والبيداغوجي بكل احترافية.</p>
-        <button class="cta-btn" onclick="switchTab('library', document.querySelectorAll('nav a')[1])">استكشف المكتبة الرقمية الآن</button>
+        <button class="cta-btn" onclick="switchTab('store', document.querySelectorAll('nav a')[5])">احصل على صلاحيات الدخول الشاملة (500 دج)</button>
     </div>
 
     <div class="card">
-        <h2>⚡ الحزم والكتب المميزة (مع المعاينة المباشرة)</h2>
+        <h2>⚡ محتوى المنصة الحصري</h2>
         
         <div class="product-card">
             <img src="https://images.unsplash.com/photo-1543269865-cbf427effbad?w=150" alt="ملف" class="product-thumb">
@@ -545,7 +534,7 @@
                 <h3>📘 الموسوعة الشاملة للمذكرات والكتب (ثانوي)</h3>
                 <p>مذكرات منظمة كالكتاب المدرسي لجميع المستويات جاهزة للطباعة.</p>
             </div>
-            <button class="buy-now-btn" onclick="selectProductAndGo('الموسوعة الشاملة للمذكرات والكتب')">اطلب الآن</button>
+            <button class="buy-now-btn" onclick="switchTab('store', document.querySelectorAll('nav a')[5])">فتح الصلاحيات</button>
         </div>
 
         <div class="product-card">
@@ -554,16 +543,7 @@
                 <h3>🎓 حزمة مراجعة البكالوريا (ملخصات وتمارين)</h3>
                 <p>تمارين نموذجية واختبارات مع الحلول المفصلة للتحضير المكثف.</p>
             </div>
-            <button class="buy-now-btn" onclick="selectProductAndGo('حزمة مراجعة البكالوريا')">اطلب الآن</button>
-        </div>
-
-        <div class="product-card">
-            <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=150" alt="ملف" class="product-thumb">
-            <div class="product-info">
-                <h3>⭐ اشتراك Premium الشامل (كل محتوى المنصة)</h3>
-                <p>وصول كامل وغير محدود لكافة الملفات والتحديثات طوال الموسم.</p>
-            </div>
-            <button class="buy-now-btn" onclick="selectProductAndGo('اشتراك Premium الشامل')">اطلب الآن</button>
+            <button class="buy-now-btn" onclick="switchTab('store', document.querySelectorAll('nav a')[5])">فتح الصلاحيات</button>
         </div>
     </div>
 </div>
@@ -579,28 +559,28 @@
                 <img src="https://images.unsplash.com/photo-1509228468518-180dd4864904?w=300" alt="جذع مشترك">
                 <h3>الجذع المشترك</h3>
                 <p style="font-size:12px; color:var(--text-muted); margin-bottom:15px;">مذكرات، تمارين وحلول مفصلة.</p>
-                <button class="lib-btn" onclick="selectProductAndGo('حزمة جذع مشترك (مذكرات وكتب)')">طلب المحتوى</button>
+                <button class="lib-btn" onclick="switchTab('store', document.querySelectorAll('nav a')[5])">تفعيل بالدخول</button>
             </div>
 
             <div class="library-box">
                 <img src="https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=300" alt="أولى ثانوي">
                 <h3>السنة الأولى (1AS)</h3>
                 <p style="font-size:12px; color:var(--text-muted); margin-bottom:15px;">دروس الدوال والمرجح.</p>
-                <button class="lib-btn" onclick="selectProductAndGo('حزمة السنة الأولى ثانوي (كتب ومذكرات)')">طلب المحتوى</button>
+                <button class="lib-btn" onclick="switchTab('store', document.querySelectorAll('nav a')[5])">تفعيل بالدخول</button>
             </div>
 
             <div class="library-box">
                 <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=300" alt="ثانية ثانوي">
                 <h3>السنة الثانية (2AS)</h3>
                 <p style="font-size:12px; color:var(--text-muted); margin-bottom:15px;">لجميع الشعب العلمية والأدبية.</p>
-                <button class="lib-btn" onclick="selectProductAndGo('حزمة السنة الثانية ثانوي (كتب ومذكرات)')">طلب المحتوى</button>
+                <button class="lib-btn" onclick="switchTab('store', document.querySelectorAll('nav a')[5])">تفعيل بالدخول</button>
             </div>
 
             <div class="library-box">
                 <img src="https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=300" alt="بكالوريا">
                 <h3>بكالوريا (3AS)</h3>
                 <p style="font-size:12px; color:var(--text-muted); margin-bottom:15px;">الأسية، اللوغاريتمية والتحضير العالي.</p>
-                <button class="lib-btn" onclick="selectProductAndGo('حزمة البكالوريا الشاملة (مذكرات وكتب)')">طلب المحتوى</button>
+                <button class="lib-btn" onclick="switchTab('store', document.querySelectorAll('nav a')[5])">تفعيل بالدخول</button>
             </div>
         </div>
     </div>
@@ -642,14 +622,6 @@
                             <td><input type="text" placeholder="رياضيات"></td>
                             <td><input type="text" placeholder="تاريخ وجغرافيا"></td>
                         </tr>
-                        <tr>
-                            <td><strong>13:00 - 15:00</strong></td>
-                            <td><input type="text" placeholder="تمارين تطبيقية"></td>
-                            <td><input type="text" placeholder="ملخصات"></td>
-                            <td><input type="text" placeholder="حل بكالوريا"></td>
-                            <td><input type="text" placeholder="مراجعة"></td>
-                            <td><input type="text" placeholder="استراحة"></td>
-                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -688,22 +660,6 @@
                             <td><input type="text" value="3ر+ت ر"></td>
                             <td><input type="text" value="18 ساعة"></td>
                         </tr>
-                        <tr>
-                            <td><input type="text" placeholder="أستاذ آخر"></td>
-                            <td><input type="text" placeholder="-"></td>
-                            <td><input type="text" placeholder="-"></td>
-                            <td><input type="text" placeholder="-"></td>
-                            <td><input type="text" placeholder="-"></td>
-                            <td><input type="text" placeholder="0 ساعة"></td>
-                        </tr>
-                        <tr>
-                            <td><input type="text" placeholder="أستاذ آخر"></td>
-                            <td><input type="text" placeholder="-"></td>
-                            <td><input type="text" placeholder="-"></td>
-                            <td><input type="text" placeholder="-"></td>
-                            <td><input type="text" placeholder="-"></td>
-                            <td><input type="text" placeholder="0 ساعة"></td>
-                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -725,79 +681,62 @@
                 <h3>🏆 أرشيف بكالوريات الجزائر مع الحل المفصل</h3>
                 <p>من دورات سابقة لجميع الشعب العلمية مع التصحيح النموذجي الوزاري.</p>
             </div>
-            <button class="buy-now-btn" onclick="selectProductAndGo('أرشيف البكالوريات مع الحل المفصل')">طلب الأرشيف</button>
-        </div>
-
-        <div class="product-card">
-            <img src="https://images.unsplash.com/photo-1517842645767-c639042777db?w=150" alt="امتحانات" class="product-thumb">
-            <div class="product-info">
-                <h3>📝 بنك اختبارات الفصول الثلاثة</h3>
-                <p>فروض واختبارات تجريبية مختارة بعناية لجميع المستويات.</p>
-            </div>
-            <button class="buy-now-btn" onclick="selectProductAndGo('بنك الاختبارات والفصول الثلاثة')">طلب البنك</button>
+            <button class="buy-now-btn" onclick="switchTab('store', document.querySelectorAll('nav a')[5])">تفعيل بالدخول</button>
         </div>
     </div>
 </div>
 
-<!-- قسم المتجر والدفع البريدي موب -->
+<!-- قسم المتجر والدفع الآمن (بدون ظهور رقم الحساب) -->
 <div id="store" class="section-content">
     <div class="card">
-        <h2>🛒 طلب الحزم والمذكرات - الدفع الآمن عبر بريدي موب / CCP</h2>
+        <h2> بوابة التفعيل الآمن والدخول الشامل</h2>
         
-        <div class="ccp-card">
-            <h3>معلومات الحساب البريدي لتحويل المبلغ</h3>
-            <p style="margin: 0 0 5px 0; font-size: 14px; color: var(--text-muted);">رقم الحساب البريدي (CCP):</p>
-            <div class="ccp-number-wrapper">
-                <span class="ccp-number" id="ccpText">جاري التحميل...</span>
-                <button class="copy-btn" onclick="copyCCP()">نسخ الرقم</button>
+        <div class="secure-gate-card">
+            <h3>🔒 تفعيل صلاحيات الدخول والاستفادة من المنصة</h3>
+            <div class="fee-badge">رسوم الدخول: 500 دج فقط</div>
+            <p style="margin: 0; color: var(--success-dark); font-weight: 700;">دفع آمن، مشفر، وبدون إظهار أرقام الحسابات على الواجهة للعموم.</p>
+            
+            <div class="secure-instructions">
+                <strong>📌 خطوات التفعيل التلقائي الفوري:</strong>
+                <ol style="margin: 8px 0 0 0; padding-right: 20px;">
+                    <li>قم بتحويل مبلغ <strong>500 دج</strong> عبر تطبيق BaridiMob أو بريد الجزائر نحو الحساب الداخلي للأستاذ.</li>
+                    <li>املأ استمارة الطلب أدناه واكتب اسمك ومعلومات التواصل الخاصة بك.</li>
+                    <li>أرفق صورة وصل التحويل (Reçu) وانقر على زر تأكيد الطلب.</li>
+                    <li>سيقوم النظام تلقائياً بربط طلبك وإرسال بيانات الدخول والملفات لك فوراً.</li>
+                </ol>
             </div>
-            <p style="font-size: 13px; color: var(--text-muted); margin: 10px 0 0 0;">اسم صاحب الحساب: <strong>الأستاذ حمو محمد أمين</strong></p>
         </div>
 
         <form id="paymentForm" onsubmit="sendToTelegram(event)">
-            <label for="productName">المنتج أو الحزمة المطلوبة:</label>
+            <label for="productName">نوع الطلب / الباقة:</label>
             <select id="productName" required>
-                <option value="الموسوعة الشاملة للمذكرات والكتب">📘 الموسوعة الشاملة للمذكرات والكتب (ثانوي)</option>
-                <option value="حزمة مراجعة البكالوريا">🎓 حزمة مراجعة البكالوريا (ملخصات وتمارين)</option>
-                <option value="اشتراك Premium الشامل">⭐ اشتراك Premium الشامل (كل المحتوى)</option>
-                <option value="حزمة جذع مشترك (مذكرات وكتب)">🔹 حزمة جذع مشترك (مذكرات وكتب)</option>
-                <option value="حزمة السنة الأولى ثانوي (كتب ومذكرات)">🔹 حزمة السنة الأولى ثانوي (1AS)</option>
-                <option value="حزمة السنة الثانية ثانوي (كتب ومذكرات)">🔹 حزمة السنة الثانية ثانوي (2AS)</option>
-                <option value="حزمة البكالوريا الشاملة (مذكرات وكتب)">🔹 حزمة البكالوريا الشاملة (3AS)</option>
-                <option value="أرشيف البكالوريات مع الحل المفصل">🏆 أرشيف بكالوريات الجزائر مع الحل المفصل</option>
-                <option value="بنك الاختبارات والفصول الثلاثة">📝 بنك الاختبارات والفصول الثلاثة</option>
+                <option value="اشتراك الدخول الشامل للمنصة (500 دج)">⭐ اشتراك الدخول الشامل للمنصة والأدوات (500 دج)</option>
+                <option value="باقة المذكرات والكتب الكاملة">📘 باقة المذكرات والكتب الكاملة</option>
             </select>
 
             <label for="clientName">الاسم الكامل:</label>
             <input type="text" id="clientName" placeholder="أدخل اسمك الكامل" required>
 
-            <label for="clientContact">رقم الهاتف أو البريد الإلكتروني:</label>
-            <input type="text" id="clientContact" placeholder="لإرسال الملفات أو تفعيل حسابك عليه" required>
+            <label for="clientContact">رقم الهاتف أو تيليجرام (لاستقبال التفعيل):</label>
+            <input type="text" id="clientContact" placeholder="مثال: 06xxxxxxxx" required>
 
-            <label>صورة وصل التحويل (Reçu BaridiMob / CCP):</label>
+            <label>صورة وصل التحويل (500 دج - BaridiMob / CCP):</label>
             <div class="file-upload-wrapper" id="dropZone">
                 <input type="file" id="receiptImage" accept="image/*" required onchange="updateFileName(this)">
-                <p class="file-upload-text" id="fileLabel">اسحب الصورة هنا أو <span>اضغط لاختيار صورة الوصل</span></p>
+                <p class="file-upload-text" id="fileLabel">اسحب صورة الوصل هنا أو <span>اضغط لاختيار الصورة</span></p>
             </div>
 
-            <button type="submit" class="btn-submit" id="submitBtn">تأكيد إرسال الطلب وإيصال الدفع</button>
-            <div id="loadingMsg">⏳ جاري معالجة وإرسال الطلب إلى النظام، يرجى الانتظار...</div>
+            <button type="submit" class="btn-submit" id="submitBtn">تأكيد الدفع وطلب تفعيل الدخول التلقائي</button>
+            <div id="loadingMsg">⏳ جاري معالجة إيصال الدفع وإرسال طلب الصلاحيات للنظام...</div>
         </form>
 
         <div id="successMsg">
-            ✅ تم إرسال طلبك بنجاح تام! سيقوم الأستاذ بالتحقق من وصل الدفع وإرسال الملفات أو تفعيل حسابك فوراً عبر تيليجرام.
+            ✅ تم استلام إيصال الدفع (500 دج) بنجاح! سيتم التحقق الآلي وتفعيل حسابك وإرسال كافة الملفات والأدوات إليك خلال لحظات.
         </div>
     </div>
 </div>
 
 <script>
-    // ===== متغير الحساب البريدي المركزي (يتغير من هنا لتتحدث كل المنصة تلقائياً) =====
-    const SYSTEM_CCP_CONFIG = "0023678484"; 
-
-    window.addEventListener('DOMContentLoaded', () => {
-        document.getElementById('ccpText').innerText = SYSTEM_CCP_CONFIG;
-    });
-
     function switchTab(sectionId, element) {
         document.querySelectorAll('.section-content').forEach(section => {
             section.classList.remove('active');
@@ -820,29 +759,6 @@
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    function selectProductAndGo(productName) {
-        const select = document.getElementById('productName');
-        for(let i = 0; i < select.options.length; i++) {
-            if(select.options[i].value === productName) {
-                select.selectedIndex = i;
-                break;
-            }
-        }
-        switchTab('store', document.querySelectorAll('nav a')[5]);
-    }
-
-    function copyCCP() {
-        navigator.clipboard.writeText(SYSTEM_CCP_CONFIG).then(() => {
-            const btn = document.querySelector('.copy-btn');
-            btn.innerText = 'تم النسخ!';
-            btn.style.backgroundColor = '#059669';
-            setTimeout(() => {
-                btn.innerText = 'نسخ الرقم';
-                btn.style.backgroundColor = '';
-            }, 2000);
-        });
-    }
-
     function updateFileName(input) {
         const label = document.getElementById('fileLabel');
         if (input.files && input.files.length > 0) {
@@ -862,18 +778,18 @@
         const receiptFile = document.getElementById('receiptImage').files[0];
 
         if (!receiptFile) {
-            alert("الرجاء إرفاق صورة وصل التحويل!");
+            alert("الرجاء إرفاق صورة وصل التحويل (500 دج)!");
             return;
         }
 
         document.getElementById('submitBtn').style.display = 'none';
         document.getElementById('loadingMsg').style.display = 'block';
 
-        const message = `🔔 طلب شراء جديد على منصة Hamo Math Pro!\n\n` +
-                        `📦 المنتج المطلوب: ${productName}\n` +
-                        `👤 اسم الزبون: ${clientName}\n` +
+        const message = `🔔 طلب تفعيل دخول جديد (500 دج) - Hamo Math Pro!\n\n` +
+                        `📦 الباقة: ${productName}\n` +
+                        `👤 اسم المشترك: ${clientName}\n` +
                         `📞 الاتصال: ${clientContact}\n` +
-                        `💳 CCP المستلم عليه: ${SYSTEM_CCP_CONFIG}`;
+                        `💳 الحالة: تم إرفاق إيصال التحويل الرمزي في الانتظار.`;
 
         const textUrl = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}`;
         
@@ -883,7 +799,7 @@
             const formData = new FormData();
             formData.append('chat_id', chatId);
             formData.append('photo', receiptFile);
-            formData.append('caption', `وصل التحويل للزبون: ${clientName} - المنتج: ${productName}`);
+            formData.append('caption', `إيصال دخول 500 دج للزبون: ${clientName} - الهاتف: ${clientContact}`);
 
             const photoUrl = `https://api.telegram.org/bot${botToken}/sendPhoto`;
             await fetch(photoUrl, {
