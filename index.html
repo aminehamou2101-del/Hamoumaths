@@ -1,18 +1,27 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+<meta name="viewport"
+      content="width=device-width,
+               initial-scale=1.0,
+               viewport-fit=cover">
 
 <title>HAMOU MATH | سلسلة حمو في الرياضيات</title>
 
-<meta name="description" content="HAMOU MATH منصة رياضيات تفاعلية للتعلم والتدريب والتحديات والألعاب.">
+<meta name="description"
+      content="HAMOU MATH منصة رياضيات تفاعلية عالمية للتعلم والتدريب والتمارين والاختبارات والألعاب والتحديات.">
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 
 /* =========================================================
-   HAMOU MATH
-   GLOBAL VARIABLES
+   HAMOU MATH V29
+   GLOBAL
 ========================================================= */
 
 :root{
@@ -27,11 +36,8 @@
     --success:#16a34a;
     --danger:#dc2626;
     --warning:#f59e0b;
-
     --card-shadow:0 5px 20px rgba(15,23,42,.04);
 }
-
-/* DARK MODE */
 
 html.dark{
     --dark:#020617;
@@ -40,8 +46,7 @@ html.dark{
     --bg:#0f172a;
     --white:#1e293b;
     --border:#334155;
-
-    --card-shadow:0 5px 25px rgba(0,0,0,.20);
+    --card-shadow:0 5px 25px rgba(0,0,0,.2);
 }
 
 *{
@@ -65,7 +70,6 @@ body{
     color:var(--text);
     line-height:1.7;
 
-    min-width:0;
     overflow-x:hidden;
 
     transition:
@@ -109,8 +113,6 @@ img{
     border-bottom:1px solid var(--border);
 
     backdrop-filter:blur(12px);
-
-    transition:.25s;
 }
 
 html.dark .header{
@@ -153,7 +155,6 @@ html.dark .header{
     text-decoration:none;
     color:var(--text);
     font-weight:700;
-
     transition:.2s;
 }
 
@@ -183,8 +184,6 @@ html.dark .header{
     color:var(--primary);
 }
 
-/* MOBILE MENU BUTTON */
-
 .mobile-menu-btn{
     display:none;
 
@@ -200,8 +199,6 @@ html.dark .header{
     font-size:22px;
 }
 
-/* MOBILE MENU */
-
 .mobile-menu{
     display:none;
 
@@ -213,7 +210,7 @@ html.dark .header{
     background:var(--white);
     border-bottom:1px solid var(--border);
 
-    box-shadow:0 12px 30px rgba(0,0,0,.10);
+    box-shadow:0 12px 30px rgba(0,0,0,.1);
 
     padding:14px;
 }
@@ -224,7 +221,6 @@ html.dark .header{
 
 .mobile-menu a{
     display:block;
-
     text-decoration:none;
     color:var(--text);
 
@@ -271,11 +267,7 @@ html.dark .header{
 
     font-weight:700;
 
-    transition:
-        transform .2s,
-        background .2s,
-        color .2s,
-        border-color .2s;
+    transition:.2s;
 }
 
 .btn:hover{
@@ -292,8 +284,20 @@ html.dark .header{
     background:var(--primary-dark);
 }
 
+.btn.success{
+    background:var(--success);
+    border-color:var(--success);
+    color:white;
+}
+
+.btn.danger{
+    background:var(--danger);
+    border-color:var(--danger);
+    color:white;
+}
+
 .btn:disabled{
-    opacity:.6;
+    opacity:.55;
     cursor:not-allowed;
     transform:none;
 }
@@ -329,14 +333,12 @@ html.dark .hero{
 .hero h1{
     font-size:clamp(36px,6vw,64px);
     line-height:1.2;
-
     margin-bottom:18px;
 }
 
 .hero p{
     color:var(--muted);
     font-size:20px;
-
     margin-bottom:25px;
 }
 
@@ -346,12 +348,8 @@ html.dark .hero{
 
 .stats{
     display:grid;
-
-    grid-template-columns:
-        repeat(4,1fr);
-
+    grid-template-columns:repeat(4,1fr);
     gap:15px;
-
     padding:25px 0;
 }
 
@@ -370,14 +368,12 @@ html.dark .hero{
 
 .stat strong{
     display:block;
-
     color:var(--primary);
-
     font-size:32px;
 }
 
 /* =========================================================
-   USER BAR
+   USER
 ========================================================= */
 
 .user-bar{
@@ -421,8 +417,7 @@ html.dark .hero{
 .xp-track{
     height:11px;
 
-    background:
-        var(--border);
+    background:var(--border);
 
     border-radius:50px;
 
@@ -462,19 +457,13 @@ html.dark .hero{
     gap:18px;
 }
 
-.cards{
-    grid-template-columns:
-        repeat(3,minmax(0,1fr));
-}
-
+.cards,
 .challenge-grid{
-    grid-template-columns:
-        repeat(3,minmax(0,1fr));
+    grid-template-columns:repeat(3,minmax(0,1fr));
 }
 
 .resource-grid{
-    grid-template-columns:
-        repeat(3,minmax(0,1fr));
+    grid-template-columns:repeat(3,minmax(0,1fr));
 }
 
 .card,
@@ -503,7 +492,8 @@ html.dark .hero{
 }
 
 .card:hover,
-.challenge:hover{
+.challenge:hover,
+.resource:hover{
     transform:translateY(-2px);
 }
 
@@ -512,60 +502,152 @@ html.dark .hero{
 }
 
 /* =========================================================
-   FILTERS
+   V29 LIBRARY
 ========================================================= */
 
-.filters{
-    display:flex;
+.library-panel{
+    background:var(--white);
 
-    flex-wrap:wrap;
+    border:1px solid var(--border);
 
-    gap:9px;
+    border-radius:20px;
+
+    padding:18px;
+
+    box-shadow:var(--card-shadow);
 
     margin-bottom:20px;
 }
 
-.filters input,
-.filters select{
+.library-search{
+    display:flex;
+    gap:10px;
+    margin-bottom:14px;
+}
+
+.library-search input{
+    flex:1;
+    min-width:0;
+}
+
+.library-search input,
+.library-filter select{
     border:1px solid var(--border);
 
     background:var(--white);
     color:var(--text);
 
-    border-radius:10px;
+    border-radius:11px;
 
-    padding:11px 13px;
+    padding:12px 13px;
 
     outline:none;
-
-    min-width:0;
 }
 
-.filters input:focus,
-.filters select:focus{
+.library-search input:focus,
+.library-filter select:focus{
     border-color:var(--primary);
 }
 
-.filters input{
-    flex:1;
-    min-width:220px;
+.library-filter{
+    display:grid;
+
+    grid-template-columns:
+        repeat(4,minmax(0,1fr));
+
+    gap:9px;
 }
 
-/* =========================================================
-   RESOURCE
-========================================================= */
+.library-bottom{
+    margin-top:14px;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    gap:10px;
+
+    flex-wrap:wrap;
+}
+
+.library-count{
+    color:var(--muted);
+    font-size:14px;
+}
 
 .resource{
     cursor:pointer;
+    position:relative;
 }
 
-.resource:hover{
-    transform:translateY(-3px);
-    border-color:#bfdbfe;
+.resource-top{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    gap:10px;
+
+    margin-bottom:10px;
+}
+
+.resource-icon{
+    width:45px;
+    height:45px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:12px;
+
+    background:#eff6ff;
+
+    font-size:22px;
+
+    flex-shrink:0;
+}
+
+html.dark .resource-icon{
+    background:#172554;
+}
+
+.resource-title{
+    min-width:0;
+    flex:1;
+}
+
+.resource-title h3{
+    font-size:18px;
+    line-height:1.45;
+}
+
+.resource-description{
+    color:var(--muted);
+
+    font-size:14px;
+
+    margin:8px 0;
+
+    display:-webkit-box;
+    -webkit-line-clamp:3;
+    -webkit-box-orient:vertical;
+    overflow:hidden;
+}
+
+.resource-meta{
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:5px;
+
+    margin:10px 0;
 }
 
 .tag{
-    display:inline-block;
+    display:inline-flex;
+
+    align-items:center;
 
     background:#eff6ff;
     color:var(--primary);
@@ -575,12 +657,60 @@ html.dark .hero{
     padding:4px 9px;
 
     font-size:12px;
-
-    margin:2px;
 }
 
 html.dark .tag{
     background:#172554;
+}
+
+.resource-stats{
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:12px;
+
+    color:var(--muted);
+
+    font-size:12px;
+
+    margin-top:8px;
+}
+
+.resource-actions{
+    display:flex;
+
+    gap:7px;
+
+    flex-wrap:wrap;
+
+    margin-top:13px;
+}
+
+.resource-actions .btn{
+    padding:8px 11px;
+    font-size:13px;
+}
+
+.favorite-active{
+    color:#f59e0b !important;
+    border-color:#f59e0b !important;
+}
+
+.load-more-wrap{
+    display:flex;
+    justify-content:center;
+    margin-top:22px;
+}
+
+.library-empty{
+    grid-column:1/-1;
+
+    text-align:center;
+
+    padding:35px 20px;
+
+    color:var(--muted);
 }
 
 /* =========================================================
@@ -601,11 +731,7 @@ html.dark .tag{
     align-items:center;
     justify-content:center;
 
-    padding:
-        max(15px,env(safe-area-inset-top))
-        max(15px,env(safe-area-inset-right))
-        max(15px,env(safe-area-inset-bottom))
-        max(15px,env(safe-area-inset-left));
+    padding:15px;
 
     overflow:auto;
 }
@@ -615,15 +741,13 @@ html.dark .tag{
 }
 
 .modal-box{
-    width:min(720px,100%);
+    width:min(760px,100%);
 
-    max-height:
-        min(90vh,900px);
+    max-height:90vh;
 
     overflow:auto;
 
     background:var(--white);
-
     color:var(--text);
 
     border-radius:22px;
@@ -633,8 +757,6 @@ html.dark .tag{
     position:relative;
 
     box-shadow:0 25px 70px rgba(0,0,0,.25);
-
-    overflow-wrap:anywhere;
 }
 
 .close{
@@ -650,12 +772,35 @@ html.dark .tag{
 
     font-size:30px;
 
-    cursor:pointer;
-
     width:40px;
     height:40px;
+}
 
-    line-height:35px;
+.detail-grid{
+    display:grid;
+
+    grid-template-columns:
+        repeat(2,minmax(0,1fr));
+
+    gap:9px;
+
+    margin:20px 0;
+}
+
+.detail-item{
+    padding:10px 12px;
+
+    border:1px solid var(--border);
+
+    border-radius:10px;
+
+    background:var(--bg);
+}
+
+.detail-item strong{
+    display:block;
+    color:var(--muted);
+    font-size:12px;
 }
 
 /* =========================================================
@@ -674,8 +819,6 @@ html.dark .tag{
     font-size:21px;
 
     margin:20px 0;
-
-    overflow-wrap:anywhere;
 }
 
 .quiz-input{
@@ -693,8 +836,6 @@ html.dark .tag{
     outline:none;
 
     margin-bottom:12px;
-
-    min-width:0;
 }
 
 .quiz-input:focus{
@@ -715,18 +856,26 @@ html.dark .tag{
     border-radius:12px;
 
     margin:12px 0;
-
-    overflow-wrap:anywhere;
 }
 
-.success{
+.success-result{
     background:#dcfce7;
     color:#166534;
 }
 
-.wrong{
+.wrong-result{
     background:#fee2e2;
     color:#991b1b;
+}
+
+html.dark .success-result{
+    background:#052e16;
+    color:#86efac;
+}
+
+html.dark .wrong-result{
+    background:#450a0a;
+    color:#fca5a5;
 }
 
 .timer{
@@ -754,13 +903,10 @@ html.dark .tag{
 .toast{
     position:fixed;
 
-    bottom:
-        max(20px,env(safe-area-inset-bottom));
-
+    bottom:20px;
     right:20px;
 
-    max-width:
-        calc(100vw - 40px);
+    max-width:calc(100vw - 40px);
 
     background:var(--dark);
     color:white;
@@ -781,15 +927,7 @@ html.dark .tag{
 }
 
 /* =========================================================
-   LANGUAGE
-========================================================= */
-
-.lang-hidden{
-    display:none !important;
-}
-
-/* =========================================================
-   TABLET
+   MOBILE
 ========================================================= */
 
 @media(max-width:900px){
@@ -811,22 +949,20 @@ html.dark .tag{
     }
 
     .stats{
-        grid-template-columns:
-            repeat(2,minmax(0,1fr));
+        grid-template-columns:repeat(2,minmax(0,1fr));
     }
 
     .cards,
     .challenge-grid,
     .resource-grid{
-        grid-template-columns:
-            repeat(2,minmax(0,1fr));
+        grid-template-columns:repeat(2,minmax(0,1fr));
+    }
+
+    .library-filter{
+        grid-template-columns:repeat(2,minmax(0,1fr));
     }
 
 }
-
-/* =========================================================
-   MOBILE
-========================================================= */
 
 @media(max-width:600px){
 
@@ -846,20 +982,12 @@ html.dark .tag{
         display:none;
     }
 
-    .mobile-menu-btn{
-        width:40px;
-        height:40px;
-
-        font-size:20px;
-    }
-
     .hero{
         padding:50px 0;
     }
 
     .hero h1{
-        font-size:
-            clamp(32px,10vw,42px);
+        font-size:clamp(32px,10vw,42px);
     }
 
     .hero p{
@@ -880,8 +1008,6 @@ html.dark .tag{
     .user-bar{
         flex-direction:column;
         align-items:stretch;
-
-        gap:15px;
     }
 
     .user-info{
@@ -896,25 +1022,24 @@ html.dark .tag{
         font-size:27px;
     }
 
-    .filters{
-        display:grid;
+    .library-search{
+        flex-direction:column;
+    }
+
+    .library-search .btn{
+        width:100%;
+    }
+
+    .library-filter{
         grid-template-columns:1fr;
     }
 
-    .filters input{
-        min-width:0;
+    .library-filter select{
         width:100%;
     }
 
-    .filters select,
-    .filters .btn{
-        width:100%;
-    }
-
-    .card,
-    .challenge,
-    .resource{
-        padding:18px;
+    .detail-grid{
+        grid-template-columns:1fr;
     }
 
     .modal{
@@ -930,13 +1055,11 @@ html.dark .tag{
             20px 20px 12px 12px;
 
         padding:22px 17px;
-
-        padding-top:40px;
+        padding-top:42px;
     }
 
     .quiz-question{
         font-size:18px;
-        padding:16px;
     }
 
     .quiz-actions{
@@ -951,20 +1074,12 @@ html.dark .tag{
     .toast{
         left:15px;
         right:15px;
-
-        bottom:
-            max(15px,env(safe-area-inset-bottom));
-
+        bottom:15px;
         max-width:none;
-
         text-align:center;
     }
 
 }
-
-/* =========================================================
-   VERY SMALL PHONES
-========================================================= */
 
 @media(max-width:360px){
 
@@ -986,23 +1101,8 @@ html.dark .tag{
 
 }
 
-/* =========================================================
-   REDUCE MOTION
-========================================================= */
-
-@media(prefers-reduced-motion:reduce){
-
-    *,
-    *::before,
-    *::after{
-        scroll-behavior:auto !important;
-        transition:none !important;
-        animation:none !important;
-    }
-
-}
-
 </style>
+
 </head>
 
 <body>
@@ -1015,7 +1115,8 @@ html.dark .tag{
 
 <div class="container">
 
-<a href="#home" class="logo" data-i18n="logo">
+<a href="#home"
+   class="logo">
 HAMOU MATH
 </a>
 
@@ -1023,21 +1124,28 @@ HAMOU MATH
 
 <div class="nav-links">
 
-<a href="#home" data-i18n="home">الرئيسية</a>
+<a href="#home"
+   data-i18n="home">
+الرئيسية
+</a>
 
-<a href="#challenges" data-i18n="challenges">
+<a href="#challenges"
+   data-i18n="challenges">
 التحديات
 </a>
 
-<a href="#games" data-i18n="games">
+<a href="#games"
+   data-i18n="games">
 الألعاب
 </a>
 
-<a href="#library" data-i18n="library">
+<a href="#library"
+   data-i18n="library">
 المكتبة
 </a>
 
-<a href="#about" data-i18n="about">
+<a href="#about"
+   data-i18n="about">
 حول
 </a>
 
@@ -1045,44 +1153,35 @@ HAMOU MATH
 
 <div class="nav-actions">
 
-<button
-    class="lang-button"
-    onclick="changeLanguage('ar')">
+<button class="lang-button"
+        onclick="changeLanguage('ar')">
 AR
 </button>
 
-<button
-    class="lang-button"
-    onclick="changeLanguage('fr')">
+<button class="lang-button"
+        onclick="changeLanguage('fr')">
 FR
 </button>
 
-<button
-    class="lang-button"
-    onclick="changeLanguage('en')">
+<button class="lang-button"
+        onclick="changeLanguage('en')">
 EN
 </button>
 
-<button
-    id="themeButton"
-    title="الوضع الليلي"
-    onclick="toggleTheme()">
+<button id="themeButton"
+        onclick="toggleTheme()">
 🌙
 </button>
 
-<button
-    class="btn primary login-button"
-    onclick="openLogin()"
-    data-i18n="login">
+<button class="btn primary login-button"
+        onclick="openLogin()"
+        data-i18n="login">
 دخول
 </button>
 
-<button
-    id="mobileMenuBtn"
-    class="mobile-menu-btn"
-    aria-label="القائمة"
-    aria-expanded="false"
-    onclick="toggleMobileMenu()">
+<button id="mobileMenuBtn"
+        class="mobile-menu-btn"
+        onclick="toggleMobileMenu()">
 ☰
 </button>
 
@@ -1092,9 +1191,8 @@ EN
 
 </div>
 
-<!-- MOBILE MENU -->
-
-<div id="mobileMenu" class="mobile-menu">
+<div id="mobileMenu"
+     class="mobile-menu">
 
 <a href="#home"
    onclick="closeMobileMenu()"
@@ -1142,22 +1240,6 @@ EN
 
 </div>
 
-<button
-    class="btn primary"
-    style="width:100%;margin-top:10px"
-    onclick="openLogin();closeMobileMenu()"
-    data-i18n="login">
-دخول
-</button>
-
-<button
-    class="btn"
-    style="width:100%;margin-top:8px"
-    onclick="toggleTheme()"
-    data-i18n="theme">
-الوضع الليلي
-</button>
-
 </div>
 
 </header>
@@ -1168,6 +1250,7 @@ EN
 ======================================================= -->
 
 <main id="home">
+
 
 <!-- HERO -->
 
@@ -1183,10 +1266,9 @@ EN
 HAMOU MATH — منصة رياضيات تفاعلية للتعلم والتدريب والتحديات والألعاب.
 </p>
 
-<a
-    href="#library"
-    class="btn primary"
-    data-i18n="startLearning">
+<a href="#library"
+   class="btn primary"
+   data-i18n="startLearning">
 ابدأ التعلم الآن
 </a>
 
@@ -1195,37 +1277,50 @@ HAMOU MATH — منصة رياضيات تفاعلية للتعلم والتدر�
 </section>
 
 
-<!-- =====================================================
-     STATS
-===================================================== -->
+<!-- STATS -->
 
-<section class="container stats">
+<section class="section"
+         style="padding-top:20px;padding-bottom:10px;">
+
+<div class="container">
+
+<div class="stats">
 
 <div class="stat">
 
 <strong id="statResources">
-11014+
+0
 </strong>
 
 <span data-i18n="resources">
-مورد رياضي
+موارد
 </span>
 
 </div>
-
 
 <div class="stat">
 
 <strong id="statExercises">
-10000+
+0
 </strong>
 
 <span data-i18n="exercises">
-تمرين
+تمارين
 </span>
 
 </div>
 
+<div class="stat">
+
+<strong id="statCountries">
+0
+</strong>
+
+<span data-i18n="countries">
+دول
+</span>
+
+</div>
 
 <div class="stat">
 
@@ -1239,25 +1334,17 @@ XP
 
 </div>
 
-
-<div class="stat">
-
-<strong id="statLevel">
-1
-</strong>
-
-<span data-i18n="level">
-المستوى
-</span>
+</div>
 
 </div>
 
 </section>
 
 
-<!-- =====================================================
-     USER
-===================================================== -->
+<!-- USER BAR -->
+
+<section class="section"
+         style="padding-top:10px;">
 
 <div class="container">
 
@@ -1265,19 +1352,16 @@ XP
 
 <div class="user-info">
 
-<strong id="userName"
-        data-i18n="visitor">
+<strong id="userName">
 زائر
 </strong>
 
-<div
-    class="muted"
-    data-i18n="continueLearning">
-واصل التعلم وارفع مستواك 🚀
+<div class="muted"
+     id="userStatus">
+زائر
 </div>
 
 </div>
-
 
 <div class="xp-box">
 
@@ -1287,11 +1371,7 @@ XP
 <span data-i18n="level">
 المستوى
 </span>
-
-<b id="levelText">
-1
-</b>
-
+<span id="levelText">1</span>
 </span>
 
 <span id="xpText">
@@ -1300,38 +1380,29 @@ XP
 
 </div>
 
-
 <div class="xp-track">
 
-<div
-    id="xpFill"
-    class="xp-fill">
+<div id="xpFill"
+     class="xp-fill">
 </div>
 
 </div>
 
 </div>
 
-
-<button
-    class="btn"
-    onclick="openProgress()"
-    data-i18n="progress">
-تقدمي
-</button>
-
 </div>
 
 </div>
+
+</section>
 
 
 <!-- =====================================================
      CHALLENGES
 ===================================================== -->
 
-<section
-    id="challenges"
-    class="section">
+<section id="challenges"
+         class="section">
 
 <div class="container">
 
@@ -1339,9 +1410,7 @@ XP
 التحديات
 </h2>
 
-
 <div class="challenge-grid">
-
 
 <div class="challenge">
 
@@ -1349,18 +1418,16 @@ XP
 ⚡ تحدي السرعة
 </h3>
 
-<p
-    class="muted"
-    data-i18n="speedChallengeText">
+<p class="muted"
+   data-i18n="speedChallengeText">
 10 أسئلة في 60 ثانية.
 </p>
 
 <br>
 
-<button
-    class="btn primary"
-    onclick="startChallenge('speed')"
-    data-i18n="startChallenge">
+<button class="btn primary"
+        onclick="startChallenge('speed')"
+        data-i18n="startChallenge">
 ابدأ التحدي
 </button>
 
@@ -1373,18 +1440,16 @@ XP
 🧠 التحدي الذهني
 </h3>
 
-<p
-    class="muted"
-    data-i18n="logicChallengeText">
+<p class="muted"
+   data-i18n="logicChallengeText">
 10 أسئلة لاختبار مهاراتك الرياضية.
 </p>
 
 <br>
 
-<button
-    class="btn primary"
-    onclick="startChallenge('logic')"
-    data-i18n="startChallenge">
+<button class="btn primary"
+        onclick="startChallenge('logic')"
+        data-i18n="startChallenge">
 ابدأ التحدي
 </button>
 
@@ -1397,18 +1462,16 @@ XP
 📅 تحدي اليوم
 </h3>
 
-<p
-    class="muted"
-    data-i18n="dailyChallengeText">
+<p class="muted"
+   data-i18n="dailyChallengeText">
 سؤال يومي ومكافأة خاصة.
 </p>
 
 <br>
 
-<button
-    class="btn primary"
-    onclick="startChallenge('daily')"
-    data-i18n="start">
+<button class="btn primary"
+        onclick="startChallenge('daily')"
+        data-i18n="start">
 ابدأ
 </button>
 
@@ -1425,9 +1488,8 @@ XP
      GAMES
 ===================================================== -->
 
-<section
-    id="games"
-    class="section">
+<section id="games"
+         class="section">
 
 <div class="container">
 
@@ -1435,9 +1497,7 @@ XP
 الألعاب
 </h2>
 
-
 <div class="cards">
-
 
 <div class="card">
 
@@ -1445,18 +1505,16 @@ XP
 🎯 حل واربح
 </h3>
 
-<p
-    class="muted"
-    data-i18n="randomGameText">
+<p class="muted"
+   data-i18n="randomGameText">
 حل أسئلة عشوائية واحصل على XP.
 </p>
 
 <br>
 
-<button
-    class="btn primary"
-    onclick="playGame('random')"
-    data-i18n="playNow">
+<button class="btn primary"
+        onclick="playGame('random')"
+        data-i18n="playNow">
 لعب الآن
 </button>
 
@@ -1469,18 +1527,16 @@ XP
 ⏱️ ضد الوقت
 </h3>
 
-<p
-    class="muted"
-    data-i18n="timerGameText">
+<p class="muted"
+   data-i18n="timerGameText">
 أجب بسرعة واحصل على أكبر عدد من النقاط.
 </p>
 
 <br>
 
-<button
-    class="btn primary"
-    onclick="playGame('timer')"
-    data-i18n="playNow">
+<button class="btn primary"
+        onclick="playGame('timer')"
+        data-i18n="playNow">
 لعب الآن
 </button>
 
@@ -1493,18 +1549,16 @@ XP
 🏆 مستويات
 </h3>
 
-<p
-    class="muted"
-    data-i18n="levelsText">
+<p class="muted"
+   data-i18n="levelsText">
 كل 100 XP تنتقل إلى مستوى جديد.
 </p>
 
 <br>
 
-<button
-    class="btn primary"
-    onclick="openProgress()"
-    data-i18n="progress">
+<button class="btn primary"
+        onclick="openProgress()"
+        data-i18n="progress">
 تقدمي
 </button>
 
@@ -1518,12 +1572,11 @@ XP
 
 
 <!-- =====================================================
-     LIBRARY
+     GLOBAL LIBRARY V29
 ===================================================== -->
 
-<section
-    id="library"
-    class="section">
+<section id="library"
+         class="section">
 
 <div class="container">
 
@@ -1532,90 +1585,421 @@ XP
 </h2>
 
 
-<div class="filters">
-
-<input
-    id="searchInput"
-    type="search"
-    placeholder="ابحث عن درس أو تمرين أو موضوع..."
-    data-i18n-placeholder="searchPlaceholder"
-    oninput="debouncedLoadResources()"
->
+<div class="library-panel">
 
 
-<select
-    id="levelFilter"
-    onchange="loadResources()">
+<div class="library-search">
 
-<option value=""
-        data-i18n="allLevels">
-كل المستويات
-</option>
+<input id="searchInput"
+       type="search"
+       placeholder="ابحث عن درس أو تمرين أو موضوع..."
+       oninput="debouncedLoadResources()">
 
-<option value="1AS">
-1AS
-</option>
-
-<option value="2AS">
-2AS
-</option>
-
-<option value="3AS">
-3AS
-</option>
-
-<option value="BAC">
-BAC
-</option>
-
-</select>
-
-
-<select
-    id="typeFilter"
-    onchange="loadResources()">
-
-<option value=""
-        data-i18n="allTypes">
-كل الأنواع
-</option>
-
-<option value="exercise"
-        data-i18n="typeExercise">
-تمارين
-</option>
-
-<option value="lesson"
-        data-i18n="typeLesson">
-دروس
-</option>
-
-<option value="course"
-        data-i18n="typeCourse">
-دورات
-</option>
-
-</select>
-
-
-<button
-    class="btn"
-    onclick="clearFilters()"
-    data-i18n="clear">
-مسح
+<button class="btn primary"
+        onclick="loadResources(true)"
+        data-i18n="search">
+بحث
 </button>
 
 </div>
 
 
-<div
-    id="resourceGrid"
-    class="resource-grid">
+<div class="library-filter">
 
-<div class="resource"
-     data-i18n="loadingLibrary">
+
+<select id="countryFilter"
+        onchange="loadResources(true)">
+
+<option value="">
+🌍 كل الدول
+</option>
+
+<option value="DZ">
+🇩🇿 الجزائر
+</option>
+
+<option value="FR">
+🇫🇷 فرنسا
+</option>
+
+<option value="MA">
+🇲🇦 المغرب
+</option>
+
+<option value="TN">
+🇹🇳 تونس
+</option>
+
+<option value="EG">
+🇪🇬 مصر
+</option>
+
+<option value="SA">
+🇸🇦 السعودية
+</option>
+
+<option value="AE">
+🇦🇪 الإمارات
+</option>
+
+<option value="CA">
+🇨🇦 كندا
+</option>
+
+<option value="US">
+🇺🇸 الولايات المتحدة
+</option>
+
+<option value="GB">
+🇬🇧 المملكة المتحدة
+</option>
+
+<option value="DE">
+🇩🇪 ألمانيا
+</option>
+
+<option value="WW">
+🌍 عالمي
+</option>
+
+</select>
+
+
+<select id="languageFilter"
+        onchange="loadResources(true)">
+
+<option value="">
+🌐 كل اللغات
+</option>
+
+<option value="ar">
+العربية
+</option>
+
+<option value="fr">
+Français
+</option>
+
+<option value="en">
+English
+</option>
+
+</select>
+
+
+<select id="educationFilter"
+        onchange="loadResources(true)">
+
+<option value="">
+🎓 كل المستويات
+</option>
+
+<option value="PRIMARY">
+ابتدائي
+</option>
+
+<option value="MIDDLE">
+متوسط
+</option>
+
+<option value="SECONDARY">
+ثانوي
+</option>
+
+<option value="UNIVERSITY">
+جامعي
+</option>
+
+<option value="MASTER">
+ماستر
+</option>
+
+<option value="PHD">
+دكتوراه
+</option>
+
+<option value="OLYMPIAD">
+أولمبياد
+</option>
+
+</select>
+
+
+<select id="yearFilter"
+        onchange="loadResources(true)">
+
+<option value="">
+📅 كل السنوات
+</option>
+
+<option value="1AP">1AP</option>
+<option value="2AP">2AP</option>
+<option value="3AP">3AP</option>
+<option value="4AP">4AP</option>
+<option value="5AP">5AP</option>
+
+<option value="1AM">1AM</option>
+<option value="2AM">2AM</option>
+<option value="3AM">3AM</option>
+<option value="4AM">4AM</option>
+
+<option value="1AS">1AS</option>
+<option value="2AS">2AS</option>
+<option value="3AS">3AS</option>
+<option value="BAC">BAC</option>
+
+<option value="L1">L1</option>
+<option value="L2">L2</option>
+<option value="L3">L3</option>
+
+<option value="M1">M1</option>
+<option value="M2">M2</option>
+
+<option value="PHD">PhD</option>
+
+</select>
+
+
+<select id="subjectFilter"
+        onchange="loadResources(true)">
+
+<option value="">
+🧮 كل المواد
+</option>
+
+<option value="MATHEMATICS">
+الرياضيات
+</option>
+
+<option value="ALGEBRA">
+الجبر
+</option>
+
+<option value="ANALYSIS">
+التحليل
+</option>
+
+<option value="GEOMETRY">
+الهندسة
+</option>
+
+<option value="PROBABILITY">
+الاحتمالات
+</option>
+
+<option value="STATISTICS">
+الإحصاء
+</option>
+
+<option value="NUMBER_THEORY">
+نظرية الأعداد
+</option>
+
+<option value="CALCULUS">
+التفاضل والتكامل
+</option>
+
+<option value="LINEAR_ALGEBRA">
+الجبر الخطي
+</option>
+
+<option value="DIFFERENTIAL_EQUATIONS">
+المعادلات التفاضلية
+</option>
+
+<option value="DISCRETE_MATH">
+الرياضيات المتقطعة
+</option>
+
+<option value="TOPOLOGY">
+الطوبولوجيا
+</option>
+
+<option value="COMBINATORICS">
+التوافقيات
+</option>
+
+<option value="OLYMPIAD_MATH">
+رياضيات الأولمبياد
+</option>
+
+</select>
+
+
+<select id="semesterFilter"
+        onchange="loadResources(true)">
+
+<option value="">
+📖 كل الفصول
+</option>
+
+<option value="S1">
+الفصل الأول
+</option>
+
+<option value="S2">
+الفصل الثاني
+</option>
+
+<option value="S3">
+الفصل الثالث
+</option>
+
+<option value="ANNUAL">
+سنوي
+</option>
+
+<option value="GENERAL">
+عام
+</option>
+
+</select>
+
+
+<select id="typeFilter"
+        onchange="loadResources(true)">
+
+<option value="">
+📚 كل الأنواع
+</option>
+
+<option value="exercise">
+تمارين
+</option>
+
+<option value="lesson">
+دروس
+</option>
+
+<option value="solution">
+حلول
+</option>
+
+<option value="course">
+دورات
+</option>
+
+<option value="book">
+كتب
+</option>
+
+<option value="summary">
+ملخصات
+</option>
+
+<option value="worksheet">
+أوراق عمل
+</option>
+
+<option value="homework">
+واجبات
+</option>
+
+<option value="test">
+اختبارات
+</option>
+
+<option value="exam">
+امتحانات
+</option>
+
+<option value="bac">
+بكالوريا
+</option>
+
+<option value="research">
+بحوث
+</option>
+
+<option value="thesis">
+أطروحات
+</option>
+
+<option value="olympiad">
+أولمبياد
+</option>
+
+<option value="pdf">
+PDF
+</option>
+
+<option value="video">
+فيديو
+</option>
+
+<option value="interactive">
+تفاعلي
+</option>
+
+</select>
+
+
+<select id="sortFilter"
+        onchange="loadResources(true)">
+
+<option value="newest">
+الأحدث
+</option>
+
+<option value="oldest">
+الأقدم
+</option>
+
+<option value="popular">
+الأكثر مشاهدة
+</option>
+
+<option value="downloads">
+الأكثر تحميلًا
+</option>
+
+<option value="featured">
+المميزة
+</option>
+
+</select>
+
+
+</div>
+
+
+<div class="library-bottom">
+
+<div id="libraryCount"
+     class="library-count">
 جاري تحميل المكتبة...
 </div>
+
+<button class="btn"
+        onclick="clearFilters()"
+        data-i18n="clear">
+مسح الفلاتر
+</button>
+
+</div>
+
+</div>
+
+
+<div id="resourceGrid"
+     class="resource-grid">
+
+<div class="resource">
+جاري تحميل المكتبة...
+</div>
+
+</div>
+
+
+<div class="load-more-wrap">
+
+<button id="loadMoreBtn"
+        class="btn primary"
+        onclick="loadMoreResources()"
+        style="display:none">
+
+تحميل المزيد
+</button>
 
 </div>
 
@@ -1628,9 +2012,8 @@ BAC
      ABOUT
 ===================================================== -->
 
-<section
-    id="about"
-    class="section">
+<section id="about"
+         class="section">
 
 <div class="container">
 
@@ -1640,9 +2023,8 @@ BAC
 
 <div class="card">
 
-<p
-    class="muted"
-    data-i18n="aboutText">
+<p class="muted"
+   data-i18n="aboutText">
 
 منصة تعليمية تهدف إلى جعل الرياضيات أكثر وضوحًا ومتعة
 من خلال الدروس والتمارين والألعاب والتحديات ونظام النقاط.
@@ -1658,39 +2040,40 @@ BAC
 </main>
 
 
-<!-- =======================================================
+<!-- =====================================================
      FOOTER
-======================================================= -->
+===================================================== -->
 
 <footer class="footer">
 
 <div class="container">
 
-<span data-i18n="footer">
+<strong>
+HAMOU MATH
+</strong>
+
+<p>
 © 2026 HAMOU MATH — سلسلة حمو في الرياضيات
-</span>
+</p>
 
 </div>
 
 </footer>
 
 
-<!-- =======================================================
+<!-- =====================================================
      MODAL
-======================================================= -->
+===================================================== -->
 
-<div
-    id="modal"
-    class="modal"
-    role="dialog"
-    aria-modal="true">
+<div id="modal"
+     class="modal"
+     onclick="closeModalOutside(event)">
 
-<div class="modal-box">
+<div id="modalBox"
+     class="modal-box">
 
-<button
-    class="close"
-    onclick="closeModal()"
-    aria-label="Close">
+<button class="close"
+        onclick="closeModal()">
 ×
 </button>
 
@@ -1701,17 +2084,14 @@ BAC
 </div>
 
 
-<div
-    id="toast"
-    class="toast">
+<!-- =====================================================
+     TOAST
+===================================================== -->
+
+<div id="toast"
+     class="toast">
 </div>
 
-
-<!-- =======================================================
-     SUPABASE
-======================================================= -->
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
 
@@ -1729,11 +2109,15 @@ let supabaseClient = null;
 
 try{
 
-    supabaseClient =
-        window.supabase.createClient(
-            SUPABASE_URL,
-            SUPABASE_KEY
-        );
+    if(window.supabase){
+
+        supabaseClient =
+            window.supabase.createClient(
+                SUPABASE_URL,
+                SUPABASE_KEY
+            );
+
+    }
 
 }catch(error){
 
@@ -1746,37 +2130,39 @@ try{
 
 
 /* =========================================================
-   GLOBAL
+   GLOBAL STATE
 ========================================================= */
 
 let currentUser = null;
 
+let currentLanguage =
+    localStorage.getItem("hamou_language") || "ar";
+
 let localXP =
-Number(
-    localStorage.getItem("hamou_xp") || 0
-);
+    Number(
+        localStorage.getItem("hamou_xp") || 0
+    );
 
 let resources = [];
 
-let debounceTimer = null;
+let libraryPage = 0;
 
-let currentLanguage =
-    localStorage.getItem("hamou_language") || "ar";
+const libraryPageSize = 24;
+
+let libraryHasMore = false;
+
+let libraryLoading = false;
+
+let debounceTimer = null;
 
 let quiz = {
 
     type:null,
-
     items:[],
-
     index:0,
-
     score:0,
-
     timeLeft:0,
-
     timer:null,
-
     locked:false
 
 };
@@ -1790,102 +2176,95 @@ const translations = {
 
 ar:{
 
-    logo:"HAMOU MATH",
-
     home:"الرئيسية",
     challenges:"التحديات",
     games:"الألعاب",
     library:"المكتبة",
     about:"حول",
     login:"دخول",
-    theme:"الوضع الليلي",
 
-    heroTitle:"سلسلة حمو في الرياضيات",
+    heroTitle:
+        "سلسلة حمو في الرياضيات",
 
     heroText:
-    "HAMOU MATH — منصة رياضيات تفاعلية للتعلم والتدريب والتحديات والألعاب.",
+        "HAMOU MATH — منصة رياضيات تفاعلية للتعلم والتدريب والتحديات والألعاب.",
 
-    startLearning:"ابدأ التعلم الآن",
+    startLearning:
+        "ابدأ التعلم الآن",
 
-    resources:"مورد رياضي",
-    exercises:"تمرين",
+    resources:"موارد",
+
+    exercises:"تمارين",
+
+    countries:"دول",
+
     level:"المستوى",
 
     visitor:"زائر",
 
-    continueLearning:
-    "واصل التعلم وارفع مستواك 🚀",
+    challengesTitle:"التحديات",
 
-    progress:"تقدمي",
-
-    speedChallengeTitle:"⚡ تحدي السرعة",
+    speedChallengeTitle:
+        "⚡ تحدي السرعة",
 
     speedChallengeText:
-    "10 أسئلة في 60 ثانية.",
+        "10 أسئلة في 60 ثانية.",
 
-    logicChallengeTitle:"🧠 التحدي الذهني",
+    logicChallengeTitle:
+        "🧠 التحدي الذهني",
 
     logicChallengeText:
-    "10 أسئلة لاختبار مهاراتك الرياضية.",
+        "10 أسئلة لاختبار مهاراتك الرياضية.",
 
-    dailyChallengeTitle:"📅 تحدي اليوم",
+    dailyChallengeTitle:
+        "📅 تحدي اليوم",
 
     dailyChallengeText:
-    "سؤال يومي ومكافأة خاصة.",
+        "سؤال يومي ومكافأة خاصة.",
 
     startChallenge:"ابدأ التحدي",
 
     start:"ابدأ",
 
-    randomGameTitle:"🎯 حل واربح",
+    randomGameTitle:
+        "🎯 حل واربح",
 
     randomGameText:
-    "حل أسئلة عشوائية واحصل على XP.",
+        "حل أسئلة عشوائية واحصل على XP.",
 
-    timerGameTitle:"⏱️ ضد الوقت",
+    timerGameTitle:
+        "⏱️ ضد الوقت",
 
     timerGameText:
-    "أجب بسرعة واحصل على أكبر عدد من النقاط.",
-
-    playNow:"لعب الآن",
+        "أجب بسرعة واحصل على أكبر عدد من النقاط.",
 
     levelsTitle:"🏆 مستويات",
 
     levelsText:
-    "كل 100 XP تنتقل إلى مستوى جديد.",
+        "كل 100 XP تنتقل إلى مستوى جديد.",
 
-    educationalLibrary:"المكتبة التعليمية",
+    playNow:"لعب الآن",
 
-    searchPlaceholder:
-    "ابحث عن درس أو تمرين أو موضوع...",
+    progress:"تقدمي",
 
-    allLevels:"كل المستويات",
+    educationalLibrary:
+        "المكتبة التعليمية",
 
-    allTypes:"كل الأنواع",
+    search:
+        "بحث",
 
-    typeExercise:"تمارين",
+    clear:
+        "مسح الفلاتر",
 
-    typeLesson:"دروس",
-
-    typeCourse:"دورات",
-
-    clear:"مسح",
-
-    loadingLibrary:"جاري تحميل المكتبة...",
-
-    aboutTitle:"حول HAMOU MATH",
+    aboutTitle:
+        "حول HAMOU MATH",
 
     aboutText:
-    "منصة تعليمية تهدف إلى جعل الرياضيات أكثر وضوحًا ومتعة من خلال الدروس والتمارين والألعاب والتحديات ونظام النقاط.",
-
-    footer:
-    "© 2026 HAMOU MATH — سلسلة حمو في الرياضيات"
+        "منصة تعليمية تهدف إلى جعل الرياضيات أكثر وضوحًا ومتعة من خلال الدروس والتمارين والألعاب والتحديات ونظام النقاط."
 
 },
 
 fr:{
-
-    logo:"HAMOU MATH",
 
     home:"Accueil",
     challenges:"Défis",
@@ -1893,121 +2272,85 @@ fr:{
     library:"Bibliothèque",
     about:"À propos",
     login:"Connexion",
-    theme:"Mode sombre",
 
     heroTitle:
-    "Série Hamou en Mathématiques",
+        "Série Hamou en Mathématiques",
 
     heroText:
-    "HAMOU MATH — plateforme interactive de mathématiques pour apprendre, pratiquer, relever des défis et jouer.",
+        "HAMOU MATH — plateforme interactive de mathématiques pour apprendre, pratiquer et relever des défis.",
 
     startLearning:
-    "Commencer maintenant",
+        "Commencer maintenant",
 
-    resources:
-    "Ressources mathématiques",
+    resources:"Ressources",
 
-    exercises:
-    "Exercices",
+    exercises:"Exercices",
 
-    level:
-    "Niveau",
+    countries:"Pays",
 
-    visitor:
-    "Visiteur",
+    level:"Niveau",
 
-    continueLearning:
-    "Continuez à apprendre et augmentez votre niveau 🚀",
-
-    progress:
-    "Ma progression",
+    visitor:"Visiteur",
 
     speedChallengeTitle:
-    "⚡ Défi de vitesse",
+        "⚡ Défi de vitesse",
 
     speedChallengeText:
-    "10 questions en 60 secondes.",
+        "10 questions en 60 secondes.",
 
     logicChallengeTitle:
-    "🧠 Défi mental",
+        "🧠 Défi mental",
 
     logicChallengeText:
-    "10 questions pour tester vos compétences mathématiques.",
+        "10 questions pour tester vos compétences.",
 
     dailyChallengeTitle:
-    "📅 Défi du jour",
+        "📅 Défi du jour",
 
     dailyChallengeText:
-    "Une question quotidienne avec une récompense spéciale.",
+        "Une question quotidienne avec récompense.",
 
-    startChallenge:
-    "Commencer le défi",
+    startChallenge:"Commencer",
 
-    start:
-    "Commencer",
+    start:"Démarrer",
 
     randomGameTitle:
-    "🎯 Résoudre et gagner",
+        "🎯 Résoudre et gagner",
 
     randomGameText:
-    "Résolvez des questions aléatoires et gagnez de l'XP.",
+        "Résolvez des questions et gagnez de l'XP.",
 
     timerGameTitle:
-    "⏱️ Contre la montre",
+        "⏱️ Contre la montre",
 
     timerGameText:
-    "Répondez rapidement et obtenez le meilleur score.",
+        "Répondez rapidement et gagnez des points.",
 
-    playNow:
-    "Jouer maintenant",
-
-    levelsTitle:
-    "🏆 Niveaux",
+    levelsTitle:"🏆 Niveaux",
 
     levelsText:
-    "Chaque 100 XP vous permettent de passer à un nouveau niveau.",
+        "Chaque 100 XP vous fait passer au niveau suivant.",
+
+    playNow:"Jouer",
+
+    progress:"Ma progression",
 
     educationalLibrary:
-    "Bibliothèque éducative",
+        "Bibliothèque éducative",
 
-    searchPlaceholder:
-    "Rechercher une leçon, un exercice ou un sujet...",
+    search:"Rechercher",
 
-    allLevels:
-    "Tous les niveaux",
-
-    allTypes:
-    "Tous les types",
-
-    typeExercise:
-    "Exercices",
-
-    typeLesson:
-    "Leçons",
-
-    typeCourse:
-    "Cours",
-
-    clear:
-    "Effacer",
-
-    loadingLibrary:
-    "Chargement de la bibliothèque...",
+    clear:"Effacer",
 
     aboutTitle:
-    "À propos de HAMOU MATH",
+        "À propos de HAMOU MATH",
 
     aboutText:
-    "Une plateforme éducative destinée à rendre les mathématiques plus simples et plus amusantes grâce aux leçons, exercices, jeux, défis et système de points.",
-
-    footer:
-    "© 2026 HAMOU MATH — Série Hamou en Mathématiques"
+        "Une plateforme éducative pour rendre les mathématiques plus claires et amusantes grâce aux cours, exercices, jeux et défis."
 
 },
 
 en:{
-
-    logo:"HAMOU MATH",
 
     home:"Home",
     challenges:"Challenges",
@@ -2015,115 +2358,81 @@ en:{
     library:"Library",
     about:"About",
     login:"Login",
-    theme:"Dark mode",
 
     heroTitle:
-    "Hamou Mathematics Series",
+        "Hamou Mathematics Series",
 
     heroText:
-    "HAMOU MATH — an interactive mathematics platform for learning, practice, challenges and games.",
+        "HAMOU MATH — an interactive mathematics platform for learning, practice, challenges and games.",
 
     startLearning:
-    "Start Learning",
+        "Start Learning",
 
-    resources:
-    "Math Resources",
+    resources:"Resources",
 
-    exercises:
-    "Exercises",
+    exercises:"Exercises",
 
-    level:
-    "Level",
+    countries:"Countries",
 
-    visitor:
-    "Visitor",
+    level:"Level",
 
-    continueLearning:
-    "Keep learning and increase your level 🚀",
-
-    progress:
-    "My Progress",
+    visitor:"Visitor",
 
     speedChallengeTitle:
-    "⚡ Speed Challenge",
+        "⚡ Speed Challenge",
 
     speedChallengeText:
-    "10 questions in 60 seconds.",
+        "10 questions in 60 seconds.",
 
     logicChallengeTitle:
-    "🧠 Mental Challenge",
+        "🧠 Mental Challenge",
 
     logicChallengeText:
-    "10 questions to test your mathematics skills.",
+        "10 questions to test your mathematical skills.",
 
     dailyChallengeTitle:
-    "📅 Daily Challenge",
+        "📅 Daily Challenge",
 
     dailyChallengeText:
-    "One daily question with a special reward.",
+        "A daily question with a special reward.",
 
-    startChallenge:
-    "Start Challenge",
+    startChallenge:"Start Challenge",
 
-    start:
-    "Start",
+    start:"Start",
 
     randomGameTitle:
-    "🎯 Solve & Win",
+        "🎯 Solve & Win",
 
     randomGameText:
-    "Solve random questions and earn XP.",
+        "Solve random questions and earn XP.",
 
     timerGameTitle:
-    "⏱️ Against the Clock",
+        "⏱️ Against the Clock",
 
     timerGameText:
-    "Answer quickly and get the highest score.",
+        "Answer quickly and earn more points.",
 
-    playNow:
-    "Play Now",
-
-    levelsTitle:
-    "🏆 Levels",
+    levelsTitle:"🏆 Levels",
 
     levelsText:
-    "Every 100 XP moves you to a new level.",
+        "Every 100 XP unlocks a new level.",
+
+    playNow:"Play Now",
+
+    progress:"My Progress",
 
     educationalLibrary:
-    "Educational Library",
+        "Educational Library",
 
-    searchPlaceholder:
-    "Search for a lesson, exercise or topic...",
+    search:"Search",
 
-    allLevels:
-    "All levels",
-
-    allTypes:
-    "All types",
-
-    typeExercise:
-    "Exercises",
-
-    typeLesson:
-    "Lessons",
-
-    typeCourse:
-    "Courses",
-
-    clear:
-    "Clear",
-
-    loadingLibrary:
-    "Loading library...",
+    clear:"Clear",
 
     aboutTitle:
-    "About HAMOU MATH",
+        "About HAMOU MATH",
 
     aboutText:
-    "An educational platform designed to make mathematics clearer and more enjoyable through lessons, exercises, games, challenges and a points system.",
-
-    footer:
-    "© 2026 HAMOU MATH — Hamou Mathematics Series"
+        "An educational platform designed to make mathematics clearer and more enjoyable through lessons, exercises, games and challenges."
 
 }
 
@@ -2131,7 +2440,7 @@ en:{
 
 
 /* =========================================================
-   HELPER
+   HELPERS
 ========================================================= */
 
 function $(id){
@@ -2141,55 +2450,217 @@ function $(id){
 }
 
 
-/* =========================================================
-   ESCAPE HTML
-========================================================= */
-
 function escapeHTML(value){
 
-    return String(value ?? "")
+    if(value === null ||
+       value === undefined){
 
+        return "";
+
+    }
+
+    return String(value)
         .replace(/&/g,"&amp;")
-
         .replace(/</g,"&lt;")
-
         .replace(/>/g,"&gt;")
-
         .replace(/"/g,"&quot;")
-
         .replace(/'/g,"&#039;");
 
 }
 
 
-/* =========================================================
-   TOAST
-========================================================= */
+function formatNumber(value){
 
-let toastTimer = null;
+    const number =
+        Number(value || 0);
+
+    return number.toLocaleString(
+        currentLanguage === "ar"
+        ? "ar-DZ"
+        : currentLanguage === "fr"
+        ? "fr-FR"
+        : "en-US"
+    );
+
+}
+
 
 function showToast(message){
 
-    const toast =
-        $("toast");
+    const toast = $("toast");
 
-    if(!toast){
-        return;
-    }
+    if(!toast) return;
 
-    toast.textContent =
-        message;
+    toast.textContent = message;
 
     toast.classList.add("show");
 
-    clearTimeout(toastTimer);
+    clearTimeout(
+        showToast.timer
+    );
 
-    toastTimer =
-        setTimeout(function(){
+    showToast.timer =
+        setTimeout(
+            function(){
 
-            toast.classList.remove("show");
+                toast.classList.remove(
+                    "show"
+                );
 
-        },2200);
+            },
+            2500
+        );
+
+}
+
+
+/* =========================================================
+   LANGUAGE
+========================================================= */
+
+function changeLanguage(lang){
+
+    if(
+        !translations[lang]
+    ){
+
+        return;
+
+    }
+
+    currentLanguage = lang;
+
+    localStorage.setItem(
+        "hamou_language",
+        lang
+    );
+
+    applyLanguage();
+
+}
+
+
+function applyLanguage(){
+
+    document.documentElement.lang =
+        currentLanguage;
+
+    document.documentElement.dir =
+        currentLanguage === "ar"
+        ? "rtl"
+        : "ltr";
+
+
+    document
+    .querySelectorAll(
+        "[data-i18n]"
+    )
+    .forEach(
+        function(element){
+
+            const key =
+                element.dataset.i18n;
+
+            const text =
+                translations[
+                    currentLanguage
+                ]?.[key];
+
+            if(text !== undefined){
+
+                element.textContent =
+                    text;
+
+            }
+
+        }
+    );
+
+
+    const search =
+        $("searchInput");
+
+    if(search){
+
+        search.placeholder =
+            currentLanguage === "ar"
+            ? "ابحث عن درس أو تمرين أو موضوع..."
+            : currentLanguage === "fr"
+            ? "Rechercher une leçon, un exercice ou un sujet..."
+            : "Search for a lesson, exercise or topic...";
+
+    }
+
+
+    updateUserUI();
+
+}
+
+
+/* =========================================================
+   THEME
+========================================================= */
+
+function applyTheme(){
+
+    const theme =
+        localStorage.getItem(
+            "hamou_theme"
+        );
+
+    if(theme === "dark"){
+
+        document.documentElement
+            .classList
+            .add("dark");
+
+    }else{
+
+        document.documentElement
+            .classList
+            .remove("dark");
+
+    }
+
+}
+
+
+function toggleTheme(){
+
+    const isDark =
+        document.documentElement
+            .classList
+            .contains("dark");
+
+    if(isDark){
+
+        document.documentElement
+            .classList
+            .remove("dark");
+
+        localStorage.setItem(
+            "hamou_theme",
+            "light"
+        );
+
+        $("themeButton").textContent =
+            "🌙";
+
+    }else{
+
+        document.documentElement
+            .classList
+            .add("dark");
+
+        localStorage.setItem(
+            "hamou_theme",
+            "dark"
+        );
+
+        $("themeButton").textContent =
+            "☀️";
+
+    }
 
 }
 
@@ -2206,24 +2677,20 @@ function toggleMobileMenu(){
     const button =
         $("mobileMenuBtn");
 
-    if(!menu){
-        return;
-    }
+    if(!menu) return;
 
-    menu.classList.toggle("show");
-
-    const opened =
-        menu.classList.contains("show");
+    menu.classList.toggle(
+        "show"
+    );
 
     if(button){
 
         button.setAttribute(
             "aria-expanded",
-            String(opened)
+            menu.classList.contains(
+                "show"
+            )
         );
-
-        button.textContent =
-            opened ? "✕" : "☰";
 
     }
 
@@ -2235,377 +2702,44 @@ function closeMobileMenu(){
     const menu =
         $("mobileMenu");
 
-    const button =
-        $("mobileMenuBtn");
-
     if(menu){
 
-        menu.classList.remove("show");
-
-    }
-
-    if(button){
-
-        button.setAttribute(
-            "aria-expanded",
-            "false"
-        );
-
-        button.textContent =
-            "☰";
-
-    }
-
-}
-
-
-/* close menu when clicking outside */
-
-document.addEventListener(
-    "click",
-    function(event){
-
-        const menu =
-            $("mobileMenu");
-
-        const button =
-            $("mobileMenuBtn");
-
-        if(
-            menu &&
-            button &&
-            !menu.contains(event.target) &&
-            !button.contains(event.target)
-        ){
-
-            closeMobileMenu();
-
-        }
-
-    }
-);
-
-
-/* =========================================================
-   THEME
-========================================================= */
-
-function applyTheme(){
-
-    const theme =
-        localStorage.getItem(
-            "hamou_theme"
-        ) || "light";
-
-    const dark =
-        theme === "dark";
-
-    document.documentElement
-        .classList.toggle(
-            "dark",
-            dark
-        );
-
-    const button =
-        $("themeButton");
-
-    if(button){
-
-        button.textContent =
-            dark ? "☀️" : "🌙";
-
-        button.title =
-            dark
-            ? "الوضع الفاتح"
-            : "الوضع الليلي";
-
-    }
-
-}
-
-
-function toggleTheme(){
-
-    const isDark =
-        document.documentElement
-            .classList
-            .contains("dark");
-
-    const next =
-        isDark ? "light" : "dark";
-
-    localStorage.setItem(
-        "hamou_theme",
-        next
-    );
-
-    applyTheme();
-
-    const message =
-        currentLanguage === "ar"
-        ? (next === "dark"
-            ? "🌙 تم تفعيل الوضع الليلي"
-            : "☀️ تم تفعيل الوضع الفاتح")
-
-        : currentLanguage === "fr"
-        ? (next === "dark"
-            ? "🌙 Mode sombre activé"
-            : "☀️ Mode clair activé")
-
-        : (next === "dark"
-            ? "🌙 Dark mode enabled"
-            : "☀️ Light mode enabled");
-
-    showToast(message);
-
-}
-
-
-/* =========================================================
-   LANGUAGE
-========================================================= */
-
-function changeLanguage(language){
-
-    if(!translations[language]){
-        return;
-    }
-
-    currentLanguage =
-        language;
-
-    localStorage.setItem(
-        "hamou_language",
-        language
-    );
-
-    applyLanguage();
-
-    closeMobileMenu();
-
-    showToast(
-        language === "ar"
-        ? "العربية 🇩🇿"
-
-        : language === "fr"
-        ? "Français 🇫🇷"
-
-        : "English 🇬🇧"
-    );
-
-}
-
-
-function applyLanguage(){
-
-    const dictionary =
-        translations[currentLanguage] ||
-        translations.ar;
-
-    document.documentElement.lang =
-        currentLanguage;
-
-    document.documentElement.dir =
-        currentLanguage === "ar"
-        ? "rtl"
-        : "ltr";
-
-
-    document
-        .querySelectorAll("[data-i18n]")
-        .forEach(function(element){
-
-            const key =
-                element.getAttribute(
-                    "data-i18n"
-                );
-
-            if(
-                dictionary[key] !== undefined
-            ){
-
-                element.textContent =
-                    dictionary[key];
-
-            }
-
-        });
-
-
-    document
-        .querySelectorAll(
-            "[data-i18n-placeholder]"
-        )
-        .forEach(function(element){
-
-            const key =
-                element.getAttribute(
-                    "data-i18n-placeholder"
-                );
-
-            if(
-                dictionary[key] !== undefined
-            ){
-
-                element.placeholder =
-                    dictionary[key];
-
-            }
-
-        });
-
-
-    updateDynamicLanguage();
-
-}
-
-
-/* =========================================================
-   DYNAMIC LANGUAGE
-========================================================= */
-
-function updateDynamicLanguage(){
-
-    updateXP();
-
-    if(
-        $("resourceGrid") &&
-        resources.length
-    ){
-
-        renderResources();
-
-    }
-
-}
-
-
-/* =========================================================
-   MODAL
-========================================================= */
-
-function openModal(html){
-
-    const modal =
-        $("modal");
-
-    const content =
-        $("modalContent");
-
-    if(!modal || !content){
-        return;
-    }
-
-    content.innerHTML =
-        html;
-
-    modal.classList.add("show");
-
-    document.body.style.overflow =
-        "hidden";
-
-}
-
-
-function closeModal(){
-
-    clearInterval(
-        quiz.timer
-    );
-
-    quiz.timer = null;
-
-    const modal =
-        $("modal");
-
-    if(modal){
-
-        modal.classList.remove(
+        menu.classList.remove(
             "show"
         );
 
     }
 
-    document.body.style.overflow =
-        "";
-
 }
-
-
-/* Close modal by clicking background */
-
-$("modal")?.addEventListener(
-    "click",
-    function(event){
-
-        if(
-            event.target ===
-            $("modal")
-        ){
-
-            closeModal();
-
-        }
-
-    }
-);
-
-
-/* ESC */
-
-document.addEventListener(
-    "keydown",
-    function(event){
-
-        if(
-            event.key === "Escape"
-        ){
-
-            closeModal();
-            closeMobileMenu();
-
-        }
-
-    }
-);
 
 
 /* =========================================================
-   XP SYSTEM
+   XP
 ========================================================= */
-
-function getLevel(xp){
-
-    return Math.floor(
-        Number(xp || 0) / 100
-    ) + 1;
-
-}
-
 
 function updateXP(){
 
     const level =
-        getLevel(localXP);
+        Math.floor(
+            localXP / 100
+        ) + 1;
 
     const currentLevelXP =
-        ((localXP % 100) + 100) % 100;
+        localXP % 100;
 
+    if($("statXP")){
 
-    if($("statXP"))
         $("statXP").textContent =
-            localXP;
+            formatNumber(localXP);
 
+    }
 
-    if($("statLevel"))
-        $("statLevel").textContent =
-            level;
+    if($("levelText")){
 
-
-    if($("levelText"))
         $("levelText").textContent =
             level;
 
+    }
 
     if($("xpText")){
 
@@ -2615,13 +2749,33 @@ function updateXP(){
 
     }
 
-
     if($("xpFill")){
 
         $("xpFill").style.width =
             currentLevelXP + "%";
 
     }
+
+}
+
+
+async function addXP(amount){
+
+    amount =
+        Number(amount || 0);
+
+    if(amount <= 0) return;
+
+    localXP += amount;
+
+    localStorage.setItem(
+        "hamou_xp",
+        String(localXP)
+    );
+
+    updateXP();
+
+    await saveXPToSupabase();
 
 }
 
@@ -2639,32 +2793,15 @@ async function saveXPToSupabase(){
 
     try{
 
-        const result =
-            await supabaseClient
+        await supabaseClient
             .from("profiles")
-            .upsert({
-
-                id:
-                    currentUser.id,
-
-                xp:
-                    localXP,
-
-                updated_at:
-                    new Date()
-                    .toISOString()
-
-            });
-
-
-        if(result.error){
-
-            console.log(
-                "XP save error:",
-                result.error
+            .update({
+                xp:localXP
+            })
+            .eq(
+                "id",
+                currentUser.id
             );
-
-        }
 
     }catch(error){
 
@@ -2678,68 +2815,6 @@ async function saveXPToSupabase(){
 }
 
 
-function addXP(amount){
-
-    amount =
-        Number(amount) || 0;
-
-    if(amount <= 0){
-        return;
-    }
-
-
-    const oldLevel =
-        getLevel(localXP);
-
-
-    localXP += amount;
-
-
-    localStorage.setItem(
-        "hamou_xp",
-        String(localXP)
-    );
-
-
-    updateXP();
-
-
-    const newLevel =
-        getLevel(localXP);
-
-
-    showToast(
-        "+" + amount + " XP 🎉"
-    );
-
-
-    if(newLevel > oldLevel){
-
-        setTimeout(
-            function(){
-
-                showToast(
-                    currentLanguage === "ar"
-                    ? "🎉 مبروك! وصلت إلى المستوى " + newLevel
-
-                    : currentLanguage === "fr"
-                    ? "🎉 Félicitations ! Niveau " + newLevel
-
-                    : "🎉 Congratulations! You reached level " + newLevel
-                );
-
-            },
-            500
-        );
-
-    }
-
-
-    saveXPToSupabase();
-
-}
-
-
 /* =========================================================
    USER
 ========================================================= */
@@ -2747,23 +2822,24 @@ function addXP(amount){
 async function loadUser(){
 
     if(!supabaseClient){
+
+        updateUserUI();
+
         return;
+
     }
 
     try{
 
         const result =
             await supabaseClient
-            .auth
-            .getUser();
-
+                .auth
+                .getUser();
 
         currentUser =
             result.data?.user || null;
 
-
         updateUserUI();
-
 
         if(currentUser){
 
@@ -2774,72 +2850,11 @@ async function loadUser(){
     }catch(error){
 
         console.log(
-            "User load error:",
+            "User error:",
             error
         );
 
     }
-
-}
-
-
-function updateUserUI(){
-
-    const name =
-        currentUser
-
-        ? (
-            currentUser.user_metadata?.full_name ||
-            currentUser.email ||
-            "لاعب"
-        )
-
-        : (
-            translations[
-                currentLanguage
-            ]?.visitor || "زائر"
-        );
-
-
-    if($("userName")){
-
-        $("userName").textContent =
-            name;
-
-    }
-
-
-    const loginButtons =
-        document.querySelectorAll(
-            ".login-button"
-        );
-
-
-    loginButtons.forEach(
-        function(button){
-
-            if(currentUser){
-
-                button.textContent =
-                    currentLanguage === "ar"
-                    ? "حسابي"
-
-                    : currentLanguage === "fr"
-                    ? "Compte"
-
-                    : "Account";
-
-            }else{
-
-                button.textContent =
-                    translations[
-                        currentLanguage
-                    ]?.login || "Login";
-
-            }
-
-        }
-    );
 
 }
 
@@ -2859,29 +2874,30 @@ async function loadCloudXP(){
 
         const result =
             await supabaseClient
-            .from("profiles")
-            .select("xp")
-            .eq(
-                "id",
-                currentUser.id
-            )
-            .maybeSingle();
-
+                .from("profiles")
+                .select("xp")
+                .eq(
+                    "id",
+                    currentUser.id
+                )
+                .maybeSingle();
 
         if(
             result.data &&
-            Number(result.data.xp) > localXP
+            Number(result.data.xp)
+            >
+            localXP
         ){
 
             localXP =
-                Number(result.data.xp);
-
+                Number(
+                    result.data.xp
+                );
 
             localStorage.setItem(
                 "hamou_xp",
                 String(localXP)
             );
-
 
             updateXP();
 
@@ -2899,9 +2915,119 @@ async function loadCloudXP(){
 }
 
 
+function updateUserUI(){
+
+    const visitor =
+        translations[
+            currentLanguage
+        ]?.visitor || "Visitor";
+
+
+    const name =
+        currentUser
+        ? (
+            currentUser
+                .user_metadata
+                ?.full_name ||
+            currentUser.email ||
+            visitor
+        )
+        : visitor;
+
+
+    if($("userName")){
+
+        $("userName").textContent =
+            name;
+
+    }
+
+
+    if($("userStatus")){
+
+        $("userStatus").textContent =
+            currentUser
+            ? currentUser.email || ""
+            : visitor;
+
+    }
+
+
+    document
+    .querySelectorAll(
+        ".login-button"
+    )
+    .forEach(
+        function(button){
+
+            button.textContent =
+                currentUser
+                ? (
+                    currentLanguage === "ar"
+                    ? "حسابي"
+                    : currentLanguage === "fr"
+                    ? "Compte"
+                    : "Account"
+                )
+                : translations[
+                    currentLanguage
+                  ]?.login || "Login";
+
+        }
+    );
+
+}
+
+
 /* =========================================================
-   LIBRARY
+   GLOBAL LIBRARY V29
 ========================================================= */
+
+function getLibraryFilters(){
+
+    return {
+
+        search:
+            $("searchInput")
+            ?.value
+            .trim() || "",
+
+        country:
+            $("countryFilter")
+            ?.value || "",
+
+        language:
+            $("languageFilter")
+            ?.value || "",
+
+        education:
+            $("educationFilter")
+            ?.value || "",
+
+        year:
+            $("yearFilter")
+            ?.value || "",
+
+        subject:
+            $("subjectFilter")
+            ?.value || "",
+
+        semester:
+            $("semesterFilter")
+            ?.value || "",
+
+        type:
+            $("typeFilter")
+            ?.value || "",
+
+        sort:
+            $("sortFilter")
+            ?.value || "newest"
+
+    };
+
+}
+
 
 function debouncedLoadResources(){
 
@@ -2913,10 +3039,10 @@ function debouncedLoadResources(){
         setTimeout(
             function(){
 
-                loadResources();
+                loadResources(true);
 
             },
-            400
+            350
         );
 
 }
@@ -2924,308 +3050,993 @@ function debouncedLoadResources(){
 
 function clearFilters(){
 
-    if($("searchInput"))
-        $("searchInput").value = "";
+    const ids = [
 
-    if($("levelFilter"))
-        $("levelFilter").value = "";
+        "searchInput",
+        "countryFilter",
+        "languageFilter",
+        "educationFilter",
+        "yearFilter",
+        "subjectFilter",
+        "semesterFilter",
+        "typeFilter"
 
-    if($("typeFilter"))
-        $("typeFilter").value = "";
+    ];
 
-    loadResources();
+    ids.forEach(
+        function(id){
+
+            const element =
+                $(id);
+
+            if(element){
+
+                element.value = "";
+
+            }
+
+        }
+    );
+
+
+    if($("sortFilter")){
+
+        $("sortFilter").value =
+            "newest";
+
+    }
+
+
+    loadResources(true);
 
 }
 
 
-async function loadResources(){
+function getSortConfig(sort){
 
-    const grid =
-        $("resourceGrid");
+    switch(sort){
 
-    if(!grid){
-        return;
+        case "oldest":
+
+            return {
+                column:"id",
+                ascending:true
+            };
+
+        case "popular":
+
+            return {
+                column:"views",
+                ascending:false
+            };
+
+        case "downloads":
+
+            return {
+                column:"downloads",
+                ascending:false
+            };
+
+        case "featured":
+
+            return {
+                column:"is_featured",
+                ascending:false
+            };
+
+        default:
+
+            return {
+                column:"id",
+                ascending:false
+            };
+
+    }
+
+}
+
+
+function buildSearchText(resource){
+
+    return [
+
+        resource.title,
+        resource.title_ar,
+        resource.title_fr,
+        resource.title_en,
+
+        resource.description_ar,
+        resource.description_fr,
+        resource.description_en,
+
+        resource.subject,
+        resource.topic,
+        resource.chapter,
+        resource.unit,
+
+        Array.isArray(resource.tags)
+        ? resource.tags.join(" ")
+        : resource.tags
+
+    ]
+    .filter(Boolean)
+    .join(" ")
+    .toLowerCase();
+
+}
+
+
+function clientFilterResource(
+    resource,
+    filters
+){
+
+    if(
+        filters.country &&
+        resource.country_code !==
+        filters.country
+    ){
+
+        return false;
+
     }
 
 
-    grid.innerHTML =
-        `<div class="resource">
-            ${escapeHTML(
-                translations[
-                    currentLanguage
-                ]?.loadingLibrary ||
-                "Loading..."
-            )}
-        </div>`;
+    if(
+        filters.language &&
+        resource.language !==
+        filters.language
+    ){
+
+        return false;
+
+    }
+
+
+    if(
+        filters.education &&
+        resource.education_level !==
+        filters.education
+    ){
+
+        return false;
+
+    }
+
+
+    if(filters.year){
+
+        const year =
+            resource.school_year ||
+            resource.level;
+
+        if(year !== filters.year){
+
+            return false;
+
+        }
+
+    }
+
+
+    if(
+        filters.subject &&
+        resource.subject !==
+        filters.subject
+    ){
+
+        return false;
+
+    }
+
+
+    if(
+        filters.semester &&
+        resource.semester !==
+        filters.semester
+    ){
+
+        return false;
+
+    }
+
+
+    if(
+        filters.type &&
+        resource.resource_type !==
+        filters.type
+    ){
+
+        return false;
+
+    }
+
+
+    if(filters.search){
+
+        const text =
+            buildSearchText(
+                resource
+            );
+
+        if(
+            !text.includes(
+                filters.search
+                    .toLowerCase()
+            )
+        ){
+
+            return false;
+
+        }
+
+    }
+
+
+    return true;
+
+}
+
+
+async function loadResources(
+    reset = true
+){
+
+    if(libraryLoading){
+
+        return;
+
+    }
+
+    if(reset){
+
+        libraryPage = 0;
+
+        resources = [];
+
+        renderLoading();
+
+    }
 
 
     if(!supabaseClient){
 
-        grid.innerHTML =
-            `<div class="resource">
-                تعذر الاتصال بقاعدة البيانات.
-            </div>`;
+        renderLibraryMessage(
+            currentLanguage === "ar"
+            ? "تعذر الاتصال بقاعدة البيانات."
+            : currentLanguage === "fr"
+            ? "Impossible de se connecter à la base de données."
+            : "Unable to connect to database."
+        );
 
         return;
 
     }
 
 
-    const search =
-        $("searchInput")
-        ?.value
-        .trim() || "";
+    libraryLoading = true;
 
 
-    const level =
-        $("levelFilter")
-        ?.value || "";
+    const filters =
+        getLibraryFilters();
 
-
-    const type =
-        $("typeFilter")
-        ?.value || "";
-
-
-    let query =
-        supabaseClient
-        .from("math_resources")
-        .select(`
-            id,
-            title,
-            title_ar,
-            description_ar,
-            level,
-            subject,
-            resource_type,
-            question_ar,
-            solution_ar,
-            answer,
-            is_free,
-            is_premium
-        `)
-        .order(
-            "id",
-            {
-                ascending:false
-            }
-        )
-        .limit(24);
-
-
-    if(level){
-
-        query =
-            query.eq(
-                "level",
-                level
-            );
-
-    }
-
-
-    if(type){
-
-        query =
-            query.eq(
-                "resource_type",
-                type
-            );
-
-    }
-
-
-    if(search){
-
-        const safeSearch =
-            search.replace(
-                /[,()]/g,
-                " "
-            );
-
-
-        query =
-            query.or(
-                "title.ilike.%" +
-                safeSearch +
-                "%,title_ar.ilike.%" +
-                safeSearch +
-                "%,description_ar.ilike.%" +
-                safeSearch +
-                "%,subject.ilike.%" +
-                safeSearch +
-                "%"
-            );
-
-    }
+    const sort =
+        getSortConfig(
+            filters.sort
+        );
 
 
     try{
 
-        const result =
-            await query;
+        let query =
+            supabaseClient
+                .from(
+                    "math_resources"
+                )
+                .select(
+                    "*",
+                    {
+                        count:
+                            reset
+                            ? "exact"
+                            : undefined
+                    }
+                );
 
 
-        if(result.error){
+        /*
+           SERVER-SIDE FILTERS
+           V29 columns
+        */
 
-            console.log(
-                result.error
-            );
+        if(filters.country){
 
-
-            grid.innerHTML = `
-
-                <div class="resource">
-
-                    <h3>
-                        ${
-                            currentLanguage === "ar"
-                            ? "تعذر تحميل المكتبة"
-
-                            : currentLanguage === "fr"
-                            ? "Impossible de charger la bibliothèque"
-
-                            : "Unable to load library"
-                        }
-                    </h3>
-
-                    <p class="muted">
-
-                        ${
-                            currentLanguage === "ar"
-                            ? "تحقق من اتصال Supabase."
-
-                            : currentLanguage === "fr"
-                            ? "Vérifiez la connexion Supabase."
-
-                            : "Check your Supabase connection."
-                        }
-
-                    </p>
-
-                </div>
-
-            `;
-
-            return;
+            query =
+                query.eq(
+                    "country_code",
+                    filters.country
+                );
 
         }
 
 
-        resources =
-            result.data || [];
+        if(filters.language){
+
+            query =
+                query.eq(
+                    "language",
+                    filters.language
+                );
+
+        }
+
+
+        if(filters.education){
+
+            query =
+                query.eq(
+                    "education_level",
+                    filters.education
+                );
+
+        }
+
+
+        if(filters.year){
+
+            query =
+                query.eq(
+                    "school_year",
+                    filters.year
+                );
+
+        }
+
+
+        if(filters.subject){
+
+            query =
+                query.eq(
+                    "subject",
+                    filters.subject
+                );
+
+        }
+
+
+        if(filters.semester){
+
+            query =
+                query.eq(
+                    "semester",
+                    filters.semester
+                );
+
+        }
+
+
+        if(filters.type){
+
+            query =
+                query.eq(
+                    "resource_type",
+                    filters.type
+                );
+
+        }
+
+
+        if(filters.search){
+
+            const search =
+                filters.search
+                    .replace(
+                        /[,()]/g,
+                        " "
+                    )
+                    .trim();
+
+
+            if(search){
+
+                query =
+                    query.or(
+                        [
+                            `title.ilike.%${search}%`,
+                            `title_ar.ilike.%${search}%`,
+                            `title_fr.ilike.%${search}%`,
+                            `title_en.ilike.%${search}%`,
+                            `description_ar.ilike.%${search}%`,
+                            `description_fr.ilike.%${search}%`,
+                            `description_en.ilike.%${search}%`,
+                            `subject.ilike.%${search}%`,
+                            `topic.ilike.%${search}%`,
+                            `chapter.ilike.%${search}%`,
+                            `unit.ilike.%${search}%`
+                        ].join(",")
+                    );
+
+            }
+
+        }
+
+
+        query =
+            query
+                .order(
+                    sort.column,
+                    {
+                        ascending:
+                            sort.ascending,
+                        nullsFirst:false
+                    }
+                )
+                .range(
+                    libraryPage *
+                    libraryPageSize,
+
+                    (
+                        libraryPage *
+                        libraryPageSize
+                    ) +
+                    libraryPageSize -
+                    1
+                );
+
+
+        let result =
+            await query;
+
+
+        /*
+           FALLBACK:
+           If V29 columns are unavailable,
+           use legacy-compatible query.
+        */
+
+        if(result.error){
+
+            console.warn(
+                "Advanced library query failed. Fallback activated:",
+                result.error
+            );
+
+
+            let fallback =
+                supabaseClient
+                    .from(
+                        "math_resources"
+                    )
+                    .select(`
+                        id,
+                        title,
+                        title_ar,
+                        description_ar,
+                        level,
+                        subject,
+                        resource_type,
+                        question_ar,
+                        solution_ar,
+                        answer,
+                        is_free,
+                        is_premium
+                    `)
+                    .order(
+                        "id",
+                        {
+                            ascending:false
+                        }
+                    )
+                    .range(
+                        libraryPage *
+                        libraryPageSize,
+
+                        (
+                            libraryPage *
+                            libraryPageSize
+                        ) +
+                        libraryPageSize -
+                        1
+                    );
+
+
+            if(filters.type){
+
+                fallback =
+                    fallback.eq(
+                        "resource_type",
+                        filters.type
+                    );
+
+            }
+
+
+            if(
+                filters.year &&
+                [
+                    "1AS",
+                    "2AS",
+                    "3AS",
+                    "BAC"
+                ].includes(
+                    filters.year
+                )
+            ){
+
+                fallback =
+                    fallback.eq(
+                        "level",
+                        filters.year
+                    );
+
+            }
+
+
+            if(filters.subject){
+
+                fallback =
+                    fallback.eq(
+                        "subject",
+                        filters.subject
+                    );
+
+            }
+
+
+            if(filters.search){
+
+                const search =
+                    filters.search
+                        .replace(
+                            /[,()]/g,
+                            " "
+                        )
+                        .trim();
+
+
+                if(search){
+
+                    fallback =
+                        fallback.or(
+                            [
+                                `title.ilike.%${search}%`,
+                                `title_ar.ilike.%${search}%`,
+                                `description_ar.ilike.%${search}%`,
+                                `subject.ilike.%${search}%`
+                            ].join(",")
+                        );
+
+                }
+
+            }
+
+
+            result =
+                await fallback;
+
+        }
+
+
+        if(result.error){
+
+            throw result.error;
+
+        }
+
+
+        let data =
+            Array.isArray(result.data)
+            ? result.data
+            : [];
+
+
+        /*
+           Additional client filtering.
+           Useful for old resources whose
+           V29 metadata is still empty.
+        */
+
+        data =
+            data.filter(
+                function(resource){
+
+                    return clientFilterResource(
+                        resource,
+                        filters
+                    );
+
+                }
+            );
+
+
+        if(reset){
+
+            resources = data;
+
+        }else{
+
+            resources =
+                resources.concat(
+                    data
+                );
+
+        }
+
+
+        libraryHasMore =
+            data.length >=
+            libraryPageSize;
 
 
         renderResources();
 
+        updateLibraryStats(
+            result.count
+        );
+
+
     }catch(error){
 
-        console.log(
+        console.error(
             "Library error:",
             error
         );
 
+        renderLibraryMessage(
+            currentLanguage === "ar"
+            ? "حدث خطأ أثناء تحميل المكتبة."
+            : currentLanguage === "fr"
+            ? "Erreur lors du chargement de la bibliothèque."
+            : "Error loading the library."
+        );
 
-        grid.innerHTML = `
+    }finally{
 
-            <div class="resource">
-
-                <h3>
-                    تعذر تحميل المكتبة
-                </h3>
-
-                <p class="muted">
-                    حدث خطأ أثناء الاتصال.
-                </p>
-
-            </div>
-
-        `;
+        libraryLoading = false;
 
     }
 
 }
 
 
-/* =========================================================
-   RESOURCE TYPE LABEL
-========================================================= */
+function loadMoreResources(){
 
-function getResourceTypeLabel(type){
+    if(!libraryHasMore){
 
-    const map = {
+        return;
 
-        exercise:{
-            ar:"تمرين",
-            fr:"Exercice",
-            en:"Exercise"
-        },
+    }
 
-        lesson:{
-            ar:"درس",
-            fr:"Leçon",
-            en:"Lesson"
-        },
+    libraryPage++;
 
-        course:{
-            ar:"دورة",
-            fr:"Cours",
-            en:"Course"
-        }
+    loadResources(false);
 
-    };
+}
+
+
+function renderLoading(){
+
+    const grid =
+        $("resourceGrid");
+
+    if(!grid) return;
+
+    grid.innerHTML = `
+
+        <div class="resource">
+
+            ${
+                currentLanguage === "ar"
+                ? "جاري تحميل المكتبة..."
+                : currentLanguage === "fr"
+                ? "Chargement de la bibliothèque..."
+                : "Loading library..."
+            }
+
+        </div>
+
+    `;
+
+}
+
+
+function renderLibraryMessage(
+    message
+){
+
+    const grid =
+        $("resourceGrid");
+
+    if(!grid) return;
+
+    grid.innerHTML = `
+
+        <div class="library-empty">
+
+            ${escapeHTML(message)}
+
+        </div>
+
+    `;
+
+    const button =
+        $("loadMoreBtn");
+
+    if(button){
+
+        button.style.display =
+            "none";
+
+    }
+
+}
+
+
+function localizedResourceTitle(
+    resource
+){
+
+    if(
+        currentLanguage === "fr"
+    ){
+
+        return (
+            resource.title_fr ||
+            resource.title ||
+            resource.title_ar ||
+            "Ressource"
+        );
+
+    }
+
+
+    if(
+        currentLanguage === "en"
+    ){
+
+        return (
+            resource.title_en ||
+            resource.title ||
+            resource.title_ar ||
+            "Resource"
+        );
+
+    }
 
 
     return (
-        map[type]?.[currentLanguage] ||
-        type ||
-        (
-            currentLanguage === "ar"
-            ? "مورد"
-
-            : currentLanguage === "fr"
-            ? "Ressource"
-
-            : "Resource"
-        )
+        resource.title_ar ||
+        resource.title ||
+        "مورد رياضي"
     );
 
 }
 
 
-/* =========================================================
-   RENDER RESOURCES
-========================================================= */
+function localizedDescription(
+    resource
+){
+
+    if(
+        currentLanguage === "fr"
+    ){
+
+        return (
+            resource.description_fr ||
+            resource.description_ar ||
+            ""
+        );
+
+    }
+
+
+    if(
+        currentLanguage === "en"
+    ){
+
+        return (
+            resource.description_en ||
+            resource.description_ar ||
+            ""
+        );
+
+    }
+
+
+    return (
+        resource.description_ar ||
+        resource.description ||
+        ""
+    );
+
+}
+
+
+function getResourceIcon(
+    resource
+){
+
+    const type =
+        resource.resource_type;
+
+    const icons = {
+
+        lesson:"📘",
+        exercise:"📝",
+        solution:"✅",
+        course:"🎓",
+        book:"📚",
+        summary:"📄",
+        worksheet:"📋",
+        homework:"✏️",
+        test:"🧪",
+        exam:"📑",
+        bac:"🎯",
+        research:"🔬",
+        thesis:"🎓",
+        olympiad:"🏆",
+        competition:"🥇",
+        pdf:"📕",
+        video:"🎥",
+        interactive:"💻"
+
+    };
+
+    return icons[type] || "🧮";
+
+}
+
+
+function getResourceTypeLabel(
+    type
+){
+
+    const labels = {
+
+        lesson:
+            currentLanguage === "ar"
+            ? "درس"
+            : currentLanguage === "fr"
+            ? "Leçon"
+            : "Lesson",
+
+        exercise:
+            currentLanguage === "ar"
+            ? "تمرين"
+            : currentLanguage === "fr"
+            ? "Exercice"
+            : "Exercise",
+
+        solution:
+            currentLanguage === "ar"
+            ? "حلول"
+            : currentLanguage === "fr"
+            ? "Solutions"
+            : "Solutions",
+
+        course:
+            currentLanguage === "ar"
+            ? "دورة"
+            : currentLanguage === "fr"
+            ? "Cours"
+            : "Course",
+
+        book:
+            currentLanguage === "ar"
+            ? "كتاب"
+            : currentLanguage === "fr"
+            ? "Livre"
+            : "Book",
+
+        exam:
+            currentLanguage === "ar"
+            ? "امتحان"
+            : currentLanguage === "fr"
+            ? "Examen"
+            : "Exam",
+
+        test:
+            currentLanguage === "ar"
+            ? "اختبار"
+            : currentLanguage === "fr"
+            ? "Test"
+            : "Test",
+
+        research:
+            currentLanguage === "ar"
+            ? "بحث"
+            : currentLanguage === "fr"
+            ? "Recherche"
+            : "Research",
+
+        pdf:"PDF",
+
+        video:
+            currentLanguage === "ar"
+            ? "فيديو"
+            : currentLanguage === "fr"
+            ? "Vidéo"
+            : "Video",
+
+        interactive:
+            currentLanguage === "ar"
+            ? "تفاعلي"
+            : currentLanguage === "fr"
+            ? "Interactif"
+            : "Interactive"
+
+    };
+
+    return (
+        labels[type] ||
+        type ||
+        "Resource"
+    );
+
+}
+
+
+function countryLabel(
+    code
+){
+
+    const countries = {
+
+        DZ:"🇩🇿 الجزائر",
+        FR:"🇫🇷 France",
+        MA:"🇲🇦 المغرب",
+        TN:"🇹🇳 تونس",
+        EG:"🇪🇬 مصر",
+        SA:"🇸🇦 السعودية",
+        AE:"🇦🇪 الإمارات",
+        CA:"🇨🇦 Canada",
+        US:"🇺🇸 USA",
+        GB:"🇬🇧 UK",
+        DE:"🇩🇪 Deutschland",
+        WW:"🌍 Worldwide"
+
+    };
+
+    return countries[code] || code || "";
+
+}
+
 
 function renderResources(){
 
     const grid =
         $("resourceGrid");
 
-    if(!grid){
-        return;
-    }
+    if(!grid) return;
 
 
-    if(resources.length === 0){
+    if(!resources.length){
 
         grid.innerHTML = `
 
-            <div class="resource">
+            <div class="library-empty">
 
                 ${
                     currentLanguage === "ar"
-                    ? "لا توجد نتائج."
-
+                    ? "لا توجد موارد مطابقة للفلاتر الحالية."
                     : currentLanguage === "fr"
-                    ? "Aucun résultat."
-
-                    : "No results."
+                    ? "Aucune ressource ne correspond aux filtres."
+                    : "No resources match the selected filters."
                 }
 
             </div>
 
         `;
+
+        const button =
+            $("loadMoreBtn");
+
+        if(button){
+
+            button.style.display =
+                "none";
+
+        }
 
         return;
 
@@ -3238,111 +4049,231 @@ function renderResources(){
             function(resource){
 
                 const title =
-                    resource.title_ar ||
-                    resource.title ||
-                    (
-                        currentLanguage === "ar"
-                        ? "مورد رياضي"
-
-                        : currentLanguage === "fr"
-                        ? "Ressource mathématique"
-
-                        : "Math Resource"
+                    localizedResourceTitle(
+                        resource
                     );
-
 
                 const description =
-                    resource.description_ar ||
-                    resource.subject ||
-                    (
-                        currentLanguage === "ar"
-                        ? "اضغط لفتح المورد"
-
-                        : currentLanguage === "fr"
-                        ? "Cliquez pour ouvrir"
-
-                        : "Click to open"
+                    localizedDescription(
+                        resource
                     );
 
 
-                const interactive =
-                    resource.question_ar
-                    ? (
-                        currentLanguage === "ar"
-                        ? "تمرين تفاعلي"
+                const type =
+                    getResourceTypeLabel(
+                        resource.resource_type
+                    );
 
-                        : currentLanguage === "fr"
-                        ? "Exercice interactif"
 
-                        : "Interactive exercise"
+                const schoolYear =
+                    resource.school_year ||
+                    resource.level ||
+                    "";
+
+
+                const country =
+                    countryLabel(
+                        resource.country_code
+                    );
+
+
+                const views =
+                    Number(
+                        resource.views || 0
+                    );
+
+
+                const downloads =
+                    Number(
+                        resource.downloads || 0
+                    );
+
+
+                const tags =
+                    Array.isArray(
+                        resource.tags
                     )
+                    ? resource.tags
+                        .slice(0,5)
+                        .map(
+                            tag =>
+                            `<span class="tag">
+                                ${escapeHTML(tag)}
+                            </span>`
+                        )
+                        .join("")
                     : "";
+
+
+                const hasFile =
+                    !!(
+                        resource.file_url ||
+                        resource.preview_url ||
+                        resource.download_url
+                    );
+
+
+                const favorite =
+                    isFavorite(
+                        resource.id
+                    );
 
 
                 return `
 
-                <div
-                    class="resource"
-                    onclick="openResource(${Number(resource.id)})"
-                    role="button"
-                    tabindex="0"
-                    onkeydown="if(event.key==='Enter')openResource(${Number(resource.id)})"
-                >
+                    <article
+                        class="resource"
+                        data-id="${escapeHTML(resource.id)}">
 
-                    <span class="tag">
+                        <div class="resource-top">
 
-                        ${escapeHTML(
-                            resource.level ||
-                            (
-                                currentLanguage === "ar"
-                                ? "عام"
+                            <div class="resource-icon">
 
-                                : currentLanguage === "fr"
-                                ? "Général"
+                                ${getResourceIcon(resource)}
 
-                                : "General"
-                            )
-                        )}
+                            </div>
 
-                    </span>
+                            <div class="resource-title">
+
+                                <h3>
+                                    ${escapeHTML(title)}
+                                </h3>
+
+                            </div>
+
+                        </div>
 
 
-                    <span class="tag">
+                        <p class="resource-description">
 
-                        ${escapeHTML(
-                            getResourceTypeLabel(
-                                resource.resource_type
-                            )
-                        )}
+                            ${escapeHTML(description)}
 
-                    </span>
+                        </p>
 
 
-                    <h3>
-                        ${escapeHTML(title)}
-                    </h3>
+                        <div class="resource-meta">
+
+                            ${
+                                type
+                                ? `
+                                <span class="tag">
+                                    ${escapeHTML(type)}
+                                </span>
+                                `
+                                : ""
+                            }
+
+                            ${
+                                schoolYear
+                                ? `
+                                <span class="tag">
+                                    ${escapeHTML(schoolYear)}
+                                </span>
+                                `
+                                : ""
+                            }
+
+                            ${
+                                resource.subject
+                                ? `
+                                <span class="tag">
+                                    ${escapeHTML(resource.subject)}
+                                </span>
+                                `
+                                : ""
+                            }
+
+                            ${
+                                country
+                                ? `
+                                <span class="tag">
+                                    ${escapeHTML(country)}
+                                </span>
+                                `
+                                : ""
+                            }
+
+                            ${tags}
+
+                        </div>
 
 
-                    <p class="muted">
+                        <div class="resource-stats">
 
-                        ${escapeHTML(description)}
+                            <span>
+                                👁️ ${formatNumber(views)}
+                            </span>
 
-                    </p>
+                            <span>
+                                📥 ${formatNumber(downloads)}
+                            </span>
+
+                            ${
+                                resource.is_verified
+                                ? "<span>✓ Verified</span>"
+                                : ""
+                            }
+
+                        </div>
 
 
-                    ${
-                        interactive
-                        ?
-                        `
-                        <span class="tag">
-                            ${escapeHTML(interactive)}
-                        </span>
-                        `
-                        :
-                        ""
-                    }
+                        <div class="resource-actions">
 
-                </div>
+                            <button
+                                class="btn primary"
+                                onclick="event.stopPropagation();openResource('${escapeHTML(resource.id)}')">
+
+                                ${
+                                    currentLanguage === "ar"
+                                    ? "فتح"
+                                    : currentLanguage === "fr"
+                                    ? "Ouvrir"
+                                    : "Open"
+                                }
+
+                            </button>
+
+
+                            ${
+                                hasFile
+                                ? `
+                                <button
+                                    class="btn success"
+                                    onclick="event.stopPropagation();downloadResource('${escapeHTML(resource.id)}')">
+
+                                    📥 ${
+                                        currentLanguage === "ar"
+                                        ? "تحميل"
+                                        : currentLanguage === "fr"
+                                        ? "Télécharger"
+                                        : "Download"
+                                    }
+
+                                </button>
+                                `
+                                : ""
+                            }
+
+
+                            <button
+                                class="btn ${
+                                    favorite
+                                    ? "favorite-active"
+                                    : ""
+                                }"
+                                onclick="event.stopPropagation();toggleFavorite('${escapeHTML(resource.id)}')">
+
+                                ${
+                                    favorite
+                                    ? "★"
+                                    : "☆"
+                                }
+
+                            </button>
+
+                        </div>
+
+                    </article>
 
                 `;
 
@@ -3350,293 +4281,510 @@ function renderResources(){
         )
         .join("");
 
+
+    /*
+       Card click.
+    */
+
+    grid
+    .querySelectorAll(
+        ".resource"
+    )
+    .forEach(
+        function(card){
+
+            card.addEventListener(
+                "click",
+                function(){
+
+                    openResource(
+                        card.dataset.id
+                    );
+
+                }
+            );
+
+        }
+    );
+
+
+    const button =
+        $("loadMoreBtn");
+
+    if(button){
+
+        button.style.display =
+            libraryHasMore
+            ? "inline-block"
+            : "none";
+
+        button.textContent =
+            currentLanguage === "ar"
+            ? "تحميل المزيد"
+            : currentLanguage === "fr"
+            ? "Charger plus"
+            : "Load more";
+
+    }
+
+}
+
+
+function updateLibraryStats(
+    count
+){
+
+    const filters =
+        getLibraryFilters();
+
+
+    let text = "";
+
+    if(count !== null &&
+       count !== undefined){
+
+        text =
+            formatNumber(count);
+
+    }else{
+
+        text =
+            formatNumber(
+                resources.length
+            );
+
+    }
+
+
+    if($("libraryCount")){
+
+        $("libraryCount").textContent =
+
+            currentLanguage === "ar"
+            ? `${text} مورد متاح`
+            : currentLanguage === "fr"
+            ? `${text} ressources disponibles`
+            : `${text} resources available`;
+
+    }
+
+
+    if(
+        $("statResources") &&
+        count !== null &&
+        count !== undefined &&
+        !filters.search &&
+        !filters.country &&
+        !filters.language &&
+        !filters.education &&
+        !filters.year &&
+        !filters.subject &&
+        !filters.semester &&
+        !filters.type
+    ){
+
+        $("statResources").textContent =
+            formatNumber(count);
+
+    }
+
 }
 
 
 /* =========================================================
-   RESOURCE
+   RESOURCE OPEN
 ========================================================= */
 
-async function openResource(id){
+async function openResource(
+    id
+){
 
-    if(!supabaseClient){
-        showToast("Supabase غير متصل");
-        return;
+    let resource =
+        resources.find(
+            item =>
+            String(item.id) ===
+            String(id)
+        );
+
+
+    if(!resource &&
+       supabaseClient){
+
+        try{
+
+            const result =
+                await supabaseClient
+                    .from(
+                        "math_resources"
+                    )
+                    .select("*")
+                    .eq(
+                        "id",
+                        id
+                    )
+                    .single();
+
+            resource =
+                result.data;
+
+        }catch(error){
+
+            console.log(error);
+
+        }
+
     }
 
 
-    try{
+    if(!resource){
 
-        const result =
-            await supabaseClient
-            .from("math_resources")
-            .select("*")
-            .eq(
-                "id",
-                id
-            )
-            .single();
+        showToast(
+            currentLanguage === "ar"
+            ? "المورد غير موجود."
+            : currentLanguage === "fr"
+            ? "Ressource introuvable."
+            : "Resource not found."
+        );
 
+        return;
 
-        if(
-            result.error ||
-            !result.data
-        ){
-
-            showToast(
-                currentLanguage === "ar"
-                ? "تعذر فتح المورد"
-
-                : currentLanguage === "fr"
-                ? "Impossible d'ouvrir la ressource"
-
-                : "Unable to open resource"
-            );
-
-            return;
-
-        }
+    }
 
 
-        const resource =
-            result.data;
+    await incrementResourceView(
+        resource.id
+    );
 
 
-        if(resource.question_ar){
+    /*
+       Interactive exercise.
+    */
 
-            showExercise(
-                resource
-            );
+    if(
+        resource.question_ar
+    ){
 
-            return;
+        openExerciseResource(
+            resource
+        );
 
-        }
+        return;
+
+    }
 
 
-        openModal(`
+    const title =
+        localizedResourceTitle(
+            resource
+        );
 
-            <h2>
-                ${escapeHTML(
-                    resource.title_ar ||
-                    resource.title ||
-                    "Math Resource"
-                )}
-            </h2>
 
-            <br>
+    const description =
+        localizedDescription(
+            resource
+        );
 
-            <p class="muted">
 
-                ${escapeHTML(
-                    resource.description_ar ||
-                    (
-                        currentLanguage === "ar"
-                        ? "لا يوجد وصف متاح."
+    const fileUrl =
+        resource.file_url ||
+        resource.preview_url ||
+        resource.download_url ||
+        "";
 
-                        : currentLanguage === "fr"
-                        ? "Aucune description disponible."
 
-                        : "No description available."
-                    )
-                )}
+    $("modalContent").innerHTML = `
+
+        <h2>
+            ${escapeHTML(title)}
+        </h2>
+
+
+        ${
+            description
+            ? `
+            <p class="muted"
+               style="margin-top:12px">
+
+                ${escapeHTML(description)}
 
             </p>
+            `
+            : ""
+        }
 
-            <br>
 
-            <p>
+        <div class="detail-grid">
 
-                <b>
+            <div class="detail-item">
+
+                <strong>
+                    ${
+                        currentLanguage === "ar"
+                        ? "الدولة"
+                        : currentLanguage === "fr"
+                        ? "Pays"
+                        : "Country"
+                    }
+                </strong>
+
+                ${
+                    escapeHTML(
+                        countryLabel(
+                            resource.country_code
+                        ) || "—"
+                    )
+                }
+
+            </div>
+
+
+            <div class="detail-item">
+
+                <strong>
+                    ${
+                        currentLanguage === "ar"
+                        ? "اللغة"
+                        : currentLanguage === "fr"
+                        ? "Langue"
+                        : "Language"
+                    }
+                </strong>
+
+                ${escapeHTML(
+                    resource.language || "—"
+                )}
+
+            </div>
+
+
+            <div class="detail-item">
+
+                <strong>
                     ${
                         currentLanguage === "ar"
                         ? "المستوى"
-
                         : currentLanguage === "fr"
                         ? "Niveau"
-
                         : "Level"
-                    }:
-                </b>
+                    }
+                </strong>
 
                 ${escapeHTML(
-                    resource.level || "General"
+                    resource.education_level ||
+                    resource.level ||
+                    "—"
                 )}
 
-            </p>
+            </div>
 
 
-            <p>
+            <div class="detail-item">
 
-                <b>
+                <strong>
+                    ${
+                        currentLanguage === "ar"
+                        ? "السنة"
+                        : currentLanguage === "fr"
+                        ? "Année"
+                        : "Year"
+                    }
+                </strong>
+
+                ${escapeHTML(
+                    resource.school_year ||
+                    resource.level ||
+                    "—"
+                )}
+
+            </div>
+
+
+            <div class="detail-item">
+
+                <strong>
                     ${
                         currentLanguage === "ar"
                         ? "المادة"
-
                         : currentLanguage === "fr"
                         ? "Matière"
-
                         : "Subject"
-                    }:
-                </b>
+                    }
+                </strong>
 
                 ${escapeHTML(
-                    resource.subject ||
-                    "Mathematics"
+                    resource.subject || "—"
                 )}
 
-            </p>
+            </div>
 
-        `);
 
-    }catch(error){
+            <div class="detail-item">
 
-        console.log(
-            error
-        );
+                <strong>
+                    ${
+                        currentLanguage === "ar"
+                        ? "الفصل"
+                        : currentLanguage === "fr"
+                        ? "Semestre"
+                        : "Semester"
+                    }
+                </strong>
 
-        showToast(
-            "حدث خطأ"
-        );
+                ${escapeHTML(
+                    resource.semester || "—"
+                )}
 
-    }
+            </div>
+
+
+            <div class="detail-item">
+
+                <strong>
+                    👁️ Views
+                </strong>
+
+                ${formatNumber(
+                    resource.views || 0
+                )}
+
+            </div>
+
+
+            <div class="detail-item">
+
+                <strong>
+                    📥 Downloads
+                </strong>
+
+                ${formatNumber(
+                    resource.downloads || 0
+                )}
+
+            </div>
+
+        </div>
+
+
+        <div class="resource-actions">
+
+            ${
+                fileUrl
+                ? `
+                <button
+                    class="btn success"
+                    onclick="downloadResource('${escapeHTML(resource.id)}')">
+
+                    📥 ${
+                        currentLanguage === "ar"
+                        ? "تحميل / فتح الملف"
+                        : currentLanguage === "fr"
+                        ? "Télécharger / ouvrir"
+                        : "Download / Open"
+                    }
+
+                </button>
+                `
+                : ""
+            }
+
+
+            <button
+                class="btn ${
+                    isFavorite(resource.id)
+                    ? "favorite-active"
+                    : ""
+                }"
+                onclick="toggleFavorite('${escapeHTML(resource.id)}')">
+
+                ${
+                    isFavorite(resource.id)
+                    ? "★"
+                    : "☆"
+                }
+                ${currentLanguage === "ar"
+                    ? "مفضلة"
+                    : currentLanguage === "fr"
+                    ? "Favori"
+                    : "Favorite"
+                }
+
+            </button>
+
+        </div>
+
+    `;
+
+
+    openModal();
 
 }
 
 
-/* =========================================================
-   NORMALIZE ANSWERS
-========================================================= */
+function openExerciseResource(
+    resource
+){
 
-function normalizeAnswer(value){
-
-    return String(
-        value ?? ""
-    )
-    .trim()
-    .replace(/\s+/g,"")
-    .replace(/,/g,".")
-    .toLowerCase();
-
-}
-
-
-/* =========================================================
-   EXERCISE
-========================================================= */
-
-function showExercise(resource){
-
-    const solved =
-        localStorage.getItem(
-            "hamou_solved_" +
-            resource.id
-        );
-
-
-    openModal(`
+    $("modalContent").innerHTML = `
 
         <h2>
-
-            📝
-
             ${escapeHTML(
-                resource.title_ar ||
-                (
-                    currentLanguage === "ar"
-                    ? "تمرين رياضي"
-
-                    : currentLanguage === "fr"
-                    ? "Exercice mathématique"
-
-                    : "Math Exercise"
+                localizedResourceTitle(
+                    resource
                 )
             )}
-
         </h2>
 
 
         <div class="quiz-question">
 
             ${escapeHTML(
-                resource.question_ar || ""
+                resource.question_ar ||
+                resource.question ||
+                ""
             )}
 
         </div>
 
 
         <input
-            id="exerciseAnswer"
+            id="resourceAnswer"
             class="quiz-input"
+            type="text"
             placeholder="${
                 currentLanguage === "ar"
-                ? "اكتب الإجابة هنا"
-
+                ? "اكتب إجابتك..."
                 : currentLanguage === "fr"
-                ? "Écrivez votre réponse ici"
-
-                : "Enter your answer here"
-            }"
-            autocomplete="off"
-        >
-
-
-        <div id="exerciseResult"></div>
+                ? "Votre réponse..."
+                : "Your answer..."
+            }">
 
 
         <div class="quiz-actions">
 
             <button
                 class="btn primary"
-                onclick="checkExercise(
-                    ${Number(resource.id)},
-                    ${JSON.stringify(
-                        String(
-                            resource.answer ??
-                            ""
-                        )
-                    )}
-                )">
+                onclick="checkResourceAnswer('${escapeHTML(resource.id)}')">
 
                 ${
                     currentLanguage === "ar"
                     ? "تحقق"
-
                     : currentLanguage === "fr"
                     ? "Vérifier"
-
                     : "Check"
                 }
 
             </button>
 
-
             <button
                 class="btn"
-                onclick="showSolution(
-                    ${JSON.stringify(
-                        String(
-                            resource.solution_ar ||
-                            (
-                                currentLanguage === "ar"
-                                ? "لا توجد حلول متاحة."
-
-                                : currentLanguage === "fr"
-                                ? "Aucune solution disponible."
-
-                                : "No solution available."
-                            )
-                        )
-                    )}
-                )">
+                onclick="closeModal()">
 
                 ${
                     currentLanguage === "ar"
-                    ? "إظهار الحل"
-
+                    ? "إغلاق"
                     : currentLanguage === "fr"
-                    ? "Afficher la solution"
-
-                    : "Show solution"
+                    ? "Fermer"
+                    : "Close"
                 }
 
             </button>
@@ -3644,149 +4792,78 @@ function showExercise(resource){
         </div>
 
 
-        ${
-            solved
-            ?
-            `
-            <br>
+        <div id="resourceAnswerResult"></div>
 
-            <p class="muted">
-
-                ${
-                    currentLanguage === "ar"
-                    ? "✅ سبق أن حصلت على XP لهذا التمرين."
-
-                    : currentLanguage === "fr"
-                    ? "✅ Vous avez déjà gagné de l'XP pour cet exercice."
-
-                    : "✅ You already earned XP for this exercise."
-                }
-
-            </p>
-            `
-            :
-            ""
-        }
-
-    `);
+    `;
 
 
-    setTimeout(
-        function(){
-
-            const input =
-                $("exerciseAnswer");
-
-            if(input){
-
-                input.focus();
-
-                input.addEventListener(
-                    "keydown",
-                    function(event){
-
-                        if(
-                            event.key === "Enter"
-                        ){
-
-                            checkExercise(
-                                resource.id,
-                                resource.answer
-                            );
-
-                        }
-
-                    }
-                );
-
-            }
-
-        },
-        100
-    );
+    openModal();
 
 }
 
 
-/* =========================================================
-   CHECK EXERCISE
-========================================================= */
-
-function checkExercise(
-    id,
-    correctAnswer
+async function checkResourceAnswer(
+    id
 ){
 
-    const input =
-        $("exerciseAnswer");
+    const answer =
+        $("resourceAnswer")
+        ?.value
+        .trim();
 
-    const result =
-        $("exerciseResult");
+
+    const resource =
+        resources.find(
+            item =>
+            String(item.id) ===
+            String(id)
+        );
 
 
-    if(
-        !input ||
-        !result
-    ){
+    if(!resource){
 
         return;
 
     }
-
-
-    const userAnswer =
-        normalizeAnswer(
-            input.value
-        );
 
 
     const correct =
-        normalizeAnswer(
-            correctAnswer
-        );
+        String(
+            resource.answer ?? ""
+        )
+        .trim()
+        .toLowerCase();
 
 
-    if(!userAnswer){
+    const userAnswer =
+        String(answer || "")
+        .trim()
+        .toLowerCase();
 
-        result.innerHTML = `
 
-            <div class="result wrong">
+    const result =
+        $("resourceAnswerResult");
 
-                ${
-                    currentLanguage === "ar"
-                    ? "اكتب إجابتك أولًا."
 
-                    : currentLanguage === "fr"
-                    ? "Écrivez d'abord votre réponse."
-
-                    : "Enter your answer first."
-                }
-
-            </div>
-
-        `;
-
-        return;
-
-    }
+    if(!result) return;
 
 
     if(
+        userAnswer &&
+        correct &&
         userAnswer === correct
     ){
 
         result.innerHTML = `
 
-            <div class="result success">
+            <div class="result success-result">
 
                 ${
                     currentLanguage === "ar"
-                    ? "✅ إجابة صحيحة! أحسنت."
-
+                    ? "إجابة صحيحة! +10 XP 🎉"
                     : currentLanguage === "fr"
-                    ? "✅ Bonne réponse ! Bravo."
-
-                    : "✅ Correct answer! Well done."
+                    ? "Bonne réponse ! +10 XP 🎉"
+                    : "Correct answer! +10 XP 🎉"
                 }
 
             </div>
@@ -3794,21 +4871,23 @@ function checkExercise(
         `;
 
 
-        const key =
+        const solvedKey =
             "hamou_solved_" +
-            id;
+            resource.id;
 
 
         if(
-            !localStorage.getItem(key)
+            !localStorage.getItem(
+                solvedKey
+            )
         ){
 
             localStorage.setItem(
-                key,
+                solvedKey,
                 "1"
             );
 
-            addXP(10);
+            await addXP(10);
 
         }
 
@@ -3816,16 +4895,38 @@ function checkExercise(
 
         result.innerHTML = `
 
-            <div class="result wrong">
+            <div class="result wrong-result">
 
                 ${
                     currentLanguage === "ar"
-                    ? "❌ إجابة غير صحيحة، حاول مرة أخرى."
-
+                    ? "إجابة غير صحيحة. حاول مرة أخرى."
                     : currentLanguage === "fr"
-                    ? "❌ Réponse incorrecte, essayez encore."
+                    ? "Réponse incorrecte. Réessayez."
+                    : "Incorrect answer. Try again."
+                }
 
-                    : "❌ Incorrect answer, try again."
+                ${
+                    resource.solution_ar
+                    ? `
+                    <hr style="margin:12px 0">
+
+                    <strong>
+                        ${
+                            currentLanguage === "ar"
+                            ? "الحل:"
+                            : currentLanguage === "fr"
+                            ? "Solution:"
+                            : "Solution:"
+                        }
+                    </strong>
+
+                    <div style="margin-top:7px">
+                        ${escapeHTML(
+                            resource.solution_ar
+                        )}
+                    </div>
+                    `
+                    : ""
                 }
 
             </div>
@@ -3837,40 +4938,392 @@ function checkExercise(
 }
 
 
-/* =========================================================
-   SHOW SOLUTION
-========================================================= */
+async function incrementResourceView(
+    id
+){
 
-function showSolution(solution){
+    if(!supabaseClient){
 
-    const result =
-        $("exerciseResult");
-
-    if(!result){
         return;
+
+    }
+
+    try{
+
+        await supabaseClient
+            .rpc(
+                "increment_resource_view",
+                {
+                    resource_id_input:id
+                }
+            );
+
+    }catch(error){
+
+        /*
+           Fallback for installations where
+           the RPC was not created.
+        */
+
+        try{
+
+            const resource =
+                resources.find(
+                    item =>
+                    String(item.id) ===
+                    String(id)
+                );
+
+            const current =
+                Number(
+                    resource?.views || 0
+                );
+
+            await supabaseClient
+                .from(
+                    "math_resources"
+                )
+                .update({
+                    views:
+                        current + 1
+                })
+                .eq(
+                    "id",
+                    id
+                );
+
+        }catch(e){
+
+            console.log(e);
+
+        }
+
+    }
+
+}
+
+
+async function incrementResourceDownload(
+    id
+){
+
+    if(!supabaseClient){
+
+        return;
+
+    }
+
+    try{
+
+        await supabaseClient
+            .rpc(
+                "increment_resource_download",
+                {
+                    resource_id_input:id
+                }
+            );
+
+    }catch(error){
+
+        console.log(
+            "Download counter:",
+            error
+        );
+
+    }
+
+}
+
+
+async function downloadResource(
+    id
+){
+
+    let resource =
+        resources.find(
+            item =>
+            String(item.id) ===
+            String(id)
+        );
+
+
+    if(!resource &&
+       supabaseClient){
+
+        try{
+
+            const result =
+                await supabaseClient
+                    .from(
+                        "math_resources"
+                    )
+                    .select("*")
+                    .eq(
+                        "id",
+                        id
+                    )
+                    .single();
+
+            resource =
+                result.data;
+
+        }catch(error){
+
+            console.log(error);
+
+        }
+
     }
 
 
-    result.innerHTML = `
+    const url =
+        resource?.file_url ||
+        resource?.preview_url ||
+        resource?.download_url;
 
-        <div class="result">
 
-            💡
+    if(!url){
 
-            ${escapeHTML(solution)}
+        showToast(
+            currentLanguage === "ar"
+            ? "لا يوجد ملف مرتبط بهذا المورد."
+            : currentLanguage === "fr"
+            ? "Aucun fichier associé."
+            : "No file is attached to this resource."
+        );
 
-        </div>
+        return;
 
-    `;
+    }
+
+
+    if(
+        !/^https?:\/\//i.test(
+            url
+        )
+    ){
+
+        showToast(
+            currentLanguage === "ar"
+            ? "رابط الملف غير صالح."
+            : currentLanguage === "fr"
+            ? "Lien de fichier invalide."
+            : "Invalid file URL."
+        );
+
+        return;
+
+    }
+
+
+    await incrementResourceDownload(
+        id
+    );
+
+
+    window.open(
+        url,
+        "_blank",
+        "noopener,noreferrer"
+    );
 
 }
 
 
 /* =========================================================
-   QUIZ DATA
+   FAVORITES
 ========================================================= */
 
-async function getQuizItems(count){
+function getFavorites(){
+
+    try{
+
+        return JSON.parse(
+            localStorage.getItem(
+                "hamou_favorites"
+            ) || "[]"
+        );
+
+    }catch(error){
+
+        return [];
+
+    }
+
+}
+
+
+function saveFavorites(
+    favorites
+){
+
+    localStorage.setItem(
+        "hamou_favorites",
+        JSON.stringify(
+            favorites
+        )
+    );
+
+}
+
+
+function isFavorite(id){
+
+    return getFavorites()
+        .map(String)
+        .includes(
+            String(id)
+        );
+
+}
+
+
+async function toggleFavorite(
+    id
+){
+
+    let favorites =
+        getFavorites();
+
+
+    if(
+        isFavorite(id)
+    ){
+
+        favorites =
+            favorites.filter(
+                item =>
+                String(item) !==
+                String(id)
+            );
+
+    }else{
+
+        favorites.push(id);
+
+    }
+
+
+    saveFavorites(
+        favorites
+    );
+
+
+    /*
+       Cloud favorite if user is logged in.
+    */
+
+    if(
+        currentUser &&
+        supabaseClient
+    ){
+
+        try{
+
+            await supabaseClient
+                .rpc(
+                    "toggle_library_favorite",
+                    {
+                        resource_id_input:id
+                    }
+                );
+
+        }catch(error){
+
+            console.log(
+                "Cloud favorite:",
+                error
+            );
+
+        }
+
+    }
+
+
+    renderResources();
+
+}
+
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+function openModal(){
+
+    const modal =
+        $("modal");
+
+    if(modal){
+
+        modal.classList.add(
+            "show"
+        );
+
+        document.body.style.overflow =
+            "hidden";
+
+    }
+
+}
+
+
+function closeModal(){
+
+    const modal =
+        $("modal");
+
+    if(modal){
+
+        modal.classList.remove(
+            "show"
+        );
+
+        document.body.style.overflow =
+            "";
+
+    }
+
+}
+
+
+function closeModalOutside(
+    event
+){
+
+    if(
+        event.target ===
+        $("modal")
+    ){
+
+        closeModal();
+
+    }
+
+}
+
+
+document.addEventListener(
+    "keydown",
+    function(event){
+
+        if(event.key === "Escape"){
+
+            closeModal();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   QUIZ
+========================================================= */
+
+async function getQuizItems(
+    count
+){
 
     if(!supabaseClient){
 
@@ -3887,62 +5340,51 @@ async function getQuizItems(count){
 
         const result =
             await supabaseClient
-            .from("math_resources")
-            .select(`
-                id,
-                title_ar,
-                question_ar,
-                solution_ar,
-                answer
-            `)
-            .eq(
-                "resource_type",
-                "exercise"
-            )
-            .not(
-                "question_ar",
-                "is",
-                null
-            )
-            .not(
-                "answer",
-                "is",
-                null
-            )
-            .limit(100);
+                .from(
+                    "math_resources"
+                )
+                .select(`
+                    id,
+                    title,
+                    title_ar,
+                    question_ar,
+                    solution_ar,
+                    answer,
+                    level,
+                    subject,
+                    resource_type
+                `)
+                .not(
+                    "question_ar",
+                    "is",
+                    null
+                )
+                .limit(100);
 
 
-        if(
-            result.error ||
-            !result.data ||
-            result.data.length === 0
-        ){
+        if(result.error){
 
-            showToast(
-                currentLanguage === "ar"
-                ? "لا توجد تمارين متاحة حاليًا"
-
-                : currentLanguage === "fr"
-                ? "Aucun exercice disponible actuellement"
-
-                : "No exercises are currently available"
-            );
-
-            return [];
+            throw result.error;
 
         }
 
 
-        const list =
-            result.data.slice();
+        let list =
+            result.data || [];
+
+
+        list =
+            list.filter(
+                item =>
+                item.question_ar &&
+                item.answer !== null &&
+                item.answer !== undefined
+            );
 
 
         list.sort(
-            function(){
-
-                return Math.random() - 0.5;
-
-            }
+            () =>
+                Math.random() - .5
         );
 
 
@@ -3953,8 +5395,14 @@ async function getQuizItems(count){
 
     }catch(error){
 
-        console.log(
-            error
+        console.log(error);
+
+        showToast(
+            currentLanguage === "ar"
+            ? "تعذر تحميل الأسئلة."
+            : currentLanguage === "fr"
+            ? "Impossible de charger les questions."
+            : "Unable to load questions."
         );
 
         return [];
@@ -3964,41 +5412,35 @@ async function getQuizItems(count){
 }
 
 
-/* =========================================================
-   CHALLENGES
-========================================================= */
+async function startChallenge(
+    type
+){
 
-async function startChallenge(type){
-
-    if(
-        type === "daily"
-    ){
+    if(type === "daily"){
 
         const today =
             new Date()
-            .toISOString()
-            .slice(0,10);
+                .toISOString()
+                .slice(0,10);
 
 
-        const dailyKey =
+        const key =
             "hamou_daily_" +
             today;
 
 
         if(
             localStorage.getItem(
-                dailyKey
+                key
             )
         ){
 
             showToast(
                 currentLanguage === "ar"
                 ? "لقد أكملت تحدي اليوم بالفعل ✅"
-
                 : currentLanguage === "fr"
-                ? "Vous avez déjà terminé le défi du jour ✅"
-
-                : "You already completed today's challenge ✅"
+                ? "Défi du jour déjà terminé ✅"
+                : "Today's challenge is already completed ✅"
             );
 
             return;
@@ -4015,11 +5457,9 @@ async function startChallenge(type){
 }
 
 
-/* =========================================================
-   GAMES
-========================================================= */
-
-async function playGame(type){
+async function playGame(
+    type
+){
 
     await startQuiz(
         type
@@ -4028,11 +5468,9 @@ async function playGame(type){
 }
 
 
-/* =========================================================
-   START QUIZ
-========================================================= */
-
-async function startQuiz(type){
+async function startQuiz(
+    type
+){
 
     clearInterval(
         quiz.timer
@@ -4062,7 +5500,7 @@ async function startQuiz(type){
     };
 
 
-    const numberOfQuestions =
+    const count =
         type === "daily"
         ? 1
         : 10;
@@ -4070,13 +5508,11 @@ async function startQuiz(type){
 
     quiz.items =
         await getQuizItems(
-            numberOfQuestions
+            count
         );
 
 
-    if(
-        !quiz.items.length
-    ){
+    if(!quiz.items.length){
 
         return;
 
@@ -4085,10 +5521,15 @@ async function startQuiz(type){
 
     renderQuiz();
 
+    openModal();
+
 
     if(
         quiz.timeLeft > 0
     ){
+
+        updateTimer();
+
 
         quiz.timer =
             setInterval(
@@ -4116,141 +5557,77 @@ async function startQuiz(type){
 }
 
 
-/* =========================================================
-   QUIZ TITLE
-========================================================= */
-
-function getQuizTitle(){
-
-    if(
-        quiz.type === "daily"
-    ){
-
-        return currentLanguage === "ar"
-            ? "📅 تحدي اليوم"
-
-            : currentLanguage === "fr"
-            ? "📅 Défi du jour"
-
-            : "📅 Daily Challenge";
-
-    }
-
-
-    if(
-        quiz.type === "speed" ||
-        quiz.type === "timer"
-    ){
-
-        return currentLanguage === "ar"
-            ? "⚡ تحدي السرعة"
-
-            : currentLanguage === "fr"
-            ? "⚡ Défi de vitesse"
-
-            : "⚡ Speed Challenge";
-
-    }
-
-
-    return currentLanguage === "ar"
-        ? "🧠 التحدي الذهني"
-
-        : currentLanguage === "fr"
-        ? "🧠 Défi mental"
-
-        : "🧠 Mental Challenge";
-
-}
-
-
-/* =========================================================
-   RENDER QUIZ
-========================================================= */
-
 function renderQuiz(){
 
-    const question =
+    const item =
         quiz.items[
             quiz.index
         ];
 
 
-    if(!question){
+    if(!item){
+
         finishQuiz();
+
         return;
+
     }
 
 
-    openModal(`
+    $("modalContent").innerHTML = `
 
         <h2>
-            ${getQuizTitle()}
+
+            ${
+                quiz.type === "daily"
+                ? (
+                    currentLanguage === "ar"
+                    ? "📅 تحدي اليوم"
+                    : currentLanguage === "fr"
+                    ? "📅 Défi du jour"
+                    : "📅 Daily Challenge"
+                )
+                : (
+                    currentLanguage === "ar"
+                    ? "🎯 تحدي رياضيات"
+                    : currentLanguage === "fr"
+                    ? "🎯 Défi mathématique"
+                    : "🎯 Math Challenge"
+                )
+            }
+
         </h2>
 
 
-        <div
-            style="
-                display:flex;
-                justify-content:space-between;
-                gap:15px;
-                margin-top:15px;
-            "
-        >
+        <p class="muted">
 
-            <b>
+            ${
+                quiz.index + 1
+            }
+            /
+            ${
+                quiz.items.length
+            }
 
-                ${
-                    currentLanguage === "ar"
-                    ? "السؤال"
+            ${
+                quiz.timeLeft
+                ? `
+                —
+                <span class="timer"
+                      id="quizTimer">
+                    ${quiz.timeLeft}s
+                </span>
+                `
+                : ""
+            }
 
-                    : currentLanguage === "fr"
-                    ? "Question"
-
-                    : "Question"
-                }
-
-                ${quiz.index + 1}
-
-                /
-
-                ${quiz.items.length}
-
-            </b>
-
-
-            <span
-                id="timer"
-                class="timer">
-
-                ${
-                    quiz.timeLeft
-                    ?
-                    (
-                        quiz.timeLeft +
-                        (
-                            currentLanguage === "ar"
-                            ? " ثانية"
-
-                            : currentLanguage === "fr"
-                            ? " s"
-
-                            : " sec"
-                        )
-                    )
-                    :
-                    ""
-                }
-
-            </span>
-
-        </div>
+        </p>
 
 
         <div class="quiz-question">
 
             ${escapeHTML(
-                question.question_ar || ""
+                item.question_ar
             )}
 
         </div>
@@ -4259,40 +5636,32 @@ function renderQuiz(){
         <input
             id="quizAnswer"
             class="quiz-input"
+            type="text"
+            autocomplete="off"
             placeholder="${
                 currentLanguage === "ar"
-                ? "اكتب الإجابة هنا"
-
+                ? "اكتب إجابتك..."
                 : currentLanguage === "fr"
-                ? "Écrivez votre réponse ici"
-
-                : "Enter your answer here"
-            }"
-            autocomplete="off"
-        >
-
-
-        <div id="quizResult"></div>
+                ? "Votre réponse..."
+                : "Your answer..."
+            }">
 
 
         <div class="quiz-actions">
 
             <button
                 class="btn primary"
-                onclick="submitQuiz()">
+                onclick="submitQuizAnswer()">
 
                 ${
                     currentLanguage === "ar"
                     ? "تحقق"
-
                     : currentLanguage === "fr"
                     ? "Vérifier"
-
                     : "Check"
                 }
 
             </button>
-
 
             <button
                 class="btn"
@@ -4300,95 +5669,54 @@ function renderQuiz(){
 
                 ${
                     currentLanguage === "ar"
-                    ? "خروج"
-
+                    ? "إغلاق"
                     : currentLanguage === "fr"
-                    ? "Quitter"
-
-                    : "Exit"
+                    ? "Fermer"
+                    : "Close"
                 }
 
             </button>
 
         </div>
 
-    `);
+
+        <div id="quizResult"></div>
+
+    `;
 
 
     setTimeout(
         function(){
 
-            const input =
-                $("quizAnswer");
-
-
-            if(input){
-
-                input.focus();
-
-
-                input.addEventListener(
-                    "keydown",
-                    function(event){
-
-                        if(
-                            event.key === "Enter"
-                        ){
-
-                            submitQuiz();
-
-                        }
-
-                    }
-                );
-
-            }
+            $("quizAnswer")
+                ?.focus();
 
         },
-        100
+        50
     );
 
 }
 
 
-/* =========================================================
-   TIMER
-========================================================= */
-
 function updateTimer(){
 
     const timer =
-        $("timer");
+        $("quizTimer");
 
-    if(!timer){
-        return;
+    if(timer){
+
+        timer.textContent =
+            quiz.timeLeft +
+            "s";
+
     }
-
-
-    timer.textContent =
-        quiz.timeLeft +
-        (
-            currentLanguage === "ar"
-            ? " ثانية"
-
-            : currentLanguage === "fr"
-            ? " s"
-
-            : " sec"
-        );
 
 }
 
 
-/* =========================================================
-   SUBMIT QUIZ
-========================================================= */
+async function submitQuizAnswer(){
 
-function submitQuiz(){
-
-    if(
-        quiz.locked
-    ){
+    if(quiz.locked){
 
         return;
 
@@ -4398,14 +5726,12 @@ function submitQuiz(){
     const input =
         $("quizAnswer");
 
-    const result =
+    const resultBox =
         $("quizResult");
 
 
-    if(
-        !input ||
-        !result
-    ){
+    if(!input ||
+       !resultBox){
 
         return;
 
@@ -4413,78 +5739,55 @@ function submitQuiz(){
 
 
     const userAnswer =
-        normalizeAnswer(
-            input.value
-        );
+        input.value
+            .trim()
+            .toLowerCase();
 
 
     if(!userAnswer){
-
-        result.innerHTML = `
-
-            <div class="result wrong">
-
-                ${
-                    currentLanguage === "ar"
-                    ? "اكتب إجابتك أولًا."
-
-                    : currentLanguage === "fr"
-                    ? "Écrivez votre réponse d'abord."
-
-                    : "Enter your answer first."
-                }
-
-            </div>
-
-        `;
 
         return;
 
     }
 
 
-    quiz.locked =
-        true;
-
-
-    const question =
+    const item =
         quiz.items[
             quiz.index
         ];
 
 
     const correct =
-        normalizeAnswer(
-            question.answer
-        );
+        String(
+            item.answer ?? ""
+        )
+        .trim()
+        .toLowerCase();
 
 
-    const isCorrect =
-        userAnswer === correct;
+    quiz.locked = true;
 
 
-    if(isCorrect){
+    if(
+        userAnswer === correct
+    ){
 
         quiz.score++;
 
+        await addXP(10);
 
-        result.innerHTML = `
 
-            <div class="result success">
+        resultBox.innerHTML = `
+
+            <div class="result success-result">
 
                 ${
                     currentLanguage === "ar"
-                    ? "✅ صحيح!"
-
+                    ? "صحيح! +10 XP 🎉"
                     : currentLanguage === "fr"
-                    ? "✅ Correct !"
-
-                    : "✅ Correct!"
+                    ? "Correct ! +10 XP 🎉"
+                    : "Correct! +10 XP 🎉"
                 }
-
-                <br>
-
-                +10 XP
 
             </div>
 
@@ -4492,44 +5795,40 @@ function submitQuiz(){
 
     }else{
 
-        result.innerHTML = `
+        resultBox.innerHTML = `
 
-            <div class="result wrong">
-
-                ${
-                    currentLanguage === "ar"
-                    ? "❌ غير صحيح."
-
-                    : currentLanguage === "fr"
-                    ? "❌ Incorrect."
-
-                    : "❌ Incorrect."
-                }
-
-                <br>
+            <div class="result wrong-result">
 
                 ${
                     currentLanguage === "ar"
-                    ? "الحل:"
-
+                    ? "إجابة غير صحيحة."
                     : currentLanguage === "fr"
-                    ? "Solution :"
-
-                    : "Solution:"
+                    ? "Réponse incorrecte."
+                    : "Incorrect answer."
                 }
 
-                ${escapeHTML(
-                    question.solution_ar ||
-                    (
-                        currentLanguage === "ar"
-                        ? "راجع الحل."
+                ${
+                    item.solution_ar
+                    ? `
+                    <br><br>
+                    <strong>
+                        ${
+                            currentLanguage === "ar"
+                            ? "الحل:"
+                            : currentLanguage === "fr"
+                            ? "Solution:"
+                            : "Solution:"
+                        }
+                    </strong>
 
-                        : currentLanguage === "fr"
-                        ? "Consultez la solution."
-
-                        : "Review the solution."
-                    )
-                )}
+                    <div>
+                        ${escapeHTML(
+                            item.solution_ar
+                        )}
+                    </div>
+                    `
+                    : ""
+                }
 
             </div>
 
@@ -4541,42 +5840,18 @@ function submitQuiz(){
     setTimeout(
         function(){
 
-            if(isCorrect){
-
-                addXP(10);
-
-            }
-
-
             quiz.index++;
 
-            quiz.locked =
-                false;
+            quiz.locked = false;
 
-
-            if(
-                quiz.index >=
-                quiz.items.length
-            ){
-
-                finishQuiz();
-
-            }else{
-
-                renderQuiz();
-
-            }
+            renderQuiz();
 
         },
-        700
+        850
     );
 
 }
 
-
-/* =========================================================
-   FINISH QUIZ
-========================================================= */
 
 function finishQuiz(){
 
@@ -4584,16 +5859,13 @@ function finishQuiz(){
         quiz.timer
     );
 
-    quiz.timer =
-        null;
-
 
     const total =
         quiz.items.length;
 
 
-    let bonus =
-        0;
+    const score =
+        quiz.score;
 
 
     if(
@@ -4602,138 +5874,55 @@ function finishQuiz(){
 
         const today =
             new Date()
-            .toISOString()
-            .slice(0,10);
+                .toISOString()
+                .slice(0,10);
 
 
-        const dailyKey =
-            "hamou_daily_" +
-            today;
-
-
-        if(
-            !localStorage.getItem(
-                dailyKey
-            )
-        ){
-
-            localStorage.setItem(
-                dailyKey,
-                "1"
-            );
-
-            bonus =
-                100;
-
-        }
-
-    }else{
-
-        bonus =
-            Math.round(
-                (
-                    quiz.score /
-                    Math.max(
-                        1,
-                        total
-                    )
-                ) *
-                50
-            );
-
-    }
-
-
-    if(
-        bonus > 0
-    ){
-
-        addXP(
-            bonus
+        localStorage.setItem(
+            "hamou_daily_" + today,
+            "1"
         );
 
     }
 
 
-    openModal(`
+    $("modalContent").innerHTML = `
 
         <h2>
 
-            🏆
-
-            ${
+            🏆 ${
                 currentLanguage === "ar"
-                ? "انتهى التحدي!"
-
+                ? "انتهى التحدي"
                 : currentLanguage === "fr"
-                ? "Défi terminé !"
-
-                : "Challenge Complete!"
+                ? "Défi terminé"
+                : "Challenge Complete"
             }
 
         </h2>
 
 
-        <div class="result success">
+        <div class="quiz-question"
+             style="text-align:center">
+
+            <strong>
+                ${score}
+            </strong>
+
+            /
+
+            ${total}
+
+            <br>
 
             ${
                 currentLanguage === "ar"
-                ? "نتيجتك:"
-
+                ? "إجابات صحيحة"
                 : currentLanguage === "fr"
-                ? "Votre score :"
-
-                : "Your score:"
+                ? "bonnes réponses"
+                : "correct answers"
             }
-
-            <b>
-
-                ${quiz.score}/${total}
-
-            </b>
 
         </div>
-
-
-        <p>
-
-            ${
-                currentLanguage === "ar"
-                ? "مكافأة إضافية:"
-
-                : currentLanguage === "fr"
-                ? "Bonus :"
-
-                : "Bonus:"
-            }
-
-            <b>
-
-                ${bonus} XP
-
-            </b>
-
-        </p>
-
-
-        <p class="muted">
-
-            ${
-                currentLanguage === "ar"
-                ? "مجموع XP الحالي:"
-
-                : currentLanguage === "fr"
-                ? "XP total actuel :"
-
-                : "Current total XP:"
-            }
-
-            ${localXP}
-
-        </p>
-
-
-        <br>
 
 
         <button
@@ -4742,157 +5931,81 @@ function finishQuiz(){
 
             ${
                 currentLanguage === "ar"
-                ? "متابعة"
-
+                ? "إغلاق"
                 : currentLanguage === "fr"
-                ? "Continuer"
-
-                : "Continue"
+                ? "Fermer"
+                : "Close"
             }
 
         </button>
 
-    `);
+    `;
 
 }
 
 
-/* =========================================================
-   PROGRESS
-========================================================= */
-
 function openProgress(){
 
     const level =
-        getLevel(
-            localXP
-        );
+        Math.floor(
+            localXP / 100
+        ) + 1;
 
 
-    const current =
-        localXP % 100;
-
-
-    const remaining =
-        100 - current;
-
-
-    openModal(`
+    $("modalContent").innerHTML = `
 
         <h2>
 
-            📈
-
-            ${
+            🏆 ${
                 currentLanguage === "ar"
                 ? "تقدمي"
-
                 : currentLanguage === "fr"
                 ? "Ma progression"
-
                 : "My Progress"
             }
 
         </h2>
 
 
-        <br>
-
-
-        <div class="stat">
+        <div class="quiz-question">
 
             <strong>
-
-                ${localXP} XP
-
+                ${formatNumber(localXP)} XP
             </strong>
 
-            <span>
-
-                ${
-                    currentLanguage === "ar"
-                    ? "مجموع نقاطك"
-
-                    : currentLanguage === "fr"
-                    ? "Vos points totaux"
-
-                    : "Your total points"
-                }
-
-            </span>
-
-        </div>
-
-
-        <br>
-
-
-        <h3>
+            <br>
 
             ${
                 currentLanguage === "ar"
                 ? "المستوى"
-
                 : currentLanguage === "fr"
                 ? "Niveau"
-
                 : "Level"
             }
 
             ${level}
 
-        </h3>
-
-
-        <br>
-
-
-        <div class="xp-track">
-
-            <div
-                class="xp-fill"
-                style="width:${current}%">
-            </div>
-
         </div>
 
 
-        <br>
-
-
-        <p class="muted">
-
-            ${
-                currentLanguage === "ar"
-                ? "تحتاج إلى"
-
-                : currentLanguage === "fr"
-                ? "Il vous faut"
-
-                : "You need"
-            }
-
-            <b>
-                ${remaining} XP
-            </b>
+        <button
+            class="btn primary"
+            onclick="closeModal()">
 
             ${
                 currentLanguage === "ar"
-                ? "للوصول إلى المستوى"
-
+                ? "إغلاق"
                 : currentLanguage === "fr"
-                ? "pour atteindre le niveau"
-
-                : "to reach level"
+                ? "Fermer"
+                : "Close"
             }
 
-            <b>
-                ${level + 1}
-            </b>.
+        </button>
 
-        </p>
+    `;
 
-    `);
+
+    openModal();
 
 }
 
@@ -4903,58 +6016,79 @@ function openProgress(){
 
 function openLogin(){
 
-    openModal(`
+    if(currentUser){
+
+        $("modalContent").innerHTML = `
+
+            <h2>
+                👤 ${
+                    currentLanguage === "ar"
+                    ? "حسابي"
+                    : currentLanguage === "fr"
+                    ? "Mon compte"
+                    : "My Account"
+                }
+            </h2>
+
+            <p class="muted"
+               style="margin-top:12px">
+
+                ${escapeHTML(
+                    currentUser.email || ""
+                )}
+
+            </p>
+
+            <div class="quiz-question">
+
+                ${formatNumber(localXP)}
+                XP
+
+            </div>
+
+            <button
+                class="btn danger"
+                onclick="signOut()">
+
+                ${
+                    currentLanguage === "ar"
+                    ? "تسجيل الخروج"
+                    : currentLanguage === "fr"
+                    ? "Déconnexion"
+                    : "Sign Out"
+                }
+
+            </button>
+
+        `;
+
+        openModal();
+
+        return;
+
+    }
+
+
+    $("modalContent").innerHTML = `
 
         <h2>
-
-            🔐
 
             ${
                 currentLanguage === "ar"
                 ? "تسجيل الدخول"
-
                 : currentLanguage === "fr"
                 ? "Connexion"
-
                 : "Login"
             }
 
         </h2>
 
 
-        <p class="muted">
-
-            ${
-                currentLanguage === "ar"
-                ? "سجل الدخول لحفظ تقدمك ونقاطك."
-
-                : currentLanguage === "fr"
-                ? "Connectez-vous pour sauvegarder votre progression et vos points."
-
-                : "Log in to save your progress and points."
-            }
-
-        </p>
-
-
-        <br>
-
-
         <input
             id="loginEmail"
             class="quiz-input"
             type="email"
-            placeholder="${
-                currentLanguage === "ar"
-                ? "البريد الإلكتروني"
-
-                : currentLanguage === "fr"
-                ? "Adresse e-mail"
-
-                : "Email"
-            }"
-            autocomplete="email"
-        >
+            placeholder="Email">
 
 
         <input
@@ -4964,14 +6098,10 @@ function openLogin(){
             placeholder="${
                 currentLanguage === "ar"
                 ? "كلمة المرور"
-
                 : currentLanguage === "fr"
                 ? "Mot de passe"
-
                 : "Password"
-            }"
-            autocomplete="current-password"
-        >
+            }">
 
 
         <div class="quiz-actions">
@@ -4983,10 +6113,8 @@ function openLogin(){
                 ${
                     currentLanguage === "ar"
                     ? "دخول"
-
                     : currentLanguage === "fr"
                     ? "Connexion"
-
                     : "Login"
                 }
 
@@ -5000,11 +6128,9 @@ function openLogin(){
                 ${
                     currentLanguage === "ar"
                     ? "إنشاء حساب"
-
                     : currentLanguage === "fr"
                     ? "Créer un compte"
-
-                    : "Create account"
+                    : "Create Account"
                 }
 
             </button>
@@ -5014,16 +6140,22 @@ function openLogin(){
 
         <div id="loginResult"></div>
 
-    `);
+    `;
+
+
+    openModal();
 
 }
 
 
-/* =========================================================
-   SIGN IN
-========================================================= */
-
 async function signIn(){
+
+    if(!supabaseClient){
+
+        return;
+
+    }
+
 
     const email =
         $("loginEmail")
@@ -5049,15 +6181,13 @@ async function signIn(){
 
             resultBox.innerHTML = `
 
-                <div class="result wrong">
+                <div class="result wrong-result">
 
                     ${
                         currentLanguage === "ar"
-                        ? "أدخل البريد وكلمة المرور."
-
+                        ? "أدخل البريد الإلكتروني وكلمة المرور."
                         : currentLanguage === "fr"
-                        ? "Entrez l'e-mail et le mot de passe."
-
+                        ? "Entrez l'email et le mot de passe."
                         : "Enter email and password."
                     }
 
@@ -5072,110 +6202,54 @@ async function signIn(){
     }
 
 
-    if(!supabaseClient){
-
-        showToast(
-            "Supabase غير متصل"
-        );
-
-        return;
-
-    }
-
-
     try{
 
         const result =
             await supabaseClient
-            .auth
-            .signInWithPassword({
-
-                email:email,
-
-                password:password
-
-            });
+                .auth
+                .signInWithPassword({
+                    email,
+                    password
+                });
 
 
         if(result.error){
 
-            if(resultBox){
-
-                resultBox.innerHTML = `
-
-                    <div class="result wrong">
-
-                        ${escapeHTML(
-                            result.error.message
-                        )}
-
-                    </div>
-
-                `;
-
-            }
-
-            return;
+            throw result.error;
 
         }
 
 
         currentUser =
-            result.data?.user ||
-            null;
+            result.data.user;
 
+
+        await loadCloudXP();
 
         updateUserUI();
 
+        closeModal();
 
-        await loadUser();
-
-
-        if(resultBox){
-
-            resultBox.innerHTML = `
-
-                <div class="result success">
-
-                    ${
-                        currentLanguage === "ar"
-                        ? "✅ تم تسجيل الدخول بنجاح."
-
-                        : currentLanguage === "fr"
-                        ? "✅ Connexion réussie."
-
-                        : "✅ Login successful."
-                    }
-
-                </div>
-
-            `;
-
-        }
-
-
-        setTimeout(
-            function(){
-
-                closeModal();
-
-            },
-            700
+        showToast(
+            currentLanguage === "ar"
+            ? "تم تسجيل الدخول بنجاح ✅"
+            : currentLanguage === "fr"
+            ? "Connexion réussie ✅"
+            : "Successfully logged in ✅"
         );
 
     }catch(error){
 
-        console.log(
-            error
-        );
-
         if(resultBox){
 
             resultBox.innerHTML = `
 
-                <div class="result wrong">
+                <div class="result wrong-result">
 
-                    حدث خطأ أثناء تسجيل الدخول.
+                    ${escapeHTML(
+                        error.message ||
+                        "Login error"
+                    )}
 
                 </div>
 
@@ -5188,11 +6262,14 @@ async function signIn(){
 }
 
 
-/* =========================================================
-   SIGN UP
-========================================================= */
-
 async function signUp(){
+
+    if(!supabaseClient){
+
+        return;
+
+    }
+
 
     const email =
         $("loginEmail")
@@ -5214,70 +6291,6 @@ async function signUp(){
         !password
     ){
 
-        if(resultBox){
-
-            resultBox.innerHTML = `
-
-                <div class="result wrong">
-
-                    ${
-                        currentLanguage === "ar"
-                        ? "أدخل البريد وكلمة المرور."
-
-                        : currentLanguage === "fr"
-                        ? "Entrez l'e-mail et le mot de passe."
-
-                        : "Enter email and password."
-                    }
-
-                </div>
-
-            `;
-
-        }
-
-        return;
-
-    }
-
-
-    if(
-        password.length < 6
-    ){
-
-        if(resultBox){
-
-            resultBox.innerHTML = `
-
-                <div class="result wrong">
-
-                    ${
-                        currentLanguage === "ar"
-                        ? "كلمة المرور يجب أن تكون 6 أحرف على الأقل."
-
-                        : currentLanguage === "fr"
-                        ? "Le mot de passe doit contenir au moins 6 caractères."
-
-                        : "Password must be at least 6 characters."
-                    }
-
-                </div>
-
-            `;
-
-        }
-
-        return;
-
-    }
-
-
-    if(!supabaseClient){
-
-        showToast(
-            "Supabase غير متصل"
-        );
-
         return;
 
     }
@@ -5287,156 +6300,219 @@ async function signUp(){
 
         const result =
             await supabaseClient
-            .auth
-            .signUp({
-
-                email:email,
-
-                password:password
-
-            });
+                .auth
+                .signUp({
+                    email,
+                    password
+                });
 
 
         if(result.error){
 
-            if(resultBox){
-
-                resultBox.innerHTML = `
-
-                    <div class="result wrong">
-
-                        ${escapeHTML(
-                            result.error.message
-                        )}
-
-                    </div>
-
-                `;
-
-            }
-
-            return;
+            throw result.error;
 
         }
 
 
-        if(
-            result.data?.user &&
-            !result.data.session
-        ){
+        if(resultBox){
 
-            if(resultBox){
+            resultBox.innerHTML = `
 
-                resultBox.innerHTML = `
+                <div class="result success-result">
 
-                    <div class="result success">
+                    ${
+                        currentLanguage === "ar"
+                        ? "تم إنشاء الحساب. تحقق من بريدك الإلكتروني إذا كان تأكيد البريد مفعلاً."
+                        : currentLanguage === "fr"
+                        ? "Compte créé. Vérifiez votre email si la confirmation est activée."
+                        : "Account created. Check your email if confirmation is enabled."
+                    }
 
-                        ${
-                            currentLanguage === "ar"
-                            ? "✅ تم إنشاء الحساب. تحقق من بريدك الإلكتروني."
+                </div>
 
-                            : currentLanguage === "fr"
-                            ? "✅ Compte créé. Vérifiez votre e-mail."
-
-                            : "✅ Account created. Check your email."
-                        }
-
-                    </div>
-
-                `;
-
-            }
-
-        }else{
-
-            currentUser =
-                result.data?.user ||
-                null;
-
-
-            updateUserUI();
-
-
-            if(resultBox){
-
-                resultBox.innerHTML = `
-
-                    <div class="result success">
-
-                        ${
-                            currentLanguage === "ar"
-                            ? "✅ تم إنشاء الحساب بنجاح."
-
-                            : currentLanguage === "fr"
-                            ? "✅ Compte créé avec succès."
-
-                            : "✅ Account created successfully."
-                        }
-
-                    </div>
-
-                `;
-
-            }
+            `;
 
         }
 
     }catch(error){
 
-        console.log(
-            error
-        );
+        if(resultBox){
+
+            resultBox.innerHTML = `
+
+                <div class="result wrong-result">
+
+                    ${escapeHTML(
+                        error.message ||
+                        "Sign up error"
+                    )}
+
+                </div>
+
+            `;
+
+        }
 
     }
 
 }
 
 
-/* =========================================================
-   AUTH LISTENER
-========================================================= */
+async function signOut(){
 
-if(supabaseClient){
+    if(supabaseClient){
 
-    supabaseClient.auth
-    .onAuthStateChange(
-        function(
-            event,
-            session
-        ){
+        try{
 
-            currentUser =
-                session?.user ||
-                null;
+            await supabaseClient
+                .auth
+                .signOut();
 
+        }catch(error){
 
-            updateUserUI();
-
-
-            if(currentUser){
-
-                setTimeout(
-                    function(){
-
-                        loadCloudXP();
-
-                    },
-                    0
-                );
-
-            }
+            console.log(error);
 
         }
+
+    }
+
+
+    currentUser = null;
+
+    updateUserUI();
+
+    closeModal();
+
+
+    showToast(
+        currentLanguage === "ar"
+        ? "تم تسجيل الخروج."
+        : currentLanguage === "fr"
+        ? "Déconnexion réussie."
+        : "Signed out."
     );
 
 }
 
 
 /* =========================================================
-   INITIALIZATION
+   STATISTICS
 ========================================================= */
 
-function initialize(){
+async function loadGlobalStats(){
+
+    if(!supabaseClient){
+
+        return;
+
+    }
+
+
+    try{
+
+        const result =
+            await supabaseClient
+                .from(
+                    "global_library_stats"
+                )
+                .select("*")
+                .maybeSingle();
+
+
+        if(
+            result.error ||
+            !result.data
+        ){
+
+            return;
+
+        }
+
+
+        const stats =
+            result.data;
+
+
+        if($("statResources")){
+
+            $("statResources").textContent =
+                formatNumber(
+                    stats.total_resources
+                );
+
+        }
+
+
+        if($("statExercises")){
+
+            $("statExercises").textContent =
+                formatNumber(
+                    stats.total_exercises
+                );
+
+        }
+
+
+        if($("statCountries")){
+
+            $("statCountries").textContent =
+                formatNumber(
+                    stats.total_countries
+                );
+
+        }
+
+    }catch(error){
+
+        console.log(
+            "Stats error:",
+            error
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   AUTH STATE
+========================================================= */
+
+function listenAuth(){
+
+    if(
+        !supabaseClient
+    ){
+
+        return;
+
+    }
+
+
+    supabaseClient
+        .auth
+        .onAuthStateChange(
+            function(
+                event,
+                session
+            ){
+
+                currentUser =
+                    session?.user || null;
+
+                updateUserUI();
+
+            }
+        );
+
+}
+
+
+/* =========================================================
+   INITIALIZE
+========================================================= */
+
+async function initialize(){
 
     applyTheme();
 
@@ -5446,14 +6522,20 @@ function initialize(){
 
     updateUserUI();
 
-    loadUser();
+    await loadUser();
 
-    loadResources();
+    await loadGlobalStats();
+
+    await loadResources(true);
+
+    listenAuth();
 
 }
 
 
-/* Start */
+/* =========================================================
+   START
+========================================================= */
 
 document.addEventListener(
     "DOMContentLoaded",
@@ -5463,4 +6545,5 @@ document.addEventListener(
 </script>
 
 </body>
+
 </html>
