@@ -1,29 +1,15 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-
 <head>
-
 <meta charset="UTF-8">
-
-<meta name="viewport"
-      content="width=device-width,
-               initial-scale=1.0,
-               viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 
 <title>HAMOU MATH | سلسلة حمو في الرياضيات</title>
 
 <meta name="description"
-      content="HAMOU MATH منصة رياضيات تفاعلية عالمية للتعلم والتدريب والتمارين والاختبارات والألعاب والتحديات.">
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+content="HAMOU MATH منصة عالمية لتعلم الرياضيات والدروس والتمارين والاختبارات والألعاب والتحديات.">
 
 <style>
-
-/* =========================================================
-   HAMOU MATH V29
-   GLOBAL
-========================================================= */
-
 :root{
     --primary:#2563eb;
     --primary-dark:#1d4ed8;
@@ -36,17 +22,8 @@
     --success:#16a34a;
     --danger:#dc2626;
     --warning:#f59e0b;
-    --card-shadow:0 5px 20px rgba(15,23,42,.04);
-}
-
-html.dark{
-    --dark:#020617;
-    --text:#e2e8f0;
-    --muted:#94a3b8;
-    --bg:#0f172a;
-    --white:#1e293b;
-    --border:#334155;
-    --card-shadow:0 5px 25px rgba(0,0,0,.2);
+    --card-shadow:0 5px 20px rgba(15,23,42,.06);
+    --radius:18px;
 }
 
 *{
@@ -60,21 +37,20 @@ html{
 }
 
 body{
-    font-family:
-        Arial,
-        Tahoma,
-        "Segoe UI",
-        sans-serif;
-
+    font-family:Arial,"Segoe UI",Tahoma,sans-serif;
     background:var(--bg);
     color:var(--text);
     line-height:1.7;
+    transition:.25s;
+}
 
-    overflow-x:hidden;
+body.no-scroll{
+    overflow:hidden;
+}
 
-    transition:
-        background-color .25s ease,
-        color .25s ease;
+a{
+    color:inherit;
+    text-decoration:none;
 }
 
 button,
@@ -87,10 +63,6 @@ button{
     cursor:pointer;
 }
 
-a{
-    color:inherit;
-}
-
 img{
     max-width:100%;
 }
@@ -100,1998 +72,1749 @@ img{
     margin:auto;
 }
 
-/* =========================================================
+/* =========================
+   DARK MODE
+========================= */
+
+html.dark{
+    --dark:#f8fafc;
+    --text:#e2e8f0;
+    --muted:#94a3b8;
+    --bg:#020617;
+    --white:#0f172a;
+    --border:#1e293b;
+    --card-shadow:0 5px 25px rgba(0,0,0,.28);
+}
+
+html.dark body{
+    background:#020617;
+    color:#e2e8f0;
+}
+
+html.dark .header{
+    background:rgba(2,6,23,.94);
+}
+
+html.dark .hero{
+    background:
+      radial-gradient(circle at 10% 20%,rgba(37,99,235,.22),transparent 35%),
+      radial-gradient(circle at 90% 70%,rgba(124,58,237,.18),transparent 35%),
+      #020617;
+}
+
+html.dark .card,
+html.dark .stat-card,
+html.dark .filter-box,
+html.dark .modal-content{
+    background:#0f172a;
+    border-color:#1e293b;
+}
+
+html.dark .nav-links{
+    background:#0f172a;
+}
+
+html.dark input,
+html.dark select{
+    background:#020617;
+    color:#e2e8f0;
+    border-color:#334155;
+}
+
+html.dark .library-card{
+    background:#0f172a;
+}
+
+html.dark .library-card:hover{
+    border-color:#2563eb;
+}
+
+html.dark footer{
+    background:#010409;
+}
+
+/* =========================
    HEADER
-========================================================= */
+========================= */
 
 .header{
     position:sticky;
     top:0;
     z-index:1000;
-
-    background:rgba(255,255,255,.96);
+    background:rgba(255,255,255,.94);
+    backdrop-filter:blur(14px);
     border-bottom:1px solid var(--border);
-
-    backdrop-filter:blur(12px);
 }
 
-html.dark .header{
-    background:rgba(15,23,42,.96);
-}
-
-.header .container{
-    min-height:70px;
-
+.nav{
+    min-height:72px;
     display:flex;
     align-items:center;
     justify-content:space-between;
-
     gap:20px;
 }
 
 .logo{
-    text-decoration:none;
-    color:var(--primary);
-
-    font-size:25px;
+    display:flex;
+    align-items:center;
+    gap:10px;
     font-weight:900;
-
+    color:var(--primary);
+    font-size:22px;
     white-space:nowrap;
 }
 
-.nav{
-    display:flex;
-    align-items:center;
-    gap:20px;
+.logo-icon{
+    width:42px;
+    height:42px;
+    border-radius:13px;
+    display:grid;
+    place-items:center;
+    background:linear-gradient(135deg,#2563eb,#7c3aed);
+    color:white;
+    font-size:21px;
+    box-shadow:0 8px 20px rgba(37,99,235,.25);
 }
 
 .nav-links{
     display:flex;
     align-items:center;
-    gap:18px;
+    gap:5px;
 }
 
 .nav-links a{
-    text-decoration:none;
-    color:var(--text);
+    padding:9px 12px;
+    border-radius:10px;
+    color:var(--muted);
     font-weight:700;
     transition:.2s;
 }
 
 .nav-links a:hover{
+    background:#eff6ff;
     color:var(--primary);
+}
+
+html.dark .nav-links a:hover{
+    background:#172554;
 }
 
 .nav-actions{
     display:flex;
-    gap:6px;
     align-items:center;
+    gap:7px;
 }
 
-.nav-actions button{
+.icon-btn,
+.lang-btn,
+.login-btn{
     border:1px solid var(--border);
     background:var(--white);
     color:var(--text);
-
-    border-radius:10px;
+    border-radius:11px;
     padding:8px 11px;
-
-    transition:.2s;
 }
 
-.nav-actions button:hover{
+.lang-btn.active{
+    background:var(--primary);
+    color:#fff;
     border-color:var(--primary);
-    color:var(--primary);
 }
 
-.mobile-menu-btn{
-    display:none;
+.login-btn{
+    background:var(--primary);
+    color:#fff;
+    border-color:var(--primary);
+    font-weight:800;
+}
 
-    width:42px;
-    height:42px;
-
-    border:1px solid var(--border);
-    border-radius:10px;
-
-    background:var(--white);
-    color:var(--text);
-
-    font-size:22px;
+.login-btn:hover{
+    background:var(--primary-dark);
 }
 
 .mobile-menu{
     display:none;
-
-    position:absolute;
-    top:100%;
-    right:0;
-    left:0;
-
-    background:var(--white);
-    border-bottom:1px solid var(--border);
-
-    box-shadow:0 12px 30px rgba(0,0,0,.1);
-
-    padding:14px;
+    font-size:22px;
 }
 
-.mobile-menu.show{
-    display:block;
-}
-
-.mobile-menu a{
-    display:block;
-    text-decoration:none;
-    color:var(--text);
-
-    padding:12px 14px;
-
-    border-radius:10px;
-
-    font-weight:700;
-}
-
-.mobile-menu a:hover{
-    background:var(--bg);
-    color:var(--primary);
-}
-
-.mobile-menu-actions{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:7px;
-
-    margin-top:10px;
-}
-
-.mobile-menu-actions button{
-    border:1px solid var(--border);
-    background:var(--white);
-    color:var(--text);
-
-    padding:9px 5px;
-    border-radius:9px;
-}
-
-/* =========================================================
-   BUTTONS
-========================================================= */
-
-.btn{
-    border:1px solid var(--border);
-    background:var(--white);
-    color:var(--text);
-
-    padding:10px 16px;
-    border-radius:11px;
-
-    font-weight:700;
-
-    transition:.2s;
-}
-
-.btn:hover{
-    transform:translateY(-1px);
-}
-
-.btn.primary{
-    background:var(--primary);
-    border-color:var(--primary);
-    color:white;
-}
-
-.btn.primary:hover{
-    background:var(--primary-dark);
-}
-
-.btn.success{
-    background:var(--success);
-    border-color:var(--success);
-    color:white;
-}
-
-.btn.danger{
-    background:var(--danger);
-    border-color:var(--danger);
-    color:white;
-}
-
-.btn:disabled{
-    opacity:.55;
-    cursor:not-allowed;
-    transform:none;
-}
-
-/* =========================================================
+/* =========================
    HERO
-========================================================= */
+========================= */
 
 .hero{
-    padding:80px 0;
-
+    padding:85px 0 70px;
     background:
-        linear-gradient(
-            135deg,
-            #eff6ff,
-            var(--white)
-        );
+      radial-gradient(circle at 10% 20%,rgba(37,99,235,.10),transparent 35%),
+      radial-gradient(circle at 90% 70%,rgba(124,58,237,.10),transparent 35%);
 }
 
-html.dark .hero{
-    background:
-        linear-gradient(
-            135deg,
-            #172554,
-            #0f172a
-        );
+.hero-grid{
+    display:grid;
+    grid-template-columns:1.2fr .8fr;
+    align-items:center;
+    gap:50px;
 }
 
-.hero-content{
-    max-width:800px;
+.badge{
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+    padding:7px 13px;
+    border-radius:30px;
+    background:#eff6ff;
+    color:var(--primary);
+    font-weight:800;
+    margin-bottom:18px;
+}
+
+html.dark .badge{
+    background:#172554;
 }
 
 .hero h1{
-    font-size:clamp(36px,6vw,64px);
-    line-height:1.2;
-    margin-bottom:18px;
+    font-size:clamp(38px,6vw,68px);
+    line-height:1.05;
+    margin-bottom:22px;
+    font-weight:950;
+}
+
+.gradient{
+    color:var(--primary);
 }
 
 .hero p{
     color:var(--muted);
-    font-size:20px;
-    margin-bottom:25px;
+    font-size:19px;
+    max-width:680px;
+    margin-bottom:28px;
 }
 
-/* =========================================================
+.hero-buttons{
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+}
+
+.btn{
+    border:none;
+    border-radius:13px;
+    padding:12px 20px;
+    font-weight:800;
+    transition:.2s;
+    display:inline-flex;
+    justify-content:center;
+    align-items:center;
+    gap:7px;
+}
+
+.btn-primary{
+    background:var(--primary);
+    color:#fff;
+}
+
+.btn-primary:hover{
+    background:var(--primary-dark);
+    transform:translateY(-2px);
+}
+
+.btn-outline{
+    background:transparent;
+    border:1px solid var(--border);
+    color:var(--text);
+}
+
+.btn-outline:hover{
+    border-color:var(--primary);
+    color:var(--primary);
+}
+
+.hero-card{
+    padding:28px;
+    border-radius:28px;
+    background:linear-gradient(145deg,#2563eb,#7c3aed);
+    color:#fff;
+    box-shadow:0 25px 60px rgba(37,99,235,.25);
+}
+
+.hero-card-icon{
+    font-size:65px;
+    margin-bottom:10px;
+}
+
+.hero-card h3{
+    font-size:27px;
+    margin-bottom:8px;
+}
+
+.hero-card p{
+    color:rgba(255,255,255,.82);
+    font-size:15px;
+}
+
+/* =========================
    STATS
-========================================================= */
+========================= */
 
 .stats{
+    margin-top:-25px;
+    position:relative;
+    z-index:2;
+}
+
+.stats-grid{
     display:grid;
     grid-template-columns:repeat(4,1fr);
     gap:15px;
-    padding:25px 0;
 }
 
-.stat{
+.stat-card{
     background:var(--white);
     border:1px solid var(--border);
-
-    border-radius:18px;
-
-    padding:20px;
-
+    border-radius:var(--radius);
+    padding:22px;
     text-align:center;
-
     box-shadow:var(--card-shadow);
 }
 
-.stat strong{
-    display:block;
+.stat-number{
     color:var(--primary);
-    font-size:32px;
+    font-size:30px;
+    font-weight:950;
 }
 
-/* =========================================================
-   USER
-========================================================= */
+.stat-label{
+    color:var(--muted);
+    font-size:14px;
+}
 
-.user-bar{
+/* =========================
+   USER XP
+========================= */
+
+.user-panel{
+    margin:35px 0;
+    display:none;
+}
+
+.user-panel.show{
+    display:block;
+}
+
+.xp-card{
     background:var(--white);
     border:1px solid var(--border);
-
-    border-radius:18px;
-
-    padding:18px;
-
-    display:flex;
-    align-items:center;
-
-    gap:20px;
-
-    margin-bottom:30px;
-
+    border-radius:20px;
+    padding:20px;
     box-shadow:var(--card-shadow);
 }
 
 .user-info{
-    min-width:180px;
-}
-
-.xp-box{
-    flex:1;
-    min-width:0;
-}
-
-.xp-top{
     display:flex;
     justify-content:space-between;
-
-    gap:10px;
-
-    margin-bottom:7px;
-
-    font-size:14px;
+    gap:15px;
+    align-items:center;
+    margin-bottom:12px;
 }
 
-.xp-track{
-    height:11px;
+.user-name{
+    font-weight:900;
+}
 
-    background:var(--border);
+.level{
+    color:var(--primary);
+    font-weight:900;
+}
 
-    border-radius:50px;
-
+.xp-bar{
+    height:13px;
+    background:#e2e8f0;
+    border-radius:20px;
     overflow:hidden;
+}
+
+html.dark .xp-bar{
+    background:#1e293b;
 }
 
 .xp-fill{
     height:100%;
     width:0%;
-
-    background:var(--primary);
-
-    transition:.4s;
+    background:linear-gradient(90deg,#2563eb,#7c3aed);
+    border-radius:20px;
+    transition:width .5s;
 }
 
-/* =========================================================
+.xp-meta{
+    display:flex;
+    justify-content:space-between;
+    margin-top:7px;
+    font-size:13px;
+    color:var(--muted);
+}
+
+/* =========================
    SECTIONS
-========================================================= */
+========================= */
 
-.section{
-    padding:50px 0;
+section{
+    padding:75px 0;
 }
 
-.section h2{
-    font-size:32px;
-    margin-bottom:25px;
+.section-head{
+    text-align:center;
+    margin-bottom:35px;
 }
 
-/* =========================================================
-   CARDS
-========================================================= */
+.section-head h2{
+    font-size:35px;
+    margin-bottom:8px;
+}
 
-.cards,
-.challenge-grid,
-.resource-grid{
+.section-head p{
+    color:var(--muted);
+}
+
+/* =========================
+   CHALLENGES
+========================= */
+
+.cards-grid{
     display:grid;
-    gap:18px;
+    grid-template-columns:repeat(3,1fr);
+    gap:20px;
 }
 
-.cards,
-.challenge-grid{
-    grid-template-columns:repeat(3,minmax(0,1fr));
-}
-
-.resource-grid{
-    grid-template-columns:repeat(3,minmax(0,1fr));
-}
-
-.card,
-.challenge,
-.resource{
+.card{
     background:var(--white);
-
     border:1px solid var(--border);
-
-    border-radius:18px;
-
-    padding:22px;
-
+    border-radius:var(--radius);
+    padding:24px;
     box-shadow:var(--card-shadow);
-
-    min-width:0;
-    overflow-wrap:anywhere;
-
     transition:.2s;
 }
 
-.card h3,
-.challenge h3,
-.resource h3{
-    margin-bottom:10px;
+.card:hover{
+    transform:translateY(-4px);
 }
 
-.card:hover,
-.challenge:hover,
-.resource:hover{
-    transform:translateY(-2px);
-}
-
-.muted{
-    color:var(--muted);
-}
-
-/* =========================================================
-   V29 LIBRARY
-========================================================= */
-
-.library-panel{
-    background:var(--white);
-
-    border:1px solid var(--border);
-
-    border-radius:20px;
-
-    padding:18px;
-
-    box-shadow:var(--card-shadow);
-
-    margin-bottom:20px;
-}
-
-.library-search{
-    display:flex;
-    gap:10px;
-    margin-bottom:14px;
-}
-
-.library-search input{
-    flex:1;
-    min-width:0;
-}
-
-.library-search input,
-.library-filter select{
-    border:1px solid var(--border);
-
-    background:var(--white);
-    color:var(--text);
-
-    border-radius:11px;
-
-    padding:12px 13px;
-
-    outline:none;
-}
-
-.library-search input:focus,
-.library-filter select:focus{
-    border-color:var(--primary);
-}
-
-.library-filter{
-    display:grid;
-
-    grid-template-columns:
-        repeat(4,minmax(0,1fr));
-
-    gap:9px;
-}
-
-.library-bottom{
-    margin-top:14px;
-
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-
-    gap:10px;
-
-    flex-wrap:wrap;
-}
-
-.library-count{
-    color:var(--muted);
-    font-size:14px;
-}
-
-.resource{
-    cursor:pointer;
-    position:relative;
-}
-
-.resource-top{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-
-    gap:10px;
-
-    margin-bottom:10px;
-}
-
-.resource-icon{
-    width:45px;
-    height:45px;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    border-radius:12px;
-
+.card-icon{
+    width:52px;
+    height:52px;
+    border-radius:15px;
     background:#eff6ff;
-
-    font-size:22px;
-
-    flex-shrink:0;
+    display:grid;
+    place-items:center;
+    font-size:25px;
+    margin-bottom:16px;
 }
 
-html.dark .resource-icon{
+html.dark .card-icon{
     background:#172554;
 }
 
-.resource-title{
-    min-width:0;
-    flex:1;
+.card h3{
+    margin-bottom:7px;
 }
 
-.resource-title h3{
-    font-size:18px;
-    line-height:1.45;
-}
-
-.resource-description{
+.card p{
     color:var(--muted);
-
     font-size:14px;
+    margin-bottom:17px;
+}
 
-    margin:8px 0;
+/* =========================
+   GAMES
+========================= */
 
+.game-card{
+    position:relative;
+    overflow:hidden;
+}
+
+.game-top{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:12px;
+}
+
+.game-difficulty{
+    font-size:12px;
+    padding:5px 9px;
+    border-radius:20px;
+    background:#fef3c7;
+    color:#92400e;
+    font-weight:800;
+}
+
+html.dark .game-difficulty{
+    background:#451a03;
+    color:#fbbf24;
+}
+
+/* =========================
+   LIBRARY
+========================= */
+
+.library-section{
+    background:#f1f5f9;
+}
+
+html.dark .library-section{
+    background:#020617;
+}
+
+.filter-box{
+    background:var(--white);
+    border:1px solid var(--border);
+    padding:18px;
+    border-radius:18px;
+    margin-bottom:25px;
+    box-shadow:var(--card-shadow);
+}
+
+.search-row{
+    display:grid;
+    grid-template-columns:1fr auto;
+    gap:10px;
+    margin-bottom:15px;
+}
+
+.search-input{
+    width:100%;
+    padding:13px 15px;
+    border:1px solid var(--border);
+    border-radius:12px;
+    outline:none;
+    background:var(--bg);
+    color:var(--text);
+}
+
+.search-input:focus{
+    border-color:var(--primary);
+}
+
+.filters{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:10px;
+}
+
+.filter{
+    width:100%;
+    padding:11px;
+    border:1px solid var(--border);
+    border-radius:11px;
+    background:var(--bg);
+    color:var(--text);
+    outline:none;
+}
+
+.library-info{
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+    align-items:center;
+    margin-bottom:15px;
+    color:var(--muted);
+}
+
+.library-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:18px;
+}
+
+.library-card{
+    background:var(--white);
+    border:1px solid var(--border);
+    border-radius:17px;
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+    min-width:0;
+    box-shadow:var(--card-shadow);
+    transition:.2s;
+}
+
+.library-card:hover{
+    transform:translateY(-3px);
+}
+
+.resource-cover{
+    height:125px;
+    background:linear-gradient(135deg,#2563eb,#7c3aed);
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:42px;
+}
+
+.resource-body{
+    padding:17px;
+    display:flex;
+    flex-direction:column;
+    flex:1;
+    min-width:0;
+}
+
+.resource-type{
+    color:var(--primary);
+    font-size:12px;
+    font-weight:900;
+    margin-bottom:5px;
+}
+
+.resource-title{
+    font-weight:900;
+    font-size:17px;
+    margin-bottom:7px;
+    overflow-wrap:anywhere;
+}
+
+.resource-desc{
+    color:var(--muted);
+    font-size:13px;
     display:-webkit-box;
     -webkit-line-clamp:3;
     -webkit-box-orient:vertical;
     overflow:hidden;
+    margin-bottom:12px;
 }
 
 .resource-meta{
     display:flex;
-
     flex-wrap:wrap;
-
-    gap:5px;
-
-    margin:10px 0;
+    gap:6px;
+    margin-top:auto;
+    margin-bottom:12px;
 }
 
-.tag{
-    display:inline-flex;
-
-    align-items:center;
-
-    background:#eff6ff;
-    color:var(--primary);
-
-    border-radius:50px;
-
-    padding:4px 9px;
-
-    font-size:12px;
-}
-
-html.dark .tag{
-    background:#172554;
-}
-
-.resource-stats{
-    display:flex;
-
-    flex-wrap:wrap;
-
-    gap:12px;
-
+.meta-tag{
+    background:#f1f5f9;
     color:var(--muted);
+    padding:4px 7px;
+    border-radius:7px;
+    font-size:11px;
+}
 
-    font-size:12px;
-
-    margin-top:8px;
+html.dark .meta-tag{
+    background:#1e293b;
 }
 
 .resource-actions{
     display:flex;
-
     gap:7px;
-
-    flex-wrap:wrap;
-
-    margin-top:13px;
 }
 
-.resource-actions .btn{
-    padding:8px 11px;
-    font-size:13px;
+.resource-actions button{
+    flex:1;
+    min-width:0;
 }
 
-.favorite-active{
-    color:#f59e0b !important;
-    border-color:#f59e0b !important;
+.favorite{
+    flex:0 0 44px!important;
 }
 
-.load-more-wrap{
-    display:flex;
-    justify-content:center;
-    margin-top:22px;
+.load-more{
+    display:block;
+    margin:30px auto 0;
 }
 
-.library-empty{
+.empty{
     grid-column:1/-1;
-
     text-align:center;
-
-    padding:35px 20px;
-
+    padding:50px 20px;
     color:var(--muted);
 }
 
-/* =========================================================
+.spinner{
+    width:25px;
+    height:25px;
+    border:3px solid #dbeafe;
+    border-top-color:var(--primary);
+    border-radius:50%;
+    animation:spin .7s linear infinite;
+    margin:auto;
+}
+
+@keyframes spin{
+    to{transform:rotate(360deg)}
+}
+
+/* =========================
+   ABOUT
+========================= */
+
+.about-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:30px;
+    align-items:center;
+}
+
+.about-box{
+    background:var(--white);
+    border:1px solid var(--border);
+    border-radius:22px;
+    padding:30px;
+    box-shadow:var(--card-shadow);
+}
+
+.features{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+    margin-top:20px;
+}
+
+.feature{
+    padding:13px;
+    border-radius:12px;
+    background:#f8fafc;
+    font-weight:700;
+}
+
+html.dark .feature{
+    background:#020617;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+footer{
+    background:#0f172a;
+    color:#cbd5e1;
+    padding:45px 0 25px;
+}
+
+.footer-grid{
+    display:grid;
+    grid-template-columns:2fr 1fr 1fr;
+    gap:30px;
+}
+
+.footer-title{
+    color:#fff;
+    font-weight:900;
+    font-size:19px;
+    margin-bottom:10px;
+}
+
+footer p{
+    color:#94a3b8;
+    font-size:14px;
+}
+
+.footer-links{
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+}
+
+.footer-links a{
+    color:#94a3b8;
+}
+
+.footer-links a:hover{
+    color:#fff;
+}
+
+.copyright{
+    border-top:1px solid #1e293b;
+    margin-top:30px;
+    padding-top:18px;
+    text-align:center;
+    color:#64748b;
+    font-size:13px;
+}
+
+/* =========================
    MODAL
-========================================================= */
+========================= */
 
 .modal{
     position:fixed;
-
     inset:0;
-
-    background:rgba(15,23,42,.72);
-
-    z-index:2000;
-
+    background:rgba(2,6,23,.7);
+    backdrop-filter:blur(5px);
+    z-index:3000;
     display:none;
-
     align-items:center;
     justify-content:center;
-
     padding:15px;
-
-    overflow:auto;
 }
 
 .modal.show{
     display:flex;
 }
 
-.modal-box{
-    width:min(760px,100%);
-
+.modal-content{
+    width:min(470px,100%);
     max-height:90vh;
-
     overflow:auto;
-
     background:var(--white);
     color:var(--text);
-
     border-radius:22px;
-
-    padding:28px;
-
+    border:1px solid var(--border);
+    padding:25px;
     position:relative;
-
-    box-shadow:0 25px 70px rgba(0,0,0,.25);
 }
 
 .close{
     position:absolute;
-
-    top:10px;
-    left:15px;
-
-    border:0;
-
-    background:transparent;
+    top:12px;
+    left:12px;
+    width:36px;
+    height:36px;
+    border:none;
+    border-radius:50%;
+    background:#f1f5f9;
     color:var(--text);
-
-    font-size:30px;
-
-    width:40px;
-    height:40px;
+    font-size:20px;
 }
 
-.detail-grid{
-    display:grid;
-
-    grid-template-columns:
-        repeat(2,minmax(0,1fr));
-
-    gap:9px;
-
-    margin:20px 0;
+html.dark .close{
+    background:#1e293b;
 }
 
-.detail-item{
-    padding:10px 12px;
-
-    border:1px solid var(--border);
-
-    border-radius:10px;
-
-    background:var(--bg);
+.modal-title{
+    font-size:25px;
+    font-weight:950;
+    margin-bottom:18px;
 }
 
-.detail-item strong{
+.form-group{
+    margin-bottom:13px;
+}
+
+.form-group label{
     display:block;
-    color:var(--muted);
-    font-size:12px;
+    font-size:13px;
+    font-weight:800;
+    margin-bottom:5px;
 }
 
-/* =========================================================
-   QUIZ
-========================================================= */
-
-.quiz-question{
-    background:var(--bg);
-
-    border:1px solid var(--border);
-
-    border-radius:15px;
-
-    padding:20px;
-
-    font-size:21px;
-
-    margin:20px 0;
-}
-
-.quiz-input{
+.form-control{
     width:100%;
-
-    padding:13px;
-
+    padding:12px;
     border:1px solid var(--border);
-
-    background:var(--white);
-    color:var(--text);
-
     border-radius:11px;
-
+    background:var(--bg);
+    color:var(--text);
     outline:none;
-
-    margin-bottom:12px;
 }
 
-.quiz-input:focus{
+.form-control:focus{
     border-color:var(--primary);
 }
 
-.quiz-actions{
+.modal-actions{
     display:flex;
-
-    flex-wrap:wrap;
-
-    gap:10px;
+    gap:8px;
+    margin-top:15px;
 }
 
-.result{
-    padding:13px;
-
-    border-radius:12px;
-
-    margin:12px 0;
+.modal-actions .btn{
+    flex:1;
 }
 
-.success-result{
-    background:#dcfce7;
-    color:#166534;
+.account-box{
+    text-align:center;
 }
 
-.wrong-result{
-    background:#fee2e2;
-    color:#991b1b;
-}
-
-html.dark .success-result{
-    background:#052e16;
-    color:#86efac;
-}
-
-html.dark .wrong-result{
-    background:#450a0a;
-    color:#fca5a5;
-}
-
-.timer{
+.account-avatar{
+    width:70px;
+    height:70px;
+    margin:0 auto 12px;
+    border-radius:50%;
+    background:linear-gradient(135deg,#2563eb,#7c3aed);
+    color:#fff;
+    display:grid;
+    place-items:center;
+    font-size:30px;
     font-weight:900;
-    color:var(--danger);
 }
 
-/* =========================================================
-   FOOTER
-========================================================= */
-
-.footer{
-    background:var(--dark);
-    color:white;
-
-    padding:35px 0;
-
-    margin-top:30px;
+.account-email{
+    color:var(--muted);
+    font-size:14px;
+    overflow-wrap:anywhere;
 }
 
-/* =========================================================
+.divider{
+    text-align:center;
+    color:var(--muted);
+    font-size:12px;
+    margin:10px 0;
+}
+
+/* =========================
+   RESOURCE VIEW
+========================= */
+
+.resource-modal{
+    width:min(850px,100%);
+}
+
+.resource-view{
+    line-height:1.8;
+}
+
+.resource-view h2{
+    margin-bottom:8px;
+}
+
+.resource-view .resource-large-icon{
+    font-size:60px;
+    text-align:center;
+    margin-bottom:10px;
+}
+
+.resource-details{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin:15px 0;
+}
+
+.resource-detail{
+    padding:6px 10px;
+    background:#f1f5f9;
+    border-radius:9px;
+    font-size:12px;
+}
+
+html.dark .resource-detail{
+    background:#1e293b;
+}
+
+/* =========================
    TOAST
-========================================================= */
+========================= */
 
 .toast{
     position:fixed;
-
-    bottom:20px;
-    right:20px;
-
-    max-width:calc(100vw - 40px);
-
-    background:var(--dark);
-    color:white;
-
-    padding:13px 18px;
-
-    border-radius:12px;
-
+    bottom:22px;
+    right:22px;
     z-index:5000;
-
-    display:none;
-
-    box-shadow:0 10px 30px rgba(0,0,0,.2);
+    min-width:250px;
+    max-width:calc(100vw - 40px);
+    background:#0f172a;
+    color:#fff;
+    padding:13px 17px;
+    border-radius:12px;
+    box-shadow:0 15px 40px rgba(0,0,0,.25);
+    transform:translateY(120px);
+    opacity:0;
+    pointer-events:none;
+    transition:.3s;
 }
 
 .toast.show{
-    display:block;
+    transform:translateY(0);
+    opacity:1;
 }
 
-/* =========================================================
+.toast.success{
+    border-right:4px solid var(--success);
+}
+
+.toast.error{
+    border-right:4px solid var(--danger);
+}
+
+/* =========================
    MOBILE
-========================================================= */
+========================= */
 
 @media(max-width:900px){
 
     .nav-links{
         display:none;
+        position:absolute;
+        top:72px;
+        right:4%;
+        left:4%;
+        padding:10px;
+        flex-direction:column;
+        align-items:stretch;
+        border:1px solid var(--border);
+        border-radius:15px;
+        box-shadow:var(--card-shadow);
     }
 
-    .mobile-menu-btn{
+    .nav-links.open{
+        display:flex;
+    }
+
+    .mobile-menu{
         display:block;
     }
 
-    .nav{
-        gap:8px;
+    .hero-grid{
+        grid-template-columns:1fr;
+        text-align:center;
     }
 
-    .nav-actions .lang-button{
-        display:none;
+    .hero p{
+        margin-left:auto;
+        margin-right:auto;
     }
 
-    .stats{
-        grid-template-columns:repeat(2,minmax(0,1fr));
+    .hero-buttons{
+        justify-content:center;
     }
 
-    .cards,
-    .challenge-grid,
-    .resource-grid{
-        grid-template-columns:repeat(2,minmax(0,1fr));
+    .stats-grid{
+        grid-template-columns:repeat(2,1fr);
     }
 
-    .library-filter{
-        grid-template-columns:repeat(2,minmax(0,1fr));
+    .cards-grid,
+    .library-grid{
+        grid-template-columns:repeat(2,1fr);
     }
 
+    .filters{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .about-grid{
+        grid-template-columns:1fr;
+    }
+
+    .footer-grid{
+        grid-template-columns:1fr 1fr;
+    }
 }
 
 @media(max-width:600px){
 
     .container{
-        width:min(94%,1180px);
+        width:94%;
     }
 
-    .header .container{
-        min-height:62px;
+    .nav{
+        min-height:64px;
     }
 
     .logo{
-        font-size:20px;
-    }
-
-    .nav-actions .login-button{
-        display:none;
-    }
-
-    .hero{
-        padding:50px 0;
-    }
-
-    .hero h1{
-        font-size:clamp(32px,10vw,42px);
-    }
-
-    .hero p{
         font-size:17px;
     }
 
-    .stats,
-    .cards,
-    .challenge-grid,
-    .resource-grid{
-        grid-template-columns:1fr;
+    .logo-icon{
+        width:36px;
+        height:36px;
     }
 
-    .stat strong{
+    .nav-actions{
+        gap:4px;
+    }
+
+    .nav-actions .lang-btn{
+        display:none;
+    }
+
+    .login-btn{
+        padding:7px 9px;
+        font-size:12px;
+    }
+
+    .hero{
+        padding:55px 0 50px;
+    }
+
+    .hero h1{
+        font-size:42px;
+    }
+
+    .hero p{
+        font-size:16px;
+    }
+
+    section{
+        padding:55px 0;
+    }
+
+    .section-head h2{
         font-size:28px;
     }
 
-    .user-bar{
+    .stats-grid{
+        grid-template-columns:1fr 1fr;
+        gap:10px;
+    }
+
+    .stat-card{
+        padding:16px 8px;
+    }
+
+    .stat-number{
+        font-size:24px;
+    }
+
+    .cards-grid,
+    .library-grid{
+        grid-template-columns:1fr;
+    }
+
+    .filters{
+        grid-template-columns:1fr;
+    }
+
+    .search-row{
+        grid-template-columns:1fr;
+    }
+
+    .library-info{
+        align-items:flex-start;
         flex-direction:column;
-        align-items:stretch;
+    }
+
+    .features{
+        grid-template-columns:1fr;
+    }
+
+    .footer-grid{
+        grid-template-columns:1fr;
     }
 
     .user-info{
-        min-width:0;
-    }
-
-    .section{
-        padding:35px 0;
-    }
-
-    .section h2{
-        font-size:27px;
-    }
-
-    .library-search{
+        align-items:flex-start;
         flex-direction:column;
     }
 
-    .library-search .btn{
-        width:100%;
+    .resource-actions{
+        flex-wrap:wrap;
     }
 
-    .library-filter{
-        grid-template-columns:1fr;
+    .resource-actions .btn{
+        flex:1 1 40%;
     }
 
-    .library-filter select{
-        width:100%;
+    .favorite{
+        flex:0 0 45px!important;
     }
-
-    .detail-grid{
-        grid-template-columns:1fr;
-    }
-
-    .modal{
-        padding:10px;
-        align-items:flex-end;
-    }
-
-    .modal-box{
-        width:100%;
-        max-height:92vh;
-
-        border-radius:
-            20px 20px 12px 12px;
-
-        padding:22px 17px;
-        padding-top:42px;
-    }
-
-    .quiz-question{
-        font-size:18px;
-    }
-
-    .quiz-actions{
-        display:grid;
-        grid-template-columns:1fr;
-    }
-
-    .quiz-actions .btn{
-        width:100%;
-    }
-
-    .toast{
-        left:15px;
-        right:15px;
-        bottom:15px;
-        max-width:none;
-        text-align:center;
-    }
-
 }
 
 @media(max-width:360px){
 
-    .logo{
-        font-size:18px;
-    }
-
     .hero h1{
-        font-size:30px;
+        font-size:35px;
     }
 
-    .hero p{
-        font-size:15px;
-    }
-
-    .mobile-menu-actions{
+    .stats-grid{
         grid-template-columns:1fr;
     }
 
+    .hero-buttons .btn{
+        width:100%;
+    }
+
+    .nav .logo span{
+        display:none;
+    }
 }
-
 </style>
-
 </head>
 
 <body>
 
-<!-- =======================================================
-     HEADER
-======================================================= -->
+<!-- ================= HEADER ================= -->
 
 <header class="header">
+<div class="container nav">
 
-<div class="container">
-
-<a href="#home"
-   class="logo">
-HAMOU MATH
+<a href="#home" class="logo">
+    <span class="logo-icon">∑</span>
+    <span>HAMOU MATH</span>
 </a>
 
-<nav class="nav">
-
-<div class="nav-links">
-
-<a href="#home"
-   data-i18n="home">
-الرئيسية
-</a>
-
-<a href="#challenges"
-   data-i18n="challenges">
-التحديات
-</a>
-
-<a href="#games"
-   data-i18n="games">
-الألعاب
-</a>
-
-<a href="#library"
-   data-i18n="library">
-المكتبة
-</a>
-
-<a href="#about"
-   data-i18n="about">
-حول
-</a>
-
-</div>
+<nav class="nav-links" id="navLinks">
+    <a href="#home" data-i18n="home">الرئيسية</a>
+    <a href="#challenges" data-i18n="challenges">التحديات</a>
+    <a href="#games" data-i18n="games">الألعاب</a>
+    <a href="#library" data-i18n="library">المكتبة</a>
+    <a href="#about" data-i18n="about">حول المنصة</a>
+</nav>
 
 <div class="nav-actions">
 
-<button class="lang-button"
-        onclick="changeLanguage('ar')">
-AR
-</button>
+    <button class="lang-btn active" data-lang="ar"
+            onclick="changeLanguage('ar')">AR</button>
 
-<button class="lang-button"
-        onclick="changeLanguage('fr')">
-FR
-</button>
+    <button class="lang-btn" data-lang="fr"
+            onclick="changeLanguage('fr')">FR</button>
 
-<button class="lang-button"
-        onclick="changeLanguage('en')">
-EN
-</button>
+    <button class="lang-btn" data-lang="en"
+            onclick="changeLanguage('en')">EN</button>
 
-<button id="themeButton"
-        onclick="toggleTheme()">
-🌙
-</button>
+    <button class="icon-btn" id="themeBtn"
+            onclick="toggleTheme()">🌙</button>
 
-<button class="btn primary login-button"
-        onclick="openLogin()"
-        data-i18n="login">
-دخول
-</button>
+    <button class="login-btn" id="loginBtn"
+            onclick="openLogin()">دخول</button>
 
-<button id="mobileMenuBtn"
-        class="mobile-menu-btn"
-        onclick="toggleMobileMenu()">
-☰
-</button>
-
-</div>
-
-</nav>
-
-</div>
-
-<div id="mobileMenu"
-     class="mobile-menu">
-
-<a href="#home"
-   onclick="closeMobileMenu()"
-   data-i18n="home">
-الرئيسية
-</a>
-
-<a href="#challenges"
-   onclick="closeMobileMenu()"
-   data-i18n="challenges">
-التحديات
-</a>
-
-<a href="#games"
-   onclick="closeMobileMenu()"
-   data-i18n="games">
-الألعاب
-</a>
-
-<a href="#library"
-   onclick="closeMobileMenu()"
-   data-i18n="library">
-المكتبة
-</a>
-
-<a href="#about"
-   onclick="closeMobileMenu()"
-   data-i18n="about">
-حول
-</a>
-
-<div class="mobile-menu-actions">
-
-<button onclick="changeLanguage('ar')">
-AR
-</button>
-
-<button onclick="changeLanguage('fr')">
-FR
-</button>
-
-<button onclick="changeLanguage('en')">
-EN
-</button>
-
+    <button class="icon-btn mobile-menu"
+            onclick="toggleMobileMenu()">☰</button>
 </div>
 
 </div>
-
 </header>
 
+<!-- ================= HERO ================= -->
 
-<!-- =======================================================
-     MAIN
-======================================================= -->
+<main>
 
-<main id="home">
+<section class="hero" id="home">
+<div class="container hero-grid">
 
+<div>
+    <div class="badge">🌍 <span data-i18n="globalBadge">منصة رياضيات عالمية</span></div>
 
-<!-- HERO -->
+    <h1>
+        <span>HAMOU</span>
+        <span class="gradient">MATH</span>
+    </h1>
 
-<section class="hero">
+    <p data-i18n="heroText">
+        تعلم الرياضيات بطريقة حديثة من خلال الدروس والتمارين والاختبارات
+        والتحديات والألعاب ومكتبة تعليمية عالمية.
+    </p>
 
-<div class="container hero-content">
+    <div class="hero-buttons">
+        <a href="#library" class="btn btn-primary">
+            📚 <span data-i18n="exploreLibrary">استكشف المكتبة</span>
+        </a>
 
-<h1 data-i18n="heroTitle">
-سلسلة حمو في الرياضيات
-</h1>
-
-<p data-i18n="heroText">
-HAMOU MATH — منصة رياضيات تفاعلية للتعلم والتدريب والتحديات والألعاب.
-</p>
-
-<a href="#library"
-   class="btn primary"
-   data-i18n="startLearning">
-ابدأ التعلم الآن
-</a>
-
+        <a href="#games" class="btn btn-outline">
+            🎮 <span data-i18n="playGames">ابدأ اللعب</span>
+        </a>
+    </div>
 </div>
 
+<div class="hero-card">
+    <div class="hero-card-icon">🧠</div>
+    <h3 data-i18n="heroCardTitle">الرياضيات للجميع</h3>
+    <p data-i18n="heroCardText">
+        منصة واحدة تجمع المعرفة والتدريب والمنافسة والتعلم الذكي.
+    </p>
+</div>
+
+</div>
 </section>
 
+<!-- ================= STATS ================= -->
 
-<!-- STATS -->
-
-<section class="section"
-         style="padding-top:20px;padding-bottom:10px;">
-
+<section class="stats">
 <div class="container">
+<div class="stats-grid">
 
-<div class="stats">
-
-<div class="stat">
-
-<strong id="statResources">
-0
-</strong>
-
-<span data-i18n="resources">
-موارد
-</span>
-
+<div class="stat-card">
+    <div class="stat-number" id="statResources">0</div>
+    <div class="stat-label" data-i18n="resources">مورد تعليمي</div>
 </div>
 
-<div class="stat">
-
-<strong id="statExercises">
-0
-</strong>
-
-<span data-i18n="exercises">
-تمارين
-</span>
-
+<div class="stat-card">
+    <div class="stat-number" id="statExercises">0</div>
+    <div class="stat-label" data-i18n="exercises">تمرين</div>
 </div>
 
-<div class="stat">
-
-<strong id="statCountries">
-0
-</strong>
-
-<span data-i18n="countries">
-دول
-</span>
-
+<div class="stat-card">
+    <div class="stat-number" id="statCountries">0</div>
+    <div class="stat-label" data-i18n="countries">دولة</div>
 </div>
 
-<div class="stat">
-
-<strong id="statXP">
-0
-</strong>
-
-<span>
-XP
-</span>
-
+<div class="stat-card">
+    <div class="stat-number" id="statXP">0</div>
+    <div class="stat-label">XP</div>
 </div>
 
 </div>
-
 </div>
-
 </section>
 
+<!-- ================= USER ================= -->
 
-<!-- USER BAR -->
-
-<section class="section"
-         style="padding-top:10px;">
-
+<section class="user-panel" id="userPanel">
 <div class="container">
-
-<div class="user-bar">
+<div class="xp-card">
 
 <div class="user-info">
+    <div>
+        <div class="user-name">
+            👤 <span id="userName">المستخدم</span>
+        </div>
+    </div>
 
-<strong id="userName">
-زائر
-</strong>
+    <div class="level">
+        المستوى <span id="userLevel">1</span>
+    </div>
+</div>
 
-<div class="muted"
-     id="userStatus">
-زائر
+<div class="xp-bar">
+    <div class="xp-fill" id="xpFill"></div>
+</div>
+
+<div class="xp-meta">
+    <span><span id="currentXP">0</span> XP</span>
+    <span><span id="nextXP">100</span> XP</span>
 </div>
 
 </div>
-
-<div class="xp-box">
-
-<div class="xp-top">
-
-<span>
-<span data-i18n="level">
-المستوى
-</span>
-<span id="levelText">1</span>
-</span>
-
-<span id="xpText">
-0 / 100 XP
-</span>
-
 </div>
-
-<div class="xp-track">
-
-<div id="xpFill"
-     class="xp-fill">
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
 </section>
 
+<!-- ================= CHALLENGES ================= -->
 
-<!-- =====================================================
-     CHALLENGES
-===================================================== -->
-
-<section id="challenges"
-         class="section">
-
+<section id="challenges">
 <div class="container">
 
-<h2 data-i18n="challenges">
-التحديات
-</h2>
-
-<div class="challenge-grid">
-
-<div class="challenge">
-
-<h3 data-i18n="speedChallengeTitle">
-⚡ تحدي السرعة
-</h3>
-
-<p class="muted"
-   data-i18n="speedChallengeText">
-10 أسئلة في 60 ثانية.
-</p>
-
-<br>
-
-<button class="btn primary"
-        onclick="startChallenge('speed')"
-        data-i18n="startChallenge">
-ابدأ التحدي
-</button>
-
+<div class="section-head">
+    <h2 data-i18n="challengeTitle">تحديات الرياضيات</h2>
+    <p data-i18n="challengeSubtitle">
+        اختبر قدراتك وارفع مستواك واحصل على XP
+    </p>
 </div>
 
+<div class="cards-grid">
 
-<div class="challenge">
-
-<h3 data-i18n="logicChallengeTitle">
-🧠 التحدي الذهني
-</h3>
-
-<p class="muted"
-   data-i18n="logicChallengeText">
-10 أسئلة لاختبار مهاراتك الرياضية.
-</p>
-
-<br>
-
-<button class="btn primary"
-        onclick="startChallenge('logic')"
-        data-i18n="startChallenge">
-ابدأ التحدي
-</button>
-
+<div class="card">
+    <div class="card-icon">⚡</div>
+    <h3>تحدي السرعة</h3>
+    <p>حل أكبر عدد ممكن من الأسئلة في وقت محدود.</p>
+    <button class="btn btn-primary" onclick="startSpeedChallenge()">
+        ابدأ التحدي
+    </button>
 </div>
 
+<div class="card">
+    <div class="card-icon">🧩</div>
+    <h3>لغز رياضي</h3>
+    <p>اختبر المنطق والاستنتاج من خلال ألغاز رياضية.</p>
+    <button class="btn btn-primary" onclick="startPuzzle()">
+        ابدأ اللغز
+    </button>
+</div>
 
-<div class="challenge">
-
-<h3 data-i18n="dailyChallengeTitle">
-📅 تحدي اليوم
-</h3>
-
-<p class="muted"
-   data-i18n="dailyChallengeText">
-سؤال يومي ومكافأة خاصة.
-</p>
-
-<br>
-
-<button class="btn primary"
-        onclick="startChallenge('daily')"
-        data-i18n="start">
-ابدأ
-</button>
-
+<div class="card">
+    <div class="card-icon">🏆</div>
+    <h3>تحدي اليوم</h3>
+    <p>سؤال يومي يمنحك XP إضافية عند الإجابة الصحيحة.</p>
+    <button class="btn btn-primary" onclick="startDailyChallenge()">
+        تحدي اليوم
+    </button>
 </div>
 
 </div>
-
 </div>
-
 </section>
 
+<!-- ================= GAMES ================= -->
 
-<!-- =====================================================
-     GAMES
-===================================================== -->
-
-<section id="games"
-         class="section">
-
+<section id="games">
 <div class="container">
 
-<h2 data-i18n="games">
-الألعاب
-</h2>
+<div class="section-head">
+    <h2 data-i18n="gamesTitle">ألعاب الرياضيات</h2>
+    <p data-i18n="gamesSubtitle">
+        تعلم، العب، تنافس وارفع XP الخاص بك
+    </p>
+</div>
 
-<div class="cards">
+<div class="cards-grid">
 
-<div class="card">
-
-<h3 data-i18n="randomGameTitle">
-🎯 حل واربح
-</h3>
-
-<p class="muted"
-   data-i18n="randomGameText">
-حل أسئلة عشوائية واحصل على XP.
-</p>
-
-<br>
-
-<button class="btn primary"
-        onclick="playGame('random')"
-        data-i18n="playNow">
-لعب الآن
+<div class="card game-card">
+<div class="game-top">
+    <div class="card-icon">➕</div>
+    <span class="game-difficulty">سهل</span>
+</div>
+<h3>سباق الحساب</h3>
+<p>حل العمليات الحسابية بأسرع وقت.</p>
+<button class="btn btn-primary" onclick="startGame('calculation')">
+    لعب الآن
 </button>
-
 </div>
 
-
-<div class="card">
-
-<h3 data-i18n="timerGameTitle">
-⏱️ ضد الوقت
-</h3>
-
-<p class="muted"
-   data-i18n="timerGameText">
-أجب بسرعة واحصل على أكبر عدد من النقاط.
-</p>
-
-<br>
-
-<button class="btn primary"
-        onclick="playGame('timer')"
-        data-i18n="playNow">
-لعب الآن
+<div class="card game-card">
+<div class="game-top">
+    <div class="card-icon">🔢</div>
+    <span class="game-difficulty">متوسط</span>
+</div>
+<h3>أكمل المتتالية</h3>
+<p>اكتشف العدد التالي في المتتالية.</p>
+<button class="btn btn-primary" onclick="startGame('sequence')">
+    لعب الآن
 </button>
-
 </div>
 
-
-<div class="card">
-
-<h3 data-i18n="levelsTitle">
-🏆 مستويات
-</h3>
-
-<p class="muted"
-   data-i18n="levelsText">
-كل 100 XP تنتقل إلى مستوى جديد.
-</p>
-
-<br>
-
-<button class="btn primary"
-        onclick="openProgress()"
-        data-i18n="progress">
-تقدمي
+<div class="card game-card">
+<div class="game-top">
+    <div class="card-icon">📐</div>
+    <span class="game-difficulty">متوسط</span>
+</div>
+<h3>الهندسة الذكية</h3>
+<p>حل مسائل هندسية واحصل على XP.</p>
+<button class="btn btn-primary" onclick="startGame('geometry')">
+    لعب الآن
 </button>
-
 </div>
 
 </div>
-
 </div>
-
 </section>
 
+<!-- ================= LIBRARY ================= -->
 
-<!-- =====================================================
-     GLOBAL LIBRARY V29
-===================================================== -->
-
-<section id="library"
-         class="section">
-
+<section class="library-section" id="library">
 <div class="container">
 
-<h2 data-i18n="educationalLibrary">
-المكتبة التعليمية
-</h2>
+<div class="section-head">
+    <h2 data-i18n="libraryTitle">المكتبة العالمية</h2>
+    <p data-i18n="librarySubtitle">
+        دروس، تمارين، اختبارات، فروض، مذكرات وأبحاث
+    </p>
+</div>
 
+<div class="filter-box">
 
-<div class="library-panel">
+<div class="search-row">
 
+<input
+    id="librarySearch"
+    class="search-input"
+    type="search"
+    placeholder="ابحث عن درس، تمرين، اختبار..."
+    data-i18n-placeholder="searchPlaceholder">
 
-<div class="library-search">
-
-<input id="searchInput"
-       type="search"
-       placeholder="ابحث عن درس أو تمرين أو موضوع..."
-       oninput="debouncedLoadResources()">
-
-<button class="btn primary"
-        onclick="loadResources(true)"
-        data-i18n="search">
-بحث
+<button class="btn btn-primary"
+        onclick="searchResources()">
+    🔎 بحث
 </button>
 
 </div>
 
+<div class="filters">
 
-<div class="library-filter">
-
-
-<select id="countryFilter"
-        onchange="loadResources(true)">
-
-<option value="">
-🌍 كل الدول
-</option>
-
-<option value="DZ">
-🇩🇿 الجزائر
-</option>
-
-<option value="FR">
-🇫🇷 فرنسا
-</option>
-
-<option value="MA">
-🇲🇦 المغرب
-</option>
-
-<option value="TN">
-🇹🇳 تونس
-</option>
-
-<option value="EG">
-🇪🇬 مصر
-</option>
-
-<option value="SA">
-🇸🇦 السعودية
-</option>
-
-<option value="AE">
-🇦🇪 الإمارات
-</option>
-
-<option value="CA">
-🇨🇦 كندا
-</option>
-
-<option value="US">
-🇺🇸 الولايات المتحدة
-</option>
-
-<option value="GB">
-🇬🇧 المملكة المتحدة
-</option>
-
-<option value="DE">
-🇩🇪 ألمانيا
-</option>
-
-<option value="WW">
-🌍 عالمي
-</option>
-
+<select class="filter" id="countryFilter"
+        onchange="resetAndLoadResources()">
+    <option value="">كل الدول</option>
+    <option value="DZ">الجزائر</option>
+    <option value="FR">فرنسا</option>
+    <option value="MA">المغرب</option>
+    <option value="TN">تونس</option>
+    <option value="US">USA</option>
+    <option value="GB">UK</option>
+    <option value="OTHER">دول أخرى</option>
 </select>
 
-
-<select id="languageFilter"
-        onchange="loadResources(true)">
-
-<option value="">
-🌐 كل اللغات
-</option>
-
-<option value="ar">
-العربية
-</option>
-
-<option value="fr">
-Français
-</option>
-
-<option value="en">
-English
-</option>
-
+<select class="filter" id="languageFilter"
+        onchange="resetAndLoadResources()">
+    <option value="">كل اللغات</option>
+    <option value="ar">العربية</option>
+    <option value="fr">Français</option>
+    <option value="en">English</option>
 </select>
 
-
-<select id="educationFilter"
-        onchange="loadResources(true)">
-
-<option value="">
-🎓 كل المستويات
-</option>
-
-<option value="PRIMARY">
-ابتدائي
-</option>
-
-<option value="MIDDLE">
-متوسط
-</option>
-
-<option value="SECONDARY">
-ثانوي
-</option>
-
-<option value="UNIVERSITY">
-جامعي
-</option>
-
-<option value="MASTER">
-ماستر
-</option>
-
-<option value="PHD">
-دكتوراه
-</option>
-
-<option value="OLYMPIAD">
-أولمبياد
-</option>
-
+<select class="filter" id="educationFilter"
+        onchange="resetAndLoadResources()">
+    <option value="">كل المستويات</option>
+    <option value="primary">ابتدائي</option>
+    <option value="middle">متوسط</option>
+    <option value="secondary">ثانوي</option>
+    <option value="university">جامعي</option>
+    <option value="phd">دكتوراه</option>
 </select>
 
-
-<select id="yearFilter"
-        onchange="loadResources(true)">
-
-<option value="">
-📅 كل السنوات
-</option>
-
-<option value="1AP">1AP</option>
-<option value="2AP">2AP</option>
-<option value="3AP">3AP</option>
-<option value="4AP">4AP</option>
-<option value="5AP">5AP</option>
-
-<option value="1AM">1AM</option>
-<option value="2AM">2AM</option>
-<option value="3AM">3AM</option>
-<option value="4AM">4AM</option>
-
-<option value="1AS">1AS</option>
-<option value="2AS">2AS</option>
-<option value="3AS">3AS</option>
-<option value="BAC">BAC</option>
-
-<option value="L1">L1</option>
-<option value="L2">L2</option>
-<option value="L3">L3</option>
-
-<option value="M1">M1</option>
-<option value="M2">M2</option>
-
-<option value="PHD">PhD</option>
-
+<select class="filter" id="yearFilter"
+        onchange="resetAndLoadResources()">
+    <option value="">كل السنوات</option>
+    <option value="1AS">1AS</option>
+    <option value="2AS">2AS</option>
+    <option value="3AS">3AS</option>
+    <option value="bac">BAC</option>
+    <option value="L1">L1</option>
+    <option value="L2">L2</option>
+    <option value="L3">L3</option>
+    <option value="M1">M1</option>
+    <option value="M2">M2</option>
 </select>
 
-
-<select id="subjectFilter"
-        onchange="loadResources(true)">
-
-<option value="">
-🧮 كل المواد
-</option>
-
-<option value="MATHEMATICS">
-الرياضيات
-</option>
-
-<option value="ALGEBRA">
-الجبر
-</option>
-
-<option value="ANALYSIS">
-التحليل
-</option>
-
-<option value="GEOMETRY">
-الهندسة
-</option>
-
-<option value="PROBABILITY">
-الاحتمالات
-</option>
-
-<option value="STATISTICS">
-الإحصاء
-</option>
-
-<option value="NUMBER_THEORY">
-نظرية الأعداد
-</option>
-
-<option value="CALCULUS">
-التفاضل والتكامل
-</option>
-
-<option value="LINEAR_ALGEBRA">
-الجبر الخطي
-</option>
-
-<option value="DIFFERENTIAL_EQUATIONS">
-المعادلات التفاضلية
-</option>
-
-<option value="DISCRETE_MATH">
-الرياضيات المتقطعة
-</option>
-
-<option value="TOPOLOGY">
-الطوبولوجيا
-</option>
-
-<option value="COMBINATORICS">
-التوافقيات
-</option>
-
-<option value="OLYMPIAD_MATH">
-رياضيات الأولمبياد
-</option>
-
+<select class="filter" id="subjectFilter"
+        onchange="resetAndLoadResources()">
+    <option value="">كل المواد</option>
+    <option value="mathematics">رياضيات</option>
+    <option value="algebra">جبر</option>
+    <option value="analysis">تحليل</option>
+    <option value="geometry">هندسة</option>
+    <option value="probability">احتمالات</option>
+    <option value="statistics">إحصاء</option>
 </select>
 
-
-<select id="semesterFilter"
-        onchange="loadResources(true)">
-
-<option value="">
-📖 كل الفصول
-</option>
-
-<option value="S1">
-الفصل الأول
-</option>
-
-<option value="S2">
-الفصل الثاني
-</option>
-
-<option value="S3">
-الفصل الثالث
-</option>
-
-<option value="ANNUAL">
-سنوي
-</option>
-
-<option value="GENERAL">
-عام
-</option>
-
+<select class="filter" id="semesterFilter"
+        onchange="resetAndLoadResources()">
+    <option value="">كل الفصول</option>
+    <option value="1">الفصل الأول</option>
+    <option value="2">الفصل الثاني</option>
+    <option value="3">الفصل الثالث</option>
 </select>
 
-
-<select id="typeFilter"
-        onchange="loadResources(true)">
-
-<option value="">
-📚 كل الأنواع
-</option>
-
-<option value="exercise">
-تمارين
-</option>
-
-<option value="lesson">
-دروس
-</option>
-
-<option value="solution">
-حلول
-</option>
-
-<option value="course">
-دورات
-</option>
-
-<option value="book">
-كتب
-</option>
-
-<option value="summary">
-ملخصات
-</option>
-
-<option value="worksheet">
-أوراق عمل
-</option>
-
-<option value="homework">
-واجبات
-</option>
-
-<option value="test">
-اختبارات
-</option>
-
-<option value="exam">
-امتحانات
-</option>
-
-<option value="bac">
-بكالوريا
-</option>
-
-<option value="research">
-بحوث
-</option>
-
-<option value="thesis">
-أطروحات
-</option>
-
-<option value="olympiad">
-أولمبياد
-</option>
-
-<option value="pdf">
-PDF
-</option>
-
-<option value="video">
-فيديو
-</option>
-
-<option value="interactive">
-تفاعلي
-</option>
-
+<select class="filter" id="typeFilter"
+        onchange="resetAndLoadResources()">
+    <option value="">كل الأنواع</option>
+    <option value="lesson">درس</option>
+    <option value="exercise">تمرين</option>
+    <option value="exam">اختبار</option>
+    <option value="homework">فرض</option>
+    <option value="research">بحث</option>
+    <option value="book">كتاب</option>
+    <option value="summary">ملخص</option>
+    <option value="other">أخرى</option>
 </select>
 
-
-<select id="sortFilter"
-        onchange="loadResources(true)">
-
-<option value="newest">
-الأحدث
-</option>
-
-<option value="oldest">
-الأقدم
-</option>
-
-<option value="popular">
-الأكثر مشاهدة
-</option>
-
-<option value="downloads">
-الأكثر تحميلًا
-</option>
-
-<option value="featured">
-المميزة
-</option>
-
+<select class="filter" id="sortFilter"
+        onchange="resetAndLoadResources()">
+    <option value="newest">الأحدث</option>
+    <option value="popular">الأكثر مشاهدة</option>
+    <option value="downloads">الأكثر تحميلًا</option>
+    <option value="featured">المميزة</option>
 </select>
-
 
 </div>
-
-
-<div class="library-bottom">
-
-<div id="libraryCount"
-     class="library-count">
-جاري تحميل المكتبة...
 </div>
 
-<button class="btn"
-        onclick="clearFilters()"
-        data-i18n="clear">
-مسح الفلاتر
+<div class="library-info">
+    <span id="libraryCount">جاري تحميل المكتبة...</span>
+    <span id="libraryStatus"></span>
+</div>
+
+<div class="library-grid" id="libraryGrid">
+    <div class="empty">
+        <div class="spinner"></div>
+        <p>جاري تحميل الموارد...</p>
+    </div>
+</div>
+
+<button
+    id="loadMoreBtn"
+    class="btn btn-outline load-more"
+    onclick="loadMoreResources()"
+    style="display:none">
+    تحميل المزيد
 </button>
 
 </div>
-
-</div>
-
-
-<div id="resourceGrid"
-     class="resource-grid">
-
-<div class="resource">
-جاري تحميل المكتبة...
-</div>
-
-</div>
-
-
-<div class="load-more-wrap">
-
-<button id="loadMoreBtn"
-        class="btn primary"
-        onclick="loadMoreResources()"
-        style="display:none">
-
-تحميل المزيد
-</button>
-
-</div>
-
-</div>
-
 </section>
 
+<!-- ================= ABOUT ================= -->
 
-<!-- =====================================================
-     ABOUT
-===================================================== -->
+<section id="about">
+<div class="container about-grid">
 
-<section id="about"
-         class="section">
+<div>
+    <div class="section-head" style="text-align:right">
+        <h2 data-i18n="aboutTitle">عن HAMOU MATH</h2>
+        <p>
+            منصة تعليمية طموحة تهدف إلى جعل الرياضيات أكثر سهولة ومتعة
+            للمتعلمين في كل مكان.
+        </p>
+    </div>
 
-<div class="container">
+    <div class="features">
+        <div class="feature">📚 مكتبة تعليمية عالمية</div>
+        <div class="feature">🎮 ألعاب رياضيات</div>
+        <div class="feature">🏆 تحديات وXP</div>
+        <div class="feature">🌍 دعم عدة لغات</div>
+        <div class="feature">📱 متوافق مع الهاتف</div>
+        <div class="feature">🌙 وضع ليلي</div>
+    </div>
+</div>
 
-<h2 data-i18n="aboutTitle">
-حول HAMOU MATH
-</h2>
+<div class="about-box">
+    <h3>🎓 سلسلة حمو في الرياضيات</h3>
+    <p style="margin-top:10px;color:var(--muted)">
+        هدفنا بناء بيئة رياضية تجمع التعليم، التدريب، التحدي،
+        الألعاب والمصادر العلمية في مكان واحد.
+    </p>
 
-<div class="card">
-
-<p class="muted"
-   data-i18n="aboutText">
-
-منصة تعليمية تهدف إلى جعل الرياضيات أكثر وضوحًا ومتعة
-من خلال الدروس والتمارين والألعاب والتحديات ونظام النقاط.
-
-</p>
-
+    <button class="btn btn-primary"
+            style="margin-top:20px"
+            onclick="showToast('مرحبًا بك في HAMOU MATH 🚀','success')">
+        ابدأ رحلتك
+    </button>
 </div>
 
 </div>
-
 </section>
 
 </main>
 
+<!-- ================= FOOTER ================= -->
 
-<!-- =====================================================
-     FOOTER
-===================================================== -->
-
-<footer class="footer">
-
+<footer>
 <div class="container">
 
-<strong>
-HAMOU MATH
-</strong>
+<div class="footer-grid">
 
-<p>
-© 2026 HAMOU MATH — سلسلة حمو في الرياضيات
+<div>
+    <div class="footer-title">HAMOU MATH</div>
+    <p>
+        سلسلة حمو في الرياضيات — تعلم الرياضيات بطريقة حديثة
+        وممتعة ومفتوحة للجميع.
+    </p>
+</div>
+
+<div>
+    <div class="footer-title">روابط</div>
+    <div class="footer-links">
+        <a href="#home">الرئيسية</a>
+        <a href="#library">المكتبة</a>
+        <a href="#games">الألعاب</a>
+        <a href="#challenges">التحديات</a>
+    </div>
+</div>
+
+<div>
+    <div class="footer-title">HAMOU MATH</div>
+    <div class="footer-links">
+        <a href="#about">حول المنصة</a>
+        <a href="javascript:openLogin()">الحساب</a>
+    </div>
+</div>
+
+</div>
+
+<div class="copyright">
+    © <span id="year"></span> HAMOU MATH — جميع الحقوق محفوظة
+</div>
+
+</div>
+</footer>
+
+<!-- ================= LOGIN MODAL ================= -->
+
+<div class="modal" id="loginModal">
+
+<div class="modal-content">
+
+<button class="close" onclick="closeModal('loginModal')">×</button>
+
+<div id="loginFormView">
+
+<div class="modal-title">🔐 تسجيل الدخول</div>
+
+<div class="form-group">
+<label>الاسم الكامل عند إنشاء الحساب</label>
+<input
+    id="authName"
+    class="form-control"
+    type="text"
+    placeholder="محمد أمين حمو">
+</div>
+
+<div class="form-group">
+<label>البريد الإلكتروني</label>
+<input
+    id="authEmail"
+    class="form-control"
+    type="email"
+    placeholder="example@email.com">
+</div>
+
+<div class="form-group">
+<label>كلمة المرور</label>
+<input
+    id="authPassword"
+    class="form-control"
+    type="password"
+    placeholder="••••••••">
+</div>
+
+<div class="modal-actions">
+<button class="btn btn-primary" onclick="loginUser()">
+    دخول
+</button>
+
+<button class="btn btn-outline" onclick="registerUser()">
+    إنشاء حساب
+</button>
+</div>
+
+<p class="divider">
+    حسابك يحفظ تقدمك وXP تلقائيًا.
 </p>
 
 </div>
 
-</footer>
+<div id="accountView" style="display:none">
 
+<div class="account-box">
 
-<!-- =====================================================
-     MODAL
-===================================================== -->
+<div class="account-avatar" id="accountAvatar">H</div>
 
-<div id="modal"
-     class="modal"
-     onclick="closeModalOutside(event)">
+<h3 id="accountName">المستخدم</h3>
 
-<div id="modalBox"
-     class="modal-box">
+<div class="account-email" id="accountEmail"></div>
 
-<button class="close"
-        onclick="closeModal()">
-×
+<div style="margin:18px 0">
+    <strong>XP: </strong>
+    <span id="accountXP">0</span>
+</div>
+
+<button class="btn btn-primary"
+        style="width:100%"
+        onclick="closeModal('loginModal')">
+    إغلاق
 </button>
 
-<div id="modalContent"></div>
+<button class="btn btn-outline"
+        style="width:100%;margin-top:8px"
+        onclick="logoutUser()">
+    تسجيل الخروج
+</button>
 
 </div>
 
 </div>
 
-
-<!-- =====================================================
-     TOAST
-===================================================== -->
-
-<div id="toast"
-     class="toast">
+</div>
 </div>
 
+<!-- ================= RESOURCE MODAL ================= -->
+
+<div class="modal" id="resourceModal">
+
+<div class="modal-content resource-modal">
+
+<button class="close" onclick="closeModal('resourceModal')">×</button>
+
+<div id="resourceViewContent"></div>
+
+</div>
+</div>
+
+<!-- ================= GAME MODAL ================= -->
+
+<div class="modal" id="gameModal">
+
+<div class="modal-content">
+
+<button class="close" onclick="closeModal('gameModal')">×</button>
+
+<div id="gameContent"></div>
+
+</div>
+</div>
+
+<!-- ================= TOAST ================= -->
+
+<div class="toast" id="toast"></div>
+
+<!-- ================= SUPABASE ================= -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
 
@@ -2108,26 +1831,14 @@ const SUPABASE_KEY =
 let supabaseClient = null;
 
 try{
-
-    if(window.supabase){
-
-        supabaseClient =
-            window.supabase.createClient(
-                SUPABASE_URL,
-                SUPABASE_KEY
-            );
-
-    }
-
+    supabaseClient =
+        window.supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_KEY
+        );
 }catch(error){
-
-    console.error(
-        "Supabase initialization error:",
-        error
-    );
-
+    console.error("Supabase error:",error);
 }
-
 
 /* =========================================================
    GLOBAL STATE
@@ -2135,38 +1846,24 @@ try{
 
 let currentUser = null;
 
+let localXP =
+    Number(localStorage.getItem("hamou_xp") || 0);
+
 let currentLanguage =
     localStorage.getItem("hamou_language") || "ar";
 
-let localXP =
-    Number(
-        localStorage.getItem("hamou_xp") || 0
-    );
-
-let resources = [];
-
 let libraryPage = 0;
-
 const libraryPageSize = 24;
 
-let libraryHasMore = false;
-
 let libraryLoading = false;
+let libraryHasMore = true;
 
-let debounceTimer = null;
+let currentResources = [];
 
-let quiz = {
-
-    type:null,
-    items:[],
-    index:0,
-    score:0,
-    timeLeft:0,
-    timer:null,
-    locked:false
-
-};
-
+let favorites =
+    JSON.parse(
+        localStorage.getItem("hamou_favorites") || "[]"
+    );
 
 /* =========================================================
    TRANSLATIONS
@@ -2175,344 +1872,81 @@ let quiz = {
 const translations = {
 
 ar:{
-
     home:"الرئيسية",
     challenges:"التحديات",
     games:"الألعاب",
     library:"المكتبة",
-    about:"حول",
-    login:"دخول",
-
-    heroTitle:
-        "سلسلة حمو في الرياضيات",
-
-    heroText:
-        "HAMOU MATH — منصة رياضيات تفاعلية للتعلم والتدريب والتحديات والألعاب.",
-
-    startLearning:
-        "ابدأ التعلم الآن",
-
-    resources:"موارد",
-
-    exercises:"تمارين",
-
-    countries:"دول",
-
-    level:"المستوى",
-
-    visitor:"زائر",
-
-    challengesTitle:"التحديات",
-
-    speedChallengeTitle:
-        "⚡ تحدي السرعة",
-
-    speedChallengeText:
-        "10 أسئلة في 60 ثانية.",
-
-    logicChallengeTitle:
-        "🧠 التحدي الذهني",
-
-    logicChallengeText:
-        "10 أسئلة لاختبار مهاراتك الرياضية.",
-
-    dailyChallengeTitle:
-        "📅 تحدي اليوم",
-
-    dailyChallengeText:
-        "سؤال يومي ومكافأة خاصة.",
-
-    startChallenge:"ابدأ التحدي",
-
-    start:"ابدأ",
-
-    randomGameTitle:
-        "🎯 حل واربح",
-
-    randomGameText:
-        "حل أسئلة عشوائية واحصل على XP.",
-
-    timerGameTitle:
-        "⏱️ ضد الوقت",
-
-    timerGameText:
-        "أجب بسرعة واحصل على أكبر عدد من النقاط.",
-
-    levelsTitle:"🏆 مستويات",
-
-    levelsText:
-        "كل 100 XP تنتقل إلى مستوى جديد.",
-
-    playNow:"لعب الآن",
-
-    progress:"تقدمي",
-
-    educationalLibrary:
-        "المكتبة التعليمية",
-
-    search:
-        "بحث",
-
-    clear:
-        "مسح الفلاتر",
-
-    aboutTitle:
-        "حول HAMOU MATH",
-
-    aboutText:
-        "منصة تعليمية تهدف إلى جعل الرياضيات أكثر وضوحًا ومتعة من خلال الدروس والتمارين والألعاب والتحديات ونظام النقاط."
-
+    about:"حول المنصة",
+    globalBadge:"منصة رياضيات عالمية",
+    heroText:"تعلم الرياضيات بطريقة حديثة من خلال الدروس والتمارين والاختبارات والتحديات والألعاب ومكتبة تعليمية عالمية.",
+    exploreLibrary:"استكشف المكتبة",
+    playGames:"ابدأ اللعب",
+    heroCardTitle:"الرياضيات للجميع",
+    heroCardText:"منصة واحدة تجمع المعرفة والتدريب والمنافسة والتعلم الذكي.",
+    resources:"مورد تعليمي",
+    exercises:"تمرين",
+    countries:"دولة",
+    challengeTitle:"تحديات الرياضيات",
+    challengeSubtitle:"اختبر قدراتك وارفع مستواك واحصل على XP",
+    gamesTitle:"ألعاب الرياضيات",
+    gamesSubtitle:"تعلم، العب، تنافس وارفع XP الخاص بك",
+    libraryTitle:"المكتبة العالمية",
+    librarySubtitle:"دروس، تمارين، اختبارات، فروض، مذكرات وأبحاث",
+    aboutTitle:"عن HAMOU MATH",
+    searchPlaceholder:"ابحث عن درس، تمرين، اختبار..."
 },
 
 fr:{
-
     home:"Accueil",
     challenges:"Défis",
     games:"Jeux",
     library:"Bibliothèque",
     about:"À propos",
-    login:"Connexion",
-
-    heroTitle:
-        "Série Hamou en Mathématiques",
-
-    heroText:
-        "HAMOU MATH — plateforme interactive de mathématiques pour apprendre, pratiquer et relever des défis.",
-
-    startLearning:
-        "Commencer maintenant",
-
+    globalBadge:"Plateforme mondiale de mathématiques",
+    heroText:"Apprenez les mathématiques avec des cours, exercices, examens, défis, jeux et une bibliothèque éducative mondiale.",
+    exploreLibrary:"Explorer la bibliothèque",
+    playGames:"Jouer",
+    heroCardTitle:"Les mathématiques pour tous",
+    heroCardText:"Une plateforme qui réunit apprentissage, entraînement et compétition.",
     resources:"Ressources",
-
     exercises:"Exercices",
-
     countries:"Pays",
-
-    level:"Niveau",
-
-    visitor:"Visiteur",
-
-    speedChallengeTitle:
-        "⚡ Défi de vitesse",
-
-    speedChallengeText:
-        "10 questions en 60 secondes.",
-
-    logicChallengeTitle:
-        "🧠 Défi mental",
-
-    logicChallengeText:
-        "10 questions pour tester vos compétences.",
-
-    dailyChallengeTitle:
-        "📅 Défi du jour",
-
-    dailyChallengeText:
-        "Une question quotidienne avec récompense.",
-
-    startChallenge:"Commencer",
-
-    start:"Démarrer",
-
-    randomGameTitle:
-        "🎯 Résoudre et gagner",
-
-    randomGameText:
-        "Résolvez des questions et gagnez de l'XP.",
-
-    timerGameTitle:
-        "⏱️ Contre la montre",
-
-    timerGameText:
-        "Répondez rapidement et gagnez des points.",
-
-    levelsTitle:"🏆 Niveaux",
-
-    levelsText:
-        "Chaque 100 XP vous fait passer au niveau suivant.",
-
-    playNow:"Jouer",
-
-    progress:"Ma progression",
-
-    educationalLibrary:
-        "Bibliothèque éducative",
-
-    search:"Rechercher",
-
-    clear:"Effacer",
-
-    aboutTitle:
-        "À propos de HAMOU MATH",
-
-    aboutText:
-        "Une plateforme éducative pour rendre les mathématiques plus claires et amusantes grâce aux cours, exercices, jeux et défis."
-
+    challengeTitle:"Défis mathématiques",
+    challengeSubtitle:"Testez vos compétences et gagnez de l'XP",
+    gamesTitle:"Jeux mathématiques",
+    gamesSubtitle:"Apprenez, jouez et gagnez de l'XP",
+    libraryTitle:"Bibliothèque mondiale",
+    librarySubtitle:"Cours, exercices, examens, devoirs, résumés et recherches",
+    aboutTitle:"À propos de HAMOU MATH",
+    searchPlaceholder:"Rechercher un cours, exercice..."
 },
 
 en:{
-
     home:"Home",
     challenges:"Challenges",
     games:"Games",
     library:"Library",
     about:"About",
-    login:"Login",
-
-    heroTitle:
-        "Hamou Mathematics Series",
-
-    heroText:
-        "HAMOU MATH — an interactive mathematics platform for learning, practice, challenges and games.",
-
-    startLearning:
-        "Start Learning",
-
+    globalBadge:"Global Mathematics Platform",
+    heroText:"Learn mathematics through lessons, exercises, exams, challenges, games and a global educational library.",
+    exploreLibrary:"Explore Library",
+    playGames:"Play Games",
+    heroCardTitle:"Mathematics for everyone",
+    heroCardText:"One platform combining learning, practice and competition.",
     resources:"Resources",
-
     exercises:"Exercises",
-
     countries:"Countries",
-
-    level:"Level",
-
-    visitor:"Visitor",
-
-    speedChallengeTitle:
-        "⚡ Speed Challenge",
-
-    speedChallengeText:
-        "10 questions in 60 seconds.",
-
-    logicChallengeTitle:
-        "🧠 Mental Challenge",
-
-    logicChallengeText:
-        "10 questions to test your mathematical skills.",
-
-    dailyChallengeTitle:
-        "📅 Daily Challenge",
-
-    dailyChallengeText:
-        "A daily question with a special reward.",
-
-    startChallenge:"Start Challenge",
-
-    start:"Start",
-
-    randomGameTitle:
-        "🎯 Solve & Win",
-
-    randomGameText:
-        "Solve random questions and earn XP.",
-
-    timerGameTitle:
-        "⏱️ Against the Clock",
-
-    timerGameText:
-        "Answer quickly and earn more points.",
-
-    levelsTitle:"🏆 Levels",
-
-    levelsText:
-        "Every 100 XP unlocks a new level.",
-
-    playNow:"Play Now",
-
-    progress:"My Progress",
-
-    educationalLibrary:
-        "Educational Library",
-
-    search:"Search",
-
-    clear:"Clear",
-
-    aboutTitle:
-        "About HAMOU MATH",
-
-    aboutText:
-        "An educational platform designed to make mathematics clearer and more enjoyable through lessons, exercises, games and challenges."
-
+    challengeTitle:"Math Challenges",
+    challengeSubtitle:"Test your skills and earn XP",
+    gamesTitle:"Math Games",
+    gamesSubtitle:"Learn, play and earn XP",
+    libraryTitle:"Global Library",
+    librarySubtitle:"Lessons, exercises, exams, homework, summaries and research",
+    aboutTitle:"About HAMOU MATH",
+    searchPlaceholder:"Search for a lesson, exercise..."
 }
 
 };
-
-
-/* =========================================================
-   HELPERS
-========================================================= */
-
-function $(id){
-
-    return document.getElementById(id);
-
-}
-
-
-function escapeHTML(value){
-
-    if(value === null ||
-       value === undefined){
-
-        return "";
-
-    }
-
-    return String(value)
-        .replace(/&/g,"&amp;")
-        .replace(/</g,"&lt;")
-        .replace(/>/g,"&gt;")
-        .replace(/"/g,"&quot;")
-        .replace(/'/g,"&#039;");
-
-}
-
-
-function formatNumber(value){
-
-    const number =
-        Number(value || 0);
-
-    return number.toLocaleString(
-        currentLanguage === "ar"
-        ? "ar-DZ"
-        : currentLanguage === "fr"
-        ? "fr-FR"
-        : "en-US"
-    );
-
-}
-
-
-function showToast(message){
-
-    const toast = $("toast");
-
-    if(!toast) return;
-
-    toast.textContent = message;
-
-    toast.classList.add("show");
-
-    clearTimeout(
-        showToast.timer
-    );
-
-    showToast.timer =
-        setTimeout(
-            function(){
-
-                toast.classList.remove(
-                    "show"
-                );
-
-            },
-            2500
-        );
-
-}
-
 
 /* =========================================================
    LANGUAGE
@@ -2520,13 +1954,7 @@ function showToast(message){
 
 function changeLanguage(lang){
 
-    if(
-        !translations[lang]
-    ){
-
-        return;
-
-    }
+    if(!translations[lang]) return;
 
     currentLanguage = lang;
 
@@ -2535,67 +1963,60 @@ function changeLanguage(lang){
         lang
     );
 
-    applyLanguage();
+    const html =
+        document.documentElement;
 
-}
+    html.lang = lang;
 
-
-function applyLanguage(){
-
-    document.documentElement.lang =
-        currentLanguage;
-
-    document.documentElement.dir =
-        currentLanguage === "ar"
+    html.dir =
+        lang === "ar"
         ? "rtl"
         : "ltr";
 
+    document
+    .querySelectorAll("[data-i18n]")
+    .forEach(el=>{
+
+        const key =
+            el.dataset.i18n;
+
+        if(
+            translations[lang] &&
+            translations[lang][key]
+        ){
+            el.textContent =
+                translations[lang][key];
+        }
+    });
 
     document
-    .querySelectorAll(
-        "[data-i18n]"
-    )
-    .forEach(
-        function(element){
+    .querySelectorAll("[data-i18n-placeholder]")
+    .forEach(el=>{
 
-            const key =
-                element.dataset.i18n;
+        const key =
+            el.dataset.i18nPlaceholder;
 
-            const text =
-                translations[
-                    currentLanguage
-                ]?.[key];
-
-            if(text !== undefined){
-
-                element.textContent =
-                    text;
-
-            }
-
+        if(
+            translations[lang] &&
+            translations[lang][key]
+        ){
+            el.placeholder =
+                translations[lang][key];
         }
-    );
+    });
 
+    document
+    .querySelectorAll(".lang-btn")
+    .forEach(btn=>{
+        btn.classList.toggle(
+            "active",
+            btn.dataset.lang === lang
+        );
+    });
 
-    const search =
-        $("searchInput");
-
-    if(search){
-
-        search.placeholder =
-            currentLanguage === "ar"
-            ? "ابحث عن درس أو تمرين أو موضوع..."
-            : currentLanguage === "fr"
-            ? "Rechercher une leçon, un exercice ou un sujet..."
-            : "Search for a lesson, exercise or topic...";
-
-    }
-
-
-    updateUserUI();
+    renderResources();
 
 }
-
 
 /* =========================================================
    THEME
@@ -2604,66 +2025,42 @@ function applyLanguage(){
 function applyTheme(){
 
     const theme =
-        localStorage.getItem(
-            "hamou_theme"
-        );
+        localStorage.getItem("hamou_theme") ||
+        "light";
 
-    if(theme === "dark"){
+    document.documentElement.classList.toggle(
+        "dark",
+        theme === "dark"
+    );
 
-        document.documentElement
-            .classList
-            .add("dark");
-
-    }else{
-
-        document.documentElement
-            .classList
-            .remove("dark");
-
-    }
-
+    updateThemeButton();
 }
 
+function updateThemeButton(){
+
+    const btn =
+        document.getElementById("themeBtn");
+
+    if(!btn) return;
+
+    btn.textContent =
+        document.documentElement.classList.contains("dark")
+        ? "☀️"
+        : "🌙";
+}
 
 function toggleTheme(){
 
-    const isDark =
-        document.documentElement
-            .classList
-            .contains("dark");
+    const dark =
+        document.documentElement.classList.toggle("dark");
 
-    if(isDark){
+    localStorage.setItem(
+        "hamou_theme",
+        dark ? "dark" : "light"
+    );
 
-        document.documentElement
-            .classList
-            .remove("dark");
-
-        localStorage.setItem(
-            "hamou_theme",
-            "light"
-        );
-
-        $("themeButton").textContent =
-            "🌙";
-
-    }else{
-
-        document.documentElement
-            .classList
-            .add("dark");
-
-        localStorage.setItem(
-            "hamou_theme",
-            "dark"
-        );
-
-        $("themeButton").textContent =
-            "☀️";
-
-    }
-
+    updateThemeButton();
 }
-
 
 /* =========================================================
    MOBILE MENU
@@ -2671,1009 +2068,1166 @@ function toggleTheme(){
 
 function toggleMobileMenu(){
 
-    const menu =
-        $("mobileMenu");
-
-    const button =
-        $("mobileMenuBtn");
-
-    if(!menu) return;
-
-    menu.classList.toggle(
-        "show"
-    );
-
-    if(button){
-
-        button.setAttribute(
-            "aria-expanded",
-            menu.classList.contains(
-                "show"
-            )
-        );
-
-    }
-
+    document
+    .getElementById("navLinks")
+    .classList.toggle("open");
 }
 
-
-function closeMobileMenu(){
-
-    const menu =
-        $("mobileMenu");
-
-    if(menu){
-
-        menu.classList.remove(
-            "show"
-        );
-
-    }
-
-}
-
+document
+.querySelectorAll(".nav-links a")
+.forEach(link=>{
+    link.addEventListener("click",()=>{
+        document
+        .getElementById("navLinks")
+        .classList.remove("open");
+    });
+});
 
 /* =========================================================
-   XP
+   TOAST
 ========================================================= */
 
-function updateXP(){
+let toastTimer = null;
 
-    const level =
-        Math.floor(
-            localXP / 100
-        ) + 1;
+function showToast(message,type="success"){
 
-    const currentLevelXP =
-        localXP % 100;
+    const toast =
+        document.getElementById("toast");
 
-    if($("statXP")){
+    toast.textContent = message;
 
-        $("statXP").textContent =
-            formatNumber(localXP);
+    toast.className =
+        "toast show " + type;
 
-    }
+    clearTimeout(toastTimer);
 
-    if($("levelText")){
-
-        $("levelText").textContent =
-            level;
-
-    }
-
-    if($("xpText")){
-
-        $("xpText").textContent =
-            currentLevelXP +
-            " / 100 XP";
-
-    }
-
-    if($("xpFill")){
-
-        $("xpFill").style.width =
-            currentLevelXP + "%";
-
-    }
-
+    toastTimer =
+        setTimeout(()=>{
+            toast.className = "toast";
+        },3000);
 }
 
+/* =========================================================
+   MODALS
+========================================================= */
 
-async function addXP(amount){
+function openModal(id){
+    const modal =
+        document.getElementById(id);
 
-    amount =
-        Number(amount || 0);
+    if(!modal) return;
 
-    if(amount <= 0) return;
+    modal.classList.add("show");
+    document.body.classList.add("no-scroll");
+}
 
-    localXP += amount;
+function closeModal(id){
+
+    const modal =
+        document.getElementById(id);
+
+    if(!modal) return;
+
+    modal.classList.remove("show");
+
+    if(
+        !document.querySelector(".modal.show")
+    ){
+        document.body.classList.remove("no-scroll");
+    }
+}
+
+document
+.querySelectorAll(".modal")
+.forEach(modal=>{
+
+    modal.addEventListener("click",e=>{
+
+        if(e.target === modal){
+            closeModal(modal.id);
+        }
+
+    });
+
+});
+
+/* =========================================================
+   AUTH UI
+========================================================= */
+
+function getDisplayName(user){
+
+    if(!user) return "المستخدم";
+
+    return (
+        user.user_metadata?.full_name ||
+        user.user_metadata?.name ||
+        user.email?.split("@")[0] ||
+        "المستخدم"
+    );
+}
+
+function getInitial(name){
+
+    return (
+        String(name || "H")
+        .trim()
+        .charAt(0)
+        .toUpperCase() || "H"
+    );
+}
+
+function updateLoginButton(){
+
+    const btn =
+        document.getElementById("loginBtn");
+
+    if(!btn) return;
+
+    btn.textContent =
+        currentUser
+        ? "👤 " + getDisplayName(currentUser)
+        : "دخول";
+}
+
+function updateUserUI(){
+
+    const panel =
+        document.getElementById("userPanel");
+
+    if(currentUser){
+
+        panel.classList.add("show");
+
+        const name =
+            getDisplayName(currentUser);
+
+        document.getElementById(
+            "userName"
+        ).textContent = name;
+
+        document.getElementById(
+            "accountName"
+        ).textContent = name;
+
+        document.getElementById(
+            "accountEmail"
+        ).textContent =
+            currentUser.email || "";
+
+        document.getElementById(
+            "accountAvatar"
+        ).textContent =
+            getInitial(name);
+
+    }else{
+
+        panel.classList.remove("show");
+    }
+
+    updateLoginButton();
+    updateXPUI();
+}
+
+function openLogin(){
+
+    if(currentUser){
+
+        document.getElementById(
+            "loginFormView"
+        ).style.display = "none";
+
+        document.getElementById(
+            "accountView"
+        ).style.display = "block";
+
+        document.getElementById(
+            "accountXP"
+        ).textContent = localXP;
+
+    }else{
+
+        document.getElementById(
+            "loginFormView"
+        ).style.display = "block";
+
+        document.getElementById(
+            "accountView"
+        ).style.display = "none";
+    }
+
+    openModal("loginModal");
+}
+
+/* =========================================================
+   PROFILE / XP
+========================================================= */
+
+async function ensureProfile(user){
+
+    if(!supabaseClient || !user) return;
+
+    try{
+
+        await supabaseClient
+        .from("profiles")
+        .upsert(
+            {
+                id:user.id,
+                xp:localXP
+            },
+            {
+                onConflict:"id",
+                ignoreDuplicates:false
+            }
+        );
+
+    }catch(error){
+
+        console.warn(
+            "Profile sync warning:",
+            error
+        );
+    }
+}
+
+async function loadCloudXP(){
+
+    if(!supabaseClient || !currentUser){
+        updateXPUI();
+        return;
+    }
+
+    try{
+
+        const {data,error} =
+            await supabaseClient
+            .from("profiles")
+            .select("xp")
+            .eq("id",currentUser.id)
+            .maybeSingle();
+
+        if(error) throw error;
+
+        const cloudXP =
+            Number(data?.xp || 0);
+
+        /*
+         * لا نفقد XP المحلي.
+         * نأخذ الأعلى ثم نحفظه.
+         */
+        localXP =
+            Math.max(localXP,cloudXP);
+
+        localStorage.setItem(
+            "hamou_xp",
+            String(localXP)
+        );
+
+        await ensureProfile(currentUser);
+
+    }catch(error){
+
+        console.warn(
+            "Cloud XP unavailable:",
+            error
+        );
+    }
+
+    updateXPUI();
+}
+
+async function saveXP(){
 
     localStorage.setItem(
         "hamou_xp",
         String(localXP)
     );
 
-    updateXP();
+    updateXPUI();
 
-    await saveXPToSupabase();
-
-}
-
-
-async function saveXPToSupabase(){
-
-    if(
-        !currentUser ||
-        !supabaseClient
-    ){
-
+    if(!supabaseClient || !currentUser)
         return;
-
-    }
 
     try{
 
-        await supabaseClient
+        const {error} =
+            await supabaseClient
             .from("profiles")
             .update({
                 xp:localXP
             })
-            .eq(
-                "id",
-                currentUser.id
-            );
+            .eq("id",currentUser.id);
+
+        if(error) throw error;
 
     }catch(error){
 
-        console.log(
-            "XP save error:",
+        console.warn(
+            "XP save warning:",
             error
         );
-
     }
-
 }
 
+async function addXP(amount){
+
+    amount =
+        Math.max(
+            0,
+            Number(amount || 0)
+        );
+
+    if(!amount) return;
+
+    localXP += amount;
+
+    await saveXP();
+
+    showToast(
+        `🎉 +${amount} XP`,
+        "success"
+    );
+}
+
+function getLevel(){
+
+    return Math.floor(localXP / 100) + 1;
+}
+
+function updateXPUI(){
+
+    const level =
+        getLevel();
+
+    const progress =
+        localXP % 100;
+
+    document.getElementById(
+        "userLevel"
+    ).textContent = level;
+
+    document.getElementById(
+        "currentXP"
+    ).textContent = localXP;
+
+    document.getElementById(
+        "nextXP"
+    ).textContent = level * 100;
+
+    document.getElementById(
+        "xpFill"
+    ).style.width =
+        progress + "%";
+
+    document.getElementById(
+        "statXP"
+    ).textContent =
+        localXP;
+
+    const accountXP =
+        document.getElementById("accountXP");
+
+    if(accountXP)
+        accountXP.textContent = localXP;
+}
 
 /* =========================================================
-   USER
+   LOGIN
 ========================================================= */
 
-async function loadUser(){
+async function loginUser(){
+
+    if(!supabaseClient){
+
+        showToast(
+            "تعذر الاتصال بخدمة الحسابات.",
+            "error"
+        );
+
+        return;
+    }
+
+    const email =
+        document
+        .getElementById("authEmail")
+        .value
+        .trim();
+
+    const password =
+        document
+        .getElementById("authPassword")
+        .value;
+
+    if(!email || !password){
+
+        showToast(
+            "أدخل البريد الإلكتروني وكلمة المرور.",
+            "error"
+        );
+
+        return;
+    }
+
+    try{
+
+        const {data,error} =
+            await supabaseClient.auth
+            .signInWithPassword({
+                email,
+                password
+            });
+
+        if(error) throw error;
+
+        currentUser = data.user;
+
+        await loadCloudXP();
+
+        updateUserUI();
+
+        closeModal("loginModal");
+
+        showToast(
+            "تم تسجيل الدخول بنجاح 👋",
+            "success"
+        );
+
+    }catch(error){
+
+        console.error(error);
+
+        showToast(
+            error.message ||
+            "فشل تسجيل الدخول.",
+            "error"
+        );
+    }
+}
+
+/* =========================================================
+   REGISTER
+========================================================= */
+
+async function registerUser(){
+
+    if(!supabaseClient){
+
+        showToast(
+            "تعذر الاتصال بخدمة الحسابات.",
+            "error"
+        );
+
+        return;
+    }
+
+    const name =
+        document
+        .getElementById("authName")
+        .value
+        .trim();
+
+    const email =
+        document
+        .getElementById("authEmail")
+        .value
+        .trim();
+
+    const password =
+        document
+        .getElementById("authPassword")
+        .value;
+
+    if(!name){
+
+        showToast(
+            "أدخل اسمك الكامل.",
+            "error"
+        );
+
+        return;
+    }
+
+    if(!email || !email.includes("@")){
+
+        showToast(
+            "أدخل بريدًا إلكترونيًا صحيحًا.",
+            "error"
+        );
+
+        return;
+    }
+
+    if(password.length < 6){
+
+        showToast(
+            "كلمة المرور يجب أن تكون 6 أحرف على الأقل.",
+            "error"
+        );
+
+        return;
+    }
+
+    try{
+
+        const {data,error} =
+            await supabaseClient.auth
+            .signUp({
+
+                email,
+                password,
+
+                options:{
+                    data:{
+                        full_name:name,
+                        name:name
+                    }
+                }
+
+            });
+
+        if(error) throw error;
+
+        if(data.user){
+
+            currentUser = data.user;
+
+            await ensureProfile(currentUser);
+
+            updateUserUI();
+
+            closeModal("loginModal");
+
+            showToast(
+                "تم إنشاء الحساب بنجاح 🎉",
+                "success"
+            );
+
+        }else{
+
+            showToast(
+                "تم إنشاء الحساب. تحقق من بريدك الإلكتروني إذا كان تأكيد البريد مفعلًا.",
+                "success"
+            );
+        }
+
+    }catch(error){
+
+        console.error(error);
+
+        showToast(
+            error.message ||
+            "تعذر إنشاء الحساب.",
+            "error"
+        );
+    }
+}
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+async function logoutUser(){
+
+    try{
+
+        if(supabaseClient){
+            await supabaseClient.auth.signOut();
+        }
+
+    }catch(error){
+
+        console.warn(error);
+    }
+
+    currentUser = null;
+
+    /*
+     * منع انتقال XP من حساب إلى حساب آخر.
+     */
+    localXP = 0;
+
+    localStorage.removeItem("hamou_xp");
+
+    updateUserUI();
+
+    closeModal("loginModal");
+
+    showToast(
+        "تم تسجيل الخروج.",
+        "success"
+    );
+}
+
+/* =========================================================
+   AUTH INITIALIZATION
+========================================================= */
+
+async function initAuth(){
 
     if(!supabaseClient){
 
         updateUserUI();
-
         return;
-
     }
 
     try{
 
-        const result =
+        const {
+            data:{
+                session
+            }
+        } =
             await supabaseClient
-                .auth
-                .getUser();
+            .auth.getSession();
 
-        currentUser =
-            result.data?.user || null;
+        if(session?.user){
 
-        updateUserUI();
-
-        if(currentUser){
+            currentUser =
+                session.user;
 
             await loadCloudXP();
 
+        }else{
+
+            currentUser = null;
         }
+
+        updateUserUI();
+
+        supabaseClient
+        .auth
+        .onAuthStateChange(
+            async(event,session)=>{
+
+                currentUser =
+                    session?.user || null;
+
+                if(currentUser){
+
+                    await loadCloudXP();
+
+                }else{
+
+                    localXP = 0;
+
+                    localStorage.removeItem(
+                        "hamou_xp"
+                    );
+                }
+
+                updateUserUI();
+            }
+        );
 
     }catch(error){
 
-        console.log(
-            "User error:",
+        console.warn(
+            "Auth initialization:",
             error
         );
 
+        updateUserUI();
     }
-
 }
-
-
-async function loadCloudXP(){
-
-    if(
-        !currentUser ||
-        !supabaseClient
-    ){
-
-        return;
-
-    }
-
-    try{
-
-        const result =
-            await supabaseClient
-                .from("profiles")
-                .select("xp")
-                .eq(
-                    "id",
-                    currentUser.id
-                )
-                .maybeSingle();
-
-        if(
-            result.data &&
-            Number(result.data.xp)
-            >
-            localXP
-        ){
-
-            localXP =
-                Number(
-                    result.data.xp
-                );
-
-            localStorage.setItem(
-                "hamou_xp",
-                String(localXP)
-            );
-
-            updateXP();
-
-        }
-
-    }catch(error){
-
-        console.log(
-            "Cloud XP error:",
-            error
-        );
-
-    }
-
-}
-
-
-function updateUserUI(){
-
-    const visitor =
-        translations[
-            currentLanguage
-        ]?.visitor || "Visitor";
-
-
-    const name =
-        currentUser
-        ? (
-            currentUser
-                .user_metadata
-                ?.full_name ||
-            currentUser.email ||
-            visitor
-        )
-        : visitor;
-
-
-    if($("userName")){
-
-        $("userName").textContent =
-            name;
-
-    }
-
-
-    if($("userStatus")){
-
-        $("userStatus").textContent =
-            currentUser
-            ? currentUser.email || ""
-            : visitor;
-
-    }
-
-
-    document
-    .querySelectorAll(
-        ".login-button"
-    )
-    .forEach(
-        function(button){
-
-            button.textContent =
-                currentUser
-                ? (
-                    currentLanguage === "ar"
-                    ? "حسابي"
-                    : currentLanguage === "fr"
-                    ? "Compte"
-                    : "Account"
-                )
-                : translations[
-                    currentLanguage
-                  ]?.login || "Login";
-
-        }
-    );
-
-}
-
 
 /* =========================================================
-   GLOBAL LIBRARY V29
+   RESOURCE NORMALIZATION
+   يجعل المكتبة تعمل مع أكثر من نسخة من schema
 ========================================================= */
 
-function getLibraryFilters(){
+function normalizeResource(r){
+
+    r = r || {};
 
     return {
 
-        search:
-            $("searchInput")
-            ?.value
-            .trim() || "",
+        raw:r,
+
+        id:
+            r.id ??
+            r.resource_id ??
+            cryptoRandomId(),
+
+        title:
+            r.title ??
+            r.title_ar ??
+            r.title_fr ??
+            r.title_en ??
+            "مورد رياضي",
+
+        title_ar:
+            r.title_ar ??
+            r.title ??
+            "",
+
+        title_fr:
+            r.title_fr ??
+            r.title ??
+            "",
+
+        title_en:
+            r.title_en ??
+            r.title ??
+            "",
+
+        description:
+            r.description ??
+            r.description_ar ??
+            r.description_fr ??
+            r.description_en ??
+            "",
 
         country:
-            $("countryFilter")
-            ?.value || "",
+            r.country_code ??
+            r.country ??
+            r.countryCode ??
+            r.country_id ??
+            "",
 
         language:
-            $("languageFilter")
-            ?.value || "",
+            r.language ??
+            r.content_language ??
+            r.lang ??
+            "",
 
         education:
-            $("educationFilter")
-            ?.value || "",
+            r.education_level ??
+            r.education ??
+            "",
 
-        year:
-            $("yearFilter")
-            ?.value || "",
+        schoolYear:
+            r.school_year ??
+            r.schoolYear ??
+            r.level ??
+            "",
 
         subject:
-            $("subjectFilter")
-            ?.value || "",
+            r.subject ??
+            "",
 
         semester:
-            $("semesterFilter")
-            ?.value || "",
+            r.semester ??
+            r.term ??
+            "",
 
         type:
-            $("typeFilter")
-            ?.value || "",
+            r.resource_type ??
+            r.type ??
+            "",
 
-        sort:
-            $("sortFilter")
-            ?.value || "newest"
+        topic:
+            r.topic ??
+            "",
 
+        chapter:
+            r.chapter ??
+            "",
+
+        unit:
+            r.unit ??
+            "",
+
+        tags:
+            r.tags ??
+            [],
+
+        views:
+            Number(
+                r.views ??
+                r.view_count ??
+                0
+            ),
+
+        downloads:
+            Number(
+                r.downloads ??
+                r.download_count ??
+                0
+            ),
+
+        featured:
+            Boolean(
+                r.is_featured ??
+                r.featured ??
+                false
+            ),
+
+        verified:
+            Boolean(
+                r.is_verified ??
+                r.verified ??
+                false
+            ),
+
+        fileUrl:
+            r.file_url ??
+            r.download_url ??
+            r.preview_url ??
+            "",
+
+        previewUrl:
+            r.preview_url ??
+            r.file_url ??
+            "",
+
+        downloadUrl:
+            r.download_url ??
+            r.file_url ??
+            ""
     };
-
 }
 
+function cryptoRandomId(){
 
-function debouncedLoadResources(){
-
-    clearTimeout(
-        debounceTimer
-    );
-
-    debounceTimer =
-        setTimeout(
-            function(){
-
-                loadResources(true);
-
-            },
-            350
-        );
-
+    return (
+        Date.now() +
+        Math.random()
+    ).toString(36);
 }
 
-
-function clearFilters(){
-
-    const ids = [
-
-        "searchInput",
-        "countryFilter",
-        "languageFilter",
-        "educationFilter",
-        "yearFilter",
-        "subjectFilter",
-        "semesterFilter",
-        "typeFilter"
-
-    ];
-
-    ids.forEach(
-        function(id){
-
-            const element =
-                $(id);
-
-            if(element){
-
-                element.value = "";
-
-            }
-
-        }
-    );
-
-
-    if($("sortFilter")){
-
-        $("sortFilter").value =
-            "newest";
-
-    }
-
-
-    loadResources(true);
-
-}
-
-
-function getSortConfig(sort){
-
-    switch(sort){
-
-        case "oldest":
-
-            return {
-                column:"id",
-                ascending:true
-            };
-
-        case "popular":
-
-            return {
-                column:"views",
-                ascending:false
-            };
-
-        case "downloads":
-
-            return {
-                column:"downloads",
-                ascending:false
-            };
-
-        case "featured":
-
-            return {
-                column:"is_featured",
-                ascending:false
-            };
-
-        default:
-
-            return {
-                column:"id",
-                ascending:false
-            };
-
-    }
-
-}
-
-
-function buildSearchText(resource){
+function resourceText(resource){
 
     return [
-
         resource.title,
         resource.title_ar,
         resource.title_fr,
         resource.title_en,
-
-        resource.description_ar,
-        resource.description_fr,
-        resource.description_en,
-
+        resource.description,
         resource.subject,
         resource.topic,
         resource.chapter,
         resource.unit,
-
         Array.isArray(resource.tags)
         ? resource.tags.join(" ")
-        : resource.tags
-
+        : String(resource.tags || "")
     ]
-    .filter(Boolean)
     .join(" ")
     .toLowerCase();
-
 }
 
+/* =========================================================
+   CLIENT FILTER
+========================================================= */
 
-function clientFilterResource(
-    resource,
-    filters
-){
+function clientFilterResource(resource){
 
-    if(
-        filters.country &&
-        resource.country_code !==
-        filters.country
-    ){
+    const country =
+        document.getElementById(
+            "countryFilter"
+        ).value;
 
-        return false;
+    const language =
+        document.getElementById(
+            "languageFilter"
+        ).value;
 
-    }
+    const education =
+        document.getElementById(
+            "educationFilter"
+        ).value;
 
+    const year =
+        document.getElementById(
+            "yearFilter"
+        ).value;
 
-    if(
-        filters.language &&
-        resource.language !==
-        filters.language
-    ){
+    const subject =
+        document.getElementById(
+            "subjectFilter"
+        ).value;
 
-        return false;
+    const semester =
+        document.getElementById(
+            "semesterFilter"
+        ).value;
 
-    }
+    const type =
+        document.getElementById(
+            "typeFilter"
+        ).value;
 
-
-    if(
-        filters.education &&
-        resource.education_level !==
-        filters.education
-    ){
-
-        return false;
-
-    }
-
-
-    if(filters.year){
-
-        const year =
-            resource.school_year ||
-            resource.level;
-
-        if(year !== filters.year){
-
-            return false;
-
-        }
-
-    }
-
+    const search =
+        document.getElementById(
+            "librarySearch"
+        ).value
+        .trim()
+        .toLowerCase();
 
     if(
-        filters.subject &&
-        resource.subject !==
-        filters.subject
+        country &&
+        String(resource.country).toLowerCase()
+        !== country.toLowerCase()
     ){
-
         return false;
-
     }
-
 
     if(
-        filters.semester &&
-        resource.semester !==
-        filters.semester
+        language &&
+        String(resource.language).toLowerCase()
+        !== language.toLowerCase()
     ){
-
         return false;
-
     }
-
 
     if(
-        filters.type &&
-        resource.resource_type !==
-        filters.type
+        education &&
+        String(resource.education).toLowerCase()
+        !== education.toLowerCase()
     ){
-
         return false;
-
     }
 
-
-    if(filters.search){
-
-        const text =
-            buildSearchText(
-                resource
-            );
-
-        if(
-            !text.includes(
-                filters.search
-                    .toLowerCase()
-            )
-        ){
-
-            return false;
-
-        }
-
+    if(
+        year &&
+        String(resource.schoolYear).toLowerCase()
+        !== year.toLowerCase()
+    ){
+        return false;
     }
 
+    if(
+        subject &&
+        String(resource.subject).toLowerCase()
+        !== subject.toLowerCase()
+    ){
+        return false;
+    }
+
+    if(
+        semester &&
+        String(resource.semester).toLowerCase()
+        !== semester.toLowerCase()
+    ){
+        return false;
+    }
+
+    if(
+        type &&
+        String(resource.type).toLowerCase()
+        !== type.toLowerCase()
+    ){
+        return false;
+    }
+
+    if(
+        search &&
+        !resourceText(resource)
+        .includes(search)
+    ){
+        return false;
+    }
 
     return true;
-
 }
 
+/* =========================================================
+   LIBRARY QUERY
+========================================================= */
 
-async function loadResources(
-    reset = true
-){
-
-    if(libraryLoading){
-
-        return;
-
-    }
-
-    if(reset){
-
-        libraryPage = 0;
-
-        resources = [];
-
-        renderLoading();
-
-    }
-
+async function fetchResourcePage(page){
 
     if(!supabaseClient){
 
-        renderLibraryMessage(
-            currentLanguage === "ar"
-            ? "تعذر الاتصال بقاعدة البيانات."
-            : currentLanguage === "fr"
-            ? "Impossible de se connecter à la base de données."
-            : "Unable to connect to database."
-        );
-
-        return;
-
+        return {
+            data:[],
+            error:null
+        };
     }
 
+    const start =
+        page * libraryPageSize;
 
-    libraryLoading = true;
+    const end =
+        start + libraryPageSize - 1;
 
+    /*
+     * لا نعتمد على country_code أو أعمدة
+     * قد تكون غير موجودة في نسخة SQL.
+     * نقرأ الصفوف ثم نطبق الفلاتر بأمان.
+     */
 
-    const filters =
-        getLibraryFilters();
+    let query =
+        supabaseClient
+        .from("math_resources")
+        .select("*")
+        .range(start,end);
 
     const sort =
-        getSortConfig(
-            filters.sort
-        );
-
+        document.getElementById(
+            "sortFilter"
+        )?.value || "newest";
 
     try{
 
-        let query =
-            supabaseClient
-                .from(
-                    "math_resources"
-                )
-                .select(
-                    "*",
+        if(sort === "popular"){
+
+            query =
+                query.order(
+                    "views",
                     {
-                        count:
-                            reset
-                            ? "exact"
-                            : undefined
-                    }
-                );
-
-
-        /*
-           SERVER-SIDE FILTERS
-           V29 columns
-        */
-
-        if(filters.country){
-
-            query =
-                query.eq(
-                    "country_code",
-                    filters.country
-                );
-
-        }
-
-
-        if(filters.language){
-
-            query =
-                query.eq(
-                    "language",
-                    filters.language
-                );
-
-        }
-
-
-        if(filters.education){
-
-            query =
-                query.eq(
-                    "education_level",
-                    filters.education
-                );
-
-        }
-
-
-        if(filters.year){
-
-            query =
-                query.eq(
-                    "school_year",
-                    filters.year
-                );
-
-        }
-
-
-        if(filters.subject){
-
-            query =
-                query.eq(
-                    "subject",
-                    filters.subject
-                );
-
-        }
-
-
-        if(filters.semester){
-
-            query =
-                query.eq(
-                    "semester",
-                    filters.semester
-                );
-
-        }
-
-
-        if(filters.type){
-
-            query =
-                query.eq(
-                    "resource_type",
-                    filters.type
-                );
-
-        }
-
-
-        if(filters.search){
-
-            const search =
-                filters.search
-                    .replace(
-                        /[,()]/g,
-                        " "
-                    )
-                    .trim();
-
-
-            if(search){
-
-                query =
-                    query.or(
-                        [
-                            `title.ilike.%${search}%`,
-                            `title_ar.ilike.%${search}%`,
-                            `title_fr.ilike.%${search}%`,
-                            `title_en.ilike.%${search}%`,
-                            `description_ar.ilike.%${search}%`,
-                            `description_fr.ilike.%${search}%`,
-                            `description_en.ilike.%${search}%`,
-                            `subject.ilike.%${search}%`,
-                            `topic.ilike.%${search}%`,
-                            `chapter.ilike.%${search}%`,
-                            `unit.ilike.%${search}%`
-                        ].join(",")
-                    );
-
-            }
-
-        }
-
-
-        query =
-            query
-                .order(
-                    sort.column,
-                    {
-                        ascending:
-                            sort.ascending,
+                        ascending:false,
                         nullsFirst:false
                     }
-                )
-                .range(
-                    libraryPage *
-                    libraryPageSize,
-
-                    (
-                        libraryPage *
-                        libraryPageSize
-                    ) +
-                    libraryPageSize -
-                    1
                 );
 
+        }else if(sort === "downloads"){
+
+            query =
+                query.order(
+                    "downloads",
+                    {
+                        ascending:false,
+                        nullsFirst:false
+                    }
+                );
+
+        }else if(sort === "featured"){
+
+            query =
+                query.order(
+                    "is_featured",
+                    {
+                        ascending:false,
+                        nullsFirst:false
+                    }
+                );
+
+        }else{
+
+            query =
+                query.order(
+                    "created_at",
+                    {
+                        ascending:false,
+                        nullsFirst:false
+                    }
+                );
+        }
 
         let result =
             await query;
 
-
         /*
-           FALLBACK:
-           If V29 columns are unavailable,
-           use legacy-compatible query.
-        */
+         * في حال عدم وجود عمود الترتيب
+         * نعيد الاستعلام بالـ id.
+         */
 
         if(result.error){
-
-            console.warn(
-                "Advanced library query failed. Fallback activated:",
-                result.error
-            );
-
-
-            let fallback =
-                supabaseClient
-                    .from(
-                        "math_resources"
-                    )
-                    .select(`
-                        id,
-                        title,
-                        title_ar,
-                        description_ar,
-                        level,
-                        subject,
-                        resource_type,
-                        question_ar,
-                        solution_ar,
-                        answer,
-                        is_free,
-                        is_premium
-                    `)
-                    .order(
-                        "id",
-                        {
-                            ascending:false
-                        }
-                    )
-                    .range(
-                        libraryPage *
-                        libraryPageSize,
-
-                        (
-                            libraryPage *
-                            libraryPageSize
-                        ) +
-                        libraryPageSize -
-                        1
-                    );
-
-
-            if(filters.type){
-
-                fallback =
-                    fallback.eq(
-                        "resource_type",
-                        filters.type
-                    );
-
-            }
-
-
-            if(
-                filters.year &&
-                [
-                    "1AS",
-                    "2AS",
-                    "3AS",
-                    "BAC"
-                ].includes(
-                    filters.year
-                )
-            ){
-
-                fallback =
-                    fallback.eq(
-                        "level",
-                        filters.year
-                    );
-
-            }
-
-
-            if(filters.subject){
-
-                fallback =
-                    fallback.eq(
-                        "subject",
-                        filters.subject
-                    );
-
-            }
-
-
-            if(filters.search){
-
-                const search =
-                    filters.search
-                        .replace(
-                            /[,()]/g,
-                            " "
-                        )
-                        .trim();
-
-
-                if(search){
-
-                    fallback =
-                        fallback.or(
-                            [
-                                `title.ilike.%${search}%`,
-                                `title_ar.ilike.%${search}%`,
-                                `description_ar.ilike.%${search}%`,
-                                `subject.ilike.%${search}%`
-                            ].join(",")
-                        );
-
-                }
-
-            }
-
 
             result =
-                await fallback;
-
+                await supabaseClient
+                .from("math_resources")
+                .select("*")
+                .order(
+                    "id",
+                    {
+                        ascending:false
+                    }
+                )
+                .range(start,end);
         }
 
+        return result;
 
-        if(result.error){
+    }catch(error){
 
-            throw result.error;
+        return {
+            data:[],
+            error
+        };
+    }
+}
 
-        }
+/* =========================================================
+   LOAD RESOURCES
+========================================================= */
 
+async function loadResources(){
 
-        let data =
-            Array.isArray(result.data)
-            ? result.data
-            : [];
+    if(libraryLoading) return;
 
+    libraryLoading = true;
 
-        /*
-           Additional client filtering.
-           Useful for old resources whose
-           V29 metadata is still empty.
-        */
+    const grid =
+        document.getElementById(
+            "libraryGrid"
+        );
 
-        data =
-            data.filter(
-                function(resource){
+    const status =
+        document.getElementById(
+            "libraryStatus"
+        );
 
-                    return clientFilterResource(
-                        resource,
-                        filters
-                    );
+    if(libraryPage === 0){
 
-                }
+        grid.innerHTML =
+            `<div class="empty">
+                <div class="spinner"></div>
+                <p>جاري تحميل الموارد...</p>
+             </div>`;
+    }
+
+    status.textContent =
+        "جاري التحميل...";
+
+    try{
+
+        const {
+            data,
+            error
+        } =
+            await fetchResourcePage(
+                libraryPage
             );
 
+        if(error){
 
-        if(reset){
+            throw error;
+        }
 
-            resources = data;
+        const normalized =
+            (data || [])
+            .map(normalizeResource);
+
+        const filtered =
+            normalized
+            .filter(clientFilterResource);
+
+        if(
+            normalized.length <
+            libraryPageSize
+        ){
+            libraryHasMore = false;
+        }
+
+        if(libraryPage === 0){
+
+            currentResources =
+                filtered;
 
         }else{
 
-            resources =
-                resources.concat(
-                    data
-                );
-
+            currentResources =
+                [
+                    ...currentResources,
+                    ...filtered
+                ];
         }
-
-
-        libraryHasMore =
-            data.length >=
-            libraryPageSize;
-
 
         renderResources();
 
-        updateLibraryStats(
-            result.count
-        );
+        const loadBtn =
+            document.getElementById(
+                "loadMoreBtn"
+            );
 
+        loadBtn.style.display =
+            libraryHasMore
+            ? "block"
+            : "none";
+
+        status.textContent = "";
 
     }catch(error){
 
@@ -3682,2868 +3236,1128 @@ async function loadResources(
             error
         );
 
-        renderLibraryMessage(
-            currentLanguage === "ar"
-            ? "حدث خطأ أثناء تحميل المكتبة."
-            : currentLanguage === "fr"
-            ? "Erreur lors du chargement de la bibliothèque."
-            : "Error loading the library."
+        if(libraryPage === 0){
+
+            grid.innerHTML =
+                `<div class="empty">
+                    <div style="font-size:45px">📚</div>
+                    <h3>تعذر تحميل المكتبة</h3>
+                    <p>
+                      تحقق من اتصال Supabase
+                      أو من جدول math_resources.
+                    </p>
+                    <button class="btn btn-primary"
+                            onclick="resetAndLoadResources()">
+                      إعادة المحاولة
+                    </button>
+                 </div>`;
+        }
+
+        showToast(
+            "تعذر تحميل المكتبة.",
+            "error"
         );
 
     }finally{
 
         libraryLoading = false;
-
     }
-
 }
 
+/* =========================================================
+   LOAD MORE
+========================================================= */
 
-function loadMoreResources(){
+async function loadMoreResources(){
 
-    if(!libraryHasMore){
-
+    if(
+        libraryLoading ||
+        !libraryHasMore
+    ){
         return;
-
     }
 
     libraryPage++;
 
-    loadResources(false);
-
+    await loadResources();
 }
 
+/* =========================================================
+   RESET LIBRARY
+========================================================= */
 
-function renderLoading(){
+function resetAndLoadResources(){
 
-    const grid =
-        $("resourceGrid");
+    libraryPage = 0;
+    libraryHasMore = true;
+    currentResources = [];
 
-    if(!grid) return;
-
-    grid.innerHTML = `
-
-        <div class="resource">
-
-            ${
-                currentLanguage === "ar"
-                ? "جاري تحميل المكتبة..."
-                : currentLanguage === "fr"
-                ? "Chargement de la bibliothèque..."
-                : "Loading library..."
-            }
-
-        </div>
-
-    `;
-
+    loadResources();
 }
 
+function searchResources(){
 
-function renderLibraryMessage(
-    message
-){
-
-    const grid =
-        $("resourceGrid");
-
-    if(!grid) return;
-
-    grid.innerHTML = `
-
-        <div class="library-empty">
-
-            ${escapeHTML(message)}
-
-        </div>
-
-    `;
-
-    const button =
-        $("loadMoreBtn");
-
-    if(button){
-
-        button.style.display =
-            "none";
-
-    }
-
+    resetAndLoadResources();
 }
 
+/* =========================================================
+   RENDER RESOURCES
+========================================================= */
 
-function localizedResourceTitle(
-    resource
-){
+function getLocalizedTitle(r){
 
-    if(
-        currentLanguage === "fr"
-    ){
+    if(currentLanguage === "fr"){
 
         return (
-            resource.title_fr ||
-            resource.title ||
-            resource.title_ar ||
-            "Ressource"
+            r.title_fr ||
+            r.title ||
+            r.title_ar ||
+            "Ressource mathématique"
         );
-
     }
 
-
-    if(
-        currentLanguage === "en"
-    ){
+    if(currentLanguage === "en"){
 
         return (
-            resource.title_en ||
-            resource.title ||
-            resource.title_ar ||
-            "Resource"
+            r.title_en ||
+            r.title ||
+            r.title_ar ||
+            "Mathematics Resource"
         );
-
     }
-
 
     return (
-        resource.title_ar ||
-        resource.title ||
+        r.title_ar ||
+        r.title ||
         "مورد رياضي"
     );
-
 }
 
-
-function localizedDescription(
-    resource
-){
-
-    if(
-        currentLanguage === "fr"
-    ){
-
-        return (
-            resource.description_fr ||
-            resource.description_ar ||
-            ""
-        );
-
-    }
-
-
-    if(
-        currentLanguage === "en"
-    ){
-
-        return (
-            resource.description_en ||
-            resource.description_ar ||
-            ""
-        );
-
-    }
-
+function getLocalizedDescription(r){
 
     return (
-        resource.description_ar ||
-        resource.description ||
-        ""
+        r.description ||
+        "مورد تعليمي في الرياضيات."
     );
-
 }
 
+function getResourceIcon(type){
 
-function getResourceIcon(
-    resource
-){
-
-    const type =
-        resource.resource_type;
-
-    const icons = {
+    const map = {
 
         lesson:"📘",
-        exercise:"📝",
-        solution:"✅",
-        course:"🎓",
-        book:"📚",
-        summary:"📄",
-        worksheet:"📋",
-        homework:"✏️",
-        test:"🧪",
-        exam:"📑",
-        bac:"🎯",
+        exercise:"✏️",
+        exam:"📝",
+        homework:"📄",
         research:"🔬",
-        thesis:"🎓",
-        olympiad:"🏆",
-        competition:"🥇",
-        pdf:"📕",
-        video:"🎥",
-        interactive:"💻"
+        book:"📚",
+        summary:"📖",
+        other:"📎"
 
     };
 
-    return icons[type] || "🧮";
-
+    return map[type] || "📐";
 }
-
-
-function getResourceTypeLabel(
-    type
-){
-
-    const labels = {
-
-        lesson:
-            currentLanguage === "ar"
-            ? "درس"
-            : currentLanguage === "fr"
-            ? "Leçon"
-            : "Lesson",
-
-        exercise:
-            currentLanguage === "ar"
-            ? "تمرين"
-            : currentLanguage === "fr"
-            ? "Exercice"
-            : "Exercise",
-
-        solution:
-            currentLanguage === "ar"
-            ? "حلول"
-            : currentLanguage === "fr"
-            ? "Solutions"
-            : "Solutions",
-
-        course:
-            currentLanguage === "ar"
-            ? "دورة"
-            : currentLanguage === "fr"
-            ? "Cours"
-            : "Course",
-
-        book:
-            currentLanguage === "ar"
-            ? "كتاب"
-            : currentLanguage === "fr"
-            ? "Livre"
-            : "Book",
-
-        exam:
-            currentLanguage === "ar"
-            ? "امتحان"
-            : currentLanguage === "fr"
-            ? "Examen"
-            : "Exam",
-
-        test:
-            currentLanguage === "ar"
-            ? "اختبار"
-            : currentLanguage === "fr"
-            ? "Test"
-            : "Test",
-
-        research:
-            currentLanguage === "ar"
-            ? "بحث"
-            : currentLanguage === "fr"
-            ? "Recherche"
-            : "Research",
-
-        pdf:"PDF",
-
-        video:
-            currentLanguage === "ar"
-            ? "فيديو"
-            : currentLanguage === "fr"
-            ? "Vidéo"
-            : "Video",
-
-        interactive:
-            currentLanguage === "ar"
-            ? "تفاعلي"
-            : currentLanguage === "fr"
-            ? "Interactif"
-            : "Interactive"
-
-    };
-
-    return (
-        labels[type] ||
-        type ||
-        "Resource"
-    );
-
-}
-
-
-function countryLabel(
-    code
-){
-
-    const countries = {
-
-        DZ:"🇩🇿 الجزائر",
-        FR:"🇫🇷 France",
-        MA:"🇲🇦 المغرب",
-        TN:"🇹🇳 تونس",
-        EG:"🇪🇬 مصر",
-        SA:"🇸🇦 السعودية",
-        AE:"🇦🇪 الإمارات",
-        CA:"🇨🇦 Canada",
-        US:"🇺🇸 USA",
-        GB:"🇬🇧 UK",
-        DE:"🇩🇪 Deutschland",
-        WW:"🌍 Worldwide"
-
-    };
-
-    return countries[code] || code || "";
-
-}
-
 
 function renderResources(){
 
     const grid =
-        $("resourceGrid");
+        document.getElementById(
+            "libraryGrid"
+        );
 
-    if(!grid) return;
+    const count =
+        document.getElementById(
+            "libraryCount"
+        );
 
+    const loadBtn =
+        document.getElementById(
+            "loadMoreBtn"
+        );
 
-    if(!resources.length){
+    if(!currentResources.length){
 
-        grid.innerHTML = `
+        grid.innerHTML =
+            `<div class="empty">
+                <div style="font-size:50px">🔎</div>
+                <h3>لا توجد موارد مطابقة</h3>
+                <p>
+                    جرّب تغيير الفلاتر أو كلمة البحث.
+                </p>
+             </div>`;
 
-            <div class="library-empty">
+        count.textContent =
+            "0 مورد";
+
+        loadBtn.style.display =
+            libraryHasMore
+            ? "block"
+            : "none";
+
+        return;
+    }
+
+    grid.innerHTML =
+        currentResources
+        .map(resourceCardHTML)
+        .join("");
+
+    count.textContent =
+        `${currentResources.length} مورد`;
+
+    loadBtn.style.display =
+        libraryHasMore
+        ? "block"
+        : "none";
+}
+
+function resourceCardHTML(r){
+
+    const id =
+        String(r.id);
+
+    const isFav =
+        favorites.includes(id);
+
+    const title =
+        escapeHTML(
+            getLocalizedTitle(r)
+        );
+
+    const description =
+        escapeHTML(
+            getLocalizedDescription(r)
+        );
+
+    const country =
+        escapeHTML(
+            r.country || ""
+        );
+
+    const language =
+        escapeHTML(
+            r.language || ""
+        );
+
+    const year =
+        escapeHTML(
+            r.schoolYear || ""
+        );
+
+    return `
+    <article class="library-card">
+
+        <div class="resource-cover">
+            ${getResourceIcon(r.type)}
+        </div>
+
+        <div class="resource-body">
+
+            <div class="resource-type">
+                ${escapeHTML(
+                    r.type || "resource"
+                )}
+            </div>
+
+            <div class="resource-title">
+                ${title}
+            </div>
+
+            <div class="resource-desc">
+                ${description}
+            </div>
+
+            <div class="resource-meta">
 
                 ${
-                    currentLanguage === "ar"
-                    ? "لا توجد موارد مطابقة للفلاتر الحالية."
-                    : currentLanguage === "fr"
-                    ? "Aucune ressource ne correspond aux filtres."
-                    : "No resources match the selected filters."
+                    country
+                    ? `<span class="meta-tag">🌍 ${country}</span>`
+                    : ""
                 }
+
+                ${
+                    language
+                    ? `<span class="meta-tag">🌐 ${language}</span>`
+                    : ""
+                }
+
+                ${
+                    year
+                    ? `<span class="meta-tag">🎓 ${year}</span>`
+                    : ""
+                }
+
+                <span class="meta-tag">
+                    👁 ${formatNumber(r.views)}
+                </span>
+
+                <span class="meta-tag">
+                    ⬇ ${formatNumber(r.downloads)}
+                </span>
 
             </div>
 
-        `;
-
-        const button =
-            $("loadMoreBtn");
-
-        if(button){
-
-            button.style.display =
-                "none";
-
-        }
-
-        return;
-
-    }
-
-
-    grid.innerHTML =
-        resources
-        .map(
-            function(resource){
-
-                const title =
-                    localizedResourceTitle(
-                        resource
-                    );
-
-                const description =
-                    localizedDescription(
-                        resource
-                    );
-
-
-                const type =
-                    getResourceTypeLabel(
-                        resource.resource_type
-                    );
-
-
-                const schoolYear =
-                    resource.school_year ||
-                    resource.level ||
-                    "";
-
-
-                const country =
-                    countryLabel(
-                        resource.country_code
-                    );
-
-
-                const views =
-                    Number(
-                        resource.views || 0
-                    );
-
-
-                const downloads =
-                    Number(
-                        resource.downloads || 0
-                    );
-
-
-                const tags =
-                    Array.isArray(
-                        resource.tags
-                    )
-                    ? resource.tags
-                        .slice(0,5)
-                        .map(
-                            tag =>
-                            `<span class="tag">
-                                ${escapeHTML(tag)}
-                            </span>`
-                        )
-                        .join("")
-                    : "";
-
-
-                const hasFile =
-                    !!(
-                        resource.file_url ||
-                        resource.preview_url ||
-                        resource.download_url
-                    );
-
-
-                const favorite =
-                    isFavorite(
-                        resource.id
-                    );
-
-
-                return `
-
-                    <article
-                        class="resource"
-                        data-id="${escapeHTML(resource.id)}">
-
-                        <div class="resource-top">
-
-                            <div class="resource-icon">
-
-                                ${getResourceIcon(resource)}
-
-                            </div>
-
-                            <div class="resource-title">
-
-                                <h3>
-                                    ${escapeHTML(title)}
-                                </h3>
-
-                            </div>
-
-                        </div>
-
-
-                        <p class="resource-description">
-
-                            ${escapeHTML(description)}
-
-                        </p>
-
-
-                        <div class="resource-meta">
-
-                            ${
-                                type
-                                ? `
-                                <span class="tag">
-                                    ${escapeHTML(type)}
-                                </span>
-                                `
-                                : ""
-                            }
-
-                            ${
-                                schoolYear
-                                ? `
-                                <span class="tag">
-                                    ${escapeHTML(schoolYear)}
-                                </span>
-                                `
-                                : ""
-                            }
-
-                            ${
-                                resource.subject
-                                ? `
-                                <span class="tag">
-                                    ${escapeHTML(resource.subject)}
-                                </span>
-                                `
-                                : ""
-                            }
-
-                            ${
-                                country
-                                ? `
-                                <span class="tag">
-                                    ${escapeHTML(country)}
-                                </span>
-                                `
-                                : ""
-                            }
-
-                            ${tags}
-
-                        </div>
-
-
-                        <div class="resource-stats">
-
-                            <span>
-                                👁️ ${formatNumber(views)}
-                            </span>
-
-                            <span>
-                                📥 ${formatNumber(downloads)}
-                            </span>
-
-                            ${
-                                resource.is_verified
-                                ? "<span>✓ Verified</span>"
-                                : ""
-                            }
-
-                        </div>
-
-
-                        <div class="resource-actions">
-
-                            <button
-                                class="btn primary"
-                                onclick="event.stopPropagation();openResource('${escapeHTML(resource.id)}')">
-
-                                ${
-                                    currentLanguage === "ar"
-                                    ? "فتح"
-                                    : currentLanguage === "fr"
-                                    ? "Ouvrir"
-                                    : "Open"
-                                }
-
-                            </button>
-
-
-                            ${
-                                hasFile
-                                ? `
-                                <button
-                                    class="btn success"
-                                    onclick="event.stopPropagation();downloadResource('${escapeHTML(resource.id)}')">
-
-                                    📥 ${
-                                        currentLanguage === "ar"
-                                        ? "تحميل"
-                                        : currentLanguage === "fr"
-                                        ? "Télécharger"
-                                        : "Download"
-                                    }
-
-                                </button>
-                                `
-                                : ""
-                            }
-
-
-                            <button
-                                class="btn ${
-                                    favorite
-                                    ? "favorite-active"
-                                    : ""
-                                }"
-                                onclick="event.stopPropagation();toggleFavorite('${escapeHTML(resource.id)}')">
-
-                                ${
-                                    favorite
-                                    ? "★"
-                                    : "☆"
-                                }
-
-                            </button>
-
-                        </div>
-
-                    </article>
-
-                `;
-
-            }
-        )
-        .join("");
-
-
-    /*
-       Card click.
-    */
-
-    grid
-    .querySelectorAll(
-        ".resource"
-    )
-    .forEach(
-        function(card){
-
-            card.addEventListener(
-                "click",
-                function(){
-
-                    openResource(
-                        card.dataset.id
-                    );
-
-                }
-            );
-
-        }
-    );
-
-
-    const button =
-        $("loadMoreBtn");
-
-    if(button){
-
-        button.style.display =
-            libraryHasMore
-            ? "inline-block"
-            : "none";
-
-        button.textContent =
-            currentLanguage === "ar"
-            ? "تحميل المزيد"
-            : currentLanguage === "fr"
-            ? "Charger plus"
-            : "Load more";
-
-    }
-
+            <div class="resource-actions">
+
+                <button
+                    class="btn btn-primary"
+                    onclick="openResource('${escapeJS(id)}')">
+                    👁 عرض
+                </button>
+
+                <button
+                    class="btn btn-outline"
+                    onclick="downloadResource('${escapeJS(id)}')">
+                    ⬇ تحميل
+                </button>
+
+                <button
+                    class="btn btn-outline favorite"
+                    onclick="toggleFavorite('${escapeJS(id)}')"
+                    title="المفضلة">
+                    ${isFav ? "❤️" : "🤍"}
+                </button>
+
+            </div>
+
+        </div>
+
+    </article>
+    `;
 }
-
-
-function updateLibraryStats(
-    count
-){
-
-    const filters =
-        getLibraryFilters();
-
-
-    let text = "";
-
-    if(count !== null &&
-       count !== undefined){
-
-        text =
-            formatNumber(count);
-
-    }else{
-
-        text =
-            formatNumber(
-                resources.length
-            );
-
-    }
-
-
-    if($("libraryCount")){
-
-        $("libraryCount").textContent =
-
-            currentLanguage === "ar"
-            ? `${text} مورد متاح`
-            : currentLanguage === "fr"
-            ? `${text} ressources disponibles`
-            : `${text} resources available`;
-
-    }
-
-
-    if(
-        $("statResources") &&
-        count !== null &&
-        count !== undefined &&
-        !filters.search &&
-        !filters.country &&
-        !filters.language &&
-        !filters.education &&
-        !filters.year &&
-        !filters.subject &&
-        !filters.semester &&
-        !filters.type
-    ){
-
-        $("statResources").textContent =
-            formatNumber(count);
-
-    }
-
-}
-
 
 /* =========================================================
-   RESOURCE OPEN
+   OPEN RESOURCE
 ========================================================= */
 
-async function openResource(
-    id
-){
+function findResource(id){
 
-    let resource =
-        resources.find(
-            item =>
-            String(item.id) ===
-            String(id)
-        );
+    return currentResources.find(
+        r => String(r.id) === String(id)
+    );
+}
 
+async function openResource(id){
 
-    if(!resource &&
-       supabaseClient){
-
-        try{
-
-            const result =
-                await supabaseClient
-                    .from(
-                        "math_resources"
-                    )
-                    .select("*")
-                    .eq(
-                        "id",
-                        id
-                    )
-                    .single();
-
-            resource =
-                result.data;
-
-        }catch(error){
-
-            console.log(error);
-
-        }
-
-    }
-
+    const resource =
+        findResource(id);
 
     if(!resource){
 
         showToast(
-            currentLanguage === "ar"
-            ? "المورد غير موجود."
-            : currentLanguage === "fr"
-            ? "Ressource introuvable."
-            : "Resource not found."
+            "المورد غير موجود.",
+            "error"
         );
 
         return;
-
     }
-
-
-    await incrementResourceView(
-        resource.id
-    );
-
-
-    /*
-       Interactive exercise.
-    */
-
-    if(
-        resource.question_ar
-    ){
-
-        openExerciseResource(
-            resource
-        );
-
-        return;
-
-    }
-
 
     const title =
-        localizedResourceTitle(
-            resource
+        escapeHTML(
+            getLocalizedTitle(resource)
         );
-
 
     const description =
-        localizedDescription(
-            resource
+        escapeHTML(
+            getLocalizedDescription(resource)
         );
 
-
-    const fileUrl =
-        resource.file_url ||
-        resource.preview_url ||
-        resource.download_url ||
+    const url =
+        resource.previewUrl ||
+        resource.fileUrl ||
+        resource.downloadUrl ||
         "";
 
+    let actionHTML = "";
 
-    $("modalContent").innerHTML = `
+    if(url){
 
-        <h2>
-            ${escapeHTML(title)}
-        </h2>
+        actionHTML = `
+        <div class="modal-actions">
 
+            <a
+                class="btn btn-primary"
+                href="${escapeAttribute(url)}"
+                target="_blank"
+                rel="noopener">
+                📖 فتح المورد
+            </a>
 
-        ${
-            description
-            ? `
-            <p class="muted"
-               style="margin-top:12px">
+            <button
+                class="btn btn-outline"
+                onclick="downloadResource('${escapeJS(String(resource.id))}')">
+                ⬇ تحميل
+            </button>
 
-                ${escapeHTML(description)}
+        </div>`;
+    }else{
 
+        actionHTML = `
+        <div class="card"
+             style="margin-top:15px;text-align:center">
+            📚
+            <p style="margin-top:8px;color:var(--muted)">
+                سيتم توفير الملف قريبًا.
             </p>
-            `
-            : ""
-        }
+        </div>`;
+    }
 
+    document.getElementById(
+        "resourceViewContent"
+    ).innerHTML = `
 
-        <div class="detail-grid">
+        <div class="resource-view">
 
-            <div class="detail-item">
+            <div class="resource-large-icon">
+                ${getResourceIcon(resource.type)}
+            </div>
 
-                <strong>
-                    ${
-                        currentLanguage === "ar"
-                        ? "الدولة"
-                        : currentLanguage === "fr"
-                        ? "Pays"
-                        : "Country"
-                    }
-                </strong>
+            <h2>${title}</h2>
 
-                ${
-                    escapeHTML(
-                        countryLabel(
-                            resource.country_code
-                        ) || "—"
-                    )
-                }
+            <div class="resource-details">
+
+                <span class="resource-detail">
+                    النوع:
+                    ${escapeHTML(resource.type || "—")}
+                </span>
+
+                <span class="resource-detail">
+                    المستوى:
+                    ${escapeHTML(resource.education || "—")}
+                </span>
+
+                <span class="resource-detail">
+                    السنة:
+                    ${escapeHTML(resource.schoolYear || "—")}
+                </span>
+
+                <span class="resource-detail">
+                    المادة:
+                    ${escapeHTML(resource.subject || "—")}
+                </span>
+
+                <span class="resource-detail">
+                    👁 ${formatNumber(resource.views)}
+                </span>
+
+                <span class="resource-detail">
+                    ⬇ ${formatNumber(resource.downloads)}
+                </span>
 
             </div>
 
+            <p style="color:var(--muted)">
+                ${description}
+            </p>
 
-            <div class="detail-item">
-
-                <strong>
-                    ${
-                        currentLanguage === "ar"
-                        ? "اللغة"
-                        : currentLanguage === "fr"
-                        ? "Langue"
-                        : "Language"
-                    }
-                </strong>
-
-                ${escapeHTML(
-                    resource.language || "—"
-                )}
-
-            </div>
-
-
-            <div class="detail-item">
-
-                <strong>
-                    ${
-                        currentLanguage === "ar"
-                        ? "المستوى"
-                        : currentLanguage === "fr"
-                        ? "Niveau"
-                        : "Level"
-                    }
-                </strong>
-
-                ${escapeHTML(
-                    resource.education_level ||
-                    resource.level ||
-                    "—"
-                )}
-
-            </div>
-
-
-            <div class="detail-item">
-
-                <strong>
-                    ${
-                        currentLanguage === "ar"
-                        ? "السنة"
-                        : currentLanguage === "fr"
-                        ? "Année"
-                        : "Year"
-                    }
-                </strong>
-
-                ${escapeHTML(
-                    resource.school_year ||
-                    resource.level ||
-                    "—"
-                )}
-
-            </div>
-
-
-            <div class="detail-item">
-
-                <strong>
-                    ${
-                        currentLanguage === "ar"
-                        ? "المادة"
-                        : currentLanguage === "fr"
-                        ? "Matière"
-                        : "Subject"
-                    }
-                </strong>
-
-                ${escapeHTML(
-                    resource.subject || "—"
-                )}
-
-            </div>
-
-
-            <div class="detail-item">
-
-                <strong>
-                    ${
-                        currentLanguage === "ar"
-                        ? "الفصل"
-                        : currentLanguage === "fr"
-                        ? "Semestre"
-                        : "Semester"
-                    }
-                </strong>
-
-                ${escapeHTML(
-                    resource.semester || "—"
-                )}
-
-            </div>
-
-
-            <div class="detail-item">
-
-                <strong>
-                    👁️ Views
-                </strong>
-
-                ${formatNumber(
-                    resource.views || 0
-                )}
-
-            </div>
-
-
-            <div class="detail-item">
-
-                <strong>
-                    📥 Downloads
-                </strong>
-
-                ${formatNumber(
-                    resource.downloads || 0
-                )}
-
-            </div>
+            ${actionHTML}
 
         </div>
-
-
-        <div class="resource-actions">
-
-            ${
-                fileUrl
-                ? `
-                <button
-                    class="btn success"
-                    onclick="downloadResource('${escapeHTML(resource.id)}')">
-
-                    📥 ${
-                        currentLanguage === "ar"
-                        ? "تحميل / فتح الملف"
-                        : currentLanguage === "fr"
-                        ? "Télécharger / ouvrir"
-                        : "Download / Open"
-                    }
-
-                </button>
-                `
-                : ""
-            }
-
-
-            <button
-                class="btn ${
-                    isFavorite(resource.id)
-                    ? "favorite-active"
-                    : ""
-                }"
-                onclick="toggleFavorite('${escapeHTML(resource.id)}')">
-
-                ${
-                    isFavorite(resource.id)
-                    ? "★"
-                    : "☆"
-                }
-                ${currentLanguage === "ar"
-                    ? "مفضلة"
-                    : currentLanguage === "fr"
-                    ? "Favori"
-                    : "Favorite"
-                }
-
-            </button>
-
-        </div>
-
     `;
 
+    openModal("resourceModal");
 
-    openModal();
-
+    incrementResourceView(resource);
 }
 
+/* =========================================================
+   DOWNLOAD
+========================================================= */
 
-function openExerciseResource(
-    resource
-){
-
-    $("modalContent").innerHTML = `
-
-        <h2>
-            ${escapeHTML(
-                localizedResourceTitle(
-                    resource
-                )
-            )}
-        </h2>
-
-
-        <div class="quiz-question">
-
-            ${escapeHTML(
-                resource.question_ar ||
-                resource.question ||
-                ""
-            )}
-
-        </div>
-
-
-        <input
-            id="resourceAnswer"
-            class="quiz-input"
-            type="text"
-            placeholder="${
-                currentLanguage === "ar"
-                ? "اكتب إجابتك..."
-                : currentLanguage === "fr"
-                ? "Votre réponse..."
-                : "Your answer..."
-            }">
-
-
-        <div class="quiz-actions">
-
-            <button
-                class="btn primary"
-                onclick="checkResourceAnswer('${escapeHTML(resource.id)}')">
-
-                ${
-                    currentLanguage === "ar"
-                    ? "تحقق"
-                    : currentLanguage === "fr"
-                    ? "Vérifier"
-                    : "Check"
-                }
-
-            </button>
-
-            <button
-                class="btn"
-                onclick="closeModal()">
-
-                ${
-                    currentLanguage === "ar"
-                    ? "إغلاق"
-                    : currentLanguage === "fr"
-                    ? "Fermer"
-                    : "Close"
-                }
-
-            </button>
-
-        </div>
-
-
-        <div id="resourceAnswerResult"></div>
-
-    `;
-
-
-    openModal();
-
-}
-
-
-async function checkResourceAnswer(
-    id
-){
-
-    const answer =
-        $("resourceAnswer")
-        ?.value
-        .trim();
-
+async function downloadResource(id){
 
     const resource =
-        resources.find(
-            item =>
-            String(item.id) ===
-            String(id)
-        );
-
+        findResource(id);
 
     if(!resource){
 
-        return;
-
-    }
-
-
-    const correct =
-        String(
-            resource.answer ?? ""
-        )
-        .trim()
-        .toLowerCase();
-
-
-    const userAnswer =
-        String(answer || "")
-        .trim()
-        .toLowerCase();
-
-
-    const result =
-        $("resourceAnswerResult");
-
-
-    if(!result) return;
-
-
-    if(
-        userAnswer &&
-        correct &&
-        userAnswer === correct
-    ){
-
-        result.innerHTML = `
-
-            <div class="result success-result">
-
-                ${
-                    currentLanguage === "ar"
-                    ? "إجابة صحيحة! +10 XP 🎉"
-                    : currentLanguage === "fr"
-                    ? "Bonne réponse ! +10 XP 🎉"
-                    : "Correct answer! +10 XP 🎉"
-                }
-
-            </div>
-
-        `;
-
-
-        const solvedKey =
-            "hamou_solved_" +
-            resource.id;
-
-
-        if(
-            !localStorage.getItem(
-                solvedKey
-            )
-        ){
-
-            localStorage.setItem(
-                solvedKey,
-                "1"
-            );
-
-            await addXP(10);
-
-        }
-
-    }else{
-
-        result.innerHTML = `
-
-            <div class="result wrong-result">
-
-                ${
-                    currentLanguage === "ar"
-                    ? "إجابة غير صحيحة. حاول مرة أخرى."
-                    : currentLanguage === "fr"
-                    ? "Réponse incorrecte. Réessayez."
-                    : "Incorrect answer. Try again."
-                }
-
-                ${
-                    resource.solution_ar
-                    ? `
-                    <hr style="margin:12px 0">
-
-                    <strong>
-                        ${
-                            currentLanguage === "ar"
-                            ? "الحل:"
-                            : currentLanguage === "fr"
-                            ? "Solution:"
-                            : "Solution:"
-                        }
-                    </strong>
-
-                    <div style="margin-top:7px">
-                        ${escapeHTML(
-                            resource.solution_ar
-                        )}
-                    </div>
-                    `
-                    : ""
-                }
-
-            </div>
-
-        `;
-
-    }
-
-}
-
-
-async function incrementResourceView(
-    id
-){
-
-    if(!supabaseClient){
-
-        return;
-
-    }
-
-    try{
-
-        await supabaseClient
-            .rpc(
-                "increment_resource_view",
-                {
-                    resource_id_input:id
-                }
-            );
-
-    }catch(error){
-
-        /*
-           Fallback for installations where
-           the RPC was not created.
-        */
-
-        try{
-
-            const resource =
-                resources.find(
-                    item =>
-                    String(item.id) ===
-                    String(id)
-                );
-
-            const current =
-                Number(
-                    resource?.views || 0
-                );
-
-            await supabaseClient
-                .from(
-                    "math_resources"
-                )
-                .update({
-                    views:
-                        current + 1
-                })
-                .eq(
-                    "id",
-                    id
-                );
-
-        }catch(e){
-
-            console.log(e);
-
-        }
-
-    }
-
-}
-
-
-async function incrementResourceDownload(
-    id
-){
-
-    if(!supabaseClient){
-
-        return;
-
-    }
-
-    try{
-
-        await supabaseClient
-            .rpc(
-                "increment_resource_download",
-                {
-                    resource_id_input:id
-                }
-            );
-
-    }catch(error){
-
-        console.log(
-            "Download counter:",
-            error
+        showToast(
+            "الملف غير موجود.",
+            "error"
         );
 
+        return;
     }
-
-}
-
-
-async function downloadResource(
-    id
-){
-
-    let resource =
-        resources.find(
-            item =>
-            String(item.id) ===
-            String(id)
-        );
-
-
-    if(!resource &&
-       supabaseClient){
-
-        try{
-
-            const result =
-                await supabaseClient
-                    .from(
-                        "math_resources"
-                    )
-                    .select("*")
-                    .eq(
-                        "id",
-                        id
-                    )
-                    .single();
-
-            resource =
-                result.data;
-
-        }catch(error){
-
-            console.log(error);
-
-        }
-
-    }
-
 
     const url =
-        resource?.file_url ||
-        resource?.preview_url ||
-        resource?.download_url;
-
+        resource.downloadUrl ||
+        resource.fileUrl ||
+        resource.previewUrl;
 
     if(!url){
 
         showToast(
-            currentLanguage === "ar"
-            ? "لا يوجد ملف مرتبط بهذا المورد."
-            : currentLanguage === "fr"
-            ? "Aucun fichier associé."
-            : "No file is attached to this resource."
+            "لا يوجد ملف تحميل لهذا المورد حاليًا.",
+            "error"
         );
 
         return;
-
     }
 
-
-    if(
-        !/^https?:\/\//i.test(
-            url
-        )
-    ){
-
-        showToast(
-            currentLanguage === "ar"
-            ? "رابط الملف غير صالح."
-            : currentLanguage === "fr"
-            ? "Lien de fichier invalide."
-            : "Invalid file URL."
-        );
-
-        return;
-
-    }
-
-
-    await incrementResourceDownload(
-        id
+    incrementResourceDownload(
+        resource
     );
-
 
     window.open(
         url,
         "_blank",
-        "noopener,noreferrer"
+        "noopener"
     );
-
 }
 
+/* =========================================================
+   RESOURCE COUNTERS
+========================================================= */
+
+async function incrementResourceView(resource){
+
+    resource.views =
+        Number(resource.views || 0) + 1;
+
+    renderResources();
+
+    if(
+        !supabaseClient ||
+        !resource.raw?.id
+    ){
+        return;
+    }
+
+    try{
+
+        /*
+         * RPC إن كان موجودًا.
+         */
+        const result =
+            await supabaseClient
+            .rpc(
+                "increment_resource_view",
+                {
+                    resource_id:
+                        resource.raw.id
+                }
+            );
+
+        if(!result.error){
+            return;
+        }
+
+    }catch(e){}
+
+    /*
+     * لا نحاول الكتابة إلى عمود
+     * قد لا يكون موجودًا.
+     */
+}
+
+async function incrementResourceDownload(resource){
+
+    resource.downloads =
+        Number(resource.downloads || 0) + 1;
+
+    renderResources();
+
+    if(
+        !supabaseClient ||
+        !resource.raw?.id
+    ){
+        return;
+    }
+
+    try{
+
+        const result =
+            await supabaseClient
+            .rpc(
+                "increment_resource_download",
+                {
+                    resource_id:
+                        resource.raw.id
+                }
+            );
+
+        if(!result.error){
+            return;
+        }
+
+    }catch(e){}
+}
 
 /* =========================================================
    FAVORITES
 ========================================================= */
 
-function getFavorites(){
+function toggleFavorite(id){
 
-    try{
+    id = String(id);
 
-        return JSON.parse(
-            localStorage.getItem(
-                "hamou_favorites"
-            ) || "[]"
+    const index =
+        favorites.indexOf(id);
+
+    if(index >= 0){
+
+        favorites.splice(index,1);
+
+        showToast(
+            "تمت إزالة المورد من المفضلة.",
+            "success"
         );
-
-    }catch(error){
-
-        return [];
-
-    }
-
-}
-
-
-function saveFavorites(
-    favorites
-){
-
-    localStorage.setItem(
-        "hamou_favorites",
-        JSON.stringify(
-            favorites
-        )
-    );
-
-}
-
-
-function isFavorite(id){
-
-    return getFavorites()
-        .map(String)
-        .includes(
-            String(id)
-        );
-
-}
-
-
-async function toggleFavorite(
-    id
-){
-
-    let favorites =
-        getFavorites();
-
-
-    if(
-        isFavorite(id)
-    ){
-
-        favorites =
-            favorites.filter(
-                item =>
-                String(item) !==
-                String(id)
-            );
 
     }else{
 
         favorites.push(id);
 
+        showToast(
+            "❤️ تمت إضافة المورد للمفضلة.",
+            "success"
+        );
+
+        addXP(2);
     }
 
-
-    saveFavorites(
-        favorites
+    localStorage.setItem(
+        "hamou_favorites",
+        JSON.stringify(favorites)
     );
-
-
-    /*
-       Cloud favorite if user is logged in.
-    */
-
-    if(
-        currentUser &&
-        supabaseClient
-    ){
-
-        try{
-
-            await supabaseClient
-                .rpc(
-                    "toggle_library_favorite",
-                    {
-                        resource_id_input:id
-                    }
-                );
-
-        }catch(error){
-
-            console.log(
-                "Cloud favorite:",
-                error
-            );
-
-        }
-
-    }
-
 
     renderResources();
-
 }
-
 
 /* =========================================================
-   MODAL
-========================================================= */
-
-function openModal(){
-
-    const modal =
-        $("modal");
-
-    if(modal){
-
-        modal.classList.add(
-            "show"
-        );
-
-        document.body.style.overflow =
-            "hidden";
-
-    }
-
-}
-
-
-function closeModal(){
-
-    const modal =
-        $("modal");
-
-    if(modal){
-
-        modal.classList.remove(
-            "show"
-        );
-
-        document.body.style.overflow =
-            "";
-
-    }
-
-}
-
-
-function closeModalOutside(
-    event
-){
-
-    if(
-        event.target ===
-        $("modal")
-    ){
-
-        closeModal();
-
-    }
-
-}
-
-
-document.addEventListener(
-    "keydown",
-    function(event){
-
-        if(event.key === "Escape"){
-
-            closeModal();
-
-        }
-
-    }
-);
-
-
-/* =========================================================
-   QUIZ
-========================================================= */
-
-async function getQuizItems(
-    count
-){
-
-    if(!supabaseClient){
-
-        showToast(
-            "Supabase غير متصل"
-        );
-
-        return [];
-
-    }
-
-
-    try{
-
-        const result =
-            await supabaseClient
-                .from(
-                    "math_resources"
-                )
-                .select(`
-                    id,
-                    title,
-                    title_ar,
-                    question_ar,
-                    solution_ar,
-                    answer,
-                    level,
-                    subject,
-                    resource_type
-                `)
-                .not(
-                    "question_ar",
-                    "is",
-                    null
-                )
-                .limit(100);
-
-
-        if(result.error){
-
-            throw result.error;
-
-        }
-
-
-        let list =
-            result.data || [];
-
-
-        list =
-            list.filter(
-                item =>
-                item.question_ar &&
-                item.answer !== null &&
-                item.answer !== undefined
-            );
-
-
-        list.sort(
-            () =>
-                Math.random() - .5
-        );
-
-
-        return list.slice(
-            0,
-            count
-        );
-
-    }catch(error){
-
-        console.log(error);
-
-        showToast(
-            currentLanguage === "ar"
-            ? "تعذر تحميل الأسئلة."
-            : currentLanguage === "fr"
-            ? "Impossible de charger les questions."
-            : "Unable to load questions."
-        );
-
-        return [];
-
-    }
-
-}
-
-
-async function startChallenge(
-    type
-){
-
-    if(type === "daily"){
-
-        const today =
-            new Date()
-                .toISOString()
-                .slice(0,10);
-
-
-        const key =
-            "hamou_daily_" +
-            today;
-
-
-        if(
-            localStorage.getItem(
-                key
-            )
-        ){
-
-            showToast(
-                currentLanguage === "ar"
-                ? "لقد أكملت تحدي اليوم بالفعل ✅"
-                : currentLanguage === "fr"
-                ? "Défi du jour déjà terminé ✅"
-                : "Today's challenge is already completed ✅"
-            );
-
-            return;
-
-        }
-
-    }
-
-
-    await startQuiz(
-        type
-    );
-
-}
-
-
-async function playGame(
-    type
-){
-
-    await startQuiz(
-        type
-    );
-
-}
-
-
-async function startQuiz(
-    type
-){
-
-    clearInterval(
-        quiz.timer
-    );
-
-
-    quiz = {
-
-        type:type,
-
-        items:[],
-
-        index:0,
-
-        score:0,
-
-        timeLeft:
-            type === "speed" ||
-            type === "timer"
-            ? 60
-            : 0,
-
-        timer:null,
-
-        locked:false
-
-    };
-
-
-    const count =
-        type === "daily"
-        ? 1
-        : 10;
-
-
-    quiz.items =
-        await getQuizItems(
-            count
-        );
-
-
-    if(!quiz.items.length){
-
-        return;
-
-    }
-
-
-    renderQuiz();
-
-    openModal();
-
-
-    if(
-        quiz.timeLeft > 0
-    ){
-
-        updateTimer();
-
-
-        quiz.timer =
-            setInterval(
-                function(){
-
-                    quiz.timeLeft--;
-
-                    updateTimer();
-
-
-                    if(
-                        quiz.timeLeft <= 0
-                    ){
-
-                        finishQuiz();
-
-                    }
-
-                },
-                1000
-            );
-
-    }
-
-}
-
-
-function renderQuiz(){
-
-    const item =
-        quiz.items[
-            quiz.index
-        ];
-
-
-    if(!item){
-
-        finishQuiz();
-
-        return;
-
-    }
-
-
-    $("modalContent").innerHTML = `
-
-        <h2>
-
-            ${
-                quiz.type === "daily"
-                ? (
-                    currentLanguage === "ar"
-                    ? "📅 تحدي اليوم"
-                    : currentLanguage === "fr"
-                    ? "📅 Défi du jour"
-                    : "📅 Daily Challenge"
-                )
-                : (
-                    currentLanguage === "ar"
-                    ? "🎯 تحدي رياضيات"
-                    : currentLanguage === "fr"
-                    ? "🎯 Défi mathématique"
-                    : "🎯 Math Challenge"
-                )
-            }
-
-        </h2>
-
-
-        <p class="muted">
-
-            ${
-                quiz.index + 1
-            }
-            /
-            ${
-                quiz.items.length
-            }
-
-            ${
-                quiz.timeLeft
-                ? `
-                —
-                <span class="timer"
-                      id="quizTimer">
-                    ${quiz.timeLeft}s
-                </span>
-                `
-                : ""
-            }
-
-        </p>
-
-
-        <div class="quiz-question">
-
-            ${escapeHTML(
-                item.question_ar
-            )}
-
-        </div>
-
-
-        <input
-            id="quizAnswer"
-            class="quiz-input"
-            type="text"
-            autocomplete="off"
-            placeholder="${
-                currentLanguage === "ar"
-                ? "اكتب إجابتك..."
-                : currentLanguage === "fr"
-                ? "Votre réponse..."
-                : "Your answer..."
-            }">
-
-
-        <div class="quiz-actions">
-
-            <button
-                class="btn primary"
-                onclick="submitQuizAnswer()">
-
-                ${
-                    currentLanguage === "ar"
-                    ? "تحقق"
-                    : currentLanguage === "fr"
-                    ? "Vérifier"
-                    : "Check"
-                }
-
-            </button>
-
-            <button
-                class="btn"
-                onclick="closeModal()">
-
-                ${
-                    currentLanguage === "ar"
-                    ? "إغلاق"
-                    : currentLanguage === "fr"
-                    ? "Fermer"
-                    : "Close"
-                }
-
-            </button>
-
-        </div>
-
-
-        <div id="quizResult"></div>
-
-    `;
-
-
-    setTimeout(
-        function(){
-
-            $("quizAnswer")
-                ?.focus();
-
-        },
-        50
-    );
-
-}
-
-
-function updateTimer(){
-
-    const timer =
-        $("quizTimer");
-
-    if(timer){
-
-        timer.textContent =
-            quiz.timeLeft +
-            "s";
-
-    }
-
-}
-
-
-async function submitQuizAnswer(){
-
-    if(quiz.locked){
-
-        return;
-
-    }
-
-
-    const input =
-        $("quizAnswer");
-
-    const resultBox =
-        $("quizResult");
-
-
-    if(!input ||
-       !resultBox){
-
-        return;
-
-    }
-
-
-    const userAnswer =
-        input.value
-            .trim()
-            .toLowerCase();
-
-
-    if(!userAnswer){
-
-        return;
-
-    }
-
-
-    const item =
-        quiz.items[
-            quiz.index
-        ];
-
-
-    const correct =
-        String(
-            item.answer ?? ""
-        )
-        .trim()
-        .toLowerCase();
-
-
-    quiz.locked = true;
-
-
-    if(
-        userAnswer === correct
-    ){
-
-        quiz.score++;
-
-        await addXP(10);
-
-
-        resultBox.innerHTML = `
-
-            <div class="result success-result">
-
-                ${
-                    currentLanguage === "ar"
-                    ? "صحيح! +10 XP 🎉"
-                    : currentLanguage === "fr"
-                    ? "Correct ! +10 XP 🎉"
-                    : "Correct! +10 XP 🎉"
-                }
-
-            </div>
-
-        `;
-
-    }else{
-
-        resultBox.innerHTML = `
-
-            <div class="result wrong-result">
-
-                ${
-                    currentLanguage === "ar"
-                    ? "إجابة غير صحيحة."
-                    : currentLanguage === "fr"
-                    ? "Réponse incorrecte."
-                    : "Incorrect answer."
-                }
-
-                ${
-                    item.solution_ar
-                    ? `
-                    <br><br>
-                    <strong>
-                        ${
-                            currentLanguage === "ar"
-                            ? "الحل:"
-                            : currentLanguage === "fr"
-                            ? "Solution:"
-                            : "Solution:"
-                        }
-                    </strong>
-
-                    <div>
-                        ${escapeHTML(
-                            item.solution_ar
-                        )}
-                    </div>
-                    `
-                    : ""
-                }
-
-            </div>
-
-        `;
-
-    }
-
-
-    setTimeout(
-        function(){
-
-            quiz.index++;
-
-            quiz.locked = false;
-
-            renderQuiz();
-
-        },
-        850
-    );
-
-}
-
-
-function finishQuiz(){
-
-    clearInterval(
-        quiz.timer
-    );
-
-
-    const total =
-        quiz.items.length;
-
-
-    const score =
-        quiz.score;
-
-
-    if(
-        quiz.type === "daily"
-    ){
-
-        const today =
-            new Date()
-                .toISOString()
-                .slice(0,10);
-
-
-        localStorage.setItem(
-            "hamou_daily_" + today,
-            "1"
-        );
-
-    }
-
-
-    $("modalContent").innerHTML = `
-
-        <h2>
-
-            🏆 ${
-                currentLanguage === "ar"
-                ? "انتهى التحدي"
-                : currentLanguage === "fr"
-                ? "Défi terminé"
-                : "Challenge Complete"
-            }
-
-        </h2>
-
-
-        <div class="quiz-question"
-             style="text-align:center">
-
-            <strong>
-                ${score}
-            </strong>
-
-            /
-
-            ${total}
-
-            <br>
-
-            ${
-                currentLanguage === "ar"
-                ? "إجابات صحيحة"
-                : currentLanguage === "fr"
-                ? "bonnes réponses"
-                : "correct answers"
-            }
-
-        </div>
-
-
-        <button
-            class="btn primary"
-            onclick="closeModal()">
-
-            ${
-                currentLanguage === "ar"
-                ? "إغلاق"
-                : currentLanguage === "fr"
-                ? "Fermer"
-                : "Close"
-            }
-
-        </button>
-
-    `;
-
-}
-
-
-function openProgress(){
-
-    const level =
-        Math.floor(
-            localXP / 100
-        ) + 1;
-
-
-    $("modalContent").innerHTML = `
-
-        <h2>
-
-            🏆 ${
-                currentLanguage === "ar"
-                ? "تقدمي"
-                : currentLanguage === "fr"
-                ? "Ma progression"
-                : "My Progress"
-            }
-
-        </h2>
-
-
-        <div class="quiz-question">
-
-            <strong>
-                ${formatNumber(localXP)} XP
-            </strong>
-
-            <br>
-
-            ${
-                currentLanguage === "ar"
-                ? "المستوى"
-                : currentLanguage === "fr"
-                ? "Niveau"
-                : "Level"
-            }
-
-            ${level}
-
-        </div>
-
-
-        <button
-            class="btn primary"
-            onclick="closeModal()">
-
-            ${
-                currentLanguage === "ar"
-                ? "إغلاق"
-                : currentLanguage === "fr"
-                ? "Fermer"
-                : "Close"
-            }
-
-        </button>
-
-    `;
-
-
-    openModal();
-
-}
-
-
-/* =========================================================
-   LOGIN
-========================================================= */
-
-function openLogin(){
-
-    if(currentUser){
-
-        $("modalContent").innerHTML = `
-
-            <h2>
-                👤 ${
-                    currentLanguage === "ar"
-                    ? "حسابي"
-                    : currentLanguage === "fr"
-                    ? "Mon compte"
-                    : "My Account"
-                }
-            </h2>
-
-            <p class="muted"
-               style="margin-top:12px">
-
-                ${escapeHTML(
-                    currentUser.email || ""
-                )}
-
-            </p>
-
-            <div class="quiz-question">
-
-                ${formatNumber(localXP)}
-                XP
-
-            </div>
-
-            <button
-                class="btn danger"
-                onclick="signOut()">
-
-                ${
-                    currentLanguage === "ar"
-                    ? "تسجيل الخروج"
-                    : currentLanguage === "fr"
-                    ? "Déconnexion"
-                    : "Sign Out"
-                }
-
-            </button>
-
-        `;
-
-        openModal();
-
-        return;
-
-    }
-
-
-    $("modalContent").innerHTML = `
-
-        <h2>
-
-            ${
-                currentLanguage === "ar"
-                ? "تسجيل الدخول"
-                : currentLanguage === "fr"
-                ? "Connexion"
-                : "Login"
-            }
-
-        </h2>
-
-
-        <input
-            id="loginEmail"
-            class="quiz-input"
-            type="email"
-            placeholder="Email">
-
-
-        <input
-            id="loginPassword"
-            class="quiz-input"
-            type="password"
-            placeholder="${
-                currentLanguage === "ar"
-                ? "كلمة المرور"
-                : currentLanguage === "fr"
-                ? "Mot de passe"
-                : "Password"
-            }">
-
-
-        <div class="quiz-actions">
-
-            <button
-                class="btn primary"
-                onclick="signIn()">
-
-                ${
-                    currentLanguage === "ar"
-                    ? "دخول"
-                    : currentLanguage === "fr"
-                    ? "Connexion"
-                    : "Login"
-                }
-
-            </button>
-
-
-            <button
-                class="btn"
-                onclick="signUp()">
-
-                ${
-                    currentLanguage === "ar"
-                    ? "إنشاء حساب"
-                    : currentLanguage === "fr"
-                    ? "Créer un compte"
-                    : "Create Account"
-                }
-
-            </button>
-
-        </div>
-
-
-        <div id="loginResult"></div>
-
-    `;
-
-
-    openModal();
-
-}
-
-
-async function signIn(){
-
-    if(!supabaseClient){
-
-        return;
-
-    }
-
-
-    const email =
-        $("loginEmail")
-        ?.value
-        .trim();
-
-
-    const password =
-        $("loginPassword")
-        ?.value;
-
-
-    const resultBox =
-        $("loginResult");
-
-
-    if(
-        !email ||
-        !password
-    ){
-
-        if(resultBox){
-
-            resultBox.innerHTML = `
-
-                <div class="result wrong-result">
-
-                    ${
-                        currentLanguage === "ar"
-                        ? "أدخل البريد الإلكتروني وكلمة المرور."
-                        : currentLanguage === "fr"
-                        ? "Entrez l'email et le mot de passe."
-                        : "Enter email and password."
-                    }
-
-                </div>
-
-            `;
-
-        }
-
-        return;
-
-    }
-
-
-    try{
-
-        const result =
-            await supabaseClient
-                .auth
-                .signInWithPassword({
-                    email,
-                    password
-                });
-
-
-        if(result.error){
-
-            throw result.error;
-
-        }
-
-
-        currentUser =
-            result.data.user;
-
-
-        await loadCloudXP();
-
-        updateUserUI();
-
-        closeModal();
-
-        showToast(
-            currentLanguage === "ar"
-            ? "تم تسجيل الدخول بنجاح ✅"
-            : currentLanguage === "fr"
-            ? "Connexion réussie ✅"
-            : "Successfully logged in ✅"
-        );
-
-    }catch(error){
-
-        if(resultBox){
-
-            resultBox.innerHTML = `
-
-                <div class="result wrong-result">
-
-                    ${escapeHTML(
-                        error.message ||
-                        "Login error"
-                    )}
-
-                </div>
-
-            `;
-
-        }
-
-    }
-
-}
-
-
-async function signUp(){
-
-    if(!supabaseClient){
-
-        return;
-
-    }
-
-
-    const email =
-        $("loginEmail")
-        ?.value
-        .trim();
-
-
-    const password =
-        $("loginPassword")
-        ?.value;
-
-
-    const resultBox =
-        $("loginResult");
-
-
-    if(
-        !email ||
-        !password
-    ){
-
-        return;
-
-    }
-
-
-    try{
-
-        const result =
-            await supabaseClient
-                .auth
-                .signUp({
-                    email,
-                    password
-                });
-
-
-        if(result.error){
-
-            throw result.error;
-
-        }
-
-
-        if(resultBox){
-
-            resultBox.innerHTML = `
-
-                <div class="result success-result">
-
-                    ${
-                        currentLanguage === "ar"
-                        ? "تم إنشاء الحساب. تحقق من بريدك الإلكتروني إذا كان تأكيد البريد مفعلاً."
-                        : currentLanguage === "fr"
-                        ? "Compte créé. Vérifiez votre email si la confirmation est activée."
-                        : "Account created. Check your email if confirmation is enabled."
-                    }
-
-                </div>
-
-            `;
-
-        }
-
-    }catch(error){
-
-        if(resultBox){
-
-            resultBox.innerHTML = `
-
-                <div class="result wrong-result">
-
-                    ${escapeHTML(
-                        error.message ||
-                        "Sign up error"
-                    )}
-
-                </div>
-
-            `;
-
-        }
-
-    }
-
-}
-
-
-async function signOut(){
-
-    if(supabaseClient){
-
-        try{
-
-            await supabaseClient
-                .auth
-                .signOut();
-
-        }catch(error){
-
-            console.log(error);
-
-        }
-
-    }
-
-
-    currentUser = null;
-
-    updateUserUI();
-
-    closeModal();
-
-
-    showToast(
-        currentLanguage === "ar"
-        ? "تم تسجيل الخروج."
-        : currentLanguage === "fr"
-        ? "Déconnexion réussie."
-        : "Signed out."
-    );
-
-}
-
-
-/* =========================================================
-   STATISTICS
+   GLOBAL STATS
 ========================================================= */
 
 async function loadGlobalStats(){
 
-    if(!supabaseClient){
-
+    if(!supabaseClient)
         return;
 
+    try{
+
+        const {
+            data,
+            error
+        } =
+            await supabaseClient
+            .from("global_library_stats")
+            .select("*")
+            .maybeSingle();
+
+        if(
+            !error &&
+            data
+        ){
+
+            document.getElementById(
+                "statResources"
+            ).textContent =
+                formatNumber(
+                    data.total_resources ?? 0
+                );
+
+            document.getElementById(
+                "statExercises"
+            ).textContent =
+                formatNumber(
+                    data.total_exercises ?? 0
+                );
+
+            document.getElementById(
+                "statCountries"
+            ).textContent =
+                formatNumber(
+                    data.total_countries ?? 0
+                );
+
+            return;
+        }
+
+    }catch(error){
+
+        console.warn(error);
     }
 
+    /*
+     * fallback آمن
+     */
 
     try{
 
         const result =
             await supabaseClient
-                .from(
-                    "global_library_stats"
-                )
-                .select("*")
-                .maybeSingle();
+            .from("math_resources")
+            .select("id",{
+                count:"exact",
+                head:true
+            });
 
+        if(!result.error){
 
-        if(
-            result.error ||
-            !result.data
-        ){
-
-            return;
-
-        }
-
-
-        const stats =
-            result.data;
-
-
-        if($("statResources")){
-
-            $("statResources").textContent =
+            document.getElementById(
+                "statResources"
+            ).textContent =
                 formatNumber(
-                    stats.total_resources
+                    result.count || 0
                 );
-
         }
 
-
-        if($("statExercises")){
-
-            $("statExercises").textContent =
-                formatNumber(
-                    stats.total_exercises
-                );
-
-        }
-
-
-        if($("statCountries")){
-
-            $("statCountries").textContent =
-                formatNumber(
-                    stats.total_countries
-                );
-
-        }
-
-    }catch(error){
-
-        console.log(
-            "Stats error:",
-            error
-        );
-
-    }
-
+    }catch(e){}
 }
 
-
 /* =========================================================
-   AUTH STATE
+   GAMES
 ========================================================= */
 
-function listenAuth(){
+let gameLocked = false;
 
-    if(
-        !supabaseClient
-    ){
+function startGame(type){
 
+    gameLocked = false;
+
+    const game =
+        generateGame(type);
+
+    document.getElementById(
+        "gameContent"
+    ).innerHTML = `
+
+        <div class="modal-title">
+            ${game.icon} ${game.title}
+        </div>
+
+        <p style="margin-bottom:18px;color:var(--muted)">
+            ${game.question}
+        </p>
+
+        <div class="form-group">
+            <label>إجابتك</label>
+
+            <input
+                id="gameAnswer"
+                class="form-control"
+                type="text"
+                inputmode="decimal"
+                autocomplete="off"
+                placeholder="اكتب الإجابة">
+        </div>
+
+        <button
+            class="btn btn-primary"
+            style="width:100%"
+            onclick='checkGameAnswer(${JSON.stringify(game.answer)})'>
+            تحقق
+        </button>
+
+        <div id="gameResult"
+             style="margin-top:15px">
+        </div>
+    `;
+
+    openModal("gameModal");
+
+    setTimeout(()=>{
+        document
+        .getElementById("gameAnswer")
+        ?.focus();
+    },100);
+}
+
+function generateGame(type){
+
+    if(type === "sequence"){
+
+        const start =
+            Math.floor(Math.random()*10)+2;
+
+        const diff =
+            Math.floor(Math.random()*8)+2;
+
+        const a =
+            start;
+
+        const b =
+            a + diff;
+
+        const c =
+            b + diff;
+
+        const d =
+            c + diff;
+
+        const answer =
+            d + diff;
+
+        return {
+            icon:"🔢",
+            title:"أكمل المتتالية",
+            question:
+                `${a} ، ${b} ، ${c} ، ${d} ، ؟`,
+            answer
+        };
+    }
+
+    if(type === "geometry"){
+
+        const side =
+            Math.floor(Math.random()*8)+2;
+
+        return {
+            icon:"📐",
+            title:"الهندسة الذكية",
+            question:
+                `مربع طول ضلعه ${side} سم. ما محيطه؟`,
+            answer:side*4
+        };
+    }
+
+    const a =
+        Math.floor(Math.random()*30)+1;
+
+    const b =
+        Math.floor(Math.random()*30)+1;
+
+    return {
+        icon:"➕",
+        title:"سباق الحساب",
+        question:
+            `احسب: ${a} + ${b}`,
+        answer:a+b
+    };
+}
+
+async function checkGameAnswer(correct){
+
+    if(gameLocked)
         return;
 
-    }
-
-
-    supabaseClient
-        .auth
-        .onAuthStateChange(
-            function(
-                event,
-                session
-            ){
-
-                currentUser =
-                    session?.user || null;
-
-                updateUserUI();
-
-            }
+    const input =
+        document.getElementById(
+            "gameAnswer"
         );
 
+    const result =
+        document.getElementById(
+            "gameResult"
+        );
+
+    const value =
+        input.value.trim();
+
+    if(!value){
+
+        result.innerHTML =
+            `<p style="color:var(--danger)">
+                أدخل إجابتك أولًا.
+             </p>`;
+
+        return;
+    }
+
+    const numeric =
+        Number(value);
+
+    gameLocked = true;
+
+    if(
+        !Number.isNaN(numeric) &&
+        numeric === Number(correct)
+    ){
+
+        result.innerHTML =
+            `<div class="card"
+                  style="border-color:var(--success)">
+                <strong style="color:var(--success)">
+                    🎉 إجابة صحيحة!
+                </strong>
+                <p style="margin-top:5px">
+                    أحسنت! حصلت على 10 XP.
+                </p>
+             </div>`;
+
+        await addXP(10);
+
+    }else{
+
+        result.innerHTML =
+            `<div class="card"
+                  style="border-color:var(--danger)">
+                <strong style="color:var(--danger)">
+                    ❌ إجابة غير صحيحة
+                </strong>
+                <p style="margin-top:5px">
+                    حاول مرة أخرى في تحدٍ جديد.
+                </p>
+             </div>`;
+    }
 }
 
-
 /* =========================================================
-   INITIALIZE
+   CHALLENGES
 ========================================================= */
 
-async function initialize(){
+function startSpeedChallenge(){
+
+    const a =
+        Math.floor(Math.random()*50)+1;
+
+    const b =
+        Math.floor(Math.random()*50)+1;
+
+    showChallenge(
+        "⚡ تحدي السرعة",
+        `احسب بسرعة: ${a} + ${b}`,
+        a+b
+    );
+}
+
+function startPuzzle(){
+
+    const n =
+        Math.floor(Math.random()*10)+2;
+
+    showChallenge(
+        "🧩 لغز رياضي",
+        `إذا كان 3 × ${n} = ؟`,
+        3*n
+    );
+}
+
+function startDailyChallenge(){
+
+    const today =
+        new Date()
+        .toISOString()
+        .slice(0,10);
+
+    const saved =
+        localStorage.getItem(
+            "hamou_daily_" + today
+        );
+
+    if(saved){
+
+        showToast(
+            "لقد أكملت تحدي اليوم بالفعل 🏆",
+            "success"
+        );
+
+        return;
+    }
+
+    const a =
+        new Date().getDate();
+
+    const b =
+        new Date().getMonth()+1;
+
+    showChallenge(
+        "🏆 تحدي اليوم",
+        `احسب: ${a} × ${b}`,
+        a*b,
+        true
+    );
+}
+
+function showChallenge(
+    title,
+    question,
+    answer,
+    daily=false
+){
+
+    gameLocked = false;
+
+    document.getElementById(
+        "gameContent"
+    ).innerHTML = `
+
+        <div class="modal-title">
+            ${title}
+        </div>
+
+        <p style="margin-bottom:18px">
+            ${question}
+        </p>
+
+        <input
+            id="gameAnswer"
+            class="form-control"
+            type="text"
+            inputmode="decimal"
+            placeholder="الإجابة">
+
+        <button
+            class="btn btn-primary"
+            style="width:100%;margin-top:12px"
+            onclick='checkChallengeAnswer(${JSON.stringify(answer)},${daily})'>
+            تحقق
+        </button>
+
+        <div id="gameResult"
+             style="margin-top:15px">
+        </div>
+    `;
+
+    openModal("gameModal");
+}
+
+async function checkChallengeAnswer(
+    correct,
+    daily=false
+){
+
+    if(gameLocked)
+        return;
+
+    const input =
+        document.getElementById(
+            "gameAnswer"
+        );
+
+    const result =
+        document.getElementById(
+            "gameResult"
+        );
+
+    const value =
+        Number(input.value);
+
+    gameLocked = true;
+
+    if(
+        !Number.isNaN(value) &&
+        value === Number(correct)
+    ){
+
+        result.innerHTML =
+            `<p style="color:var(--success);font-weight:900">
+                🎉 إجابة صحيحة!
+             </p>`;
+
+        if(daily){
+
+            const today =
+                new Date()
+                .toISOString()
+                .slice(0,10);
+
+            localStorage.setItem(
+                "hamou_daily_" + today,
+                "1"
+            );
+        }
+
+        await addXP(
+            daily ? 25 : 10
+        );
+
+    }else{
+
+        result.innerHTML =
+            `<p style="color:var(--danger);font-weight:900">
+                ❌ إجابة غير صحيحة.
+             </p>`;
+    }
+}
+
+/* =========================================================
+   UTILITIES
+========================================================= */
+
+function formatNumber(value){
+
+    const n =
+        Number(value || 0);
+
+    try{
+
+        return n.toLocaleString(
+            currentLanguage === "ar"
+            ? "ar-DZ"
+            : currentLanguage
+        );
+
+    }catch(e){
+
+        return String(n);
+    }
+}
+
+function escapeHTML(value){
+
+    return String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+}
+
+function escapeJS(value){
+
+    return String(value ?? "")
+    .replace(/\\/g,"\\\\")
+    .replace(/'/g,"\\'")
+    .replace(/\n/g,"\\n")
+    .replace(/\r/g,"\\r");
+}
+
+function escapeAttribute(value){
+
+    return String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/"/g,"&quot;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;");
+}
+
+/* =========================================================
+   SEARCH ENTER
+========================================================= */
+
+document
+.getElementById("librarySearch")
+.addEventListener(
+    "keydown",
+    function(e){
+
+        if(e.key === "Enter"){
+
+            searchResources();
+        }
+    }
+);
+
+/* =========================================================
+   INITIALIZATION
+========================================================= */
+
+async function init(){
+
+    document.getElementById(
+        "year"
+    ).textContent =
+        new Date().getFullYear();
 
     applyTheme();
 
-    applyLanguage();
+    changeLanguage(
+        currentLanguage
+    );
 
-    updateXP();
+    updateXPUI();
 
-    updateUserUI();
-
-    await loadUser();
+    await initAuth();
 
     await loadGlobalStats();
 
-    await loadResources(true);
-
-    listenAuth();
-
+    await loadResources();
 }
 
-
-/* =========================================================
-   START
-========================================================= */
-
-document.addEventListener(
-    "DOMContentLoaded",
-    initialize
-);
+init();
 
 </script>
 
 </body>
-
 </html>
