@@ -2,2024 +2,998 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>HAMOU MATH | منصة الرياضيات العالمية</title>
-
-<meta name="description"
-content="HAMOU MATH منصة تعليمية عالمية للرياضيات تضم الدروس والتمارين والاختبارات والتحديات والألعاب التعليمية.">
-
-<meta name="theme-color" content="#0b1220">
+<title>HAMOU MATH | سلسلة حمو في الرياضيات</title>
 
 <style>
-*,
-*::before,
-*::after{
-  box-sizing:border-box;
+
+:root{
+    --primary:#2563eb;
+    --primary-dark:#1d4ed8;
+    --dark:#0f172a;
+    --text:#1e293b;
+    --muted:#64748b;
+    --bg:#f8fafc;
+    --white:#ffffff;
+    --border:#e2e8f0;
+    --success:#16a34a;
+    --danger:#dc2626;
+    --warning:#f59e0b;
+}
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
 }
 
 html{
-  width:100%;
-  max-width:100%;
-  scroll-behavior:smooth;
-  overflow-x:hidden;
+    scroll-behavior:smooth;
 }
 
 body{
-  margin:0;
-  width:100%;
-  max-width:100%;
-  min-height:100vh;
-  overflow-x:hidden;
-  font-family:Arial,"Segoe UI",Tahoma,sans-serif;
-  background:#f5f7fb;
-  color:#172033;
-  line-height:1.6;
+    font-family:Arial,Tahoma,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    line-height:1.7;
 }
 
-body,button,input,select,textarea{
-  font-family:inherit;
-}
-
-img{
-  max-width:100%;
+button,
+input,
+select{
+    font:inherit;
 }
 
 button{
-  cursor:pointer;
-}
-
-a{
-  color:inherit;
-  text-decoration:none;
+    cursor:pointer;
 }
 
 .container{
-  width:100%;
-  max-width:1200px;
-  margin:auto;
-  padding:0 20px;
+    width:min(1180px,92%);
+    margin:auto;
 }
 
 /* HEADER */
 
 .header{
-  position:sticky;
-  top:0;
-  z-index:1000;
-  background:rgba(11,18,32,.96);
-  backdrop-filter:blur(14px);
-  box-shadow:0 4px 20px rgba(0,0,0,.12);
+    position:sticky;
+    top:0;
+    z-index:100;
+    background:rgba(255,255,255,.96);
+    border-bottom:1px solid var(--border);
 }
 
-.nav{
-  min-height:72px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:15px;
+.header .container{
+    min-height:70px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
 }
 
 .logo{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  color:white;
-  font-size:23px;
-  font-weight:900;
-  white-space:nowrap;
+    text-decoration:none;
+    color:var(--primary);
+    font-size:25px;
+    font-weight:900;
+    white-space:nowrap;
 }
 
-.logo-icon{
-  width:42px;
-  height:42px;
-  border-radius:13px;
-  display:grid;
-  place-items:center;
-  background:linear-gradient(135deg,#6366f1,#06b6d4);
-  color:white;
-  box-shadow:0 8px 25px rgba(99,102,241,.35);
+.nav{
+    display:flex;
+    align-items:center;
+    gap:20px;
 }
 
 .nav-links{
-  display:flex;
-  align-items:center;
-  gap:4px;
+    display:flex;
+    align-items:center;
+    gap:18px;
 }
 
 .nav-links a{
-  color:#dce4f3;
-  padding:9px 12px;
-  border-radius:10px;
-  font-size:14px;
-  transition:.2s;
+    text-decoration:none;
+    color:var(--text);
+    font-weight:700;
 }
 
 .nav-links a:hover{
-  background:rgba(255,255,255,.08);
-  color:white;
+    color:var(--primary);
 }
 
 .nav-actions{
-  display:flex;
-  align-items:center;
-  gap:5px;
+    display:flex;
+    gap:6px;
+    align-items:center;
 }
 
-.lang-btn{
-  min-width:38px;
-  border:1px solid rgba(255,255,255,.12);
-  background:transparent;
-  color:#cbd5e1;
-  padding:7px 8px;
-  border-radius:9px;
-  font-size:11px;
-  font-weight:800;
+.nav-actions button{
+    border:1px solid var(--border);
+    background:white;
+    border-radius:10px;
+    padding:8px 11px;
 }
 
-.lang-btn.active{
-  background:#6366f1;
-  color:white;
+/* BUTTONS */
+
+.btn{
+    border:1px solid var(--border);
+    background:white;
+    color:var(--text);
+    padding:10px 16px;
+    border-radius:11px;
+    font-weight:700;
+    transition:.2s;
 }
 
-.login-btn{
-  border:0;
-  background:#fff;
-  color:#172033;
-  padding:9px 13px;
-  border-radius:10px;
-  font-weight:800;
+.btn:hover{
+    transform:translateY(-1px);
 }
 
-.menu-btn{
-  display:none;
-  border:0;
-  background:#1e293b;
-  color:white;
-  font-size:22px;
-  border-radius:9px;
-  padding:6px 10px;
+.btn.primary{
+    background:var(--primary);
+    border-color:var(--primary);
+    color:white;
 }
 
-/* USER */
-
-.user-bar{
-  display:none;
-  background:#111827;
-  color:white;
-}
-
-.user-bar.show{
-  display:block;
-}
-
-.user-bar-content{
-  min-height:50px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-}
-
-.user-info{
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
-
-.avatar{
-  width:34px;
-  height:34px;
-  display:grid;
-  place-items:center;
-  background:#6366f1;
-  border-radius:50%;
-  font-weight:900;
-}
-
-.user-name{
-  font-weight:800;
-}
-
-.user-xp{
-  font-weight:900;
+.btn.primary:hover{
+    background:var(--primary-dark);
 }
 
 /* HERO */
 
 .hero{
-  background:
-    radial-gradient(circle at 10% 20%,rgba(99,102,241,.25),transparent 30%),
-    linear-gradient(135deg,#0b1220,#111c35);
-  color:white;
+    padding:80px 0;
+    background:linear-gradient(135deg,#eff6ff,#ffffff);
 }
 
 .hero-content{
-  min-height:570px;
-  display:grid;
-  grid-template-columns:1.1fr .9fr;
-  align-items:center;
-  gap:50px;
-}
-
-.badge{
-  display:inline-flex;
-  gap:7px;
-  align-items:center;
-  padding:7px 12px;
-  background:rgba(99,102,241,.16);
-  border:1px solid rgba(129,140,248,.3);
-  border-radius:30px;
-  color:#c7d2fe;
-  font-size:13px;
-  font-weight:800;
+    max-width:800px;
 }
 
 .hero h1{
-  font-size:58px;
-  line-height:1.15;
-  margin:20px 0 18px;
+    font-size:clamp(36px,6vw,64px);
+    line-height:1.2;
+    margin-bottom:18px;
 }
 
-.hero-description{
-  max-width:650px;
-  color:#cbd5e1;
-  font-size:18px;
-}
-
-.hero-buttons{
-  display:flex;
-  gap:12px;
-  margin-top:28px;
-}
-
-.btn{
-  border:0;
-  border-radius:11px;
-  padding:11px 17px;
-  font-weight:800;
-  font-size:14px;
-}
-
-.btn-primary{
-  background:#6366f1;
-  color:white;
-}
-
-.btn-primary:hover{
-  background:#4f46e5;
-}
-
-.btn-secondary{
-  background:#fff;
-  color:#172033;
-}
-
-.hero-card{
-  padding:22px;
-  border-radius:25px;
-  background:rgba(255,255,255,.07);
-  border:1px solid rgba(255,255,255,.12);
-  box-shadow:0 25px 70px rgba(0,0,0,.25);
-}
-
-.math-display{
-  min-height:300px;
-  display:grid;
-  place-items:center;
-  text-align:center;
-  font-size:58px;
-  font-weight:900;
-  color:white;
+.hero p{
+    color:var(--muted);
+    font-size:20px;
+    margin-bottom:25px;
 }
 
 /* STATS */
 
 .stats{
-  background:white;
-  box-shadow:0 5px 20px rgba(0,0,0,.05);
-}
-
-.stats-grid{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px;
+    padding:25px 0;
 }
 
 .stat{
-  text-align:center;
-  padding:28px 10px;
-  border-left:1px solid #eef2f7;
-}
-
-.stat:last-child{
-  border-left:0;
+    background:white;
+    border:1px solid var(--border);
+    border-radius:18px;
+    padding:20px;
+    text-align:center;
 }
 
 .stat strong{
-  display:block;
-  font-size:31px;
-  color:#4f46e5;
+    display:block;
+    color:var(--primary);
+    font-size:32px;
 }
 
-.stat span{
-  color:#64748b;
-  font-size:14px;
-  font-weight:700;
+/* USER BAR */
+
+.user-bar{
+    background:white;
+    border:1px solid var(--border);
+    border-radius:18px;
+    padding:18px;
+    display:flex;
+    align-items:center;
+    gap:20px;
+    margin-bottom:30px;
+}
+
+.user-info{
+    min-width:180px;
+}
+
+.xp-box{
+    flex:1;
+}
+
+.xp-top{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:7px;
+    font-size:14px;
+}
+
+.xp-track{
+    height:11px;
+    background:#e2e8f0;
+    border-radius:50px;
+    overflow:hidden;
+}
+
+.xp-fill{
+    height:100%;
+    width:0%;
+    background:var(--primary);
+    transition:.4s;
 }
 
 /* SECTIONS */
 
 .section{
-  padding:75px 0;
+    padding:50px 0;
 }
 
-.section-header{
-  text-align:center;
-  max-width:750px;
-  margin:0 auto 35px;
-}
-
-.section-header h2{
-  font-size:34px;
-  margin:0 0 10px;
-}
-
-.section-header p{
-  color:#64748b;
+.section h2{
+    font-size:32px;
+    margin-bottom:25px;
 }
 
 /* CARDS */
 
+.cards,
+.challenge-grid,
+.resource-grid{
+    display:grid;
+    gap:18px;
+}
+
 .cards{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:20px;
+    grid-template-columns:repeat(3,1fr);
 }
-
-.card{
-  background:white;
-  border:1px solid #e7ebf2;
-  border-radius:18px;
-  padding:25px;
-  box-shadow:0 10px 30px rgba(15,23,42,.05);
-}
-
-.card-icon{
-  font-size:35px;
-  margin-bottom:10px;
-}
-
-.card h3{
-  margin:0 0 8px;
-}
-
-.card p{
-  color:#64748b;
-}
-
-/* CHALLENGES */
 
 .challenge-grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:20px;
-}
-
-.challenge{
-  background:white;
-  padding:25px;
-  border-radius:18px;
-  border:1px solid #e7ebf2;
-  box-shadow:0 10px 30px rgba(15,23,42,.05);
-}
-
-.challenge h3{
-  margin-top:0;
-}
-
-.challenge p{
-  color:#64748b;
-}
-
-.xp{
-  display:inline-block;
-  margin-top:5px;
-  padding:5px 10px;
-  border-radius:8px;
-  background:#ecfdf5;
-  color:#059669;
-  font-weight:900;
-  font-size:13px;
-}
-
-/* LIBRARY */
-
-.library{
-  background:#f8fafc;
-}
-
-.library-tools{
-  display:grid;
-  grid-template-columns:2fr repeat(5,1fr);
-  gap:10px;
-  margin-bottom:15px;
-}
-
-.library-tools input,
-.library-tools select{
-  width:100%;
-  min-height:44px;
-  border:1px solid #dbe2ec;
-  background:white;
-  color:#334155;
-  border-radius:11px;
-  padding:9px 11px;
-  outline:none;
-  font-size:14px;
-}
-
-.library-tools input:focus,
-.library-tools select:focus{
-  border-color:#6366f1;
-  box-shadow:0 0 0 3px rgba(99,102,241,.1);
-}
-
-.filters{
-  display:flex;
-  flex-wrap:wrap;
-  gap:8px;
-  margin-bottom:20px;
-}
-
-.filter-btn{
-  border:1px solid #dbe2ec;
-  background:white;
-  color:#475569;
-  border-radius:10px;
-  padding:9px 14px;
-  font-weight:800;
-}
-
-.filter-btn.active{
-  background:#4f46e5;
-  color:white;
-  border-color:#4f46e5;
+    grid-template-columns:repeat(3,1fr);
 }
 
 .resource-grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:18px;
+    grid-template-columns:repeat(3,1fr);
 }
+
+.card,
+.challenge,
+.resource{
+    background:white;
+    border:1px solid var(--border);
+    border-radius:18px;
+    padding:22px;
+    box-shadow:0 5px 20px rgba(15,23,42,.04);
+}
+
+.card h3,
+.challenge h3,
+.resource h3{
+    margin-bottom:10px;
+}
+
+.muted{
+    color:var(--muted);
+}
+
+/* FILTERS */
+
+.filters{
+    display:flex;
+    flex-wrap:wrap;
+    gap:9px;
+    margin-bottom:20px;
+}
+
+.filters input,
+.filters select{
+    border:1px solid var(--border);
+    background:white;
+    border-radius:10px;
+    padding:11px 13px;
+    outline:none;
+}
+
+.filters input{
+    flex:1;
+    min-width:220px;
+}
+
+/* RESOURCE */
 
 .resource{
-  background:white;
-  border:1px solid #e5eaf1;
-  border-radius:16px;
-  padding:18px;
-  box-shadow:0 8px 25px rgba(15,23,42,.05);
+    cursor:pointer;
+    transition:.2s;
 }
 
-.resource small{
-  color:#6366f1;
-  font-weight:900;
+.resource:hover{
+    transform:translateY(-3px);
+    border-color:#bfdbfe;
 }
 
-.resource h3{
-  margin:7px 0;
+.tag{
+    display:inline-block;
+    background:#eff6ff;
+    color:var(--primary);
+    border-radius:50px;
+    padding:4px 9px;
+    font-size:12px;
+    margin:2px;
 }
 
-.resource p{
-  color:#64748b;
-  font-size:14px;
-}
-
-.resource-meta{
-  display:flex;
-  flex-wrap:wrap;
-  gap:6px;
-  margin:10px 0;
-}
-
-.resource-meta span{
-  padding:4px 8px;
-  border-radius:8px;
-  background:#f1f5f9;
-  color:#475569;
-  font-size:11px;
-}
-
-.resource-footer{
-  display:flex;
-  gap:8px;
-  margin-top:14px;
-}
-
-.resource-open-btn{
-  width:100%;
-  border:0;
-  border-radius:10px;
-  padding:10px 12px;
-  color:white;
-  background:#4f46e5;
-  font-weight:800;
-}
-
-.library-loading,
-.library-empty{
-  grid-column:1/-1;
-  text-align:center;
-  padding:45px 15px;
-  color:#64748b;
-  font-weight:800;
-}
-
-.library-pagination{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:10px;
-  flex-wrap:wrap;
-  margin-top:25px;
-}
-
-.library-pagination button{
-  border:0;
-  border-radius:10px;
-  padding:9px 14px;
-  background:#4f46e5;
-  color:white;
-  font-weight:800;
-}
-
-.library-pagination button:disabled{
-  opacity:.4;
-}
-
-.library-page-info{
-  font-weight:800;
-  color:#475569;
-}
-
-/* EXERCISE MODAL */
-
-.exercise-modal{
-  position:fixed;
-  inset:0;
-  z-index:99999;
-  display:none;
-  align-items:center;
-  justify-content:center;
-  padding:12px;
-  background:rgba(2,6,23,.72);
-  backdrop-filter:blur(5px);
-}
-
-.exercise-modal.active{
-  display:flex;
-}
-
-.exercise-box{
-  position:relative;
-  width:min(760px,100%);
-  max-height:92vh;
-  overflow:auto;
-  background:white;
-  color:#172033;
-  border-radius:20px;
-  padding:24px;
-  box-shadow:0 25px 80px rgba(0,0,0,.35);
-}
-
-.exercise-close{
-  position:absolute;
-  top:12px;
-  left:12px;
-  width:38px;
-  height:38px;
-  border:0;
-  border-radius:50%;
-  background:#f1f5f9;
-  font-size:22px;
-}
-
-.exercise-title{
-  padding-left:45px;
-  margin-bottom:18px;
-}
-
-.exercise-title h2{
-  margin:0 0 5px;
-}
-
-.exercise-question,
-.exercise-solution,
-.exercise-answer{
-  border-radius:14px;
-  padding:17px;
-  margin-top:13px;
-  line-height:1.9;
-  white-space:pre-wrap;
-}
-
-.exercise-question{
-  background:#f8fafc;
-  border:1px solid #e2e8f0;
-}
-
-.exercise-solution{
-  display:none;
-  background:#ecfdf5;
-  border:1px solid #bbf7d0;
-}
-
-.exercise-solution.visible{
-  display:block;
-}
-
-.exercise-answer{
-  background:#eff6ff;
-  border:1px solid #bfdbfe;
-  font-weight:800;
-}
-
-.exercise-actions{
-  display:flex;
-  gap:10px;
-  margin-top:16px;
-}
-
-.exercise-actions button{
-  flex:1;
-  min-height:46px;
-  border:0;
-  border-radius:11px;
-  font-weight:800;
-}
-
-.solution-btn{
-  color:white;
-  background:#4f46e5;
-}
-
-.xp-btn{
-  color:white;
-  background:#059669;
-}
-
-.xp-earned{
-  display:none;
-  text-align:center;
-  margin-top:14px;
-  font-weight:900;
-  color:#059669;
-}
-
-.xp-earned.show{
-  display:block;
-}
-
-/* LOGIN */
+/* MODAL */
 
 .modal{
-  position:fixed;
-  inset:0;
-  z-index:5000;
-  display:none;
-  align-items:center;
-  justify-content:center;
-  padding:15px;
-  background:rgba(2,6,23,.7);
+    position:fixed;
+    inset:0;
+    background:rgba(15,23,42,.72);
+    z-index:1000;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:15px;
 }
 
 .modal.show{
-  display:flex;
+    display:flex;
 }
 
 .modal-box{
-  position:relative;
-  width:min(430px,100%);
-  max-height:calc(100vh - 30px);
-  overflow:auto;
-  background:white;
-  border-radius:20px;
-  padding:28px;
-  box-shadow:0 25px 70px rgba(0,0,0,.3);
+    width:min(720px,96%);
+    max-height:90vh;
+    overflow:auto;
+    background:white;
+    border-radius:22px;
+    padding:28px;
+    position:relative;
 }
 
-.modal-close{
-  position:absolute;
-  top:12px;
-  left:12px;
-  width:38px;
-  height:38px;
-  border:0;
-  border-radius:50%;
-  background:#f1f5f9;
-  font-size:22px;
+.close{
+    position:absolute;
+    top:10px;
+    left:15px;
+    border:0;
+    background:transparent;
+    font-size:30px;
+    cursor:pointer;
 }
 
-.form-group{
-  margin-bottom:15px;
+/* QUIZ */
+
+.quiz-question{
+    background:#f8fafc;
+    border:1px solid var(--border);
+    border-radius:15px;
+    padding:20px;
+    font-size:21px;
+    margin:20px 0;
 }
 
-.form-group label{
-  display:block;
-  margin-bottom:6px;
-  font-size:14px;
-  font-weight:800;
+.quiz-input{
+    width:100%;
+    padding:13px;
+    border:1px solid var(--border);
+    border-radius:11px;
+    outline:none;
+    margin-bottom:12px;
 }
 
-.form-group input{
-  width:100%;
-  min-height:46px;
-  border:1px solid #dbe2ea;
-  border-radius:11px;
-  padding:10px 13px;
-  outline:none;
-  font-size:15px;
+.quiz-actions{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
 }
 
-.form-group input:focus{
-  border-color:#6366f1;
-  box-shadow:0 0 0 3px rgba(99,102,241,.1);
+.result{
+    padding:13px;
+    border-radius:12px;
+    margin:12px 0;
 }
 
-.modal-message{
-  margin-top:12px;
-  font-size:14px;
-  color:#ef4444;
+.success{
+    background:#dcfce7;
+    color:#166534;
 }
 
-.full{
-  width:100%;
+.wrong{
+    background:#fee2e2;
+    color:#991b1b;
+}
+
+.timer{
+    font-weight:900;
+    color:var(--danger);
 }
 
 /* FOOTER */
 
 .footer{
-  background:#0b1220;
-  color:#cbd5e1;
-  padding:45px 0 20px;
-}
-
-.footer-grid{
-  display:grid;
-  grid-template-columns:1.5fr 1fr 1fr;
-  gap:35px;
-}
-
-.footer h3{
-  color:white;
-}
-
-.footer p,
-.footer-links a{
-  color:#94a3b8;
-}
-
-.footer-links{
-  display:flex;
-  flex-direction:column;
-  gap:8px;
-}
-
-.footer-links a:hover{
-  color:white;
-}
-
-.copyright{
-  border-top:1px solid rgba(255,255,255,.08);
-  margin-top:30px;
-  padding-top:18px;
-  text-align:center;
-  color:#64748b;
-  font-size:13px;
+    background:var(--dark);
+    color:white;
+    padding:35px 0;
+    margin-top:30px;
 }
 
 /* TOAST */
 
 .toast{
-  position:fixed;
-  z-index:6000;
-  bottom:20px;
-  right:20px;
-  max-width:min(360px,calc(100vw - 40px));
-  padding:13px 17px;
-  background:#111827;
-  color:white;
-  border-radius:12px;
-  box-shadow:0 15px 40px rgba(0,0,0,.2);
-  transform:translateY(130px);
-  opacity:0;
-  transition:.3s;
+    position:fixed;
+    bottom:20px;
+    right:20px;
+    background:var(--dark);
+    color:white;
+    padding:13px 18px;
+    border-radius:12px;
+    z-index:2000;
+    display:none;
 }
 
 .toast.show{
-  transform:translateY(0);
-  opacity:1;
+    display:block;
 }
 
 /* MOBILE */
 
-@media(max-width:950px){
+@media(max-width:900px){
 
-  .nav-links{
-    display:none;
-  }
+    .nav-links{
+        display:none;
+    }
 
-  .menu-btn{
-    display:block;
-  }
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
 
-  .hero-content{
-    grid-template-columns:1fr;
-    text-align:center;
-    padding-top:50px;
-    padding-bottom:50px;
-  }
+    .cards,
+    .challenge-grid,
+    .resource-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
 
-  .hero-description{
-    margin:auto;
-  }
-
-  .hero-buttons{
-    justify-content:center;
-  }
-
-  .library-tools{
-    grid-template-columns:repeat(2,1fr);
-  }
-
-  .library-tools input{
-    grid-column:1/-1;
-  }
-
-  .cards,
-  .challenge-grid,
-  .resource-grid{
-    grid-template-columns:repeat(2,1fr);
-  }
-
-  .footer-grid{
-    grid-template-columns:1fr 1fr;
-  }
 }
 
-@media(max-width:650px){
+@media(max-width:600px){
 
-  .container{
-    padding-left:14px;
-    padding-right:14px;
-  }
+    .header .container{
+        min-height:62px;
+    }
 
-  .nav{
-    min-height:62px;
-  }
+    .logo{
+        font-size:20px;
+    }
 
-  .logo{
-    font-size:18px;
-  }
+    .nav-actions button{
+        padding:7px 8px;
+        font-size:12px;
+    }
 
-  .logo-icon{
-    width:37px;
-    height:37px;
-  }
+    .hero{
+        padding:50px 0;
+    }
 
-  .login-btn{
-    padding:7px 9px;
-    font-size:12px;
-  }
+    .hero h1{
+        font-size:38px;
+    }
 
-  .hero h1{
-    font-size:39px;
-  }
+    .hero p{
+        font-size:17px;
+    }
 
-  .hero-description{
-    font-size:15px;
-  }
+    .stats,
+    .cards,
+    .challenge-grid,
+    .resource-grid{
+        grid-template-columns:1fr;
+    }
 
-  .hero-buttons{
-    flex-direction:column;
-  }
+    .user-bar{
+        flex-direction:column;
+        align-items:stretch;
+    }
 
-  .hero-buttons .btn{
-    width:100%;
-  }
+    .section{
+        padding:35px 0;
+    }
 
-  .math-display{
-    min-height:190px;
-    font-size:33px;
-  }
-
-  .stats-grid{
-    grid-template-columns:repeat(2,1fr);
-  }
-
-  .cards,
-  .challenge-grid,
-  .resource-grid{
-    grid-template-columns:1fr;
-  }
-
-  .library-tools{
-    grid-template-columns:1fr;
-  }
-
-  .library-tools input{
-    grid-column:auto;
-  }
-
-  .exercise-box{
-    padding:18px;
-  }
-
-  .exercise-actions{
-    flex-direction:column;
-  }
-
-  .footer-grid{
-    grid-template-columns:1fr;
-  }
 }
 
-@media(max-width:390px){
-
-  .logo{
-    font-size:16px;
-  }
-
-  .login-btn{
-    display:none;
-  }
-
-  .hero h1{
-    font-size:34px;
-  }
-}
-
-html[dir="ltr"] .modal-close{
-  left:auto;
-  right:12px;
-}
-
-html[dir="ltr"] .toast{
-  right:auto;
-  left:20px;
-}
 </style>
 </head>
 
 <body>
 
+<!-- HEADER -->
+
 <header class="header">
-  <div class="container nav">
 
-    <a href="#home" class="logo">
-      <span class="logo-icon">∑</span>
-      <span>HAMOU MATH</span>
-    </a>
+<div class="container">
 
-    <nav class="nav-links">
-      <a href="#home" data-i18n="navHome">الرئيسية</a>
-      <a href="#challenges" data-i18n="navChallenges">التحديات</a>
-      <a href="#games" data-i18n="navGames">الألعاب</a>
-      <a href="#library" data-i18n="navLibrary">المكتبة</a>
-      <a href="#about" data-i18n="navAbout">حول المنصة</a>
-    </nav>
+<a href="#home" class="logo">
+HAMOU MATH
+</a>
 
-    <div class="nav-actions">
+<nav class="nav">
 
-      <button class="lang-btn active" data-lang="ar">AR</button>
-      <button class="lang-btn" data-lang="fr">FR</button>
-      <button class="lang-btn" data-lang="en">EN</button>
-
-      <button class="login-btn" id="openLogin" data-i18n="login">
-        تسجيل الدخول
-      </button>
-
-      <button class="menu-btn" id="menuBtn">☰</button>
-
-    </div>
-  </div>
-</header>
-
-<div class="user-bar" id="userBar">
-  <div class="container user-bar-content">
-
-    <div class="user-info">
-      <div class="avatar" id="avatar">H</div>
-      <div class="user-name" id="userName">HAMOU MATH</div>
-    </div>
-
-    <div class="user-xp">
-      ⭐ <span id="xpValue">0</span> XP
-    </div>
-
-  </div>
+<div class="nav-links">
+<a href="#home">الرئيسية</a>
+<a href="#challenges">التحديات</a>
+<a href="#games">الألعاب</a>
+<a href="#library">المكتبة</a>
+<a href="#about">حول</a>
 </div>
 
-<main>
+<div class="nav-actions">
 
-<section class="hero" id="home">
+<button onclick="changeLanguage('ar')">AR</button>
+<button onclick="changeLanguage('fr')">FR</button>
+<button onclick="changeLanguage('en')">EN</button>
 
-  <div class="container hero-content">
+<button class="btn primary" onclick="openLogin()">
+دخول
+</button>
 
-    <div class="hero-text">
+</div>
 
-      <span class="badge">
-        🌍 <span data-i18n="globalBadge">منصة رياضيات عالمية</span>
-      </span>
+</nav>
 
-      <h1>
-        <span data-i18n="heroTitle1">تعلّم الرياضيات</span>
-        <br>
-        <span data-i18n="heroTitle2">بطريقة مختلفة</span>
-      </h1>
+</div>
 
-      <p class="hero-description" data-i18n="heroDescription">
-        دروس، تمارين، اختبارات، تحديات وألعاب تعليمية في منصة واحدة.
-      </p>
+</header>
 
-      <div class="hero-buttons">
 
-        <button class="btn btn-primary" id="startBtn">
-          🚀 <span data-i18n="startLearning">ابدأ التعلم</span>
-        </button>
+<!-- HERO -->
 
-        <button class="btn btn-secondary" id="challengeBtn">
-          ⚡ <span data-i18n="challengeNow">ابدأ تحديًا</span>
-        </button>
+<main id="home">
 
-      </div>
+<section class="hero">
 
-    </div>
+<div class="container hero-content">
 
-    <div class="hero-card">
+<h1>
+سلسلة حمو في الرياضيات
+</h1>
 
-      <div class="math-display">
-        <div>
-          <div>∫ f(x) dx</div>
-          <div style="font-size:.48em;margin-top:15px;color:#67e8f9;">
-            ∑ · √ · π · ∞ · ℝ
-          </div>
-        </div>
-      </div>
+<p>
+HAMOU MATH — منصة رياضيات تفاعلية للتعلم والتدريب والتحديات والألعاب.
+</p>
 
-    </div>
+<a href="#library" class="btn primary">
+ابدأ التعلم الآن
+</a>
 
-  </div>
+</div>
 
 </section>
 
-<section class="stats">
 
-  <div class="container stats-grid">
+<!-- STATS -->
 
-    <div class="stat">
-      <strong id="resourceStat">11K+</strong>
-      <span data-i18n="statResources">موارد تعليمية</span>
-    </div>
+<section class="container stats">
 
-    <div class="stat">
-      <strong>3</strong>
-      <span data-i18n="statLanguages">لغات</span>
-    </div>
+<div class="stat">
+<strong id="statResources">11014+</strong>
+<span>مورد رياضي</span>
+</div>
 
-    <div class="stat">
-      <strong>24/7</strong>
-      <span data-i18n="statAccess">تعلم متاح</span>
-    </div>
+<div class="stat">
+<strong id="statExercises">10000+</strong>
+<span>تمرين</span>
+</div>
 
-    <div class="stat">
-      <strong>XP</strong>
-      <span data-i18n="statProgress">نظام تقدم</span>
-    </div>
+<div class="stat">
+<strong id="statXP">0</strong>
+<span>XP</span>
+</div>
 
-  </div>
-
-</section>
-
-<section class="section" id="challenges">
-
-  <div class="container">
-
-    <div class="section-header">
-      <h2 data-i18n="challengesTitle">
-        التحديات الرياضية
-      </h2>
-
-      <p data-i18n="challengesDesc">
-        اختبر سرعتك واربح XP.
-      </p>
-    </div>
-
-    <div class="challenge-grid">
-
-      <article class="challenge">
-        <h3>⚡ <span data-i18n="challengeSpeed">تحدي السرعة</span></h3>
-
-        <p data-i18n="challengeSpeedDesc">
-          حل أكبر عدد من المسائل في وقت محدود.
-        </p>
-
-        <span class="xp">+50 XP</span>
-
-        <button
-          class="btn btn-primary full"
-          style="margin-top:18px"
-          data-action="speed">
-          <span data-i18n="play">ابدأ</span>
-        </button>
-      </article>
-
-      <article class="challenge">
-
-        <h3>🧠 <span data-i18n="challengeLogic">تحدي المنطق</span></h3>
-
-        <p data-i18n="challengeLogicDesc">
-          مسائل تحتاج إلى التفكير والتركيز.
-        </p>
-
-        <span class="xp">+100 XP</span>
-
-        <button
-          class="btn btn-primary full"
-          style="margin-top:18px"
-          data-action="logic">
-          <span data-i18n="play">ابدأ</span>
-        </button>
-
-      </article>
-
-      <article class="challenge">
-
-        <h3>🏆 <span data-i18n="challengeDaily">التحدي اليومي</span></h3>
-
-        <p data-i18n="challengeDailyDesc">
-          تحدٍ جديد كل يوم للحفاظ على مستواك.
-        </p>
-
-        <span class="xp">+150 XP</span>
-
-        <button
-          class="btn btn-primary full"
-          style="margin-top:18px"
-          data-action="daily">
-          <span data-i18n="play">ابدأ</span>
-        </button>
-
-      </article>
-
-    </div>
-
-  </div>
+<div class="stat">
+<strong id="statLevel">1</strong>
+<span>المستوى</span>
+</div>
 
 </section>
 
-<section class="section" id="games" style="background:#f8fafc">
 
-  <div class="container">
+<!-- USER -->
 
-    <div class="section-header">
-      <h2 data-i18n="gamesTitle">ألعاب الرياضيات</h2>
+<div class="container">
 
-      <p data-i18n="gamesDesc">
-        تعلّم والعب وطوّر مهاراتك الرياضية.
-      </p>
-    </div>
+<div class="user-bar">
 
-    <div class="cards">
+<div class="user-info">
 
-      <article class="card">
+<strong id="userName">
+زائر
+</strong>
 
-        <div class="card-icon">🔢</div>
+<div class="muted">
+واصل التعلم وارفع مستواك 🚀
+</div>
 
-        <h3 data-i18n="gameNumbers">سباق الأرقام</h3>
+</div>
 
-        <p data-i18n="gameNumbersDesc">
-          احسب بسرعة قبل انتهاء الوقت.
-        </p>
+<div class="xp-box">
 
-        <button
-          class="btn btn-primary"
-          data-game="numbers"
-          data-i18n="playGame">
-          العب الآن
-        </button>
+<div class="xp-top">
 
-      </article>
+<span>
+المستوى <b id="levelText">1</b>
+</span>
 
-      <article class="card">
+<span id="xpText">
+0 / 100 XP
+</span>
 
-        <div class="card-icon">🧩</div>
+</div>
 
-        <h3 data-i18n="gamePuzzle">لغز رياضي</h3>
+<div class="xp-track">
+<div id="xpFill" class="xp-fill"></div>
+</div>
 
-        <p data-i18n="gamePuzzleDesc">
-          حل الألغاز الرياضية واكسب XP.
-        </p>
+</div>
 
-        <button
-          class="btn btn-primary"
-          data-game="puzzle"
-          data-i18n="playGame">
-          العب الآن
-        </button>
+<button class="btn" onclick="openProgress()">
+تقدمي
+</button>
 
-      </article>
+</div>
 
-      <article class="card">
+</div>
 
-        <div class="card-icon">⏱️</div>
 
-        <h3 data-i18n="gameTime">تحدي الدقيقة</h3>
+<!-- CHALLENGES -->
 
-        <p data-i18n="gameTimeDesc">
-          كم مسألة تستطيع حلها خلال دقيقة؟
-        </p>
+<section id="challenges" class="section">
 
-        <button
-          class="btn btn-primary"
-          data-game="minute"
-          data-i18n="playGame">
-          العب الآن
-        </button>
+<div class="container">
 
-      </article>
+<h2>
+التحديات
+</h2>
 
-    </div>
+<div class="challenge-grid">
 
-  </div>
+<div class="challenge">
 
-</section>
+<h3>⚡ تحدي السرعة</h3>
 
-<section class="section library" id="library">
+<p class="muted">
+10 أسئلة في 60 ثانية.
+</p>
 
-  <div class="container">
+<br>
 
-    <div class="section-header">
+<button class="btn primary" onclick="startChallenge('speed')">
+ابدأ التحدي
+</button>
 
-      <h2 data-i18n="libraryTitle">
-        المكتبة التعليمية
-      </h2>
+</div>
 
-      <p data-i18n="libraryDesc">
-        الدروس والتمارين والاختبارات والبحوث في مكان واحد.
-      </p>
 
-    </div>
+<div class="challenge">
 
-    <!-- البحث والفلاتر الجديدة -->
+<h3>🧠 التحدي الذهني</h3>
 
-    <div class="library-tools">
+<p class="muted">
+10 أسئلة لاختبار مهاراتك الرياضية.
+</p>
 
-      <input
-        id="librarySearch"
-        type="search"
-        placeholder="🔎 ابحث في مكتبة HAMOU MATH..."
-        aria-label="Library search">
+<br>
 
-      <select id="libraryCountry">
-        <option value="">🌍 كل الدول</option>
-        <option value="Algeria">الجزائر</option>
-        <option value="France">France</option>
-        <option value="Canada">Canada</option>
-      </select>
+<button class="btn primary" onclick="startChallenge('logic')">
+ابدأ التحدي
+</button>
 
-      <select id="libraryLanguage">
-        <option value="">كل اللغات</option>
-        <option value="ar">العربية</option>
-        <option value="fr">Français</option>
-        <option value="en">English</option>
-      </select>
+</div>
 
-      <select id="libraryLevel">
-        <option value="">كل المستويات</option>
-        <option value="1AS">1 ثانوي</option>
-        <option value="2AS">2 ثانوي</option>
-        <option value="3AS">3 ثانوي</option>
-        <option value="BAC">بكالوريا</option>
-        <option value="University">جامعة</option>
-      </select>
 
-      <select id="libraryType">
-        <option value="">كل الأنواع</option>
-        <option value="lesson">دروس</option>
-        <option value="exercise">تمارين</option>
-        <option value="test">اختبارات</option>
-        <option value="research">بحوث</option>
-      </select>
+<div class="challenge">
 
-      <select id="libraryStatus">
-        <option value="">الكل</option>
-        <option value="free">مجاني</option>
-        <option value="premium">مميز</option>
-      </select>
+<h3>📅 تحدي اليوم</h3>
 
-    </div>
+<p class="muted">
+سؤال يومي ومكافأة خاصة.
+</p>
 
-    <div class="filters">
+<br>
 
-      <button
-        class="filter-btn active"
-        data-filter="all"
-        data-i18n="all">
-        الكل
-      </button>
+<button class="btn primary" onclick="startChallenge('daily')">
+ابدأ
+</button>
 
-      <button
-        class="filter-btn"
-        data-filter="lessons"
-        data-i18n="lessons">
-        الدروس
-      </button>
+</div>
 
-      <button
-        class="filter-btn"
-        data-filter="exercises"
-        data-i18n="exercises">
-        التمارين
-      </button>
+</div>
 
-      <button
-        class="filter-btn"
-        data-filter="tests"
-        data-i18n="tests">
-        الاختبارات
-      </button>
-
-      <button
-        class="filter-btn"
-        data-filter="research"
-        data-i18n="research">
-        البحوث
-      </button>
-
-    </div>
-
-    <div class="resource-grid" id="resourceGrid">
-
-      <div class="library-loading">
-        ⏳ جاري تحميل مكتبة HAMOU MATH...
-      </div>
-
-    </div>
-
-    <div id="libraryPagination" class="library-pagination"></div>
-
-  </div>
+</div>
 
 </section>
 
-<section class="section" id="about">
 
-  <div class="container">
+<!-- GAMES -->
 
-    <div class="section-header">
+<section id="games" class="section">
 
-      <h2 data-i18n="aboutTitle">
-        لماذا HAMOU MATH؟
-      </h2>
+<div class="container">
 
-      <p data-i18n="aboutDesc">
-        منصة تهدف إلى جعل تعلم الرياضيات أكثر سهولة وتفاعلاً.
-      </p>
+<h2>
+الألعاب
+</h2>
 
-    </div>
+<div class="cards">
 
-    <div class="cards">
+<div class="card">
 
-      <article class="card">
-        <div class="card-icon">🌍</div>
+<h3>
+🎯 حل واربح
+</h3>
 
-        <h3 data-i18n="about1Title">
-          عالمية
-        </h3>
+<p class="muted">
+حل أسئلة عشوائية واحصل على XP.
+</p>
 
-        <p data-i18n="about1Desc">
-          دعم العربية والفرنسية والإنجليزية.
-        </p>
-      </article>
+<br>
 
-      <article class="card">
-        <div class="card-icon">📚</div>
+<button class="btn primary" onclick="playGame('random')">
+لعب الآن
+</button>
 
-        <h3 data-i18n="about2Title">
-          محتوى تعليمي
-        </h3>
+</div>
 
-        <p data-i18n="about2Desc">
-          تنظيم الموارد حسب المستوى والمادة والنوع.
-        </p>
-      </article>
 
-      <article class="card">
-        <div class="card-icon">🏆</div>
+<div class="card">
 
-        <h3 data-i18n="about3Title">
-          تعلّم محفّز
-        </h3>
+<h3>
+⏱️ ضد الوقت
+</h3>
 
-        <p data-i18n="about3Desc">
-          XP وتحديات وألعاب لتحفيز المتعلم.
-        </p>
-      </article>
+<p class="muted">
+أجب بسرعة واحصل على أكبر عدد من النقاط.
+</p>
 
-    </div>
+<br>
 
-  </div>
+<button class="btn primary" onclick="playGame('timer')">
+لعب الآن
+</button>
+
+</div>
+
+
+<div class="card">
+
+<h3>
+🏆 مستويات
+</h3>
+
+<p class="muted">
+كل 100 XP تنتقل إلى مستوى جديد.
+</p>
+
+<br>
+
+<button class="btn primary" onclick="openProgress()">
+تقدمي
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- LIBRARY -->
+
+<section id="library" class="section">
+
+<div class="container">
+
+<h2>
+المكتبة التعليمية
+</h2>
+
+<div class="filters">
+
+<input
+id="searchInput"
+type="search"
+placeholder="ابحث عن درس أو تمرين أو موضوع..."
+oninput="debouncedLoadResources()"
+>
+
+<select id="levelFilter" onchange="loadResources()">
+
+<option value="">
+كل المستويات
+</option>
+
+<option value="1AS">
+1AS
+</option>
+
+<option value="2AS">
+2AS
+</option>
+
+<option value="3AS">
+3AS
+</option>
+
+<option value="BAC">
+BAC
+</option>
+
+</select>
+
+
+<select id="typeFilter" onchange="loadResources()">
+
+<option value="">
+كل الأنواع
+</option>
+
+<option value="exercise">
+تمارين
+</option>
+
+<option value="lesson">
+دروس
+</option>
+
+<option value="course">
+دورات
+</option>
+
+</select>
+
+
+<button class="btn" onclick="clearFilters()">
+مسح
+</button>
+
+</div>
+
+
+<div id="resourceGrid" class="resource-grid">
+
+<div class="resource">
+جاري تحميل المكتبة...
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ABOUT -->
+
+<section id="about" class="section">
+
+<div class="container">
+
+<h2>
+حول HAMOU MATH
+</h2>
+
+<div class="card">
+
+<p class="muted">
+
+منصة تعليمية تهدف إلى جعل الرياضيات أكثر وضوحًا ومتعة
+من خلال الدروس والتمارين والألعاب والتحديات ونظام النقاط.
+
+</p>
+
+</div>
+
+</div>
 
 </section>
 
 </main>
 
+
+<!-- FOOTER -->
+
 <footer class="footer">
 
-  <div class="container">
+<div class="container">
 
-    <div class="footer-grid">
-
-      <div>
-        <h3>HAMOU MATH</h3>
-
-        <p data-i18n="footerDesc">
-          منصة تعليم الرياضيات والتعلم التفاعلي.
-        </p>
-      </div>
-
-      <div>
-
-        <h3 data-i18n="quickLinks">
-          روابط سريعة
-        </h3>
-
-        <div class="footer-links">
-
-          <a href="#home" data-i18n="navHome">الرئيسية</a>
-          <a href="#challenges" data-i18n="navChallenges">التحديات</a>
-          <a href="#games" data-i18n="navGames">الألعاب</a>
-          <a href="#library" data-i18n="navLibrary">المكتبة</a>
-
-        </div>
-
-      </div>
-
-      <div>
-
-        <h3 data-i18n="platform">
-          المنصة
-        </h3>
-
-        <div class="footer-links">
-
-          <a href="#about" data-i18n="navAbout">
-            حول المنصة
-          </a>
-
-          <a href="#" id="footerLogin" data-i18n="login">
-            تسجيل الدخول
-          </a>
-
-        </div>
-
-      </div>
-
-    </div>
-
-    <div class="copyright">
-      © <span id="year"></span> HAMOU MATH — All Rights Reserved.
-    </div>
-
-  </div>
-
-</footer>
-
-<!-- LOGIN -->
-
-<div class="modal" id="loginModal">
-
-  <div class="modal-box">
-
-    <button class="modal-close" id="closeLogin">×</button>
-
-    <h2 id="modalTitle" data-i18n="loginTitle">
-      تسجيل الدخول
-    </h2>
-
-    <p id="modalDescription" data-i18n="loginDesc">
-      سجّل الدخول لحفظ تقدمك وXP.
-    </p>
-
-    <form id="authForm">
-
-      <div class="form-group">
-
-        <label for="email" data-i18n="email">
-          البريد الإلكتروني
-        </label>
-
-        <input
-          id="email"
-          type="email"
-          required
-          autocomplete="email"
-          placeholder="example@email.com">
-
-      </div>
-
-      <div class="form-group">
-
-        <label for="password" data-i18n="password">
-          كلمة المرور
-        </label>
-
-        <input
-          id="password"
-          type="password"
-          required
-          minlength="6"
-          autocomplete="current-password">
-
-      </div>
-
-      <button
-        class="btn btn-primary full"
-        type="submit"
-        id="authSubmit"
-        data-i18n="login">
-        تسجيل الدخول
-      </button>
-
-      <button
-        class="btn"
-        style="width:100%;margin-top:9px;background:#f1f5f9"
-        type="button"
-        id="toggleRegister"
-        data-i18n="createAccount">
-        إنشاء حساب جديد
-      </button>
-
-      <div class="modal-message" id="authMessage"></div>
-
-    </form>
-
-  </div>
+© 2026 HAMOU MATH — سلسلة حمو في الرياضيات
 
 </div>
 
-<div class="toast" id="toast"></div>
+</footer>
+
+
+<!-- MODAL -->
+
+<div id="modal" class="modal">
+
+<div class="modal-box">
+
+<button class="close" onclick="closeModal()">
+×
+</button>
+
+<div id="modalContent"></div>
+
+</div>
+
+</div>
+
+
+<div id="toast" class="toast"></div>
+
+
+<!-- SUPABASE -->
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
 
-/* =========================================================
+/* =========================
    SUPABASE
-   ========================================================= */
+========================= */
 
 const SUPABASE_URL =
-  "https://ifurlsucekmaynuhsfva.supabase.co";
+"https://ifurlsucekmaynuhsfva.supabase.co";
 
 const SUPABASE_KEY =
-  "sb_publishable_WRvn0kt8kJ3SSy2WG1ca4w_dzZQBrBU";
+"sb_publishable_WRvn0kt8kJ3SSy2WG1ca4w_dzZQBrBU";
 
-let supabaseClient = null;
+const supabaseClient =
+window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
 
-try{
 
-  if(
-    window.supabase &&
-    typeof window.supabase.createClient === "function"
-  ){
+/* =========================
+   GLOBAL
+========================= */
 
-    supabaseClient =
-      window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_KEY
-      );
-
-  }
-
-}catch(error){
-
-  console.warn(
-    "Supabase initialization failed:",
-    error
-  );
-
-}
-
-/* =========================================================
-   TRANSLATIONS
-   ========================================================= */
-
-const translations = {
-
-ar:{
-
-  navHome:"الرئيسية",
-  navChallenges:"التحديات",
-  navGames:"الألعاب",
-  navLibrary:"المكتبة",
-  navAbout:"حول المنصة",
-
-  login:"تسجيل الدخول",
-  logout:"تسجيل الخروج",
-
-  globalBadge:"منصة رياضيات عالمية",
-
-  heroTitle1:"تعلّم الرياضيات",
-  heroTitle2:"بطريقة مختلفة",
-
-  heroDescription:
-    "دروس، تمارين، اختبارات، تحديات وألعاب تعليمية في منصة واحدة.",
-
-  startLearning:"ابدأ التعلم",
-  challengeNow:"ابدأ تحديًا",
-
-  statResources:"موارد تعليمية",
-  statLanguages:"لغات",
-  statAccess:"تعلم متاح",
-  statProgress:"نظام تقدم",
-
-  challengesTitle:"التحديات الرياضية",
-  challengesDesc:"اختبر سرعتك واربح XP.",
-
-  challengeSpeed:"تحدي السرعة",
-  challengeSpeedDesc:
-    "حل أكبر عدد من المسائل في وقت محدود.",
-
-  challengeLogic:"تحدي المنطق",
-  challengeLogicDesc:
-    "مسائل تحتاج إلى التفكير والتركيز.",
-
-  challengeDaily:"التحدي اليومي",
-  challengeDailyDesc:
-    "تحدٍ جديد كل يوم للحفاظ على مستواك.",
-
-  play:"ابدأ",
-
-  gamesTitle:"ألعاب الرياضيات",
-  gamesDesc:
-    "تعلّم والعب وطوّر مهاراتك الرياضية.",
-
-  gameNumbers:"سباق الأرقام",
-  gameNumbersDesc:
-    "احسب بسرعة قبل انتهاء الوقت.",
-
-  gamePuzzle:"لغز رياضي",
-  gamePuzzleDesc:
-    "حل الألغاز الرياضية واكسب XP.",
-
-  gameTime:"تحدي الدقيقة",
-  gameTimeDesc:
-    "كم مسألة تستطيع حلها خلال دقيقة؟",
-
-  playGame:"العب الآن",
-
-  libraryTitle:"المكتبة التعليمية",
-
-  libraryDesc:
-    "الدروس والتمارين والاختبارات والبحوث في مكان واحد.",
-
-  all:"الكل",
-  lessons:"الدروس",
-  exercises:"التمارين",
-  tests:"الاختبارات",
-  research:"البحوث",
-  open:"فتح",
-
-  aboutTitle:"لماذا HAMOU MATH؟",
-
-  aboutDesc:
-    "منصة تهدف إلى جعل تعلم الرياضيات أكثر سهولة وتفاعلاً.",
-
-  about1Title:"عالمية",
-  about1Desc:
-    "دعم العربية والفرنسية والإنجليزية.",
-
-  about2Title:"محتوى تعليمي",
-  about2Desc:
-    "تنظيم الموارد حسب المستوى والمادة والنوع.",
-
-  about3Title:"تعلّم محفّز",
-  about3Desc:
-    "XP وتحديات وألعاب لتحفيز المتعلم.",
-
-  quickLinks:"روابط سريعة",
-  platform:"المنصة",
-
-  footerDesc:
-    "منصة تعليم الرياضيات والتعلم التفاعلي.",
-
-  loginTitle:"تسجيل الدخول",
-
-  loginDesc:
-    "سجّل الدخول لحفظ تقدمك وXP.",
-
-  email:"البريد الإلكتروني",
-  password:"كلمة المرور",
-
-  createAccount:"إنشاء حساب جديد",
-
-  loginSuccess:"تم تسجيل الدخول بنجاح.",
-  registerSuccess:"تم إنشاء الحساب. تحقق من بريدك إذا لزم الأمر.",
-  logoutSuccess:"تم تسجيل الخروج.",
-  authError:"حدث خطأ. تحقق من البيانات.",
-  gameStarted:"تم بدء اللعبة.",
-  resourceOpened:"تم فتح المورد."
-
-},
-
-fr:{
-
-  navHome:"Accueil",
-  navChallenges:"Défis",
-  navGames:"Jeux",
-  navLibrary:"Bibliothèque",
-  navAbout:"À propos",
-
-  login:"Connexion",
-  logout:"Déconnexion",
-
-  globalBadge:"Plateforme mondiale de mathématiques",
-
-  heroTitle1:"Apprendre les mathématiques",
-  heroTitle2:"autrement",
-
-  heroDescription:
-    "Cours, exercices, tests, défis et jeux éducatifs sur une seule plateforme.",
-
-  startLearning:"Commencer",
-  challengeNow:"Relever un défi",
-
-  statResources:"Ressources",
-  statLanguages:"Langues",
-  statAccess:"Accès",
-  statProgress:"Progression",
-
-  challengesTitle:"Défis mathématiques",
-  challengesDesc:
-    "Testez votre rapidité et gagnez de l'XP.",
-
-  challengeSpeed:"Défi vitesse",
-  challengeSpeedDesc:
-    "Résolvez un maximum de problèmes dans un temps limité.",
-
-  challengeLogic:"Défi logique",
-  challengeLogicDesc:
-    "Des problèmes qui demandent réflexion et concentration.",
-
-  challengeDaily:"Défi quotidien",
-  challengeDailyDesc:
-    "Un nouveau défi chaque jour.",
-
-  play:"Commencer",
-
-  gamesTitle:"Jeux mathématiques",
-  gamesDesc:
-    "Apprenez, jouez et améliorez vos compétences.",
-
-  gameNumbers:"Course aux nombres",
-  gameNumbersDesc:
-    "Calculez rapidement avant la fin du temps.",
-
-  gamePuzzle:"Puzzle mathématique",
-  gamePuzzleDesc:
-    "Résolvez des énigmes et gagnez de l'XP.",
-
-  gameTime:"Défi minute",
-  gameTimeDesc:
-    "Combien de problèmes pouvez-vous résoudre en une minute ?",
-
-  playGame:"Jouer",
-
-  libraryTitle:"Bibliothèque éducative",
-
-  libraryDesc:
-    "Cours, exercices, tests et recherches au même endroit.",
-
-  all:"Tous",
-  lessons:"Cours",
-  exercises:"Exercices",
-  tests:"Tests",
-  research:"Recherches",
-  open:"Ouvrir",
-
-  aboutTitle:"Pourquoi HAMOU MATH ?",
-
-  aboutDesc:
-    "Une plateforme pour rendre les mathématiques plus simples et interactives.",
-
-  about1Title:"Mondiale",
-  about1Desc:
-    "Arabe, français et anglais.",
-
-  about2Title:"Contenu éducatif",
-  about2Desc:
-    "Ressources organisées par niveau et matière.",
-
-  about3Title:"Motivation",
-  about3Desc:
-    "XP, défis et jeux.",
-
-  quickLinks:"Liens rapides",
-  platform:"Plateforme",
-
-  footerDesc:
-    "Plateforme d'apprentissage des mathématiques.",
-
-  loginTitle:"Connexion",
-
-  loginDesc:
-    "Connectez-vous pour sauvegarder votre progression et votre XP.",
-
-  email:"E-mail",
-  password:"Mot de passe",
-
-  createAccount:"Créer un compte",
-
-  loginSuccess:"Connexion réussie.",
-  registerSuccess:"Compte créé.",
-  logoutSuccess:"Déconnexion réussie.",
-  authError:"Une erreur est survenue.",
-  gameStarted:"Jeu lancé.",
-  resourceOpened:"Ressource ouverte."
-
-},
-
-en:{
-
-  navHome:"Home",
-  navChallenges:"Challenges",
-  navGames:"Games",
-  navLibrary:"Library",
-  navAbout:"About",
-
-  login:"Login",
-  logout:"Logout",
-
-  globalBadge:"Global Mathematics Platform",
-
-  heroTitle1:"Learn Mathematics",
-  heroTitle2:"Differently",
-
-  heroDescription:
-    "Lessons, exercises, tests, challenges and educational games in one platform.",
-
-  startLearning:"Start Learning",
-  challengeNow:"Challenge Now",
-
-  statResources:"Resources",
-  statLanguages:"Languages",
-  statAccess:"Access",
-  statProgress:"Progress",
-
-  challengesTitle:"Math Challenges",
-  challengesDesc:
-    "Test your speed and earn XP.",
-
-  challengeSpeed:"Speed Challenge",
-  challengeSpeedDesc:
-    "Solve as many problems as possible within a limited time.",
-
-  challengeLogic:"Logic Challenge",
-  challengeLogicDesc:
-    "Problems that require focus and thinking.",
-
-  challengeDaily:"Daily Challenge",
-  challengeDailyDesc:
-    "A new challenge every day.",
-
-  play:"Start",
-
-  gamesTitle:"Math Games",
-  gamesDesc:
-    "Learn, play and improve your mathematical skills.",
-
-  gameNumbers:"Number Race",
-  gameNumbersDesc:
-    "Calculate quickly before time runs out.",
-
-  gamePuzzle:"Math Puzzle",
-  gamePuzzleDesc:
-    "Solve mathematical puzzles and earn XP.",
-
-  gameTime:"One Minute Challenge",
-  gameTimeDesc:
-    "How many problems can you solve in one minute?",
-
-  playGame:"Play Now",
-
-  libraryTitle:"Educational Library",
-
-  libraryDesc:
-    "Lessons, exercises, tests and research in one place.",
-
-  all:"All",
-  lessons:"Lessons",
-  exercises:"Exercises",
-  tests:"Tests",
-  research:"Research",
-  open:"Open",
-
-  aboutTitle:"Why HAMOU MATH?",
-
-  aboutDesc:
-    "A platform designed to make mathematics easier and more interactive.",
-
-  about1Title:"Global",
-  about1Desc:
-    "Arabic, French and English.",
-
-  about2Title:"Educational Content",
-  about2Desc:
-    "Resources organized by level and subject.",
-
-  about3Title:"Motivation",
-  about3Desc:
-    "XP, challenges and games.",
-
-  quickLinks:"Quick Links",
-  platform:"Platform",
-
-  footerDesc:
-    "Mathematics learning and interactive education platform.",
-
-  loginTitle:"Login",
-
-  loginDesc:
-    "Log in to save your progress and XP.",
-
-  email:"Email",
-  password:"Password",
-
-  createAccount:"Create Account",
-
-  loginSuccess:"Login successful.",
-  registerSuccess:"Account created.",
-  logoutSuccess:"Logged out successfully.",
-  authError:"Something went wrong.",
-  gameStarted:"Game started.",
-  resourceOpened:"Resource opened."
-
-}
-
-};
-
-/* =========================================================
-   STATE
-   ========================================================= */
-
-let currentLang =
-  localStorage.getItem("hamou_language") || "ar";
-
-let isRegisterMode = false;
 let currentUser = null;
 
 let localXP =
-  Number(localStorage.getItem("hamou_xp") || 0);
+Number(localStorage.getItem("hamou_xp") || 0);
 
-const LIBRARY_PAGE_SIZE = 24;
+let resources = [];
 
-let libraryPage = 1;
-let libraryTotal = 0;
+let debounceTimer = null;
 
-let libraryFilters = {
-  search:"",
-  country:"",
-  language:"",
-  level:"",
-  type:"",
-  status:""
+let quiz = {
+    type:null,
+    items:[],
+    index:0,
+    score:0,
+    timeLeft:0,
+    timer:null,
+    locked:false
 };
 
-/* =========================================================
+
+/* =========================
    HELPERS
-   ========================================================= */
+========================= */
 
-function t(key){
-
-  return (
-    translations[currentLang] &&
-    translations[currentLang][key]
-  ) || key;
-
+function $(id){
+    return document.getElementById(id);
 }
 
-function langText(ar,fr,en){
-
-  if(currentLang === "fr") return fr;
-
-  if(currentLang === "en") return en;
-
-  return ar;
-
-}
 
 function escapeHTML(value){
 
-  return String(value ?? "")
+    return String(value ?? "")
     .replace(/&/g,"&amp;")
     .replace(/</g,"&lt;")
     .replace(/>/g,"&gt;")
@@ -2028,1902 +1002,1664 @@ function escapeHTML(value){
 
 }
 
+
 function showToast(message){
 
-  const toast =
-    document.getElementById("toast");
+    const toast = $("toast");
 
-  if(!toast) return;
+    toast.textContent = message;
 
-  toast.textContent = message;
+    toast.classList.add("show");
 
-  toast.classList.add("show");
+    setTimeout(function(){
 
-  clearTimeout(window.__toastTimer);
+        toast.classList.remove("show");
 
-  window.__toastTimer =
-    setTimeout(
-      ()=>toast.classList.remove("show"),
-      2800
-    );
+    },2200);
 
 }
+
+
+function openModal(html){
+
+    $("modalContent").innerHTML = html;
+
+    $("modal").classList.add("show");
+
+}
+
+
+function closeModal(){
+
+    clearInterval(quiz.timer);
+
+    quiz.timer = null;
+
+    $("modal").classList.remove("show");
+
+}
+
+
+/* =========================
+   XP SYSTEM
+========================= */
+
+function getLevel(xp){
+
+    return Math.floor(xp / 100) + 1;
+
+}
+
 
 function updateXP(){
 
-  const xp =
-    document.getElementById("xpValue");
+    const level = getLevel(localXP);
 
-  if(xp){
-    xp.textContent =
-      String(localXP);
-  }
+    const currentLevelXP = localXP % 100;
+
+    $("statXP").textContent = localXP;
+
+    $("statLevel").textContent = level;
+
+    $("levelText").textContent = level;
+
+    $("xpText").textContent =
+        currentLevelXP + " / 100 XP";
+
+    $("xpFill").style.width =
+        currentLevelXP + "%";
 
 }
+
+
+async function saveXPToSupabase(){
+
+    if(!currentUser){
+        return;
+    }
+
+    try{
+
+        await supabaseClient
+        .from("profiles")
+        .upsert({
+
+            id:currentUser.id,
+
+            xp:localXP,
+
+            updated_at:new Date().toISOString()
+
+        });
+
+    }catch(error){
+
+        console.log("XP save error:",error);
+
+    }
+
+}
+
 
 function addXP(amount){
 
-  amount =
-    Number(amount) || 0;
+    amount = Number(amount) || 0;
 
-  localXP += amount;
-
-  localStorage.setItem(
-    "hamou_xp",
-    String(localXP)
-  );
-
-  updateXP();
-
-  saveXP();
-
-}
-
-/* =========================================================
-   SAVE XP
-   ========================================================= */
-
-async function saveXP(){
-
-  if(!supabaseClient || !currentUser){
-    return;
-  }
-
-  try{
-
-    const {error} =
-      await supabaseClient
-      .from("profiles")
-      .upsert({
-        id:currentUser.id,
-        xp:localXP,
-        updated_at:new Date().toISOString()
-      });
-
-    if(error){
-
-      console.warn(
-        "XP database save:",
-        error.message
-      );
-
+    if(amount <= 0){
+        return;
     }
 
-  }catch(error){
+    const oldLevel = getLevel(localXP);
 
-    console.warn(
-      "XP save failed:",
-      error
-    );
+    localXP += amount;
 
-  }
-
-}
-
-/* =========================================================
-   LANGUAGE
-   ========================================================= */
-
-function setLanguage(lang){
-
-  if(!translations[lang]){
-    lang = "ar";
-  }
-
-  currentLang = lang;
-
-  localStorage.setItem(
-    "hamou_language",
-    lang
-  );
-
-  document.documentElement.lang = lang;
-
-  document.documentElement.dir =
-    lang === "ar"
-      ? "rtl"
-      : "ltr";
-
-  document
-    .querySelectorAll("[data-i18n]")
-    .forEach(el=>{
-
-      const key =
-        el.getAttribute("data-i18n");
-
-      if(translations[lang][key]){
-        el.textContent =
-          translations[lang][key];
-      }
-
-    });
-
-  document
-    .querySelectorAll(".lang-btn")
-    .forEach(btn=>{
-
-      btn.classList.toggle(
-        "active",
-        btn.dataset.lang === lang
-      );
-
-    });
-
-  updateAuthButton();
-
-  setTimeout(
-    ()=>loadGlobalLibrary(),
-    50
-  );
-
-}
-
-/* =========================================================
-   AUTH
-   ========================================================= */
-
-function updateAuthButton(){
-
-  const btn =
-    document.getElementById("openLogin");
-
-  if(!btn) return;
-
-  btn.textContent =
-    currentUser
-      ? t("logout")
-      : t("login");
-
-}
-
-function openLoginModal(){
-
-  const modal =
-    document.getElementById("loginModal");
-
-  if(!modal) return;
-
-  if(currentUser){
-
-    logoutUser();
-
-    return;
-
-  }
-
-  modal.classList.add("show");
-
-}
-
-function closeLoginModal(){
-
-  document
-    .getElementById("loginModal")
-    ?.classList.remove("show");
-
-}
-
-function updateUserUI(){
-
-  const bar =
-    document.getElementById("userBar");
-
-  if(!bar) return;
-
-  if(currentUser){
-
-    bar.classList.add("show");
-
-    const displayName =
-      currentUser.user_metadata?.full_name ||
-      currentUser.user_metadata?.name ||
-      currentUser.email ||
-      "HAMOU MATH";
-
-    document.getElementById("userName")
-      .textContent = displayName;
-
-    document.getElementById("avatar")
-      .textContent =
-        displayName
-          .trim()
-          .charAt(0)
-          .toUpperCase() || "H";
-
-    updateAuthButton();
-
-    saveXP();
-
-  }else{
-
-    bar.classList.remove("show");
-
-    updateAuthButton();
-
-  }
-
-  updateXP();
-
-}
-
-async function loadSession(){
-
-  if(!supabaseClient){
-
-    updateUserUI();
-
-    return;
-
-  }
-
-  try{
-
-    const {
-      data,
-      error
-    } =
-      await supabaseClient
-      .auth
-      .getSession();
-
-    if(!error){
-
-      currentUser =
-        data?.session?.user || null;
-
-    }
-
-  }catch(error){
-
-    console.warn(
-      "Session error:",
-      error
-    );
-
-  }
-
-  updateUserUI();
-
-  try{
-
-    supabaseClient
-      .auth
-      .onAuthStateChange(
-        (_event,session)=>{
-
-          currentUser =
-            session?.user || null;
-
-          updateUserUI();
-
-        }
-      );
-
-  }catch(error){
-
-    console.warn(
-      "Auth listener:",
-      error
-    );
-
-  }
-
-}
-
-async function submitAuth(event){
-
-  event.preventDefault();
-
-  const email =
-    document
-      .getElementById("email")
-      ?.value
-      .trim();
-
-  const password =
-    document
-      .getElementById("password")
-      ?.value;
-
-  const message =
-    document.getElementById("authMessage");
-
-  const submit =
-    document.getElementById("authSubmit");
-
-  if(!email || !password){
-
-    message.textContent =
-      t("authError");
-
-    return;
-
-  }
-
-  if(!supabaseClient){
-
-    message.textContent =
-      "Supabase غير متاح.";
-
-    return;
-
-  }
-
-  submit.disabled = true;
-
-  message.textContent = "";
-
-  try{
-
-    let result;
-
-    if(isRegisterMode){
-
-      result =
-        await supabaseClient
-        .auth
-        .signUp({
-          email,
-          password
-        });
-
-    }else{
-
-      result =
-        await supabaseClient
-        .auth
-        .signInWithPassword({
-          email,
-          password
-        });
-
-    }
-
-    if(result.error){
-      throw result.error;
-    }
-
-    if(isRegisterMode){
-
-      message.textContent =
-        t("registerSuccess");
-
-      showToast(
-        t("registerSuccess")
-      );
-
-    }else{
-
-      currentUser =
-        result.data?.user || null;
-
-      closeLoginModal();
-
-      updateUserUI();
-
-      showToast(
-        t("loginSuccess")
-      );
-
-    }
-
-  }catch(error){
-
-    console.error(error);
-
-    message.textContent =
-      error?.message ||
-      t("authError");
-
-  }finally{
-
-    submit.disabled = false;
-
-  }
-
-}
-
-async function logoutUser(){
-
-  try{
-
-    if(supabaseClient){
-
-      await supabaseClient
-        .auth
-        .signOut();
-
-    }
-
-  }catch(error){
-
-    console.warn(error);
-
-  }
-
-  currentUser = null;
-
-  updateUserUI();
-
-  showToast(
-    t("logoutSuccess")
-  );
-
-}
-
-function toggleRegister(){
-
-  isRegisterMode =
-    !isRegisterMode;
-
-  const title =
-    document.getElementById("modalTitle");
-
-  const submit =
-    document.getElementById("authSubmit");
-
-  const toggle =
-    document.getElementById("toggleRegister");
-
-  if(isRegisterMode){
-
-    title.textContent =
-      t("createAccount");
-
-    submit.textContent =
-      t("createAccount");
-
-    toggle.textContent =
-      t("login");
-
-  }else{
-
-    title.textContent =
-      t("loginTitle");
-
-    submit.textContent =
-      t("login");
-
-    toggle.textContent =
-      t("createAccount");
-
-  }
-
-}
-
-/* =========================================================
-   LIBRARY
-   ========================================================= */
-
-function resourceTitle(r){
-
-  if(currentLang === "fr")
-    return r.title_fr ||
-           r.title_ar ||
-           r.title ||
-           "Ressource";
-
-  if(currentLang === "en")
-    return r.title_en ||
-           r.title_ar ||
-           r.title ||
-           "Mathematics Resource";
-
-  return r.title_ar ||
-         r.title ||
-         r.title_fr ||
-         "مورد رياضيات";
-
-}
-
-function resourceDescription(r){
-
-  if(currentLang === "fr")
-    return r.description_fr ||
-           r.description_ar ||
-           "";
-
-  if(currentLang === "en")
-    return r.description_en ||
-           r.description_ar ||
-           "";
-
-  return r.description_ar ||
-         r.description_fr ||
-         "";
-
-}
-
-function exerciseQuestion(r){
-
-  if(currentLang === "fr")
-    return r.question_fr ||
-           r.question_ar ||
-           r.question_en ||
-           "";
-
-  if(currentLang === "en")
-    return r.question_en ||
-           r.question_ar ||
-           r.question_fr ||
-           "";
-
-  return r.question_ar ||
-         r.question_fr ||
-         r.question_en ||
-         "";
-
-}
-
-function exerciseSolution(r){
-
-  if(currentLang === "fr")
-    return r.solution_fr ||
-           r.solution_ar ||
-           r.solution_en ||
-           "";
-
-  if(currentLang === "en")
-    return r.solution_en ||
-           r.solution_ar ||
-           r.solution_fr ||
-           "";
-
-  return r.solution_ar ||
-         r.solution_fr ||
-         r.solution_en ||
-         "";
-
-}
-
-function typeLabel(type){
-
-  const labels = {
-
-    lesson:
-      langText(
-        "درس",
-        "Cours",
-        "Lesson"
-      ),
-
-    exercise:
-      langText(
-        "تمرين",
-        "Exercice",
-        "Exercise"
-      ),
-
-    test:
-      langText(
-        "اختبار",
-        "Test",
-        "Test"
-      ),
-
-    research:
-      langText(
-        "بحث",
-        "Recherche",
-        "Research"
-      )
-
-  };
-
-  return labels[type] ||
-         type ||
-         "";
-
-}
-
-async function loadGlobalLibrary(){
-
-  const grid =
-    document.getElementById(
-      "resourceGrid"
-    );
-
-  if(!grid || !supabaseClient)
-    return;
-
-  grid.innerHTML =
-    `<div class="library-loading">
-      ⏳ ${langText(
-        "جاري تحميل مكتبة HAMOU MATH...",
-        "Chargement de la bibliothèque HAMOU MATH...",
-        "Loading HAMOU MATH library..."
-      )}
-    </div>`;
-
-  try{
-
-    const offset =
-      (libraryPage - 1) *
-      LIBRARY_PAGE_SIZE;
-
-    const {
-      data,
-      error
-    } =
-      await supabaseClient
-      .rpc(
-        "search_math_resources",
-        {
-          p_search:
-            libraryFilters.search,
-
-          p_country:
-            libraryFilters.country,
-
-          p_language:
-            libraryFilters.language,
-
-          p_level:
-            libraryFilters.level,
-
-          p_resource_type:
-            libraryFilters.type,
-
-          p_status:
-            libraryFilters.status,
-
-          p_limit:
-            LIBRARY_PAGE_SIZE,
-
-          p_offset:
-            offset
-        }
-      );
-
-    if(error){
-      throw error;
-    }
-
-    const {
-      data:countData,
-      error:countError
-    } =
-      await supabaseClient
-      .rpc(
-        "count_math_resources",
-        {
-          p_search:
-            libraryFilters.search,
-
-          p_country:
-            libraryFilters.country,
-
-          p_language:
-            libraryFilters.language,
-
-          p_level:
-            libraryFilters.level,
-
-          p_resource_type:
-            libraryFilters.type,
-
-          p_status:
-            libraryFilters.status
-        }
-      );
-
-    if(countError){
-      throw countError;
-    }
-
-    libraryTotal =
-      Number(countData || 0);
-
-    renderGlobalLibrary(
-      data || []
-    );
-
-    renderLibraryPagination();
-
-  }catch(error){
-
-    console.error(
-      "V26.5 Library:",
-      error
-    );
-
-    grid.innerHTML =
-      `<div class="library-empty">
-        ❌ ${langText(
-          "تعذر تحميل المكتبة. تحقق من Supabase.",
-          "Impossible de charger la bibliothèque.",
-          "Unable to load the library."
-        )}
-      </div>`;
-
-    const p =
-      document.getElementById(
-        "libraryPagination"
-      );
-
-    if(p){
-      p.innerHTML = "";
-    }
-
-  }
-
-}
-
-function renderGlobalLibrary(resources){
-
-  const grid =
-    document.getElementById(
-      "resourceGrid"
-    );
-
-  if(!grid) return;
-
-  if(!resources.length){
-
-    grid.innerHTML =
-      `<div class="library-empty">
-        🔍 ${langText(
-          "لا توجد موارد مطابقة.",
-          "Aucune ressource trouvée.",
-          "No matching resources found."
-        )}
-      </div>`;
-
-    return;
-
-  }
-
-  grid.innerHTML =
-    resources
-    .map(r=>{
-
-      const isExercise =
-        r.resource_type === "exercise" ||
-        !!r.question_ar ||
-        !!r.question_fr ||
-        !!r.question_en;
-
-      const title =
-        escapeHTML(
-          resourceTitle(r)
-        );
-
-      const desc =
-        escapeHTML(
-          resourceDescription(r)
-        );
-
-      return `
-
-      <article class="resource">
-
-        ${
-          r.thumbnail_url
-          ?
-          `<img
-            src="${escapeHTML(r.thumbnail_url)}"
-            alt="${title}"
-            loading="lazy"
-            style="
-              width:100%;
-              height:165px;
-              object-fit:cover;
-              border-radius:12px;
-              margin-bottom:10px;
-            ">`
-          :
-          ""
-        }
-
-        <small>
-          ${escapeHTML(
-            typeLabel(
-              r.resource_type
-            )
-          )}
-        </small>
-
-        <h3>${title}</h3>
-
-        ${
-          desc
-          ?
-          `<p>${desc}</p>`
-          :
-          ""
-        }
-
-        <div class="resource-meta">
-
-          ${
-            r.level
-            ?
-            `<span>
-              🎓 ${escapeHTML(r.level)}
-            </span>`
-            :
-            ""
-          }
-
-          ${
-            r.subject
-            ?
-            `<span>
-              📐 ${escapeHTML(r.subject)}
-            </span>`
-            :
-            ""
-          }
-
-          ${
-            r.language
-            ?
-            `<span>
-              🌍 ${escapeHTML(r.language)}
-            </span>`
-            :
-            ""
-          }
-
-          ${
-            r.is_free
-            ?
-            `<span>
-              🆓 ${langText(
-                "مجاني",
-                "Gratuit",
-                "Free"
-              )}
-            </span>`
-            :
-            ""
-          }
-
-        </div>
-
-        <div class="resource-footer">
-
-          <button
-            class="resource-open-btn"
-            onclick="${
-              isExercise
-              ?
-              `openMathExercise(${Number(r.id)})`
-              :
-              `openMathResource(${Number(r.id)})`
-            }">
-
-            ${
-              isExercise
-              ?
-              `📝 ${langText(
-                "ابدأ التمرين",
-                "Commencer",
-                "Start Exercise"
-              )}`
-              :
-              `👁️ ${langText(
-                "فتح المورد",
-                "Ouvrir",
-                "Open Resource"
-              )}`
-            }
-
-          </button>
-
-        </div>
-
-      </article>
-
-      `;
-
-    })
-    .join("");
-
-}
-
-function renderLibraryPagination(){
-
-  const p =
-    document.getElementById(
-      "libraryPagination"
-    );
-
-  if(!p) return;
-
-  const totalPages =
-    Math.ceil(
-      libraryTotal /
-      LIBRARY_PAGE_SIZE
-    );
-
-  if(totalPages <= 1){
-
-    p.innerHTML = "";
-
-    return;
-
-  }
-
-  p.innerHTML = `
-
-    <button
-      onclick="changeLibraryPage(-1)"
-      ${libraryPage <= 1 ? "disabled" : ""}>
-
-      ← ${langText(
-        "السابق",
-        "Précédent",
-        "Previous"
-      )}
-
-    </button>
-
-    <span class="library-page-info">
-
-      ${libraryPage}
-      /
-      ${totalPages}
-
-    </span>
-
-    <button
-      onclick="changeLibraryPage(1)"
-      ${libraryPage >= totalPages ? "disabled" : ""}>
-
-      ${langText(
-        "التالي",
-        "Suivant",
-        "Next"
-      )}
-
-      →
-
-    </button>
-
-  `;
-
-}
-
-function changeLibraryPage(direction){
-
-  const totalPages =
-    Math.ceil(
-      libraryTotal /
-      LIBRARY_PAGE_SIZE
-    );
-
-  libraryPage =
-    Math.max(
-      1,
-      Math.min(
-        totalPages,
-        libraryPage + direction
-      )
-    );
-
-  loadGlobalLibrary();
-
-  document
-    .getElementById("library")
-    ?.scrollIntoView({
-      behavior:"smooth",
-      block:"start"
-    });
-
-}
-
-function applyLibraryFilters(){
-
-  const value =
-    id =>
-      document
-        .getElementById(id)
-        ?.value ||
-      "";
-
-  libraryFilters.search =
-    value("librarySearch")
-      .trim();
-
-  libraryFilters.country =
-    value("libraryCountry");
-
-  libraryFilters.language =
-    value("libraryLanguage");
-
-  libraryFilters.level =
-    value("libraryLevel");
-
-  libraryFilters.type =
-    value("libraryType");
-
-  libraryFilters.status =
-    value("libraryStatus");
-
-  libraryPage = 1;
-
-  loadGlobalLibrary();
-
-}
-
-function setupGlobalLibrary(){
-
-  const search =
-    document.getElementById(
-      "librarySearch"
-    );
-
-  const controls = [
-
-    "libraryCountry",
-    "libraryLanguage",
-    "libraryLevel",
-    "libraryType",
-    "libraryStatus"
-
-  ]
-  .map(
-    id =>
-      document.getElementById(id)
-  )
-  .filter(Boolean);
-
-  let timer = null;
-
-  search?.addEventListener(
-    "input",
-    ()=>{
-
-      clearTimeout(timer);
-
-      timer =
-        setTimeout(
-          applyLibraryFilters,
-          350
-        );
-
-    }
-  );
-
-  controls.forEach(
-    el =>
-      el.addEventListener(
-        "change",
-        applyLibraryFilters
-      )
-  );
-
-  document
-    .querySelectorAll(".filter-btn")
-    .forEach(btn=>{
-
-      btn.addEventListener(
-        "click",
-        ()=>{
-
-          document
-            .querySelectorAll(".filter-btn")
-            .forEach(
-              b =>
-                b.classList.remove(
-                  "active"
-                )
-            );
-
-          btn.classList.add("active");
-
-          const map = {
-
-            all:"",
-            lessons:"lesson",
-            exercises:"exercise",
-            tests:"test",
-            research:"research"
-
-          };
-
-          const type =
-            map[btn.dataset.filter];
-
-          if(type !== undefined){
-
-            const select =
-              document.getElementById(
-                "libraryType"
-              );
-
-            if(select){
-              select.value = type;
-            }
-
-            libraryFilters.type =
-              type;
-
-            libraryPage = 1;
-
-            loadGlobalLibrary();
-
-          }
-
-        }
-      );
-
-    });
-
-  loadGlobalLibrary();
-
-}
-
-/* =========================================================
-   EXERCISES
-   ========================================================= */
-
-async function openMathExercise(id){
-
-  try{
-
-    const {
-      data,
-      error
-    } =
-      await supabaseClient
-      .from("math_resources")
-      .select(`
-        id,
-        title,
-        title_ar,
-        title_fr,
-        title_en,
-        question_ar,
-        question_fr,
-        question_en,
-        solution_ar,
-        solution_fr,
-        solution_en,
-        answer,
-        level,
-        subject,
-        resource_type,
-        views
-      `)
-      .eq("id",id)
-      .single();
-
-    if(error){
-      throw error;
-    }
-
-    if(!data) return;
-
-    showExerciseModal(data);
-
-    await incrementViews(
-      id,
-      data.views
-    );
-
-  }catch(error){
-
-    console.error(
-      "Exercise:",
-      error
-    );
-
-    showToast(
-      langText(
-        "تعذر فتح التمرين.",
-        "Impossible d'ouvrir l'exercice.",
-        "Unable to open exercise."
-      )
-    );
-
-  }
-
-}
-
-async function incrementViews(id,currentViews){
-
-  try{
-
-    await supabaseClient
-      .from("math_resources")
-      .update({
-        views:
-          Number(currentViews || 0) + 1
-      })
-      .eq("id",id);
-
-  }catch(error){
-
-    console.warn(
-      "View update:",
-      error
-    );
-
-  }
-
-}
-
-function showExerciseModal(r){
-
-  let modal =
-    document.getElementById(
-      "exerciseModal"
-    );
-
-  if(!modal){
-
-    modal =
-      document.createElement("div");
-
-    modal.id =
-      "exerciseModal";
-
-    modal.className =
-      "exercise-modal";
-
-    document.body.appendChild(
-      modal
-    );
-
-  }
-
-  const question =
-    escapeHTML(
-      exerciseQuestion(r)
-    );
-
-  const solution =
-    escapeHTML(
-      exerciseSolution(r)
-    );
-
-  const answer =
-    escapeHTML(
-      r.answer || ""
-    );
-
-  modal.innerHTML = `
-
-    <div class="exercise-box">
-
-      <button
-        class="exercise-close"
-        onclick="closeExerciseModal()">
-        ×
-      </button>
-
-      <div class="exercise-title">
-
-        <h2>
-          🧠 ${escapeHTML(
-            resourceTitle(r)
-          )}
-        </h2>
-
-        ${
-          r.level
-          ?
-          `<small>
-            🎓 ${escapeHTML(r.level)}
-          </small>`
-          :
-          ""
-        }
-
-      </div>
-
-      <div class="exercise-question">
-
-        <strong>
-          📝 ${langText(
-            "السؤال",
-            "Question",
-            "Question"
-          )}
-        </strong>
-
-        <br><br>
-
-        ${question}
-
-      </div>
-
-      ${
-        answer
-        ?
-        `<div class="exercise-answer">
-          🎯 ${langText(
-            "الإجابة:",
-            "Réponse :",
-            "Answer:"
-          )}
-
-          ${answer}
-
-        </div>`
-        :
-        ""
-      }
-
-      <div
-        id="exerciseSolution"
-        class="exercise-solution">
-
-        <strong>
-          💡 ${langText(
-            "الحل",
-            "Solution",
-            "Solution"
-          )}
-        </strong>
-
-        <br><br>
-
-        ${solution}
-
-      </div>
-
-      <div class="exercise-actions">
-
-        <button
-          class="solution-btn"
-          onclick="showExerciseSolution()">
-
-          💡 ${langText(
-            "إظهار الحل",
-            "Afficher la solution",
-            "Show Solution"
-          )}
-
-        </button>
-
-        <button
-          class="xp-btn"
-          onclick="markExerciseSolved(${Number(r.id)})">
-
-          ⭐ +10 XP
-
-        </button>
-
-      </div>
-
-      <div
-        id="exerciseXP"
-        class="xp-earned">
-
-        🎉 +10 XP
-
-      </div>
-
-    </div>
-
-  `;
-
-  modal.classList.add("active");
-
-  document.body.style.overflow =
-    "hidden";
-
-}
-
-function closeExerciseModal(){
-
-  document
-    .getElementById(
-      "exerciseModal"
-    )
-    ?.classList.remove(
-      "active"
-    );
-
-  document.body.style.overflow = "";
-
-}
-
-function showExerciseSolution(){
-
-  document
-    .getElementById(
-      "exerciseSolution"
-    )
-    ?.classList.add(
-      "visible"
-    );
-
-}
-
-async function markExerciseSolved(id){
-
-  const solvedKey =
-    `hamou_solved_${id}`;
-
-  if(
-    localStorage.getItem(
-      solvedKey
-    ) === "1"
-  ){
-
-    showToast(
-      langText(
-        "لقد حصلت على XP لهذا التمرين من قبل.",
-        "XP déjà gagné pour cet exercice.",
-        "You already earned XP for this exercise."
-      )
-    );
-
-    return;
-
-  }
-
-  localStorage.setItem(
-    solvedKey,
-    "1"
-  );
-
-  addXP(10);
-
-  document
-    .getElementById(
-      "exerciseXP"
-    )
-    ?.classList.add(
-      "show"
-    );
-
-  showToast(
-    langText(
-      "🎉 أحسنت! +10 XP",
-      "🎉 Bravo ! +10 XP",
-      "🎉 Great! +10 XP"
-    )
-  );
-
-}
-
-/* =========================================================
-   RESOURCES
-   ========================================================= */
-
-async function openMathResource(id){
-
-  try{
-
-    const {
-      data,
-      error
-    } =
-      await supabaseClient
-      .from("math_resources")
-      .select("*")
-      .eq("id",id)
-      .single();
-
-    if(error){
-      throw error;
-    }
-
-    if(!data) return;
-
-    await incrementViews(
-      id,
-      data.views
-    );
-
-    if(data.file_url){
-
-      window.open(
-        data.file_url,
-        "_blank",
-        "noopener,noreferrer"
-      );
-
-      return;
-
-    }
-
-    if(
-      data.question_ar ||
-      data.question_fr ||
-      data.question_en
-    ){
-
-      showExerciseModal(data);
-
-      return;
-
-    }
-
-    showToast(
-      langText(
-        "هذا المورد لا يحتوي على ملف حاليًا.",
-        "Cette ressource n'a pas encore de fichier.",
-        "This resource does not have a file yet."
-      )
-    );
-
-  }catch(error){
-
-    console.error(
-      "Resource:",
-      error
-    );
-
-    showToast(
-      langText(
-        "تعذر فتح المورد.",
-        "Impossible d'ouvrir la ressource.",
-        "Unable to open resource."
-      )
-    );
-
-  }
-
-}
-
-/* =========================================================
-   GAMES & CHALLENGES
-   ========================================================= */
-
-function playGame(type){
-
-  addXP(10);
-
-  showToast(
-    t("gameStarted") +
-    " +10 XP"
-  );
-
-  document
-    .getElementById("library")
-    ?.scrollIntoView({
-      behavior:"smooth"
-    });
-
-}
-
-function startChallenge(type){
-
-  const amounts = {
-
-    speed:50,
-    logic:100,
-    daily:150
-
-  };
-
-  const amount =
-    amounts[type] || 25;
-
-  addXP(amount);
-
-  showToast(
-    "+" + amount + " XP"
-  );
-
-}
-
-/* =========================================================
-   MOBILE MENU
-   ========================================================= */
-
-function setupMobileMenu(){
-
-  const menu =
-    document.getElementById(
-      "menuBtn"
-    );
-
-  const nav =
-    document.querySelector(
-      ".nav-links"
-    );
-
-  if(!menu || !nav)
-    return;
-
-  menu.addEventListener(
-    "click",
-    ()=>{
-
-      const open =
-        nav.dataset.mobileOpen ===
-        "true";
-
-      if(open){
-
-        nav.style.display = "";
-
-        nav.dataset.mobileOpen =
-          "false";
-
-      }else{
-
-        nav.style.display =
-          "flex";
-
-        nav.style.position =
-          "absolute";
-
-        nav.style.top =
-          "62px";
-
-        nav.style.left =
-          "10px";
-
-        nav.style.right =
-          "10px";
-
-        nav.style.flexDirection =
-          "column";
-
-        nav.style.alignItems =
-          "stretch";
-
-        nav.style.background =
-          "#0b1220";
-
-        nav.style.padding =
-          "10px";
-
-        nav.style.borderRadius =
-          "14px";
-
-        nav.style.boxShadow =
-          "0 15px 35px rgba(0,0,0,.25)";
-
-        nav.dataset.mobileOpen =
-          "true";
-
-      }
-
-    }
-  );
-
-}
-
-/* =========================================================
-   INIT
-   ========================================================= */
-
-document.addEventListener(
-  "DOMContentLoaded",
-  ()=>{
-
-    document
-      .getElementById("year")
-      .textContent =
-        new Date()
-          .getFullYear();
-
-    setLanguage(
-      currentLang
+    localStorage.setItem(
+        "hamou_xp",
+        String(localXP)
     );
 
     updateXP();
 
-    setupGlobalLibrary();
+    const newLevel = getLevel(localXP);
 
-    setupMobileMenu();
+    showToast("+" + amount + " XP 🎉");
 
-    loadSession();
+    if(newLevel > oldLevel){
 
-    /* LANGUAGE */
+        setTimeout(function(){
 
-    document
-      .querySelectorAll(".lang-btn")
-      .forEach(button=>{
-
-        button.addEventListener(
-          "click",
-          ()=>{
-
-            setLanguage(
-              button.dataset.lang
+            showToast(
+                "🎉 مبروك! وصلت إلى المستوى " +
+                newLevel
             );
 
-          }
-        );
-
-      });
-
-    /* LOGIN */
-
-    document
-      .getElementById("openLogin")
-      ?.addEventListener(
-        "click",
-        openLoginModal
-      );
-
-    document
-      .getElementById("footerLogin")
-      ?.addEventListener(
-        "click",
-        event=>{
-
-          event.preventDefault();
-
-          openLoginModal();
-
-        }
-      );
-
-    document
-      .getElementById("closeLogin")
-      ?.addEventListener(
-        "click",
-        closeLoginModal
-      );
-
-    document
-      .getElementById("loginModal")
-      ?.addEventListener(
-        "click",
-        event=>{
-
-          if(
-            event.target.id ===
-            "loginModal"
-          ){
-
-            closeLoginModal();
-
-          }
-
-        }
-      );
-
-    document
-      .getElementById("authForm")
-      ?.addEventListener(
-        "submit",
-        submitAuth
-      );
-
-    document
-      .getElementById("toggleRegister")
-      ?.addEventListener(
-        "click",
-        toggleRegister
-      );
-
-    /* START LEARNING */
-
-    document
-      .getElementById("startBtn")
-      ?.addEventListener(
-        "click",
-        ()=>{
-
-          document
-            .getElementById("library")
-            ?.scrollIntoView({
-              behavior:"smooth"
-            });
-
-        }
-      );
-
-    /* CHALLENGE */
-
-    document
-      .getElementById("challengeBtn")
-      ?.addEventListener(
-        "click",
-        ()=>{
-
-          document
-            .getElementById("challenges")
-            ?.scrollIntoView({
-              behavior:"smooth"
-            });
-
-        }
-      );
-
-    /* CHALLENGES */
-
-    document
-      .querySelectorAll("[data-action]")
-      .forEach(button=>{
-
-        button.addEventListener(
-          "click",
-          ()=>{
-
-            startChallenge(
-              button.dataset.action
-            );
-
-          }
-        );
-
-      });
-
-    /* GAMES */
-
-    document
-      .querySelectorAll("[data-game]")
-      .forEach(button=>{
-
-        button.addEventListener(
-          "click",
-          ()=>{
-
-            playGame(
-              button.dataset.game
-            );
-
-          }
-        );
-
-      });
-
-    /* ESC */
-
-    document.addEventListener(
-      "keydown",
-      event=>{
-
-        if(
-          event.key === "Escape"
-        ){
-
-          closeLoginModal();
-          closeExerciseModal();
-
-        }
-
-      }
-    );
-
-  }
-);
-
-/* EXERCISE OUTSIDE CLICK */
-
-document.addEventListener(
-  "click",
-  event=>{
-
-    const modal =
-      document.getElementById(
-        "exerciseModal"
-      );
-
-    if(
-      modal &&
-      event.target === modal
-    ){
-
-      closeExerciseModal();
+        },500);
 
     }
 
-  }
+    saveXPToSupabase();
+
+}
+
+
+/* =========================
+   USER
+========================= */
+
+async function loadUser(){
+
+    try{
+
+        const result =
+        await supabaseClient.auth.getUser();
+
+        currentUser = result.data.user;
+
+        if(currentUser){
+
+            $("userName").textContent =
+                currentUser.user_metadata?.full_name ||
+                currentUser.email ||
+                "لاعب";
+
+            await loadCloudXP();
+
+        }
+
+    }catch(error){
+
+        console.log(error);
+
+    }
+
+}
+
+
+async function loadCloudXP(){
+
+    if(!currentUser){
+        return;
+    }
+
+    try{
+
+        const result =
+        await supabaseClient
+        .from("profiles")
+        .select("xp")
+        .eq("id",currentUser.id)
+        .maybeSingle();
+
+        if(
+            result.data &&
+            Number(result.data.xp) > localXP
+        ){
+
+            localXP =
+                Number(result.data.xp);
+
+            localStorage.setItem(
+                "hamou_xp",
+                String(localXP)
+            );
+
+            updateXP();
+
+        }
+
+    }catch(error){
+
+        console.log(error);
+
+    }
+
+}
+
+
+/* =========================
+   LIBRARY
+========================= */
+
+function debouncedLoadResources(){
+
+    clearTimeout(debounceTimer);
+
+    debounceTimer =
+        setTimeout(function(){
+
+            loadResources();
+
+        },400);
+
+}
+
+
+function clearFilters(){
+
+    $("searchInput").value = "";
+
+    $("levelFilter").value = "";
+
+    $("typeFilter").value = "";
+
+    loadResources();
+
+}
+
+
+async function loadResources(){
+
+    const grid = $("resourceGrid");
+
+    grid.innerHTML =
+        '<div class="resource">جاري التحميل...</div>';
+
+    const search =
+        $("searchInput").value.trim();
+
+    const level =
+        $("levelFilter").value;
+
+    const type =
+        $("typeFilter").value;
+
+
+    let query =
+        supabaseClient
+        .from("math_resources")
+        .select(`
+            id,
+            title,
+            title_ar,
+            description_ar,
+            level,
+            subject,
+            resource_type,
+            question_ar,
+            solution_ar,
+            answer,
+            is_free,
+            is_premium
+        `)
+        .order("id",{ascending:false})
+        .limit(24);
+
+
+    if(level){
+
+        query =
+            query.eq("level",level);
+
+    }
+
+
+    if(type){
+
+        query =
+            query.eq("resource_type",type);
+
+    }
+
+
+    if(search){
+
+        query =
+            query.or(
+                "title.ilike.%" + search +
+                "%,title_ar.ilike.%" + search +
+                "%,description_ar.ilike.%" + search +
+                "%,subject.ilike.%" + search +
+                "%"
+            );
+
+    }
+
+
+    const result = await query;
+
+
+    if(result.error){
+
+        console.log(result.error);
+
+        grid.innerHTML = `
+            <div class="resource">
+
+                <h3>تعذر تحميل المكتبة</h3>
+
+                <p class="muted">
+                    تحقق من اتصال Supabase.
+                </p>
+
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    resources = result.data || [];
+
+
+    if(resources.length === 0){
+
+        grid.innerHTML = `
+            <div class="resource">
+                لا توجد نتائج.
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    grid.innerHTML =
+        resources.map(function(resource){
+
+            return `
+
+            <div
+                class="resource"
+                onclick="openResource(${resource.id})"
+            >
+
+                <span class="tag">
+                    ${escapeHTML(resource.level || "عام")}
+                </span>
+
+                <span class="tag">
+                    ${escapeHTML(resource.resource_type || "مورد")}
+                </span>
+
+                <h3>
+                    ${escapeHTML(
+                        resource.title_ar ||
+                        resource.title ||
+                        "مورد رياضي"
+                    )}
+                </h3>
+
+                <p class="muted">
+                    ${escapeHTML(
+                        resource.description_ar ||
+                        resource.subject ||
+                        "اضغط لفتح المورد"
+                    )}
+                </p>
+
+                ${
+                    resource.question_ar
+                    ?
+                    '<span class="tag">تمرين تفاعلي</span>'
+                    :
+                    ''
+                }
+
+            </div>
+
+            `;
+
+        }).join("");
+
+}
+
+
+/* =========================
+   RESOURCE
+========================= */
+
+async function openResource(id){
+
+    const result =
+        await supabaseClient
+        .from("math_resources")
+        .select("*")
+        .eq("id",id)
+        .single();
+
+
+    if(result.error || !result.data){
+
+        showToast("تعذر فتح المورد");
+
+        return;
+
+    }
+
+
+    const resource = result.data;
+
+
+    if(resource.question_ar){
+
+        showExercise(resource);
+
+        return;
+
+    }
+
+
+    openModal(`
+
+        <h2>
+            ${escapeHTML(
+                resource.title_ar ||
+                resource.title ||
+                "مورد رياضي"
+            )}
+        </h2>
+
+        <br>
+
+        <p class="muted">
+            ${escapeHTML(
+                resource.description_ar ||
+                "لا يوجد وصف متاح."
+            )}
+        </p>
+
+        <br>
+
+        <p>
+            <b>المستوى:</b>
+            ${escapeHTML(resource.level || "عام")}
+        </p>
+
+        <p>
+            <b>المادة:</b>
+            ${escapeHTML(resource.subject || "رياضيات")}
+        </p>
+
+    `);
+
+}
+
+
+/* =========================
+   NORMALIZE ANSWERS
+========================= */
+
+function normalizeAnswer(value){
+
+    return String(value ?? "")
+        .trim()
+        .replace(/\s+/g,"")
+        .replace(/,/g,".")
+        .toLowerCase();
+
+}
+
+
+/* =========================
+   EXERCISE
+========================= */
+
+function showExercise(resource){
+
+    const solved =
+        localStorage.getItem(
+            "hamou_solved_" + resource.id
+        );
+
+
+    openModal(`
+
+        <h2>
+            📝
+            ${escapeHTML(
+                resource.title_ar ||
+                "تمرين رياضي"
+            )}
+        </h2>
+
+        <div class="quiz-question">
+
+            ${escapeHTML(
+                resource.question_ar || ""
+            )}
+
+        </div>
+
+
+        <input
+            id="exerciseAnswer"
+            class="quiz-input"
+            placeholder="اكتب الإجابة هنا"
+            autocomplete="off"
+        >
+
+
+        <div id="exerciseResult"></div>
+
+
+        <div class="quiz-actions">
+
+            <button
+                class="btn primary"
+                onclick="checkExercise(
+                    ${resource.id},
+                    ${JSON.stringify(resource.answer)}
+                )"
+            >
+                تحقق
+            </button>
+
+
+            <button
+                class="btn"
+                onclick="showSolution(
+                    ${JSON.stringify(
+                        resource.solution_ar ||
+                        "لا توجد حلول متاحة."
+                    )}
+                )"
+            >
+                إظهار الحل
+            </button>
+
+        </div>
+
+
+        ${
+            solved
+            ?
+            `
+            <br>
+            <p class="muted">
+                ✅ سبق أن حصلت على XP لهذا التمرين.
+            </p>
+            `
+            :
+            ""
+        }
+
+    `);
+
+}
+
+
+function checkExercise(id,correctAnswer){
+
+    const input =
+        $("exerciseAnswer");
+
+    const userAnswer =
+        normalizeAnswer(input.value);
+
+    const correct =
+        normalizeAnswer(correctAnswer);
+
+
+    if(!userAnswer){
+
+        $("exerciseResult").innerHTML = `
+
+            <div class="result wrong">
+                اكتب إجابتك أولًا.
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    if(userAnswer === correct){
+
+        $("exerciseResult").innerHTML = `
+
+            <div class="result success">
+                ✅ إجابة صحيحة! أحسنت.
+            </div>
+
+        `;
+
+
+        const key =
+            "hamou_solved_" + id;
+
+
+        if(!localStorage.getItem(key)){
+
+            localStorage.setItem(key,"1");
+
+            addXP(10);
+
+        }
+
+
+    }else{
+
+        $("exerciseResult").innerHTML = `
+
+            <div class="result wrong">
+                ❌ إجابة غير صحيحة، حاول مرة أخرى.
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+function showSolution(solution){
+
+    $("exerciseResult").innerHTML = `
+
+        <div class="result">
+
+            💡
+            ${escapeHTML(solution)}
+
+        </div>
+
+    `;
+
+}
+
+
+/* =========================
+   QUIZ DATA
+========================= */
+
+async function getQuizItems(count){
+
+    const result =
+        await supabaseClient
+        .from("math_resources")
+        .select(`
+            id,
+            title_ar,
+            question_ar,
+            solution_ar,
+            answer
+        `)
+        .eq("resource_type","exercise")
+        .not("question_ar","is",null)
+        .not("answer","is",null)
+        .limit(100);
+
+
+    if(
+        result.error ||
+        !result.data ||
+        result.data.length === 0
+    ){
+
+        showToast(
+            "لا توجد تمارين متاحة حاليًا"
+        );
+
+        return [];
+
+    }
+
+
+    const list =
+        result.data.slice();
+
+
+    list.sort(function(){
+
+        return Math.random() - 0.5;
+
+    });
+
+
+    return list.slice(0,count);
+
+}
+
+
+/* =========================
+   CHALLENGES
+========================= */
+
+async function startChallenge(type){
+
+    if(type === "daily"){
+
+        const today =
+            new Date()
+            .toISOString()
+            .slice(0,10);
+
+        const dailyKey =
+            "hamou_daily_" + today;
+
+
+        if(localStorage.getItem(dailyKey)){
+
+            showToast(
+                "لقد أكملت تحدي اليوم بالفعل ✅"
+            );
+
+            return;
+
+        }
+
+    }
+
+
+    await startQuiz(type);
+
+}
+
+
+/* =========================
+   GAMES
+========================= */
+
+async function playGame(type){
+
+    await startQuiz(type);
+
+}
+
+
+/* =========================
+   START QUIZ
+========================= */
+
+async function startQuiz(type){
+
+    clearInterval(quiz.timer);
+
+    quiz = {
+
+        type:type,
+
+        items:[],
+
+        index:0,
+
+        score:0,
+
+        timeLeft:
+            type === "speed" ||
+            type === "timer"
+            ? 60
+            : 0,
+
+        timer:null,
+
+        locked:false
+
+    };
+
+
+    const numberOfQuestions =
+        type === "daily"
+        ? 1
+        : 10;
+
+
+    quiz.items =
+        await getQuizItems(
+            numberOfQuestions
+        );
+
+
+    if(!quiz.items.length){
+
+        return;
+
+    }
+
+
+    renderQuiz();
+
+
+    if(quiz.timeLeft > 0){
+
+        quiz.timer =
+            setInterval(function(){
+
+                quiz.timeLeft--;
+
+                updateTimer();
+
+                if(quiz.timeLeft <= 0){
+
+                    finishQuiz();
+
+                }
+
+            },1000);
+
+    }
+
+}
+
+
+/* =========================
+   QUIZ TITLE
+========================= */
+
+function getQuizTitle(){
+
+    if(quiz.type === "daily"){
+
+        return "📅 تحدي اليوم";
+
+    }
+
+    if(
+        quiz.type === "speed" ||
+        quiz.type === "timer"
+    ){
+
+        return "⚡ تحدي السرعة";
+
+    }
+
+    return "🧠 التحدي الذهني";
+
+}
+
+
+/* =========================
+   RENDER QUIZ
+========================= */
+
+function renderQuiz(){
+
+    const question =
+        quiz.items[quiz.index];
+
+
+    openModal(`
+
+        <h2>
+            ${getQuizTitle()}
+        </h2>
+
+
+        <div
+            style="
+                display:flex;
+                justify-content:space-between;
+                margin-top:15px;
+            "
+        >
+
+            <b>
+                السؤال
+                ${quiz.index + 1}
+                /
+                ${quiz.items.length}
+            </b>
+
+
+            <span
+                id="timer"
+                class="timer"
+            >
+                ${
+                    quiz.timeLeft
+                    ?
+                    quiz.timeLeft + " ثانية"
+                    :
+                    ""
+                }
+            </span>
+
+        </div>
+
+
+        <div class="quiz-question">
+
+            ${escapeHTML(
+                question.question_ar || ""
+            )}
+
+        </div>
+
+
+        <input
+            id="quizAnswer"
+            class="quiz-input"
+            placeholder="اكتب الإجابة هنا"
+            autocomplete="off"
+        >
+
+
+        <div id="quizResult"></div>
+
+
+        <div class="quiz-actions">
+
+            <button
+                class="btn primary"
+                onclick="submitQuiz()"
+            >
+                تحقق
+            </button>
+
+            <button
+                class="btn"
+                onclick="closeModal()"
+            >
+                خروج
+            </button>
+
+        </div>
+
+    `);
+
+
+    setTimeout(function(){
+
+        const input =
+            $("quizAnswer");
+
+        if(input){
+
+            input.focus();
+
+            input.addEventListener(
+                "keydown",
+                function(event){
+
+                    if(event.key === "Enter"){
+
+                        submitQuiz();
+
+                    }
+
+                }
+            );
+
+        }
+
+    },100);
+
+}
+
+
+/* =========================
+   TIMER
+========================= */
+
+function updateTimer(){
+
+    const timer =
+        $("timer");
+
+    if(timer){
+
+        timer.textContent =
+            quiz.timeLeft +
+            " ثانية";
+
+    }
+
+}
+
+
+/* =========================
+   SUBMIT QUIZ
+========================= */
+
+function submitQuiz(){
+
+    if(quiz.locked){
+
+        return;
+
+    }
+
+
+    const input =
+        $("quizAnswer");
+
+
+    if(!input){
+
+        return;
+
+    }
+
+
+    const userAnswer =
+        normalizeAnswer(
+            input.value
+        );
+
+
+    if(!userAnswer){
+
+        $("quizResult").innerHTML = `
+
+            <div class="result wrong">
+                اكتب إجابتك أولًا.
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    quiz.locked = true;
+
+
+    const question =
+        quiz.items[quiz.index];
+
+
+    const correct =
+        normalizeAnswer(
+            question.answer
+        );
+
+
+    const isCorrect =
+        userAnswer === correct;
+
+
+    if(isCorrect){
+
+        quiz.score++;
+
+
+        $("quizResult").innerHTML = `
+
+            <div class="result success">
+
+                ✅ صحيح!
+
+                <br>
+
+                +10 XP
+
+            </div>
+
+        `;
+
+
+    }else{
+
+        $("quizResult").innerHTML = `
+
+            <div class="result wrong">
+
+                ❌ غير صحيح.
+
+                <br>
+
+                الحل:
+
+                ${escapeHTML(
+                    question.solution_ar ||
+                    "راجع الحل."
+                )}
+
+            </div>
+
+        `;
+
+    }
+
+
+    setTimeout(function(){
+
+        if(isCorrect){
+
+            addXP(10);
+
+        }
+
+
+        quiz.index++;
+
+        quiz.locked = false;
+
+
+        if(
+            quiz.index >=
+            quiz.items.length
+        ){
+
+            finishQuiz();
+
+        }else{
+
+            renderQuiz();
+
+        }
+
+    },700);
+
+}
+
+
+/* =========================
+   FINISH QUIZ
+========================= */
+
+function finishQuiz(){
+
+    clearInterval(quiz.timer);
+
+    quiz.timer = null;
+
+
+    const total =
+        quiz.items.length;
+
+
+    let bonus = 0;
+
+
+    if(quiz.type === "daily"){
+
+        const today =
+            new Date()
+            .toISOString()
+            .slice(0,10);
+
+
+        const dailyKey =
+            "hamou_daily_" + today;
+
+
+        if(
+            !localStorage.getItem(
+                dailyKey
+            )
+        ){
+
+            localStorage.setItem(
+                dailyKey,
+                "1"
+            );
+
+            bonus = 100;
+
+        }
+
+    }else{
+
+        bonus =
+            Math.round(
+                (quiz.score /
+                Math.max(1,total)) *
+                50
+            );
+
+    }
+
+
+    if(bonus > 0){
+
+        addXP(bonus);
+
+    }
+
+
+    openModal(`
+
+        <h2>
+            🏆 انتهى التحدي!
+        </h2>
+
+
+        <div class="result success">
+
+            نتيجتك:
+
+            <b>
+                ${quiz.score}/${total}
+            </b>
+
+        </div>
+
+
+        <p>
+
+            مكافأة إضافية:
+
+            <b>
+                ${bonus} XP
+            </b>
+
+        </p>
+
+
+        <p class="muted">
+
+            مجموع XP الحالي:
+
+            ${localXP}
+
+        </p>
+
+
+        <br>
+
+
+        <button
+            class="btn primary"
+            onclick="closeModal()"
+        >
+            متابعة
+        </button>
+
+    `);
+
+}
+
+
+/* =========================
+   PROGRESS
+========================= */
+
+function openProgress(){
+
+    const level =
+        getLevel(localXP);
+
+    const current =
+        localXP % 100;
+
+    const remaining =
+        100 - current;
+
+
+    openModal(`
+
+        <h2>
+            📈 تقدمي
+        </h2>
+
+
+        <br>
+
+
+        <div class="stat">
+
+            <strong>
+                ${localXP} XP
+            </strong>
+
+            <span>
+                مجموع نقاطك
+            </span>
+
+        </div>
+
+
+        <br>
+
+
+        <h3>
+            المستوى ${level}
+        </h3>
+
+
+        <br>
+
+
+        <div class="xp-track">
+
+            <div
+                class="xp-fill"
+                style="
+                    width:${current}%;
+                "
+            ></div>
+
+        </div>
+
+
+        <br>
+
+
+        <p class="muted">
+
+            تحتاج إلى
+
+            <b>
+                ${remaining} XP
+            </b>
+
+            للوصول إلى المستوى
+
+            <b>
+                ${level + 1}
+            </b>.
+
+        </p>
+
+    `);
+
+}
+
+
+/* =========================
+   LOGIN
+========================= */
+
+function openLogin(){
+
+    openModal(`
+
+        <h2>
+            🔐 تسجيل الدخول
+        </h2>
+
+
+        <p class="muted">
+
+            سجل الدخول لحفظ تقدمك ونقاطك.
+
+        </p>
+
+
+        <br>
+
+
+        <input
+            id="loginEmail"
+            class="quiz-input"
+            type="email"
+            placeholder="البريد الإلكتروني"
+        >
+
+
+        <input
+            id="loginPassword"
+            class="quiz-input"
+            type="password"
+            placeholder="كلمة المرور"
+        >
+
+
+        <div class="quiz-actions">
+
+            <button
+                class="btn primary"
+                onclick="signIn()"
+            >
+                دخول
+            </button>
+
+
+            <button
+                class="btn"
+                onclick="signUp()"
+            >
+                إنشاء حساب
+            </button>
+
+        </div>
+
+
+        <div id="loginResult"></div>
+
+    `);
+
+}
+
+
+/* =========================
+   SIGN IN
+========================= */
+
+async function signIn(){
+
+    const email =
+        $("loginEmail").value.trim();
+
+    const password =
+        $("loginPassword").value;
+
+
+    if(!email || !password){
+
+        $("loginResult").innerHTML = `
+
+            <div class="result wrong">
+
+                أدخل البريد وكلمة المرور.
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    const result =
+        await supabaseClient.auth
+        .signInWithPassword({
+
+            email:email,
+
+            password:password
+
+        });
+
+
+    if(result.error){
+
+        $("loginResult").innerHTML = `
+
+            <div class="result wrong">
+
+                ${escapeHTML(
+                    result.error.message
+                )}
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    $("loginResult").innerHTML = `
+
+        <div class="result success">
+
+            ✅ تم تسجيل الدخول بنجاح.
+
+        </div>
+
+    `;
+
+
+    await loadUser();
+
+
+    setTimeout(function(){
+
+        closeModal();
+
+    },700);
+
+}
+
+
+/* =========================
+   SIGN UP
+========================= */
+
+async function signUp(){
+
+    const email =
+        $("loginEmail").value.trim();
+
+    const password =
+        $("loginPassword").value;
+
+
+    if(!email || !password){
+
+        $("loginResult").innerHTML = `
+
+            <div class="result wrong">
+
+                أدخل البريد وكلمة المرور.
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    if(password.length < 6){
+
+        $("loginResult").innerHTML = `
+
+            <div class="result wrong">
+
+                كلمة المرور يجب أن تكون 6 أحرف على الأقل.
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    const result =
+        await supabaseClient.auth
+        .signUp({
+
+            email:email,
+
+            password:password
+
+        });
+
+
+    if(result.error){
+
+        $("loginResult").innerHTML = `
+
+            <div class="result wrong">
+
+                ${escapeHTML(
+                    result.error.message
+                )}
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    $("loginResult").innerHTML = `
+
+        <div class="result success">
+
+            ✅ تم إنشاء الحساب.
+
+            <br>
+
+            تحقق من بريدك الإلكتروني إذا كان تأكيد البريد مفعّلًا.
+
+        </div>
+
+    `;
+
+}
+
+
+/* =========================
+   LANGUAGE
+========================= */
+
+function changeLanguage(language){
+
+    if(language === "ar"){
+
+        document.documentElement.lang = "ar";
+
+        document.documentElement.dir = "rtl";
+
+        showToast("العربية");
+
+        return;
+
+    }
+
+
+    if(language === "fr"){
+
+        showToast(
+            "النسخة الفرنسية قيد التطوير 🇫🇷"
+        );
+
+        return;
+
+    }
+
+
+    if(language === "en"){
+
+        showToast(
+            "English version coming soon 🇬🇧"
+        );
+
+    }
+
+}
+
+
+/* =========================
+   AUTH LISTENER
+========================= */
+
+supabaseClient.auth
+.onAuthStateChange(
+    function(event,session){
+
+        currentUser =
+            session?.user || null;
+
+
+        if(currentUser){
+
+            $("userName").textContent =
+                currentUser.user_metadata?.full_name ||
+                currentUser.email ||
+                "لاعب";
+
+        }
+
+    }
 );
+
+
+/* =========================
+   START
+========================= */
+
+updateXP();
+
+loadUser();
+
+loadResources();
 
 </script>
 
