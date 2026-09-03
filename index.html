@@ -2,33 +2,44 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
+
 <meta name="viewport"
-      content="width=device-width,initial-scale=1.0,maximum-scale=1.0,viewport-fit=cover">
+content="width=device-width,initial-scale=1.0,maximum-scale=1.0,viewport-fit=cover">
 
 <meta name="theme-color" content="#2563eb">
+
+<title>HAMOU MATH GLOBAL | المكتبة العالمية للرياضيات</title>
+
 <meta name="description"
-      content="HAMOU MATH GLOBAL - منصة عالمية للرياضيات، مكتبة تعليمية، تمارين، أكاديمية، تحديات وأولمبياد.">
-
-<title>HAMOU MATH GLOBAL | سلسلة حمو في الرياضيات</title>
-
-<link rel="manifest" href="/manifest.json">
+content="HAMOU MATH GLOBAL - منصة عالمية للكتب والدروس والتمارين والامتحانات والمراجع الرياضية.">
 
 <style>
+
+/* =========================================================
+   HAMOU MATH GLOBAL
+   GLOBAL DESIGN SYSTEM
+========================================================= */
+
 :root{
   --primary:#2563eb;
-  --primary2:#1d4ed8;
+  --primary-dark:#1d4ed8;
+  --secondary:#7c3aed;
   --cyan:#06b6d4;
-  --green:#10b981;
-  --orange:#f59e0b;
-  --red:#ef4444;
-  --purple:#7c3aed;
+  --success:#059669;
+  --danger:#dc2626;
+
   --bg:#f5f7fb;
-  --card:#ffffff;
-  --text:#111827;
+  --surface:#ffffff;
+  --surface2:#f8fafc;
+
+  --text:#0f172a;
   --muted:#64748b;
-  --border:#e5e7eb;
-  --shadow:0 12px 35px rgba(15,23,42,.08);
-  --radius:20px;
+  --border:#e2e8f0;
+
+  --shadow:
+    0 10px 30px rgba(15,23,42,.08);
+
+  --radius:18px;
 }
 
 *{
@@ -43,24 +54,17 @@ html{
 
 body{
   font-family:
-  system-ui,
-  -apple-system,
-  BlinkMacSystemFont,
-  "Segoe UI",
-  Arial,
-  sans-serif;
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Tahoma,
+    Arial,
+    sans-serif;
+
   background:var(--bg);
   color:var(--text);
   min-height:100vh;
-}
-
-body.dark{
-  --bg:#0b1220;
-  --card:#111827;
-  --text:#f8fafc;
-  --muted:#94a3b8;
-  --border:#243244;
-  --shadow:0 12px 35px rgba(0,0,0,.25);
 }
 
 button,
@@ -78,80 +82,96 @@ a{
   text-decoration:none;
 }
 
-/* HEADER */
+/* =========================================================
+   HEADER
+========================================================= */
 
-header{
+.header{
   position:sticky;
   top:0;
   z-index:1000;
-  background:rgba(255,255,255,.94);
+
+  background:
+    rgba(255,255,255,.94);
+
   backdrop-filter:blur(16px);
-  border-bottom:1px solid var(--border);
+
+  border-bottom:
+    1px solid var(--border);
 }
 
-body.dark header{
-  background:rgba(17,24,39,.94);
-}
+.navbar{
+  max-width:1400px;
+  min-height:70px;
 
-.header-inner{
-  max-width:1250px;
   margin:auto;
-  min-height:72px;
   padding:10px 18px;
+
   display:flex;
   align-items:center;
-  justify-content:space-between;
-  gap:15px;
+  gap:16px;
 }
 
 .logo{
   display:flex;
   align-items:center;
-  gap:10px;
-  font-weight:900;
+  gap:8px;
+
+  font-size:21px;
+  font-weight:950;
+
   color:var(--primary);
+
   white-space:nowrap;
 }
 
 .logo-icon{
-  width:44px;
-  height:44px;
-  border-radius:14px;
+  width:40px;
+  height:40px;
+
   display:grid;
   place-items:center;
-  color:white;
-  font-size:22px;
-  background:linear-gradient(135deg,var(--primary),var(--cyan));
-  box-shadow:0 8px 20px rgba(37,99,235,.25);
+
+  color:#fff;
+
+  border-radius:13px;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--primary),
+      var(--secondary)
+    );
+
+  box-shadow:
+    0 8px 20px rgba(37,99,235,.25);
 }
 
-.logo small{
-  display:block;
-  font-size:10px;
-  color:var(--muted);
-  margin-top:2px;
+.logo span{
+  color:var(--secondary);
 }
 
-nav{
+.nav-menu{
   display:flex;
   align-items:center;
-  gap:5px;
-  overflow:auto;
-  scrollbar-width:none;
-}
+  justify-content:center;
 
-nav::-webkit-scrollbar{
-  display:none;
+  gap:5px;
+
+  flex:1;
 }
 
 .nav-btn{
   border:0;
   background:transparent;
-  color:var(--muted);
+
   padding:10px 12px;
-  border-radius:12px;
-  font-weight:700;
-  white-space:nowrap;
+
+  border-radius:11px;
+
+  color:#334155;
+
+  transition:.2s;
 }
 
 .nav-btn:hover,
@@ -160,85 +180,558 @@ nav::-webkit-scrollbar{
   color:var(--primary);
 }
 
-body.dark .nav-btn:hover,
-body.dark .nav-btn.active{
-  background:#172554;
-}
+.mobile-menu{
+  display:none;
 
-.header-actions{
-  display:flex;
-  gap:7px;
-}
-
-.icon-btn{
   width:42px;
   height:42px;
+
   border:1px solid var(--border);
-  background:var(--card);
-  color:var(--text);
-  border-radius:13px;
+  background:white;
+
+  border-radius:12px;
+
+  font-size:20px;
 }
 
-/* GENERAL */
-
-.container{
-  max-width:1250px;
-  margin:auto;
-  padding:0 18px;
-}
-
-.page{
-  display:none;
-  padding:28px 0 70px;
-}
-
-.page.active{
-  display:block;
-}
+/* =========================================================
+   HERO
+========================================================= */
 
 .hero{
   position:relative;
   overflow:hidden;
-  padding:55px 28px;
-  border-radius:30px;
+
   color:white;
+
   background:
-    radial-gradient(circle at 10% 20%,rgba(255,255,255,.18),transparent 30%),
-    radial-gradient(circle at 90% 10%,rgba(6,182,212,.35),transparent 30%),
-    linear-gradient(135deg,#1d4ed8,#2563eb 55%,#0891b2);
-  box-shadow:var(--shadow);
+    radial-gradient(
+      circle at 15% 20%,
+      rgba(6,182,212,.28),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 85% 15%,
+      rgba(124,58,237,.32),
+      transparent 30%
+    ),
+    linear-gradient(
+      135deg,
+      #0f172a,
+      #1d4ed8 55%,
+      #6d28d9
+    );
+
+  padding:
+    72px 18px
+    90px;
+}
+
+.hero::after{
+  content:"";
+
+  position:absolute;
+
+  left:-10%;
+  right:-10%;
+  bottom:-90px;
+
+  height:180px;
+
+  background:var(--bg);
+
+  border-radius:50% 50% 0 0;
+}
+
+.hero-inner{
+  max-width:1400px;
+  margin:auto;
+
+  position:relative;
+  z-index:2;
+}
+
+.hero-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+
+  padding:8px 13px;
+
+  border:
+    1px solid
+    rgba(255,255,255,.25);
+
+  background:
+    rgba(255,255,255,.10);
+
+  border-radius:999px;
+
+  font-size:13px;
 }
 
 .hero h1{
-  font-size:clamp(32px,6vw,60px);
-  line-height:1.05;
-  margin-bottom:15px;
+  max-width:900px;
+
+  margin-top:18px;
+
+  font-size:
+    clamp(34px,6vw,68px);
+
+  line-height:1.04;
+
+  font-weight:950;
 }
 
-.hero p{
-  max-width:750px;
-  font-size:18px;
-  opacity:.93;
-  line-height:1.8;
+.hero h1 span{
+  color:#67e8f9;
 }
 
-.hero-actions{
+.hero-description{
+  max-width:850px;
+
+  margin-top:20px;
+
+  color:#dbeafe;
+
+  font-size:17px;
+
+  line-height:1.9;
+}
+
+/* =========================================================
+   GLOBAL SEARCH
+========================================================= */
+
+.global-search{
+  max-width:950px;
+
+  margin-top:30px;
+
   display:flex;
-  flex-wrap:wrap;
+
   gap:10px;
-  margin-top:25px;
 }
 
-.btn{
+.global-search input{
+  flex:1;
+
+  min-width:0;
+
   border:0;
-  border-radius:13px;
-  padding:12px 17px;
-  font-weight:800;
-  transition:.2s;
+
+  outline:none;
+
+  padding:
+    17px
+    20px;
+
+  border-radius:16px;
+
+  background:#fff;
+
+  color:#0f172a;
+
+  box-shadow:
+    0 15px 40px
+    rgba(0,0,0,.18);
 }
 
-.btn:hover{
-  transform:translateY(-2px);
+.global-search button{
+  border:0;
+
+  padding:
+    0 23px;
+
+  border-radius:16px;
+
+  background:#fff;
+
+  color:var(--primary);
+
+  font-weight:900;
+
+  white-space:nowrap;
+}
+
+/* =========================================================
+   MAIN
+========================================================= */
+
+.container{
+  max-width:1400px;
+
+  margin:auto;
+
+  padding:
+    0 18px
+    45px;
+}
+
+/* =========================================================
+   STATS
+========================================================= */
+
+.stats{
+  position:relative;
+  z-index:5;
+
+  margin-top:-45px;
+
+  display:grid;
+
+  grid-template-columns:
+    repeat(4,1fr);
+
+  gap:15px;
+}
+
+.stat-card{
+  background:var(--surface);
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:20px;
+
+  padding:22px;
+
+  box-shadow:var(--shadow);
+}
+
+.stat-icon{
+  font-size:25px;
+}
+
+.stat-number{
+  display:block;
+
+  margin-top:8px;
+
+  color:var(--primary);
+
+  font-size:28px;
+
+  font-weight:950;
+}
+
+.stat-label{
+  color:var(--muted);
+
+  font-size:13px;
+}
+
+/* =========================================================
+   SECTION
+========================================================= */
+
+.section{
+  margin-top:45px;
+}
+
+.section-header{
+  display:flex;
+
+  align-items:end;
+  justify-content:space-between;
+
+  gap:15px;
+
+  margin-bottom:18px;
+}
+
+.section-title{
+  font-size:28px;
+
+  font-weight:950;
+}
+
+.section-subtitle{
+  margin-top:5px;
+
+  color:var(--muted);
+
+  font-size:14px;
+}
+
+/* =========================================================
+   CATEGORIES
+========================================================= */
+
+.categories{
+  display:grid;
+
+  grid-template-columns:
+    repeat(6,1fr);
+
+  gap:12px;
+}
+
+.category{
+  border:
+    1px solid
+    var(--border);
+
+  background:var(--surface);
+
+  border-radius:17px;
+
+  padding:18px 10px;
+
+  text-align:center;
+
+  box-shadow:var(--shadow);
+
+  transition:
+    transform .2s,
+    border-color .2s,
+    box-shadow .2s;
+}
+
+.category:hover{
+  transform:translateY(-4px);
+
+  border-color:
+    #bfdbfe;
+
+  box-shadow:
+    0 15px 35px
+    rgba(37,99,235,.12);
+}
+
+.category-icon{
+  width:48px;
+  height:48px;
+
+  margin:auto;
+
+  display:grid;
+  place-items:center;
+
+  border-radius:14px;
+
+  background:#eff6ff;
+
+  font-size:23px;
+}
+
+.category strong{
+  display:block;
+
+  margin-top:10px;
+
+  font-size:13px;
+}
+
+/* =========================================================
+   LIBRARY TOOLBAR
+========================================================= */
+
+.library-toolbar{
+  display:grid;
+
+  grid-template-columns:
+    1.7fr
+    repeat(4,1fr);
+
+  gap:10px;
+
+  margin-bottom:20px;
+}
+
+.control{
+  width:100%;
+
+  min-height:47px;
+
+  padding:
+    10px
+    13px;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:12px;
+
+  background:#fff;
+
+  color:var(--text);
+
+  outline:none;
+}
+
+.control:focus{
+  border-color:
+    #93c5fd;
+
+  box-shadow:
+    0 0 0 3px
+    rgba(37,99,235,.10);
+}
+
+/* =========================================================
+   RESOURCE GRID
+========================================================= */
+
+.resource-grid{
+  display:grid;
+
+  grid-template-columns:
+    repeat(3,1fr);
+
+  gap:17px;
+}
+
+.resource-card{
+  display:flex;
+
+  flex-direction:column;
+
+  min-height:290px;
+
+  padding:19px;
+
+  background:#fff;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:19px;
+
+  box-shadow:var(--shadow);
+
+  transition:
+    transform .2s,
+    box-shadow .2s;
+}
+
+.resource-card:hover{
+  transform:translateY(-4px);
+
+  box-shadow:
+    0 18px 42px
+    rgba(15,23,42,.12);
+}
+
+.resource-top{
+  display:flex;
+
+  align-items:flex-start;
+
+  justify-content:space-between;
+
+  gap:10px;
+}
+
+.resource-icon{
+  width:48px;
+  height:48px;
+
+  display:grid;
+  place-items:center;
+
+  border-radius:14px;
+
+  background:#eff6ff;
+
+  font-size:24px;
+}
+
+.resource-type{
+  padding:6px 9px;
+
+  border-radius:999px;
+
+  background:#f1f5f9;
+
+  color:#475569;
+
+  font-size:11px;
+
+  font-weight:800;
+}
+
+.resource-card h3{
+  margin-top:14px;
+
+  font-size:18px;
+
+  line-height:1.45;
+}
+
+.resource-description{
+  margin-top:8px;
+
+  color:var(--muted);
+
+  font-size:13px;
+
+  line-height:1.75;
+}
+
+.resource-tags{
+  display:flex;
+
+  flex-wrap:wrap;
+
+  gap:6px;
+
+  margin-top:11px;
+}
+
+.tag{
+  padding:5px 8px;
+
+  border-radius:999px;
+
+  background:#f8fafc;
+
+  color:#475569;
+
+  border:
+    1px solid
+    #e2e8f0;
+
+  font-size:10px;
+}
+
+.resource-source{
+  margin-top:auto;
+
+  padding-top:14px;
+
+  color:#64748b;
+
+  font-size:11px;
+}
+
+.resource-actions{
+  display:flex;
+
+  gap:8px;
+
+  margin-top:11px;
+}
+
+.btn-primary,
+.btn-secondary{
+  flex:1;
+
+  min-height:42px;
+
+  display:flex;
+
+  align-items:center;
+  justify-content:center;
+
+  border-radius:11px;
+
+  font-size:12px;
+
+  font-weight:850;
 }
 
 .btn-primary{
@@ -246,404 +739,220 @@ body.dark .nav-btn.active{
   color:white;
 }
 
-.btn-white{
-  background:white;
-  color:var(--primary);
+.btn-primary:hover{
+  background:var(--primary-dark);
 }
 
-.btn-green{
-  background:var(--green);
-  color:white;
-}
-
-.btn-orange{
-  background:var(--orange);
-  color:white;
-}
-
-.btn-purple{
-  background:var(--purple);
-  color:white;
-}
-
-.section-title{
-  display:flex;
-  justify-content:space-between;
-  align-items:end;
-  gap:15px;
-  margin:32px 0 18px;
-}
-
-.section-title h2{
-  font-size:26px;
-}
-
-.section-title p{
-  color:var(--muted);
-  margin-top:5px;
-}
-
-.grid{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:16px;
-}
-
-.card{
-  background:var(--card);
-  border:1px solid var(--border);
-  border-radius:var(--radius);
-  box-shadow:var(--shadow);
-  padding:20px;
-}
-
-.stat{
-  text-align:center;
-}
-
-.stat-icon{
-  font-size:28px;
-  margin-bottom:8px;
-}
-
-.stat-number{
-  font-size:30px;
-  font-weight:900;
-  color:var(--primary);
-}
-
-.stat-label{
-  color:var(--muted);
-  font-size:14px;
-}
-
-.feature{
-  min-height:180px;
-}
-
-.feature-icon{
-  font-size:35px;
-  margin-bottom:12px;
-}
-
-.feature h3{
-  margin-bottom:8px;
-}
-
-.feature p{
-  color:var(--muted);
-  line-height:1.7;
-}
-
-/* LIBRARY */
-
-.library-toolbar{
-  display:grid;
-  grid-template-columns:2fr repeat(3,1fr);
-  gap:10px;
-  margin-bottom:18px;
-}
-
-.input,
-.select{
-  width:100%;
-  border:1px solid var(--border);
-  background:var(--card);
-  color:var(--text);
-  padding:13px 14px;
-  border-radius:13px;
-  outline:none;
-}
-
-.input:focus,
-.select:focus{
-  border-color:var(--primary);
-}
-
-.resource-card{
-  display:flex;
-  flex-direction:column;
-  gap:11px;
-}
-
-.resource-type{
-  display:inline-flex;
-  width:max-content;
-  padding:5px 9px;
-  border-radius:999px;
-  background:#eff6ff;
-  color:var(--primary);
-  font-size:12px;
-  font-weight:800;
-}
-
-.resource-card h3{
-  font-size:18px;
-  line-height:1.4;
-}
-
-.resource-card p{
-  color:var(--muted);
-  font-size:14px;
-  line-height:1.6;
-  flex:1;
-}
-
-.resource-meta{
-  display:flex;
-  flex-wrap:wrap;
-  gap:6px;
-}
-
-.badge{
-  padding:5px 8px;
-  border-radius:999px;
+.btn-secondary{
   background:#f1f5f9;
-  color:#475569;
-  font-size:11px;
-  font-weight:700;
+  color:#334155;
 }
 
-body.dark .badge{
-  background:#1e293b;
-  color:#cbd5e1;
-}
+/* =========================================================
+   NOTICE
+========================================================= */
 
-.resource-actions{
-  display:flex;
-  gap:7px;
-}
-
-.resource-actions button{
-  flex:1;
-}
-
-.pagination{
-  display:flex;
-  justify-content:center;
-  gap:8px;
+.legal-notice{
   margin-top:25px;
+
+  padding:16px 18px;
+
+  border:
+    1px solid
+    #a7f3d0;
+
+  background:#ecfdf5;
+
+  color:#065f46;
+
+  border-radius:15px;
+
+  font-size:13px;
+
+  line-height:1.8;
 }
 
-.pagination button{
-  border:1px solid var(--border);
-  background:var(--card);
-  color:var(--text);
-  border-radius:10px;
-  padding:9px 13px;
-}
+/* =========================================================
+   EMPTY
+========================================================= */
 
-.pagination button.active{
-  background:var(--primary);
-  color:white;
-}
+.empty{
+  grid-column:1/-1;
 
-/* ACADEMY */
+  padding:55px 20px;
 
-.level-card{
-  cursor:pointer;
-  transition:.2s;
-}
+  background:#fff;
 
-.level-card:hover{
-  transform:translateY(-4px);
-}
+  border:
+    1px dashed
+    #cbd5e1;
 
-.level-card .emoji{
-  font-size:40px;
-}
+  border-radius:18px;
 
-.level-card h3{
-  margin:10px 0 5px;
-}
+  text-align:center;
 
-.level-card p{
   color:var(--muted);
 }
 
-/* CHALLENGES */
+/* =========================================================
+   FOOTER
+========================================================= */
 
-.challenge{
-  position:relative;
-  overflow:hidden;
-}
+.footer{
+  margin-top:50px;
 
-.challenge::after{
-  content:"";
-  position:absolute;
-  width:120px;
-  height:120px;
-  border-radius:50%;
-  background:rgba(37,99,235,.08);
-  right:-30px;
-  top:-30px;
-}
+  background:#0f172a;
 
-.challenge h3{
-  margin-bottom:8px;
-}
+  color:#cbd5e1;
 
-.challenge p{
-  color:var(--muted);
-  line-height:1.7;
-}
-
-/* GAME */
-
-.game-box{
-  max-width:700px;
-  margin:20px auto;
-  text-align:center;
-}
-
-.question{
-  font-size:38px;
-  font-weight:900;
-  margin:25px 0;
-}
-
-.answer-input{
-  max-width:250px;
-  text-align:center;
-  font-size:22px;
-}
-
-.game-message{
-  min-height:28px;
-  margin:15px 0;
-  font-weight:800;
-}
-
-/* PROFILE */
-
-.profile{
-  display:grid;
-  grid-template-columns:280px 1fr;
-  gap:18px;
-}
-
-.progress{
-  height:12px;
-  background:#e2e8f0;
-  border-radius:999px;
-  overflow:hidden;
-}
-
-.progress > span{
-  display:block;
-  height:100%;
-  background:linear-gradient(90deg,var(--primary),var(--cyan));
-}
-
-/* MODAL */
-
-.modal{
-  position:fixed;
-  inset:0;
-  background:rgba(15,23,42,.65);
-  display:none;
-  align-items:center;
-  justify-content:center;
-  padding:18px;
-  z-index:2000;
-}
-
-.modal.show{
-  display:flex;
-}
-
-.modal-box{
-  width:min(560px,100%);
-  max-height:90vh;
-  overflow:auto;
-  background:var(--card);
-  color:var(--text);
-  border-radius:24px;
-  padding:25px;
-  box-shadow:0 30px 80px rgba(0,0,0,.3);
-}
-
-.modal-head{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:18px;
-}
-
-/* TOAST */
-
-.toast{
-  position:fixed;
-  bottom:20px;
-  left:50%;
-  transform:translate(-50%,20px);
-  background:#111827;
-  color:white;
-  padding:12px 17px;
-  border-radius:13px;
-  opacity:0;
-  pointer-events:none;
-  transition:.25s;
-  z-index:5000;
-  max-width:90%;
-  text-align:center;
-}
-
-.toast.show{
-  opacity:1;
-  transform:translate(-50%,0);
-}
-
-/* FOOTER */
-
-footer{
-  border-top:1px solid var(--border);
-  background:var(--card);
-  padding:30px 18px;
-  margin-top:30px;
+  padding:40px 18px;
 }
 
 .footer-inner{
-  max-width:1250px;
+  max-width:1400px;
+
   margin:auto;
-  display:flex;
-  justify-content:space-between;
-  gap:20px;
-  flex-wrap:wrap;
+
+  display:grid;
+
+  grid-template-columns:
+    2fr 1fr 1fr;
+
+  gap:30px;
 }
 
-footer p{
-  color:var(--muted);
-  line-height:1.7;
+.footer h3{
+  color:#fff;
+
+  margin-bottom:10px;
 }
 
-/* MOBILE */
+.footer p{
+  font-size:13px;
 
-@media(max-width:900px){
-  .grid{
-    grid-template-columns:repeat(2,1fr);
+  line-height:1.8;
+}
+
+.footer a{
+  display:block;
+
+  margin-top:7px;
+
+  color:#cbd5e1;
+
+  font-size:13px;
+}
+
+.footer-bottom{
+  max-width:1400px;
+
+  margin:
+    30px auto
+    0;
+
+  padding-top:20px;
+
+  border-top:
+    1px solid
+    rgba(255,255,255,.1);
+
+  font-size:12px;
+
+  color:#94a3b8;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:1100px){
+
+  .categories{
+    grid-template-columns:
+      repeat(3,1fr);
+  }
+
+  .resource-grid{
+    grid-template-columns:
+      repeat(2,1fr);
   }
 
   .library-toolbar{
-    grid-template-columns:1fr 1fr;
+    grid-template-columns:
+      repeat(2,1fr);
   }
 
-  .profile{
+}
+
+@media(max-width:800px){
+
+  .nav-menu{
+    display:none;
+  }
+
+  .mobile-menu{
+    display:block;
+    margin-right:auto;
+  }
+
+  .stats{
+    grid-template-columns:
+      repeat(2,1fr);
+  }
+
+  .footer-inner{
     grid-template-columns:1fr;
   }
 
-  .header-inner{
-    flex-wrap:wrap;
-  }
-
-  nav{
-    width:100%;
-    order:3;
-  }
 }
 
 @media(max-width:600px){
-  .grid{
+
+  .hero{
+    padding:
+      48px 15px
+      75px;
+  }
+
+  .hero h1{
+    font-size:38px;
+  }
+
+  .hero-description{
+    font-size:14px;
+  }
+
+  .global-search{
+    flex-direction:column;
+  }
+
+  .global-search button{
+    min-height:48px;
+  }
+
+  .container{
+    padding:
+      0 14px
+      35px;
+  }
+
+  .stats{
+    grid-template-columns:
+      repeat(2,1fr);
+
+    gap:10px;
+  }
+
+  .stat-card{
+    padding:16px;
+  }
+
+  .categories{
+    grid-template-columns:
+      repeat(2,1fr);
+  }
+
+  .resource-grid{
     grid-template-columns:1fr;
   }
 
@@ -651,2030 +960,1084 @@ footer p{
     grid-template-columns:1fr;
   }
 
-  .hero{
-    padding:35px 20px;
-  }
-
-  .hero h1{
-    font-size:36px;
-  }
-
-  .question{
-    font-size:30px;
-  }
-
-  .page{
-    padding-top:18px;
-  }
 }
+
 </style>
 </head>
 
 <body>
 
-<header>
-  <div class="header-inner">
+<!-- =======================================================
+     HEADER
+======================================================= -->
 
-    <button class="logo" onclick="go('home')" style="border:0;background:none">
-      <span class="logo-icon">∑</span>
-      <span>
-        HAMOU MATH
-        <small>GLOBAL • Mathematics Without Limits</small>
-      </span>
-    </button>
+<header class="header">
 
-    <nav>
-      <button class="nav-btn active" data-page="home" onclick="go('home')">🏠 الرئيسية</button>
-      <button class="nav-btn" data-page="library" onclick="go('library')">📚 المكتبة</button>
-      <button class="nav-btn" data-page="academy" onclick="go('academy')">🎓 الأكاديمية</button>
-      <button class="nav-btn" data-page="exercises" onclick="go('exercises')">✏️ التمارين</button>
-      <button class="nav-btn" data-page="challenges" onclick="go('challenges')">🏆 التحديات</button>
-      <button class="nav-btn" data-page="games" onclick="go('games')">🎮 الألعاب</button>
-      <button class="nav-btn" data-page="olympiad" onclick="go('olympiad')">🥇 الأولمبياد</button>
-    </nav>
+<nav class="navbar">
 
-    <div class="header-actions">
-      <button class="icon-btn" onclick="toggleTheme()" title="الوضع الليلي">🌙</button>
-      <button class="icon-btn" onclick="openAccount()" title="الحساب">👤</button>
-    </div>
+<a class="logo" href="#home">
 
-  </div>
+<span class="logo-icon">∑</span>
+
+HAMOU
+<span>MATH</span>
+
+</a>
+
+<div class="nav-menu">
+
+<button
+class="nav-btn active"
+onclick="goTo('home')">
+🏠 الرئيسية
+</button>
+
+<button
+class="nav-btn"
+onclick="goTo('library')">
+📚 المكتبة
+</button>
+
+<button
+class="nav-btn"
+onclick="filterType('كتاب')">
+📖 الكتب
+</button>
+
+<button
+class="nav-btn"
+onclick="filterType('درس')">
+📘 الدروس
+</button>
+
+<button
+class="nav-btn"
+onclick="filterType('تمارين')">
+📝 التمارين
+</button>
+
+<button
+class="nav-btn"
+onclick="filterType('امتحان')">
+🎓 الامتحانات
+</button>
+
+<button
+class="nav-btn"
+onclick="goTo('categories')">
+🧭 المجالات
+</button>
+
+</div>
+
+<button
+class="mobile-menu"
+onclick="toggleMobile()">
+☰
+</button>
+
+</nav>
+
 </header>
 
 
+<!-- =======================================================
+     HERO
+======================================================= -->
+
+<section
+class="hero"
+id="home">
+
+<div class="hero-inner">
+
+<div class="hero-badge">
+🌍 HAMOU MATH GLOBAL
+<span>•</span>
+Library Engine
+</div>
+
+<h1>
+بوابتك إلى
+<span>عالم الرياضيات</span>
+</h1>
+
+<p class="hero-description">
+
+مكتبة تعليمية عالمية تجمع الكتب والدروس والتمارين
+والامتحانات والمراجع الرياضية، مع البحث والتصنيف
+حسب المستوى واللغة والمجال ونوع المورد.
+
+</p>
+
+<div class="global-search">
+
+<input
+id="heroSearch"
+type="search"
+placeholder="ابحث عن التكامل، الاحتمالات، الجبر، Calculus..."
+oninput="syncSearch(this.value)">
+
+<button
+onclick="searchLibrary()">
+🔎 بحث
+</button>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =======================================================
+     MAIN
+======================================================= -->
+
 <main class="container">
 
-<!-- HOME -->
 
-<section id="home" class="page active">
+<!-- =======================================================
+     STATS
+======================================================= -->
 
-  <div class="hero">
+<section class="stats">
 
-    <h1>الرياضيات بلا حدود</h1>
+<div class="stat-card">
 
-    <p>
-      HAMOU MATH GLOBAL منصة تعليمية متكاملة للرياضيات:
-      مكتبة عالمية، أكاديمية، تمارين، تحديات، ألعاب وأولمبياد.
-      هدفنا أن نجعل تعلم الرياضيات تجربة ذكية، ممتعة ومتاحة للجميع.
-    </p>
+<div class="stat-icon">📚</div>
 
-    <div class="hero-actions">
-      <button class="btn btn-white" onclick="go('library')">
-        📚 اكتشف المكتبة
-      </button>
+<span
+class="stat-number"
+id="resourceCount">
+0
+</span>
 
-      <button class="btn btn-white" onclick="go('academy')">
-        🎓 ابدأ التعلم
-      </button>
+<span class="stat-label">
+مورد مفهرس حاليًا
+</span>
 
-      <button class="btn btn-white" onclick="go('challenges')">
-        🏆 ابدأ التحدي
-      </button>
-    </div>
-
-  </div>
+</div>
 
 
-  <div class="section-title">
-    <div>
-      <h2>HAMOU MATH بالأرقام</h2>
-      <p>منصة قابلة للتوسع عالمياً</p>
-    </div>
-  </div>
+<div class="stat-card">
 
-  <div class="grid">
+<div class="stat-icon">🌍</div>
 
-    <div class="card stat">
-      <div class="stat-icon">📚</div>
-      <div class="stat-number" id="homeResources">0</div>
-      <div class="stat-label">موارد مفهرسة</div>
-    </div>
+<span class="stat-number">
+3
+</span>
 
-    <div class="card stat">
-      <div class="stat-icon">✏️</div>
-      <div class="stat-number">∞</div>
-      <div class="stat-label">تمارين قابلة للتوليد</div>
-    </div>
+<span class="stat-label">
+لغات أساسية
+</span>
 
-    <div class="card stat">
-      <div class="stat-icon">🏆</div>
-      <div class="stat-number">365</div>
-      <div class="stat-label">تحديات سنوية</div>
-    </div>
-
-    <div class="card stat">
-      <div class="stat-icon">🌍</div>
-      <div class="stat-number">3</div>
-      <div class="stat-label">لغات</div>
-    </div>
-
-  </div>
+</div>
 
 
-  <div class="section-title">
-    <div>
-      <h2>منصة متكاملة</h2>
-      <p>كل ما تحتاجه لتطوير مستواك الرياضي</p>
-    </div>
-  </div>
+<div class="stat-card">
 
-  <div class="grid">
+<div class="stat-icon">🧠</div>
 
-    <div class="card feature">
-      <div class="feature-icon">📚</div>
-      <h3>المكتبة العملاقة</h3>
-      <p>
-        كتب، مراجع، دروس، امتحانات، ملخصات وموارد تعليمية
-        قابلة للفهرسة والتوسع عبر Google Drive.
-      </p>
-    </div>
+<span class="stat-number">
+10+
+</span>
 
-    <div class="card feature">
-      <div class="feature-icon">🎓</div>
-      <h3>الأكاديمية</h3>
-      <p>
-        مسارات تعليمية من الأساسيات إلى الرياضيات الجامعية
-        والمتقدمة والأولمبياد.
-      </p>
-    </div>
+<span class="stat-label">
+مجالات رياضية
+</span>
 
-    <div class="card feature">
-      <div class="feature-icon">🧠</div>
-      <h3>محرك التمارين</h3>
-      <p>
-        تمارين بمستويات مختلفة مع تصحيح فوري ونظام XP
-        وتتبع للتقدم.
-      </p>
-    </div>
+</div>
 
-    <div class="card feature">
-      <div class="feature-icon">🌎</div>
-      <h3>عالمية</h3>
-      <p>
-        دعم العربية والفرنسية والإنجليزية مع إمكانية
-        إضافة مناهج ودول جديدة.
-      </p>
-    </div>
 
-  </div>
+<div class="stat-card">
+
+<div class="stat-icon">⚡</div>
+
+<span
+class="stat-number"
+id="engineStatus">
+جاهز
+</span>
+
+<span class="stat-label">
+حالة محرك المكتبة
+</span>
+
+</div>
 
 </section>
 
 
-<!-- LIBRARY -->
+<!-- =======================================================
+     CATEGORIES
+======================================================= -->
 
-<section id="library" class="page">
+<section
+class="section"
+id="categories">
 
-  <div class="section-title">
-    <div>
-      <h2>📚 المكتبة العالمية</h2>
-      <p>
-        ابحث في الموارد المفهرسة من مكتبة HAMOU MATH.
-      </p>
-    </div>
+<div class="section-header">
 
-    <button class="btn btn-primary" onclick="syncLibrary()">
-      🔄 مزامنة Drive
-    </button>
-  </div>
+<div>
 
+<h2 class="section-title">
+🧭 استكشف الرياضيات
+</h2>
 
-  <div class="card">
+<p class="section-subtitle">
+اختر المجال للوصول إلى موارده
+</p>
 
-    <div class="library-toolbar">
+</div>
 
-      <input
-        id="librarySearch"
-        class="input"
-        placeholder="🔎 ابحث عن كتاب، درس، تمرين، مؤلف..."
-        oninput="loadResources()">
-
-      <select id="libLang" class="select" onchange="loadResources()">
-        <option value="">كل اللغات</option>
-        <option value="ar">العربية</option>
-        <option value="fr">Français</option>
-        <option value="en">English</option>
-      </select>
-
-      <select id="libType" class="select" onchange="loadResources()">
-        <option value="">كل الأنواع</option>
-        <option value="book">كتب</option>
-        <option value="lesson">دروس</option>
-        <option value="exercise">تمارين</option>
-        <option value="exam">اختبارات</option>
-        <option value="reference">مراجع</option>
-        <option value="olympiad">أولمبياد</option>
-      </select>
-
-      <select id="libLevel" class="select" onchange="loadResources()">
-        <option value="">كل المستويات</option>
-        <option value="primary">ابتدائي</option>
-        <option value="middle">متوسط</option>
-        <option value="secondary">ثانوي</option>
-        <option value="bac">بكالوريا</option>
-        <option value="university">جامعة</option>
-        <option value="advanced">متقدم</option>
-      </select>
-
-    </div>
-
-    <div style="display:flex;justify-content:space-between;gap:10px;margin-bottom:15px;flex-wrap:wrap">
-      <span id="libraryStatus" style="color:var(--muted)">
-        جاري تحميل المكتبة...
-      </span>
-
-      <span id="libraryTotal" style="font-weight:800;color:var(--primary)">
-        0 مورد
-      </span>
-    </div>
-
-    <div id="libraryGrid" class="grid"></div>
-
-    <div id="libraryPagination" class="pagination"></div>
-
-  </div>
-
-</section>
+</div>
 
 
-<!-- ACADEMY -->
+<div class="categories">
 
-<section id="academy" class="page">
+<button
+class="category"
+onclick="setField('الجبر')">
 
-  <div class="section-title">
-    <div>
-      <h2>🎓 الأكاديمية</h2>
-      <p>اختر المستوى الذي تريد البدء منه.</p>
-    </div>
-  </div>
+<div class="category-icon">
+🔢
+</div>
 
-  <div class="grid">
+<strong>
+الجبر
+</strong>
 
-    <div class="card level-card" onclick="academyLevel('primary')">
-      <div class="emoji">🌱</div>
-      <h3>الابتدائي</h3>
-      <p>الحساب، الأعداد، الهندسة والمنطق.</p>
-    </div>
-
-    <div class="card level-card" onclick="academyLevel('middle')">
-      <div class="emoji">📐</div>
-      <h3>المتوسط</h3>
-      <p>الجبر، الهندسة، النسب والدوال.</p>
-    </div>
-
-    <div class="card level-card" onclick="academyLevel('secondary')">
-      <div class="emoji">📊</div>
-      <h3>الثانوي</h3>
-      <p>الدوال، الاشتقاق، الاحتمالات، المتتاليات.</p>
-    </div>
-
-    <div class="card level-card" onclick="academyLevel('bac')">
-      <div class="emoji">🎯</div>
-      <h3>البكالوريا</h3>
-      <p>مراجعة شاملة وتمارين بكالوريا.</p>
-    </div>
-
-    <div class="card level-card" onclick="academyLevel('university')">
-      <div class="emoji">🎓</div>
-      <h3>الجامعة</h3>
-      <p>تحليل، جبر، احتمال، إحصاء وغيرها.</p>
-    </div>
-
-    <div class="card level-card" onclick="academyLevel('advanced')">
-      <div class="emoji">🧬</div>
-      <h3>رياضيات متقدمة</h3>
-      <p>رياضيات عليا وأبحاث ومراجع متخصصة.</p>
-    </div>
-
-  </div>
-
-  <div id="academyContent"></div>
-
-</section>
+</button>
 
 
-<!-- EXERCISES -->
+<button
+class="category"
+onclick="setField('التحليل')">
 
-<section id="exercises" class="page">
+<div class="category-icon">
+📈
+</div>
 
-  <div class="section-title">
-    <div>
-      <h2>✏️ مولد التمارين</h2>
-      <p>تمارين ديناميكية مع تصحيح فوري.</p>
-    </div>
-  </div>
+<strong>
+التحليل
+</strong>
 
-  <div class="card game-box">
-
-    <label>المستوى</label>
-
-    <select id="exerciseLevel" class="select" style="margin-top:8px">
-      <option value="easy">سهل</option>
-      <option value="medium">متوسط</option>
-      <option value="hard">صعب</option>
-    </select>
-
-    <div id="exerciseQuestion" class="question">
-      اضغط على «تمرين جديد»
-    </div>
-
-    <input
-      id="exerciseAnswer"
-      class="input answer-input"
-      type="number"
-      placeholder="الإجابة">
-
-    <div class="hero-actions" style="justify-content:center">
-      <button class="btn btn-primary" onclick="newExercise()">
-        🎲 تمرين جديد
-      </button>
-
-      <button class="btn btn-green" onclick="checkExercise()">
-        ✅ تحقق
-      </button>
-    </div>
-
-    <div id="exerciseMessage" class="game-message"></div>
-
-  </div>
-
-</section>
+</button>
 
 
-<!-- CHALLENGES -->
+<button
+class="category"
+onclick="setField('الهندسة')">
 
-<section id="challenges" class="page">
+<div class="category-icon">
+📐
+</div>
 
-  <div class="section-title">
-    <div>
-      <h2>🏆 التحديات</h2>
-      <p>اختبر سرعتك ودقتك كل يوم.</p>
-    </div>
-  </div>
+<strong>
+الهندسة
+</strong>
 
-  <div class="grid">
+</button>
 
-    <div class="card challenge">
-      <h3>🔥 تحدي اليوم</h3>
-      <p>سؤال رياضي جديد كل يوم.</p>
-      <br>
-      <button class="btn btn-primary" onclick="dailyChallenge()">
-        ابدأ
-      </button>
-    </div>
 
-    <div class="card challenge">
-      <h3>⚡ تحدي السرعة</h3>
-      <p>حل أكبر عدد ممكن خلال 60 ثانية.</p>
-      <br>
-      <button class="btn btn-orange" onclick="speedChallenge()">
-        ابدأ
-      </button>
-    </div>
+<button
+class="category"
+onclick="setField('الاحتمالات والإحصاء')">
 
-    <div class="card challenge">
-      <h3>👑 النخبة</h3>
-      <p>أسئلة متقدمة لمحبي التحدي.</p>
-      <br>
-      <button class="btn btn-purple" onclick="eliteChallenge()">
-        ابدأ
-      </button>
-    </div>
+<div class="category-icon">
+🎲
+</div>
 
-    <div class="card challenge">
-      <h3>🌍 التصنيف</h3>
-      <p>لوحة ترتيب محلية وعالمية جاهزة للربط بقاعدة البيانات.</p>
-      <br>
-      <button class="btn btn-green" onclick="showLeaderboard()">
-        التصنيف
-      </button>
-    </div>
+<strong>
+الاحتمالات والإحصاء
+</strong>
 
-  </div>
+</button>
 
-  <div id="challengeArea" class="card game-box" style="display:none"></div>
+
+<button
+class="category"
+onclick="setField('المعادلات التفاضلية')">
+
+<div class="category-icon">
+∂
+</div>
+
+<strong>
+المعادلات التفاضلية
+</strong>
+
+</button>
+
+
+<button
+class="category"
+onclick="setField('رياضيات متقطعة')">
+
+<div class="category-icon">
+🧩
+</div>
+
+<strong>
+رياضيات متقطعة
+</strong>
+
+</button>
+
+
+<button
+class="category"
+onclick="setField('نظرية الأعداد')">
+
+<div class="category-icon">
+∞
+</div>
+
+<strong>
+نظرية الأعداد
+</strong>
+
+</button>
+
+
+<button
+class="category"
+onclick="setField('التحليل العددي')">
+
+<div class="category-icon">
+🖥️
+</div>
+
+<strong>
+التحليل العددي
+</strong>
+
+</button>
+
+
+<button
+class="category"
+onclick="setField('رياضيات تطبيقية')">
+
+<div class="category-icon">
+⚙️
+</div>
+
+<strong>
+رياضيات تطبيقية
+</strong>
+
+</button>
+
+
+<button
+class="category"
+onclick="setField('أولمبياد')">
+
+<div class="category-icon">
+🏆
+</div>
+
+<strong>
+الأولمبياد
+</strong>
+
+</button>
+
+
+<button
+class="category"
+onclick="setField('رياضيات مالية')">
+
+<div class="category-icon">
+💹
+</div>
+
+<strong>
+رياضيات مالية
+</strong>
+
+</button>
+
+
+<button
+class="category"
+onclick="setField('منطق')">
+
+<div class="category-icon">
+🧩
+</div>
+
+<strong>
+المنطق الرياضي
+</strong>
+
+</button>
+
+</div>
 
 </section>
 
 
-<!-- GAMES -->
+<!-- =======================================================
+     LIBRARY
+======================================================= -->
 
-<section id="games" class="page">
+<section
+class="section"
+id="library">
 
-  <div class="section-title">
-    <div>
-      <h2>🎮 ألعاب الرياضيات</h2>
-      <p>تعلم الرياضيات بطريقة ممتعة.</p>
-    </div>
-  </div>
+<div class="section-header">
 
-  <div class="grid">
+<div>
 
-    <div class="card feature">
-      <div class="feature-icon">🔢</div>
-      <h3>خمن الرقم</h3>
-      <p>حاول اكتشاف الرقم السري.</p>
-      <br>
-      <button class="btn btn-primary" onclick="startNumberGame()">
-        لعب
-      </button>
-    </div>
+<h2 class="section-title">
+📚 المكتبة العملاقة
+</h2>
 
-    <div class="card feature">
-      <div class="feature-icon">➗</div>
-      <h3>ملك العمليات</h3>
-      <p>حل العمليات بأسرع وقت.</p>
-      <br>
-      <button class="btn btn-orange" onclick="startMathGame()">
-        لعب
-      </button>
-    </div>
+<p class="section-subtitle">
+كتب ودروس وتمارين وامتحانات ومراجع حقيقية
+</p>
 
-    <div class="card feature">
-      <div class="feature-icon">🧠</div>
-      <h3>ذاكرة الأرقام</h3>
-      <p>اختبر ذاكرتك الرياضية.</p>
-      <br>
-      <button class="btn btn-purple" onclick="memoryGame()">
-        لعب
-      </button>
-    </div>
+</div>
 
-  </div>
+<div
+id="resultInfo"
+class="section-subtitle">
+</div>
 
-  <div id="gameArea" class="card game-box" style="display:none"></div>
+</div>
+
+
+<div class="library-toolbar">
+
+<input
+id="searchInput"
+class="control"
+type="search"
+placeholder="🔎 البحث داخل المكتبة..."
+oninput="renderLibrary()">
+
+
+<select
+id="typeFilter"
+class="control"
+onchange="renderLibrary()">
+
+<option value="">
+كل الأنواع
+</option>
+
+<option value="كتاب">
+📖 كتب
+</option>
+
+<option value="درس">
+📘 دروس
+</option>
+
+<option value="تمارين">
+📝 تمارين
+</option>
+
+<option value="امتحان">
+🎓 امتحانات
+</option>
+
+<option value="مرجع">
+📚 مراجع
+</option>
+
+</select>
+
+
+<select
+id="levelFilter"
+class="control"
+onchange="renderLibrary()">
+
+<option value="">
+كل المستويات
+</option>
+
+<option value="متوسط">
+متوسط
+</option>
+
+<option value="ثانوي">
+ثانوي
+</option>
+
+<option value="بكالوريا">
+بكالوريا
+</option>
+
+<option value="جامعي">
+جامعي
+</option>
+
+<option value="دراسات عليا">
+دراسات عليا
+</option>
+
+</select>
+
+
+<select
+id="languageFilter"
+class="control"
+onchange="renderLibrary()">
+
+<option value="">
+كل اللغات
+</option>
+
+<option value="العربية">
+العربية
+</option>
+
+<option value="Français">
+Français
+</option>
+
+<option value="English">
+English
+</option>
+
+</select>
+
+
+<select
+id="fieldFilter"
+class="control"
+onchange="renderLibrary()">
+
+<option value="">
+كل المجالات
+</option>
+
+<option value="الجبر">
+الجبر
+</option>
+
+<option value="التحليل">
+التحليل
+</option>
+
+<option value="الهندسة">
+الهندسة
+</option>
+
+<option value="الاحتمالات والإحصاء">
+الاحتمالات والإحصاء
+</option>
+
+<option value="المعادلات التفاضلية">
+المعادلات التفاضلية
+</option>
+
+<option value="رياضيات متقطعة">
+رياضيات متقطعة
+</option>
+
+<option value="نظرية الأعداد">
+نظرية الأعداد
+</option>
+
+<option value="التحليل العددي">
+التحليل العددي
+</option>
+
+<option value="رياضيات تطبيقية">
+رياضيات تطبيقية
+</option>
+
+<option value="أولمبياد">
+أولمبياد
+</option>
+
+</select>
+
+</div>
+
+
+<div
+id="resourceGrid"
+class="resource-grid">
+</div>
+
+
+<div class="legal-notice">
+
+🔐 <strong>ملاحظة قانونية:</strong>
+هذه المنصة تفهرس موارد تعليمية حقيقية وتفتح المصدر الأصلي.
+لا يعني ظهور مورد أن HAMOU MATH يملك حقوقه.
+سيتم اعتماد الموارد المفتوحة أو المجانية أو التي يسمح أصحابها
+بمشاركتها، مع احترام شروط كل مصدر وترخيصه.
+
+</div>
 
 </section>
 
 
-<!-- OLYMPIAD -->
+<!-- =======================================================
+     FOOTER
+======================================================= -->
 
-<section id="olympiad" class="page">
+<footer class="footer">
 
-  <div class="hero">
-    <h1>🥇 HAMOU MATH OLYMPIAD</h1>
-    <p>
-      فضاء خاص لمحبي المسائل الرياضية الصعبة،
-      التفكير المنطقي، البرهان والمسابقات الأولمبيادية.
-    </p>
-  </div>
+<div class="footer-inner">
 
-  <div class="section-title">
-    <div>
-      <h2>مسارات الأولمبياد</h2>
-      <p>تدرج من التدريب إلى المستوى المتقدم.</p>
-    </div>
-  </div>
+<div>
 
-  <div class="grid">
+<h3>
+HAMOU MATH GLOBAL
+</h3>
 
-    <div class="card feature">
-      <div class="feature-icon">🟢</div>
-      <h3>المستوى الأساسي</h3>
-      <p>منطق، أعداد، هندسة ومسائل ذكية.</p>
-      <br>
-      <button class="btn btn-green" onclick="olympiad('basic')">
-        ابدأ
-      </button>
-    </div>
+<p>
+منصة رياضيات عالمية قابلة للتوسع،
+تهدف إلى جمع المعرفة الرياضية في مكان واحد:
+كتب، دروس، تمارين، امتحانات ومراجع.
+</p>
 
-    <div class="card feature">
-      <div class="feature-icon">🟠</div>
-      <h3>المستوى المتقدم</h3>
-      <p>مسائل مركبة وتفكير متعدد الخطوات.</p>
-      <br>
-      <button class="btn btn-orange" onclick="olympiad('advanced')">
-        ابدأ
-      </button>
-    </div>
-
-    <div class="card feature">
-      <div class="feature-icon">🔴</div>
-      <h3>مستوى النخبة</h3>
-      <p>مسائل عالية الصعوبة وبرهان رياضي.</p>
-      <br>
-      <button class="btn btn-primary" onclick="olympiad('elite')">
-        ابدأ
-      </button>
-    </div>
-
-  </div>
-
-  <div id="olympiadResult"></div>
-
-</section>
+</div>
 
 
-<!-- PROFILE -->
+<div>
 
-<section id="profile" class="page">
+<h3>
+المكتبة
+</h3>
 
-  <div class="section-title">
-    <div>
-      <h2>👤 حسابي</h2>
-      <p>تابع تقدمك وإنجازاتك.</p>
-    </div>
-  </div>
+<a href="#library">
+📚 جميع الموارد
+</a>
 
-  <div class="profile">
+<a href="#library"
+onclick="filterType('كتاب')">
+📖 الكتب
+</a>
 
-    <div class="card">
-      <h3 id="profileName">زائر</h3>
-      <p id="profileEmail" style="color:var(--muted);margin:8px 0 20px">
-        لم يتم تسجيل الحساب
-      </p>
+<a href="#library"
+onclick="filterType('تمارين')">
+📝 التمارين
+</a>
 
-      <button class="btn btn-primary" style="width:100%" onclick="openAccount()">
-        تعديل الحساب
-      </button>
-    </div>
+<a href="#library"
+onclick="filterType('امتحان')">
+🎓 الامتحانات
+</a>
 
-    <div class="card">
-
-      <div class="grid">
-
-        <div class="stat">
-          <div class="stat-number" id="xpValue">0</div>
-          <div class="stat-label">XP</div>
-        </div>
-
-        <div class="stat">
-          <div class="stat-number" id="streakValue">0</div>
-          <div class="stat-label">أيام متتالية</div>
-        </div>
-
-        <div class="stat">
-          <div class="stat-number" id="solvedValue">0</div>
-          <div class="stat-label">تمارين محلولة</div>
-        </div>
-
-        <div class="stat">
-          <div class="stat-number" id="correctValue">0</div>
-          <div class="stat-label">إجابات صحيحة</div>
-        </div>
-
-      </div>
-
-      <br>
-
-      <h3>التقدم</h3>
-      <br>
-
-      <div class="progress">
-        <span id="progressBar" style="width:0%"></span>
-      </div>
-
-    </div>
-
-  </div>
-
-</section>
-
-</main>
+</div>
 
 
-<footer>
-  <div class="footer-inner">
+<div>
 
-    <div>
-      <strong>∑ HAMOU MATH GLOBAL</strong>
-      <p>
-        الرياضيات بلا حدود — Learn • Practice • Challenge • Master
-      </p>
-    </div>
+<h3>
+المستويات
+</h3>
 
-    <div>
-      <p>
-        © <span id="year"></span> HAMOU MATH
-      </p>
-    </div>
+<a href="#library">
+متوسط
+</a>
 
-  </div>
+<a href="#library">
+ثانوي
+</a>
+
+<a href="#library">
+بكالوريا
+</a>
+
+<a href="#library">
+جامعة
+</a>
+
+</div>
+
+</div>
+
+
+<div class="footer-bottom">
+
+© 2026 HAMOU MATH GLOBAL — جميع الحقوق محفوظة
+لمنصة HAMOU MATH. حقوق الموارد الخارجية لأصحابها.
+
+</div>
+
 </footer>
 
 
-<!-- ACCOUNT MODAL -->
-
-<div id="accountModal" class="modal">
-
-  <div class="modal-box">
-
-    <div class="modal-head">
-      <h2>👤 حسابي</h2>
-      <button class="icon-btn" onclick="closeModal('accountModal')">✕</button>
-    </div>
-
-    <input
-      id="accountName"
-      class="input"
-      placeholder="الاسم">
-
-    <br><br>
-
-    <input
-      id="accountEmail"
-      class="input"
-      type="email"
-      placeholder="البريد الإلكتروني">
-
-    <br><br>
-
-    <select id="accountLevel" class="select">
-      <option value="primary">ابتدائي</option>
-      <option value="middle">متوسط</option>
-      <option value="secondary">ثانوي</option>
-      <option value="bac">بكالوريا</option>
-      <option value="university">جامعة</option>
-      <option value="advanced">متقدم</option>
-    </select>
-
-    <br><br>
-
-    <button class="btn btn-primary" style="width:100%" onclick="saveAccount()">
-      💾 حفظ
-    </button>
-
-  </div>
-
-</div>
-
-
-<!-- RESOURCE MODAL -->
-
-<div id="resourceModal" class="modal">
-
-  <div class="modal-box">
-
-    <div class="modal-head">
-      <h2 id="resourceModalTitle">المورد</h2>
-      <button class="icon-btn" onclick="closeModal('resourceModal')">✕</button>
-    </div>
-
-    <div id="resourceModalContent"></div>
-
-  </div>
-
-</div>
-
-
-<div id="toast" class="toast"></div>
-
+<!-- =======================================================
+     JAVASCRIPT — PART 1
+======================================================= -->
 
 <script>
-"use strict";
 
-/* =========================
-   STATE
-========================= */
+/* =========================================================
+   RESOURCE DATABASE
+   موارد حقيقية كبداية
+========================================================= */
 
-const state = {
-  page:"home",
-  pageSize:12,
-  page:1,
-  resources:[],
-  total:0,
-  currentExercise:null,
-  challengeScore:0,
-  challengeTimer:null
-};
+const SEED_RESOURCES = [
 
-const user = JSON.parse(
-  localStorage.getItem("hamouMathUser") ||
-  '{"name":"زائر","email":"","level":"secondary","xp":0,"streak":0,"solved":0,"correct":0}'
-);
+{
+  id:"openstax-college-algebra-2e",
+
+  title:"College Algebra 2e",
+
+  type:"كتاب",
+
+  level:"جامعي",
+
+  language:"English",
+
+  field:"الجبر",
+
+  source:"OpenStax",
+
+  icon:"📘",
+
+  description:
+  "كتاب جامعي مفتوح في الجبر، يشمل المعادلات والدوال والمصفوفات والمتتاليات وغيرها.",
+
+  url:
+  "https://openstax.org/books/college-algebra-2e/pages/index"
+},
 
 
-/* =========================
-   NAVIGATION
-========================= */
+{
+  id:"openstax-calculus-1",
 
-function go(page){
+  title:"Calculus Volume 1",
 
-  document.querySelectorAll(".page").forEach(el=>{
-    el.classList.remove("active");
-  });
+  type:"كتاب",
 
-  const target=document.getElementById(page);
+  level:"جامعي",
 
-  if(target){
-    target.classList.add("active");
-  }
+  language:"English",
 
-  document.querySelectorAll(".nav-btn").forEach(btn=>{
-    btn.classList.toggle(
-      "active",
-      btn.dataset.page===page
-    );
-  });
+  field:"التحليل",
 
-  state.page=page;
+  source:"OpenStax",
 
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
-  });
+  icon:"📗",
 
-  if(page==="library"){
-    loadResources();
-  }
+  description:
+  "كتاب تفاضل وتكامل جامعي يغطي الدوال والنهايات والمشتقات والتكامل.",
 
-  if(page==="profile"){
-    updateProfile();
-  }
+  url:
+  "https://openstax.org/books/calculus-volume-1/pages/index"
+},
+
+
+{
+  id:"openstax-calculus-2",
+
+  title:"Calculus Volume 2",
+
+  type:"كتاب",
+
+  level:"جامعي",
+
+  language:"English",
+
+  field:"التحليل",
+
+  source:"OpenStax",
+
+  icon:"📗",
+
+  description:
+  "التكاملات وتطبيقاتها والمتتاليات والمتسلسلات وغيرها من موضوعات التفاضل والتكامل.",
+
+  url:
+  "https://openstax.org/books/calculus-volume-2/pages/index"
+},
+
+
+{
+  id:"openstax-calculus-3",
+
+  title:"Calculus Volume 3",
+
+  type:"كتاب",
+
+  level:"جامعي",
+
+  language:"English",
+
+  field:"التحليل",
+
+  source:"OpenStax",
+
+  icon:"📗",
+
+  description:
+  "التفاضل والتكامل متعدد المتغيرات والمتجهات والتطبيقات.",
+
+  url:
+  "https://openstax.org/books/calculus-volume-3/pages/index"
+},
+
+
+{
+  id:"openstax-precalculus",
+
+  title:"Precalculus 2e",
+
+  type:"كتاب",
+
+  level:"ثانوي",
+
+  language:"English",
+
+  field:"التحليل",
+
+  source:"OpenStax",
+
+  icon:"📕",
+
+  description:
+  "كتاب تمهيدي للدوال والجبر والمثلثات والموضوعات اللازمة قبل التفاضل والتكامل.",
+
+  url:
+  "https://openstax.org/books/precalculus-2e/pages/index"
+},
+
+
+{
+  id:"openstax-statistics",
+
+  title:"Introductory Statistics 2e",
+
+  type:"كتاب",
+
+  level:"جامعي",
+
+  language:"English",
+
+  field:"الاحتمالات والإحصاء",
+
+  source:"OpenStax",
+
+  icon:"📊",
+
+  description:
+  "مقدمة في الإحصاء والبيانات والاحتمالات والاستدلال الإحصائي.",
+
+  url:
+  "https://openstax.org/books/introductory-statistics-2e/pages/index"
+},
+
+
+{
+  id:"mit-1801sc",
+
+  title:"Single Variable Calculus 18.01SC",
+
+  type:"مرجع",
+
+  level:"جامعي",
+
+  language:"English",
+
+  field:"التحليل",
+
+  source:"MIT OpenCourseWare",
+
+  icon:"🎓",
+
+  description:
+  "مقرر MIT في التفاضل والتكامل لمتغير واحد، مع محاضرات وملاحظات وتمارين وامتحانات وحلول.",
+
+  url:
+  "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/"
+},
+
+
+{
+  id:"mit-1801",
+
+  title:"Calculus I: Single Variable Calculus",
+
+  type:"درس",
+
+  level:"جامعي",
+
+  language:"English",
+
+  field:"التحليل",
+
+  source:"MIT OpenCourseWare",
+
+  icon:"📈",
+
+  description:
+  "مواد تعليمية في النهايات والمشتقات والتكامل وتطبيقاتها.",
+
+  url:
+  "https://ocw.mit.edu/courses/18-01-calculus-i-single-variable-calculus-fall-2020/"
+},
+
+
+{
+  id:"mit-1805",
+
+  title:"Introduction to Probability and Statistics",
+
+  type:"مرجع",
+
+  level:"جامعي",
+
+  language:"English",
+
+  field:"الاحتمالات والإحصاء",
+
+  source:"MIT OpenCourseWare",
+
+  icon:"🎲",
+
+  description:
+  "مقرر في الاحتمالات والإحصاء يشمل المتغيرات العشوائية وبايز والاستدلال والاختبارات.",
+
+  url:
+  "https://ocw.mit.edu/courses/18-05-introduction-to-probability-and-statistics-spring-2022/"
+},
+
+
+{
+  id:"mit-18600",
+
+  title:"Probability and Random Variables",
+
+  type:"تمارين",
+
+  level:"جامعي",
+
+  language:"English",
+
+  field:"الاحتمالات والإحصاء",
+
+  source:"MIT OpenCourseWare",
+
+  icon:"🧠",
+
+  description:
+  "مواد وتمارين وامتحانات في الاحتمالات والمتغيرات العشوائية.",
+
+  url:
+  "https://ocw.mit.edu/courses/18-600-probability-and-random-variables-fall-2019/"
+},
+
+
+{
+  id:"mit-18443",
+
+  title:"Statistics for Applications",
+
+  type:"درس",
+
+  level:"جامعي",
+
+  language:"English",
+
+  field:"الاحتمالات والإحصاء",
+
+  source:"MIT OpenCourseWare",
+
+  icon:"📊",
+
+  description:
+  "الاستدلال الإحصائي وفترات الثقة والاختبارات والانحدار وتطبيقات الإحصاء.",
+
+  url:
+  "https://ocw.mit.edu/courses/18-443-statistics-for-applications-spring-2015/"
+},
+
+
+{
+  id:"mit-1806",
+
+  title:"Linear Algebra",
+
+  type:"مرجع",
+
+  level:"جامعي",
+
+  language:"English",
+
+  field:"الجبر",
+
+  source:"MIT OpenCourseWare",
+
+  icon:"🔢",
+
+  description:
+  "الجبر الخطي: المصفوفات والفضاءات والمتجهات والقيم الذاتية مع تمارين وامتحانات.",
+
+  url:
+  "https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/"
+},
+
+
+{
+  id:"mit-real-analysis",
+
+  title:"Real Analysis",
+
+  type:"مرجع",
+
+  level:"دراسات عليا",
+
+  language:"English",
+
+  field:"التحليل",
+
+  source:"MIT OpenCourseWare",
+
+  icon:"∞",
+
+  description:
+  "مقرر متقدم في التحليل الحقيقي يتضمن المتتاليات والتقارب والمتسلسلات والاستمرارية.",
+
+  url:
+  "https://ocw.mit.edu/courses/18-100b-real-analysis-spring-2025/"
+}
+
+];
+
+
+/* =========================================================
+   APPLICATION STATE
+========================================================= */
+
+let resources = [
+  ...SEED_RESOURCES
+];
+
+let mobileOpen = false;
+
+
+/* =========================================================
+   NORMALIZE SEARCH
+========================================================= */
+
+function normalizeText(value){
+
+  return String(value || "")
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g,"")
+    .trim();
+
 }
 
 
-/* =========================
-   THEME
-========================= */
-
-function toggleTheme(){
-
-  document.body.classList.toggle("dark");
-
-  localStorage.setItem(
-    "hamouMathDark",
-    document.body.classList.contains("dark")
-  );
-}
-
-if(localStorage.getItem("hamouMathDark")==="true"){
-  document.body.classList.add("dark");
-}
-
-
-/* =========================
-   MODALS
-========================= */
-
-function openModal(id){
-  document.getElementById(id)?.classList.add("show");
-}
-
-function closeModal(id){
-  document.getElementById(id)?.classList.remove("show");
-}
-
-function openAccount(){
-
-  document.getElementById("accountName").value=user.name || "";
-  document.getElementById("accountEmail").value=user.email || "";
-  document.getElementById("accountLevel").value=user.level || "secondary";
-
-  openModal("accountModal");
-}
-
-
-/* =========================
-   ACCOUNT
-========================= */
-
-function saveAccount(){
-
-  user.name=document.getElementById("accountName").value.trim() || "زائر";
-  user.email=document.getElementById("accountEmail").value.trim();
-  user.level=document.getElementById("accountLevel").value;
-
-  localStorage.setItem(
-    "hamouMathUser",
-    JSON.stringify(user)
-  );
-
-  closeModal("accountModal");
-
-  updateProfile();
-
-  toast("تم حفظ بيانات الحساب بنجاح ✅");
-}
-
-function updateProfile(){
-
-  document.getElementById("profileName").textContent=user.name;
-  document.getElementById("profileEmail").textContent=
-    user.email || "لم يتم إضافة البريد الإلكتروني";
-
-  document.getElementById("xpValue").textContent=user.xp;
-  document.getElementById("streakValue").textContent=user.streak;
-  document.getElementById("solvedValue").textContent=user.solved;
-  document.getElementById("correctValue").textContent=user.correct;
-
-  const progress=Math.min(100,user.xp%100);
-
-  document.getElementById("progressBar").style.width=
-    progress+"%";
-}
-
-
-/* =========================
-   TOAST
-========================= */
-
-let toastTimer;
-
-function toast(message){
-
-  const el=document.getElementById("toast");
-
-  el.textContent=message;
-  el.classList.add("show");
-
-  clearTimeout(toastTimer);
-
-  toastTimer=setTimeout(()=>{
-    el.classList.remove("show");
-  },2800);
-}
-
-
-/* =========================
-   LIBRARY
-========================= */
-
-async function loadResources(){
-
-  const search=
-    document.getElementById("librarySearch")?.value.trim() || "";
-
-  const lang=
-    document.getElementById("libLang")?.value || "";
-
-  const type=
-    document.getElementById("libType")?.value || "";
-
-  const level=
-    document.getElementById("libLevel")?.value || "";
-
-  const params=new URLSearchParams();
-
-  if(search) params.set("q",search);
-  if(lang) params.set("language",lang);
-  if(type) params.set("type",type);
-  if(level) params.set("level",level);
-
-  params.set("page",state.page);
-  params.set("pageSize",state.pageSize);
-
-  const status=document.getElementById("libraryStatus");
-
-  status.textContent="جاري البحث...";
-
-  try{
-
-    const response=await fetch(
-      "/api/resources?"+params.toString(),
-      {
-        headers:{
-          "Accept":"application/json"
-        }
-      }
-    );
-
-    if(!response.ok){
-      throw new Error("API unavailable");
-    }
-
-    const data=await response.json();
-
-    state.resources=data.resources || [];
-    state.total=Number(data.total || 0);
-
-    renderLibrary();
-
-  }catch(error){
-
-    /*
-      Fallback حتى لا تتعطل الواجهة إذا لم يتم
-      تركيب API بعد.
-    */
-
-    state.resources=LOCAL_RESOURCES.filter(resource=>{
-
-      const text=(
-        resource.title+" "+
-        resource.description+" "+
-        resource.author
-      ).toLowerCase();
-
-      return (
-        (!search || text.includes(search.toLowerCase())) &&
-        (!lang || resource.language===lang) &&
-        (!type || resource.type===type) &&
-        (!level || resource.level===level)
-      );
-
-    });
-
-    state.total=state.resources.length;
-
-    renderLibrary();
-
-    status.textContent=
-      "المكتبة المحلية تعمل — اربط API وGoogle Drive لتفعيل الفهرسة السحابية.";
-  }
-}
-
-
-function renderLibrary(){
-
-  const grid=document.getElementById("libraryGrid");
-  const total=document.getElementById("libraryTotal");
-  const status=document.getElementById("libraryStatus");
-
-  total.textContent=
-    state.total.toLocaleString("ar-DZ")+" مورد";
-
-  if(state.resources.length===0){
-
-    grid.innerHTML=`
-      <div class="card" style="grid-column:1/-1;text-align:center">
-        <div style="font-size:45px">📭</div>
-        <h3>لا توجد نتائج</h3>
-        <p style="color:var(--muted);margin-top:8px">
-          جرّب تغيير كلمات البحث أو الفلاتر.
-        </p>
-      </div>
-    `;
-
-    renderPagination();
-    return;
-  }
-
-  grid.innerHTML=state.resources.map(resource=>`
-
-    <article class="card resource-card">
-
-      <span class="resource-type">
-        ${escapeHTML(resource.typeLabel || resource.type || "Resource")}
-      </span>
-
-      <h3>
-        ${escapeHTML(resource.title || "مورد رياضي")}
-      </h3>
-
-      <p>
-        ${escapeHTML(
-          resource.description ||
-          "مورد تعليمي في الرياضيات."
-        )}
-      </p>
-
-      <div class="resource-meta">
-
-        ${resource.language ? `
-          <span class="badge">
-            ${languageName(resource.language)}
-          </span>
-        `:""}
-
-        ${resource.level ? `
-          <span class="badge">
-            ${levelName(resource.level)}
-          </span>
-        `:""}
-
-        ${resource.author ? `
-          <span class="badge">
-            ${escapeHTML(resource.author)}
-          </span>
-        `:""}
-
-      </div>
-
-      <div class="resource-actions">
-
-        <button
-          class="btn btn-primary"
-          onclick='openResource(${JSON.stringify(resource).replace(/'/g,"&#39;")})'>
-          فتح
-        </button>
-
-        <button
-          class="btn"
-          style="background:#f1f5f9"
-          onclick='favoriteResource(${JSON.stringify(resource).replace(/'/g,"&#39;")})'>
-          ⭐
-        </button>
-
-      </div>
-
-    </article>
-
-  `).join("");
-
-  status.textContent=
-    "المكتبة جاهزة للبحث والتصفية.";
-  renderPagination();
-}
-
-
-function renderPagination(){
-
-  const el=document.getElementById("libraryPagination");
-
-  const pages=Math.max(
-    1,
-    Math.ceil(state.total/state.pageSize)
-  );
-
-  if(pages<=1){
-    el.innerHTML="";
-    return;
-  }
-
-  let html="";
-
-  for(let i=1;i<=Math.min(pages,10);i++){
-
-    html+=`
-      <button
-        class="${i===state.page?"active":""}"
-        onclick="changeLibraryPage(${i})">
-        ${i}
-      </button>
-    `;
-  }
-
-  el.innerHTML=html;
-}
-
-
-function changeLibraryPage(page){
-
-  state.page=page;
-  loadResources();
-
-  document
-    .getElementById("library")
-    .scrollIntoView({behavior:"smooth"});
-}
-
-
-function openResource(resource){
-
-  const title=document.getElementById("resourceModalTitle");
-  const content=document.getElementById("resourceModalContent");
-
-  title.textContent=resource.title || "المورد";
-
-  const url=
-    resource.url ||
-    resource.webViewLink ||
-    resource.webContentLink ||
-    "";
-
-  content.innerHTML=`
-
-    <p style="color:var(--muted);line-height:1.8">
-      ${escapeHTML(
-        resource.description ||
-        "مورد تعليمي في الرياضيات."
-      )}
-    </p>
-
-    <br>
-
-    <div class="resource-meta">
-
-      <span class="badge">
-        ${languageName(resource.language)}
-      </span>
-
-      <span class="badge">
-        ${levelName(resource.level)}
-      </span>
-
-    </div>
-
-    <br>
-
-    ${
-      url
-      ?
-      `<a
-        class="btn btn-primary"
-        style="display:block;text-align:center"
-        href="${escapeAttribute(url)}"
-        target="_blank"
-        rel="noopener noreferrer">
-        📖 فتح المورد
-      </a>`
-      :
-      `<div class="card">
-        الرابط غير متوفر حالياً.
-      </div>`
-    }
-
-  `;
-
-  openModal("resourceModal");
-}
-
-
-function favoriteResource(resource){
-
-  const favorites=
-    JSON.parse(
-      localStorage.getItem("hamouMathFavorites") || "[]"
-    );
-
-  if(!favorites.some(x=>x.id===resource.id)){
-
-    favorites.push(resource);
-
-    localStorage.setItem(
-      "hamouMathFavorites",
-      JSON.stringify(favorites)
-    );
-
-    toast("تمت إضافة المورد إلى المفضلة ⭐");
-
-  }else{
-
-    toast("المورد موجود بالفعل في المفضلة.");
-  }
-}
-
-
-/* =========================
-   GOOGLE DRIVE SYNC
-========================= */
-
-async function syncLibrary(){
-
-  toast("جاري بدء مزامنة Google Drive...");
-
-  try{
-
-    const response=await fetch(
-      "/api/sync-library",
-      {
-        method:"POST",
-        headers:{
-          "Content-Type":"application/json"
-        }
-      }
-    );
-
-    const data=await response.json();
-
-    if(!response.ok){
-      throw new Error(
-        data.error || "فشل في المزامنة"
-      );
-    }
-
-    toast(
-      `تمت المزامنة: ${data.synced || 0} مورد ✅`
-    );
-
-    state.page=1;
-
-    await loadResources();
-
-  }catch(error){
-
-    toast(
-      "لم يتم تفعيل Google Drive API بعد. أكمل إعداد Vercel وGoogle OAuth."
-    );
-
-  }
-}
-
-
-/* =========================
-   ACADEMY
-========================= */
-
-function academyLevel(level){
-
-  const content=document.getElementById("academyContent");
-
-  const data={
-    primary:{
-      title:"الابتدائي",
-      topics:[
-        "الأعداد والعمليات",
-        "الكسور",
-        "الهندسة",
-        "القياس",
-        "حل المسائل"
-      ]
-    },
-
-    middle:{
-      title:"المتوسط",
-      topics:[
-        "الأعداد النسبية",
-        "الجبر",
-        "المعادلات",
-        "الهندسة",
-        "النسب المئوية"
-      ]
-    },
-
-    secondary:{
-      title:"الثانوي",
-      topics:[
-        "الدوال",
-        "المتتاليات",
-        "الاشتقاق",
-        "الاحتمالات",
-        "الإحصاء",
-        "الهندسة في الفضاء"
-      ]
-    },
-
-    bac:{
-      title:"البكالوريا",
-      topics:[
-        "الدوال",
-        "الاشتقاق",
-        "التكامل",
-        "المتتاليات",
-        "الاحتمالات",
-        "الأعداد المركبة"
-      ]
-    },
-
-    university:{
-      title:"الجامعة",
-      topics:[
-        "التحليل",
-        "الجبر",
-        "الاحتمالات",
-        "الإحصاء",
-        "المعادلات التفاضلية"
-      ]
-    },
-
-    advanced:{
-      title:"رياضيات متقدمة",
-      topics:[
-        "التحليل الحقيقي",
-        "التحليل العقدي",
-        "الجبر المجرد",
-        "الاحتمالات المتقدمة",
-        "الإحصاء الرياضي",
-        "الطوبولوجيا"
-      ]
-    }
-  };
-
-  const selected=data[level] || data.secondary;
-
-  content.innerHTML=`
-
-    <div class="section-title">
-      <div>
-        <h2>${selected.title}</h2>
-        <p>مسار تعليمي قابل للتوسع.</p>
-      </div>
-    </div>
-
-    <div class="grid">
-
-      ${selected.topics.map(topic=>`
-
-        <div class="card feature">
-
-          <div class="feature-icon">📘</div>
-
-          <h3>${topic}</h3>
-
-          <p>
-            دروس وملخصات وتمارين واختبارات
-            مرتبطة بهذا المحور.
-          </p>
-
-          <br>
-
-          <button
-            class="btn btn-primary"
-            onclick="go('library')">
-            استكشف الموارد
-          </button>
-
-        </div>
-
-      `).join("")}
-
-    </div>
-  `;
-
-  content.scrollIntoView({behavior:"smooth"});
-}
-
-
-/* =========================
-   EXERCISE ENGINE
-========================= */
-
-function newExercise(){
-
-  const level=
-    document.getElementById("exerciseLevel").value;
-
-  let max=10;
-
-  if(level==="medium") max=30;
-  if(level==="hard") max=100;
-
-  const a=
-    Math.floor(Math.random()*max)+1;
-
-  const b=
-    Math.floor(Math.random()*max)+1;
-
-  const operations=[
-    {symbol:"+",answer:a+b},
-    {symbol:"−",answer:a-b},
-    {symbol:"×",answer:a*b}
-  ];
-
-  const op=
-    operations[
-      Math.floor(Math.random()*operations.length)
-    ];
-
-  state.currentExercise={
-    text:`${a} ${op.symbol} ${b}`,
-    answer:op.answer
-  };
-
-  document.getElementById("exerciseQuestion")
-    .textContent=state.currentExercise.text;
-
-  document.getElementById("exerciseAnswer")
-    .value="";
-
-  document.getElementById("exerciseMessage")
-    .textContent="";
-}
-
-
-function checkExercise(){
-
-  if(!state.currentExercise){
-    toast("أنشئ تمريناً أولاً.");
-    return;
-  }
-
-  const value=Number(
-    document.getElementById("exerciseAnswer").value
-  );
-
-  user.solved++;
-
-  if(value===state.currentExercise.answer){
-
-    user.correct++;
-    user.xp+=10;
-
-    document.getElementById("exerciseMessage")
-      .textContent="إجابة صحيحة! +10 XP 🎉";
-
-    document.getElementById("exerciseMessage")
-      .style.color="var(--green)";
-
-  }else{
-
-    user.xp+=1;
-
-    document.getElementById("exerciseMessage")
-      .textContent=
-      `إجابة غير صحيحة. الحل: ${state.currentExercise.answer}`;
-
-    document.getElementById("exerciseMessage")
-      .style.color="var(--red)";
-  }
-
-  localStorage.setItem(
-    "hamouMathUser",
-    JSON.stringify(user)
-  );
-
-  updateProfile();
-}
-
-
-/* =========================
-   CHALLENGES
-========================= */
-
-function dailyChallenge(){
-
-  const a=Math.floor(Math.random()*20)+1;
-  const b=Math.floor(Math.random()*20)+1;
-
-  showChallenge(`
-    <h2>🔥 تحدي اليوم</h2>
-    <div class="question">${a} × ${b}</div>
-
-    <input
-      id="challengeAnswer"
-      class="input answer-input"
-      type="number">
-
-    <br><br>
-
-    <button
-      class="btn btn-primary"
-      onclick="checkDaily(${a*b})">
-      تحقق
-    </button>
-
-    <div id="challengeMessage" class="game-message"></div>
-  `);
-}
-
-
-function checkDaily(answer){
-
-  const value=Number(
-    document.getElementById("challengeAnswer").value
-  );
-
-  const message=
-    document.getElementById("challengeMessage");
-
-  if(value===answer){
-
-    user.xp+=25;
-    user.correct++;
-
-    message.textContent="ممتاز! +25 XP 🏆";
-    message.style.color="var(--green)";
-
-  }else{
-
-    message.textContent=
-      "ليست الإجابة الصحيحة.";
-    message.style.color="var(--red)";
-  }
-
-  user.solved++;
-
-  localStorage.setItem(
-    "hamouMathUser",
-    JSON.stringify(user)
-  );
-
-  updateProfile();
-}
-
-
-function speedChallenge(){
-
-  showChallenge(`
-    <h2>⚡ تحدي السرعة</h2>
-
-    <p>
-      لديك 60 ثانية لحل أكبر عدد ممكن.
-    </p>
-
-    <div id="speedTimer"
-         style="font-size:30px;font-weight:900;margin:15px">
-      60
-    </div>
-
-    <div id="speedQuestion"
-         class="question">
-      جاهز؟
-    </div>
-
-    <input
-      id="speedAnswer"
-      class="input answer-input"
-      type="number">
-
-    <br><br>
-
-    <button
-      class="btn btn-orange"
-      onclick="beginSpeed()">
-      ابدأ
-    </button>
-
-    <div id="speedMessage" class="game-message"></div>
-  `);
-}
-
-
-function beginSpeed(){
-
-  let time=60;
-  let score=0;
-  let answer;
-
-  const question=document.getElementById("speedQuestion");
-  const input=document.getElementById("speedAnswer");
-  const timer=document.getElementById("speedTimer");
-  const message=document.getElementById("speedMessage");
-
-  function next(){
-
-    const a=Math.floor(Math.random()*20)+1;
-    const b=Math.floor(Math.random()*20)+1;
-
-    answer=a+b;
-
-    question.textContent=`${a} + ${b}`;
-    input.value="";
-    input.focus();
-  }
-
-  input.onkeydown=function(e){
-
-    if(e.key==="Enter"){
-
-      if(Number(input.value)===answer){
-
-        score++;
-        user.xp+=5;
-      }
-
-      user.solved++;
-
-      next();
-    }
-  };
-
-  next();
-
-  clearInterval(state.challengeTimer);
-
-  state.challengeTimer=setInterval(()=>{
-
-    time--;
-
-    timer.textContent=time;
-
-    if(time<=0){
-
-      clearInterval(state.challengeTimer);
-
-      message.textContent=
-        `انتهى الوقت! نتيجتك: ${score} إجابات صحيحة.`;
-
-      message.style.color="var(--primary)";
-
-      localStorage.setItem(
-        "hamouMathUser",
-        JSON.stringify(user)
-      );
-
-      updateProfile();
-    }
-
-  },1000);
-}
-
-
-function eliteChallenge(){
-
-  showChallenge(`
-    <h2>👑 تحدي النخبة</h2>
-
-    <p>
-      إذا كان x + 1/x = 3، فما قيمة
-      x² + 1/x²؟
-    </p>
-
-    <input
-      id="eliteAnswer"
-      class="input answer-input"
-      type="number">
-
-    <br><br>
-
-    <button
-      class="btn btn-purple"
-      onclick="checkElite()">
-      تحقق
-    </button>
-
-    <div id="eliteMessage"
-         class="game-message"></div>
-  `);
-}
-
-
-function checkElite(){
-
-  const value=Number(
-    document.getElementById("eliteAnswer").value
-  );
-
-  const message=
-    document.getElementById("eliteMessage");
-
-  user.solved++;
-
-  if(value===7){
-
-    user.correct++;
-    user.xp+=50;
-
-    message.textContent=
-      "رائع! الحل 7. +50 XP 👑";
-
-    message.style.color="var(--green)";
-
-  }else{
-
-    message.textContent=
-      "حاول مرة أخرى.";
-    message.style.color="var(--red)";
-  }
-
-  localStorage.setItem(
-    "hamouMathUser",
-    JSON.stringify(user)
-  );
-
-  updateProfile();
-}
-
-
-function showChallenge(html){
-
-  const area=document.getElementById("challengeArea");
-
-  area.style.display="block";
-  area.innerHTML=html;
-
-  area.scrollIntoView({
-    behavior:"smooth"
-  });
-}
-
-
-function showLeaderboard(){
-
-  showChallenge(`
-    <h2>🌍 التصنيف</h2>
-
-    <div class="card">
-      <h3>🥇 HAMOU</h3>
-      <p>نظام التصنيف السحابي سيستخدم قاعدة بيانات المنصة.</p>
-    </div>
-
-    <div class="card">
-      <h3>🥈 Math Master</h3>
-      <p>1200 XP</p>
-    </div>
-
-    <div class="card">
-      <h3>🥉 Olympiad Student</h3>
-      <p>980 XP</p>
-    </div>
-  `);
-}
-
-
-/* =========================
-   GAMES
-========================= */
-
-function startNumberGame(){
-
-  const area=document.getElementById("gameArea");
-
-  area.style.display="block";
-
-  const secret=
-    Math.floor(Math.random()*100)+1;
-
-  let attempts=0;
-
-  area.innerHTML=`
-
-    <h2>🔢 خمن الرقم</h2>
-
-    <p>اختر رقماً بين 1 و100.</p>
-
-    <input
-      id="numberGuess"
-      class="input answer-input"
-      type="number">
-
-    <br><br>
-
-    <button
-      class="btn btn-primary"
-      id="guessButton">
-      تخمين
-    </button>
-
-    <div id="guessMessage"
-         class="game-message"></div>
-  `;
-
-  document.getElementById("guessButton")
-    .onclick=function(){
-
-      const value=Number(
-        document.getElementById("numberGuess").value
-      );
-
-      attempts++;
-
-      const message=
-        document.getElementById("guessMessage");
-
-      if(value===secret){
-
-        message.textContent=
-          `🎉 ممتاز! وجدته في ${attempts} محاولة.`;
-
-        user.xp+=20;
-
-        localStorage.setItem(
-          "hamouMathUser",
-          JSON.stringify(user)
-        );
-
-        updateProfile();
-
-      }else if(value<secret){
-
-        message.textContent="الرقم أكبر ⬆️";
-
-      }else{
-
-        message.textContent="الرقم أصغر ⬇️";
-      }
-    };
-}
-
-
-function startMathGame(){
-
-  const area=document.getElementById("gameArea");
-
-  area.style.display="block";
-
-  const a=Math.floor(Math.random()*50)+1;
-  const b=Math.floor(Math.random()*50)+1;
-  const answer=a*b;
-
-  area.innerHTML=`
-
-    <h2>➗ ملك العمليات</h2>
-
-    <div class="question">
-      ${a} × ${b}
-    </div>
-
-    <input
-      id="mathGameAnswer"
-      class="input answer-input"
-      type="number">
-
-    <br><br>
-
-    <button
-      class="btn btn-orange"
-      onclick="checkMathGame(${answer})">
-      تحقق
-    </button>
-
-    <div id="mathGameMessage"
-         class="game-message"></div>
-  `;
-}
-
-
-function checkMathGame(answer){
-
-  const value=Number(
-    document.getElementById("mathGameAnswer").value
-  );
-
-  const message=
-    document.getElementById("mathGameMessage");
-
-  if(value===answer){
-
-    message.textContent="صحيح! +15 XP 🔥";
-    message.style.color="var(--green)";
-
-    user.xp+=15;
-    user.correct++;
-
-  }else{
-
-    message.textContent="خطأ، حاول مرة أخرى.";
-    message.style.color="var(--red)";
-  }
-
-  user.solved++;
-
-  localStorage.setItem(
-    "hamouMathUser",
-    JSON.stringify(user)
-  );
-
-  updateProfile();
-}
-
-
-function memoryGame(){
-
-  const area=document.getElementById("gameArea");
-
-  area.style.display="block";
-
-  const number=
-    Math.floor(Math.random()*9000)+1000;
-
-  area.innerHTML=`
-
-    <h2>🧠 ذاكرة الأرقام</h2>
-
-    <p>
-      احفظ الرقم خلال 3 ثوانٍ.
-    </p>
-
-    <div
-      id="memoryNumber"
-      class="question">
-      ${number}
-    </div>
-
-    <div id="memoryInputArea"></div>
-  `;
-
-  setTimeout(()=>{
-
-    document.getElementById("memoryNumber")
-      .textContent="••••";
-
-    document.getElementById("memoryInputArea")
-      .innerHTML=`
-
-      <input
-        id="memoryAnswer"
-        class="input answer-input"
-        type="number">
-
-      <br><br>
-
-      <button
-        class="btn btn-purple"
-        onclick="checkMemory(${number})">
-        تحقق
-      </button>
-
-      <div id="memoryMessage"
-           class="game-message"></div>
-    `;
-
-  },3000);
-}
-
-
-function checkMemory(number){
-
-  const value=Number(
-    document.getElementById("memoryAnswer").value
-  );
-
-  const message=
-    document.getElementById("memoryMessage");
-
-  if(value===number){
-
-    message.textContent=
-      "ذاكرة ممتازة! +20 XP 🧠";
-
-    message.style.color="var(--green)";
-
-    user.xp+=20;
-
-  }else{
-
-    message.textContent=
-      `الرقم كان ${number}`;
-
-    message.style.color="var(--red)";
-  }
-
-  localStorage.setItem(
-    "hamouMathUser",
-    JSON.stringify(user)
-  );
-
-  updateProfile();
-}
-
-
-/* =========================
-   OLYMPIAD
-========================= */
-
-function olympiad(level){
-
-  const result=
-    document.getElementById("olympiadResult");
-
-  const questions={
-
-    basic:
-      "أوجد أصغر عدد طبيعي يقبل القسمة على 2 و3 و5 و7.",
-
-    advanced:
-      "إذا كان a+b+c=0، أثبت أن a³+b³+c³=3abc.",
-
-    elite:
-      "أثبت أن هناك عددًا لا نهائيًا من الأعداد الأولية."
-  };
-
-  result.innerHTML=`
-
-    <div class="card game-box">
-
-      <h2>
-        ${level==="basic"?"🟢":
-          level==="advanced"?"🟠":"🔴"}
-        مسألة الأولمبياد
-      </h2>
-
-      <div class="question"
-           style="font-size:25px">
-        ${questions[level]}
-      </div>
-
-      <textarea
-        id="olympiadAnswer"
-        class="input"
-        rows="6"
-        placeholder="اكتب حلك هنا..."></textarea>
-
-      <br><br>
-
-      <button
-        class="btn btn-primary"
-        onclick="submitOlympiad()">
-        إرسال الحل
-      </button>
-
-      <div id="olympiadMessage"
-           class="game-message"></div>
-
-    </div>
-  `;
-
-  result.scrollIntoView({behavior:"smooth"});
-}
-
-
-function submitOlympiad(){
-
-  document.getElementById("olympiadMessage")
-    .textContent=
-      "تم تسجيل محاولتك محلياً. نظام التصحيح المتقدم سيُربط لاحقاً بمحرك المنصة.";
-
-  document.getElementById("olympiadMessage")
-    .style.color="var(--primary)";
-
-  user.xp+=10;
-
-  localStorage.setItem(
-    "hamouMathUser",
-    JSON.stringify(user)
-  );
-
-  updateProfile();
-}
-
-
-/* =========================
-   HELPERS
-========================= */
-
-function languageName(lang){
-
-  return {
-    ar:"العربية",
-    fr:"Français",
-    en:"English"
-  }[lang] || "—";
-}
-
-
-function levelName(level){
-
-  return {
-    primary:"ابتدائي",
-    middle:"متوسط",
-    secondary:"ثانوي",
-    bac:"بكالوريا",
-    university:"جامعة",
-    advanced:"متقدم"
-  }[level] || "كل المستويات";
-}
-
+/* =========================================================
+   HTML ESCAPE
+========================================================= */
 
 function escapeHTML(value){
 
@@ -2684,196 +2047,2546 @@ function escapeHTML(value){
     .replace(/>/g,"&gt;")
     .replace(/"/g,"&quot;")
     .replace(/'/g,"&#039;");
+
 }
 
 
-function escapeAttribute(value){
+/* =========================================================
+   RENDER LIBRARY
+========================================================= */
 
-  return escapeHTML(value);
-}
+function renderLibrary(){
+
+  const grid =
+    document.getElementById("resourceGrid");
+
+  const query =
+    normalizeText(
+      document.getElementById("searchInput").value
+    );
+
+  const type =
+    document.getElementById("typeFilter").value;
+
+  const level =
+    document.getElementById("levelFilter").value;
+
+  const language =
+    document.getElementById("languageFilter").value;
+
+  const field =
+    document.getElementById("fieldFilter").value;
 
 
-/* =========================
-   LOCAL FALLBACK RESOURCES
-========================= */
+  const filtered =
+    resources.filter(resource => {
 
-const LOCAL_RESOURCES=[
+      const searchable =
+        normalizeText([
+          resource.title,
+          resource.description,
+          resource.source,
+          resource.field,
+          resource.level,
+          resource.language,
+          resource.type
+        ].join(" "));
 
-  {
-    id:"openstax-calculus-1",
-    title:"Calculus Volume 1",
-    language:"en",
-    level:"university",
-    type:"book",
-    typeLabel:"كتاب",
-    author:"OpenStax",
-    description:"كتاب مفتوح في حساب التفاضل والتكامل.",
-    url:"https://openstax.org/details/books/calculus-volume-1"
-  },
 
-  {
-    id:"openstax-calculus-2",
-    title:"Calculus Volume 2",
-    language:"en",
-    level:"university",
-    type:"book",
-    typeLabel:"كتاب",
-    author:"OpenStax",
-    description:"مرجع في التكاملات والمتتاليات والمتسلسلات.",
-    url:"https://openstax.org/details/books/calculus-volume-2"
-  },
+      const matchesQuery =
+        !query ||
+        searchable.includes(query);
 
-  {
-    id:"mit-calculus",
-    title:"MIT OpenCourseWare Mathematics",
-    language:"en",
-    level:"university",
-    type:"reference",
-    typeLabel:"مرجع",
-    author:"MIT",
-    description:"محاضرات ومواد جامعية في الرياضيات.",
-    url:"https://ocw.mit.edu/search/?d=Mathematics"
-  },
 
-  {
-    id:"khan-math",
-    title:"Khan Academy Mathematics",
-    language:"en",
-    level:"secondary",
-    type:"lesson",
-    typeLabel:"دروس",
-    author:"Khan Academy",
-    description:"دروس وتمارين رياضيات.",
-    url:"https://www.khanacademy.org/math"
-  },
+      const matchesType =
+        !type ||
+        resource.type === type;
 
-  {
-    id:"open-library-math",
-    title:"Open Library Mathematics",
-    language:"en",
-    level:"university",
-    type:"reference",
-    typeLabel:"مكتبة",
-    author:"Open Library",
-    description:"فهرس واسع للكتب.",
-    url:"https://openlibrary.org/"
-  },
 
-  {
-    id:"nasa-math",
-    title:"Mathematics Resources",
-    language:"en",
-    level:"advanced",
-    type:"reference",
-    typeLabel:"مرجع",
-    author:"NASA",
-    description:"موارد علمية ورياضية.",
-    url:"https://www.nasa.gov/"
-  },
+      const matchesLevel =
+        !level ||
+        resource.level === level;
 
-  {
-    id:"dlmf",
-    title:"Digital Library of Mathematical Functions",
-    language:"en",
-    level:"advanced",
-    type:"reference",
-    typeLabel:"مرجع",
-    author:"NIST",
-    description:"مرجع متخصص في الدوال الرياضية.",
-    url:"https://dlmf.nist.gov/"
-  },
 
-  {
-    id:"ar-math",
-    title:"HAMOU MATH — موارد الرياضيات العربية",
-    language:"ar",
-    level:"secondary",
-    type:"lesson",
-    typeLabel:"دروس",
-    author:"HAMOU MATH",
-    description:"مسار تعليمي باللغة العربية.",
-    url:"https://hamoumaths.vercel.app/"
-  },
+      const matchesLanguage =
+        !language ||
+        resource.language === language;
 
-  {
-    id:"fr-math",
-    title:"Ressources mathématiques",
-    language:"fr",
-    level:"secondary",
-    type:"reference",
-    typeLabel:"Référence",
-    author:"HAMOU MATH",
-    description:"موارد رياضية باللغة الفرنسية.",
-    url:"https://hamoumaths.vercel.app/"
+
+      const matchesField =
+        !field ||
+        resource.field === field;
+
+
+      return (
+        matchesQuery &&
+        matchesType &&
+        matchesLevel &&
+        matchesLanguage &&
+        matchesField
+      );
+
+    });
+
+
+  document.getElementById("resourceCount")
+    .textContent =
+    resources.length;
+
+
+  document.getElementById("resultInfo")
+    .textContent =
+    `${filtered.length} نتيجة`;
+
+
+  if(!filtered.length){
+
+    grid.innerHTML = `
+
+      <div class="empty">
+
+        🔎
+
+        <h3 style="margin:12px 0 6px">
+          لم نجد موارد مطابقة
+        </h3>
+
+        <p>
+          جرّب تغيير كلمات البحث أو إزالة أحد الفلاتر.
+        </p>
+
+      </div>
+
+    `;
+
+    return;
   }
 
-];
+
+  grid.innerHTML =
+    filtered.map(resource => `
+
+      <article
+        class="resource-card">
+
+        <div class="resource-top">
+
+          <div class="resource-icon">
+            ${escapeHTML(resource.icon || "📚")}
+          </div>
+
+          <span class="resource-type">
+            ${escapeHTML(resource.type)}
+          </span>
+
+        </div>
 
 
-/* =========================
-   INIT
-========================= */
-
-document.getElementById("year").textContent=
-  new Date().getFullYear();
-
-updateProfile();
-
-document.getElementById("homeResources")
-  .textContent=LOCAL_RESOURCES.length;
-
-loadResources();
+        <h3>
+          ${escapeHTML(resource.title)}
+        </h3>
 
 
-/* =========================
-   CLOSE MODALS
-========================= */
+        <p class="resource-description">
+          ${escapeHTML(resource.description)}
+        </p>
 
-document.querySelectorAll(".modal").forEach(modal=>{
 
-  modal.addEventListener("click",e=>{
+        <div class="resource-tags">
 
-    if(e.target===modal){
-      modal.classList.remove("show");
+          <span class="tag">
+            ${escapeHTML(resource.level)}
+          </span>
+
+          <span class="tag">
+            ${escapeHTML(resource.language)}
+          </span>
+
+          <span class="tag">
+            ${escapeHTML(resource.field)}
+          </span>
+
+        </div>
+
+
+        <div class="resource-source">
+
+          المصدر:
+          <strong>
+            ${escapeHTML(resource.source)}
+          </strong>
+
+        </div>
+
+
+        <div class="resource-actions">
+
+          <a
+            class="btn-primary"
+            href="${escapeHTML(resource.url)}"
+            target="_blank"
+            rel="noopener noreferrer">
+
+            فتح المصدر ↗
+
+          </a>
+
+
+          <a
+            class="btn-secondary"
+            href="${escapeHTML(resource.url)}"
+            target="_blank"
+            rel="noopener noreferrer">
+
+            قراءة / وصول
+
+          </a>
+
+        </div>
+
+      </article>
+
+    `).join("");
+
+}
+
+
+/* =========================================================
+   HERO SEARCH
+========================================================= */
+
+function syncSearch(value){
+
+  document.getElementById("searchInput")
+    .value = value;
+
+  renderLibrary();
+
+}
+
+
+function searchLibrary(){
+
+  const value =
+    document.getElementById("heroSearch")
+      .value;
+
+  document.getElementById("searchInput")
+    .value = value;
+
+  document.getElementById("library")
+    .scrollIntoView({
+      behavior:"smooth"
+    });
+
+  renderLibrary();
+
+}
+
+
+/* =========================================================
+   FILTER TYPE
+========================================================= */
+
+function filterType(type){
+
+  document.getElementById("typeFilter")
+    .value = type;
+
+  document.getElementById("library")
+    .scrollIntoView({
+      behavior:"smooth"
+    });
+
+  renderLibrary();
+
+}
+
+
+/* =========================================================
+   FILTER FIELD
+========================================================= */
+
+function setField(field){
+
+  document.getElementById("fieldFilter")
+    .value = field;
+
+  document.getElementById("library")
+    .scrollIntoView({
+      behavior:"smooth"
+    });
+
+  renderLibrary();
+
+}
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+function goTo(id){
+
+  const target =
+    document.getElementById(id);
+
+  if(target){
+
+    target.scrollIntoView({
+      behavior:"smooth"
+    });
+
+  }
+
+}
+
+
+/* =========================================================
+   MOBILE MENU
+========================================================= */
+
+function toggleMobile(){
+
+  const menu =
+    document.querySelector(".nav-menu");
+
+  mobileOpen =
+    !mobileOpen;
+
+  if(mobileOpen){
+
+    menu.style.display = "flex";
+
+    menu.style.position = "absolute";
+
+    menu.style.top = "70px";
+
+    menu.style.right = "10px";
+
+    menu.style.left = "10px";
+
+    menu.style.padding = "12px";
+
+    menu.style.background = "#fff";
+
+    menu.style.border =
+      "1px solid var(--border)";
+
+    menu.style.borderRadius = "15px";
+
+    menu.style.boxShadow =
+      "var(--shadow)";
+
+    menu.style.flexDirection =
+      "column";
+
+  }else{
+
+    menu.style.display = "";
+
+    menu.style.position = "";
+
+    menu.style.top = "";
+
+    menu.style.right = "";
+
+    menu.style.left = "";
+
+    menu.style.padding = "";
+
+    menu.style.background = "";
+
+    menu.style.border = "";
+
+    menu.style.borderRadius = "";
+
+    menu.style.boxShadow = "";
+
+    menu.style.flexDirection = "";
+
+  }
+
+}
+
+
+/* =========================================================
+   INITIALIZE
+========================================================= */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  () => {
+
+    renderLibrary();
+
+    document.getElementById(
+      "engineStatus"
+    ).textContent = "جاهز";
+
+  }
+);
+
+</script>
+
+<!-- =======================================================
+     نهاية الجزء الأول
+     ألصق الجزء الثاني مباشرة بعد هذا السطر
+======================================================= -->
+      <!-- =========================================================
+     HAMOU MATH GLOBAL
+     PART 2 — LIBRARY ENGINE / DATA / GOOGLE DRIVE
+========================================================= -->
+
+<script>
+
+/* =========================================================
+   GLOBAL CONFIGURATION
+========================================================= */
+
+const HAMOU_CONFIG = {
+
+  apiResources:
+    "/api/resources",
+
+  apiSync:
+    "/api/sync-library",
+
+  storageKey:
+    "hamou_math_global_resources_v1",
+
+  favoritesKey:
+    "hamou_math_favorites_v1",
+
+  historyKey:
+    "hamou_math_search_history_v1",
+
+  languageKey:
+    "hamou_math_language",
+
+  maxHistory:
+    30
+
+};
+
+
+/* =========================================================
+   SAFE LOCAL STORAGE
+========================================================= */
+
+function storageGet(key, fallback){
+
+  try{
+
+    const value =
+      localStorage.getItem(key);
+
+    if(!value)
+      return fallback;
+
+    return JSON.parse(value);
+
+  }catch(error){
+
+    console.warn(
+      "HAMOU STORAGE READ ERROR",
+      error
+    );
+
+    return fallback;
+
+  }
+
+}
+
+
+function storageSet(key,value){
+
+  try{
+
+    localStorage.setItem(
+      key,
+      JSON.stringify(value)
+    );
+
+    return true;
+
+  }catch(error){
+
+    console.warn(
+      "HAMOU STORAGE WRITE ERROR",
+      error
+    );
+
+    return false;
+
+  }
+
+}
+
+
+/* =========================================================
+   FAVORITES
+========================================================= */
+
+let favorites =
+  new Set(
+    storageGet(
+      HAMOU_CONFIG.favoritesKey,
+      []
+    )
+  );
+
+
+function saveFavorites(){
+
+  storageSet(
+    HAMOU_CONFIG.favoritesKey,
+    [...favorites]
+  );
+
+}
+
+
+function toggleFavorite(id){
+
+  if(favorites.has(id)){
+
+    favorites.delete(id);
+
+  }else{
+
+    favorites.add(id);
+
+  }
+
+  saveFavorites();
+
+  renderLibrary();
+
+}
+
+
+function isFavorite(id){
+
+  return favorites.has(id);
+
+}
+
+
+/* =========================================================
+   SEARCH HISTORY
+========================================================= */
+
+let searchHistory =
+  storageGet(
+    HAMOU_CONFIG.historyKey,
+    []
+  );
+
+
+function saveSearch(value){
+
+  const query =
+    String(value || "").trim();
+
+  if(query.length < 2)
+    return;
+
+
+  searchHistory =
+    searchHistory.filter(
+      x => x !== query
+    );
+
+
+  searchHistory.unshift(query);
+
+
+  searchHistory =
+    searchHistory.slice(
+      0,
+      HAMOU_CONFIG.maxHistory
+    );
+
+
+  storageSet(
+    HAMOU_CONFIG.historyKey,
+    searchHistory
+  );
+
+}
+
+
+/* =========================================================
+   IMPROVED SEARCH
+========================================================= */
+
+const originalSearchLibrary =
+  window.searchLibrary;
+
+
+window.searchLibrary =
+  function(){
+
+    const value =
+      document
+        .getElementById("heroSearch")
+        .value;
+
+    saveSearch(value);
+
+    document
+      .getElementById("searchInput")
+      .value = value;
+
+    document
+      .getElementById("library")
+      .scrollIntoView({
+        behavior:"smooth"
+      });
+
+    renderLibrary();
+
+  };
+
+
+/* =========================================================
+   RESOURCE NORMALIZATION
+========================================================= */
+
+function normalizeResource(item,index){
+
+  if(!item)
+    return null;
+
+
+  const title =
+    item.title ||
+    item.name ||
+    item.filename ||
+    item.fileName ||
+    `Resource ${index+1}`;
+
+
+  const url =
+    item.url ||
+    item.link ||
+    item.webViewLink ||
+    item.downloadUrl ||
+    item.download_url ||
+    item.fileUrl ||
+    item.file_url;
+
+
+  if(!url)
+    return null;
+
+
+  return {
+
+    id:
+      String(
+        item.id ||
+        item.fileId ||
+        item.file_id ||
+        "resource-" +
+        index +
+        "-" +
+        Date.now()
+      ),
+
+    title:
+      String(title),
+
+    type:
+      item.type ||
+      item.category ||
+      item.resourceType ||
+      "مرجع",
+
+    level:
+      item.level ||
+      item.grade ||
+      item.educationLevel ||
+      "جامعي",
+
+    language:
+      item.language ||
+      item.lang ||
+      "العربية",
+
+    field:
+      item.field ||
+      item.subject ||
+      item.topic ||
+      "الرياضيات",
+
+    source:
+      item.source ||
+      item.provider ||
+      "HAMOU MATH",
+
+    description:
+      item.description ||
+      item.desc ||
+      "مورد رياضي تعليمي.",
+
+    url:
+      String(url),
+
+    downloadUrl:
+      item.downloadUrl ||
+      item.download_url ||
+      null,
+
+    icon:
+      item.icon ||
+      detectIcon(
+        item.type ||
+        item.category
+      ),
+
+    author:
+      item.author ||
+      item.creator ||
+      "",
+
+    year:
+      item.year ||
+      "",
+
+    license:
+      item.license ||
+      "",
+
+    tags:
+      Array.isArray(item.tags)
+        ? item.tags
+        : [],
+
+    featured:
+      Boolean(item.featured),
+
+    drive:
+      Boolean(
+        item.drive ||
+        item.googleDrive ||
+        item.google_drive
+      )
+
+  };
+
+}
+
+
+/* =========================================================
+   ICON DETECTION
+========================================================= */
+
+function detectIcon(type){
+
+  const value =
+    normalizeText(type);
+
+  if(
+    value.includes("كتاب") ||
+    value.includes("book")
+  )
+    return "📖";
+
+
+  if(
+    value.includes("درس") ||
+    value.includes("course")
+  )
+    return "📘";
+
+
+  if(
+    value.includes("تمرين") ||
+    value.includes("exercise")
+  )
+    return "📝";
+
+
+  if(
+    value.includes("امتحان") ||
+    value.includes("exam")
+  )
+    return "🎓";
+
+
+  return "📚";
+
+}
+
+
+/* =========================================================
+   MERGE RESOURCES
+========================================================= */
+
+function mergeResources(list){
+
+  if(!Array.isArray(list))
+    return;
+
+
+  const map =
+    new Map();
+
+
+  resources.forEach(
+    resource =>
+      map.set(
+        resource.id ||
+        resource.url,
+        resource
+      )
+  );
+
+
+  list.forEach(
+    (item,index) => {
+
+      const normalized =
+        normalizeResource(
+          item,
+          index
+        );
+
+
+      if(!normalized)
+        return;
+
+
+      const key =
+        normalized.id ||
+        normalized.url;
+
+
+      map.set(
+        key,
+        normalized
+      );
+
+    }
+  );
+
+
+  resources =
+    [...map.values()];
+
+
+  storageSet(
+    HAMOU_CONFIG.storageKey,
+    resources
+  );
+
+}
+
+
+/* =========================================================
+   LOAD CACHED RESOURCES
+========================================================= */
+
+function loadCachedResources(){
+
+  const cached =
+    storageGet(
+      HAMOU_CONFIG.storageKey,
+      []
+    );
+
+
+  if(
+    Array.isArray(cached) &&
+    cached.length
+  ){
+
+    mergeResources(cached);
+
+  }
+
+}
+
+
+/* =========================================================
+   API RESPONSE EXTRACTION
+========================================================= */
+
+function extractResourceArray(data){
+
+  if(Array.isArray(data))
+    return data;
+
+
+  if(
+    data &&
+    Array.isArray(data.resources)
+  )
+    return data.resources;
+
+
+  if(
+    data &&
+    Array.isArray(data.items)
+  )
+    return data.items;
+
+
+  if(
+    data &&
+    Array.isArray(data.data)
+  )
+    return data.data;
+
+
+  return [];
+
+}
+
+
+/* =========================================================
+   CONNECT TO HAMOU API
+========================================================= */
+
+async function loadAPIResources(){
+
+  const status =
+    document.getElementById(
+      "engineStatus"
+    );
+
+
+  try{
+
+    status.textContent =
+      "اتصال...";
+
+
+    const response =
+      await fetch(
+        HAMOU_CONFIG.apiResources,
+        {
+          method:"GET",
+          headers:{
+            "Accept":
+              "application/json"
+          },
+          cache:"no-store"
+        }
+      );
+
+
+    if(!response.ok){
+
+      throw new Error(
+        "API HTTP " +
+        response.status
+      );
+
     }
 
-  });
 
-});
+    const data =
+      await response.json();
 
 
-/* =========================
-   KEYBOARD
-========================= */
+    const list =
+      extractResourceArray(data);
 
-document.addEventListener("keydown",e=>{
 
-  if(e.key==="Escape"){
+    if(list.length){
 
-    document.querySelectorAll(".modal")
-      .forEach(m=>m.classList.remove("show"));
+      mergeResources(list);
+
+    }
+
+
+    status.textContent =
+      "متصل";
+
+
+    renderLibrary();
+
+
+    return true;
+
+  }catch(error){
+
+    console.warn(
+      "HAMOU RESOURCES API:",
+      error
+    );
+
+
+    status.textContent =
+      "محلي";
+
+
+    renderLibrary();
+
+
+    return false;
+
   }
 
-});
+}
 
 
-/* =========================
-   SERVICE WORKER
-========================= */
+/* =========================================================
+   GOOGLE DRIVE SYNC
+========================================================= */
 
-if("serviceWorker" in navigator){
+async function syncGoogleDrive(){
 
-  window.addEventListener("load",()=>{
+  const status =
+    document.getElementById(
+      "engineStatus"
+    );
 
-    navigator.serviceWorker
-      .register("/sw.js")
-      .catch(()=>{});
 
-  });
+  status.textContent =
+    "مزامنة Drive...";
+
+
+  try{
+
+    const response =
+      await fetch(
+        HAMOU_CONFIG.apiSync,
+        {
+          method:"GET",
+          headers:{
+            "Accept":
+              "application/json"
+          },
+          cache:"no-store"
+        }
+      );
+
+
+    if(!response.ok){
+
+      throw new Error(
+        "Drive sync HTTP " +
+        response.status
+      );
+
+    }
+
+
+    const data =
+      await response.json();
+
+
+    const list =
+      extractResourceArray(data);
+
+
+    if(list.length){
+
+      mergeResources(list);
+
+    }
+
+
+    status.textContent =
+      "Drive متصل";
+
+
+    renderLibrary();
+
+
+    showToast(
+      "تم تحديث فهرس المكتبة من Google Drive",
+      "success"
+    );
+
+
+    return data;
+
+
+  }catch(error){
+
+    console.warn(
+      "GOOGLE DRIVE SYNC:",
+      error
+    );
+
+
+    status.textContent =
+      "Drive غير متصل";
+
+
+    showToast(
+      "لم تتم مزامنة Google Drive حاليًا",
+      "warning"
+    );
+
+
+    return null;
+
+  }
+
+}
+
+
+/* =========================================================
+   GOOGLE DRIVE PANEL
+========================================================= */
+
+function openDrivePanel(){
+
+  const old =
+    document.getElementById(
+      "driveModal"
+    );
+
+
+  if(old)
+    old.remove();
+
+
+  const modal =
+    document.createElement(
+      "div"
+    );
+
+
+  modal.id =
+    "driveModal";
+
+
+  modal.style.cssText = `
+
+    position:fixed;
+    inset:0;
+    z-index:9999;
+
+    background:
+      rgba(15,23,42,.65);
+
+    display:grid;
+    place-items:center;
+
+    padding:18px;
+
+  `;
+
+
+  modal.innerHTML = `
+
+    <div style="
+      width:min(600px,100%);
+      background:#fff;
+      border-radius:22px;
+      padding:25px;
+      box-shadow:0 25px 70px rgba(0,0,0,.25);
+    ">
+
+      <div style="
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        gap:10px;
+      ">
+
+        <h2>
+          ☁️ Google Drive
+        </h2>
+
+        <button
+          onclick="closeDrivePanel()"
+          style="
+            width:38px;
+            height:38px;
+            border:0;
+            border-radius:10px;
+            background:#f1f5f9;
+            font-size:18px;
+          ">
+          ×
+        </button>
+
+      </div>
+
+
+      <p style="
+        color:#64748b;
+        line-height:1.8;
+        margin-top:12px;
+        font-size:14px;
+      ">
+
+        استخدم Google Drive كمخزن لملفاتك
+        التعليمية، بينما يحتفظ HAMOU MATH
+        بفهرس الموارد وبياناتها.
+
+      </p>
+
+
+      <div style="
+        display:grid;
+        gap:10px;
+        margin-top:20px;
+      ">
+
+        <button
+          onclick="syncGoogleDrive()"
+          style="
+            min-height:48px;
+            border:0;
+            border-radius:12px;
+            background:#2563eb;
+            color:white;
+            font-weight:800;
+          ">
+
+          🔄 مزامنة المكتبة
+
+        </button>
+
+
+        <button
+          onclick="startGoogleLogin()"
+          style="
+            min-height:48px;
+            border:1px solid #e2e8f0;
+            border-radius:12px;
+            background:#fff;
+            color:#334155;
+            font-weight:800;
+          ">
+
+          🔐 تسجيل الدخول بحساب Google
+
+        </button>
+
+      </div>
+
+
+      <div style="
+        margin-top:18px;
+        padding:13px;
+        border-radius:12px;
+        background:#f8fafc;
+        color:#64748b;
+        font-size:12px;
+        line-height:1.7;
+      ">
+
+        ملاحظة: نجاح هذه الوظيفة يعتمد على
+        إعداد OAuth وGoogle Drive API في
+        ملفات المشروع الخلفية.
+
+      </div>
+
+    </div>
+
+  `;
+
+
+  modal.addEventListener(
+    "click",
+    event => {
+
+      if(
+        event.target === modal
+      ){
+
+        closeDrivePanel();
+
+      }
+
+    }
+  );
+
+
+  document.body.appendChild(
+    modal
+  );
+
+}
+
+
+function closeDrivePanel(){
+
+  const modal =
+    document.getElementById(
+      "driveModal"
+    );
+
+
+  if(modal)
+    modal.remove();
+
+}
+
+
+/* =========================================================
+   GOOGLE LOGIN
+========================================================= */
+
+function startGoogleLogin(){
+
+  window.location.href =
+    "/api/google-auth";
+
+}
+
+
+/* =========================================================
+   FAVORITES FILTER
+========================================================= */
+
+function showFavorites(){
+
+  const filtered =
+    resources.filter(
+      resource =>
+        favorites.has(
+          resource.id
+        )
+    );
+
+
+  renderSpecificResources(
+    filtered,
+    "⭐ المفضلة"
+  );
+
+}
+
+
+function renderSpecificResources(
+  list,
+  title
+){
+
+  const grid =
+    document.getElementById(
+      "resourceGrid"
+    );
+
+
+  document.getElementById(
+    "resultInfo"
+  ).textContent =
+    `${list.length} نتيجة`;
+
+
+  if(!list.length){
+
+    grid.innerHTML = `
+
+      <div class="empty">
+
+        ⭐
+
+        <h3 style="margin:12px 0 6px">
+          لا توجد موارد مفضلة
+        </h3>
+
+        <p>
+          اضغط على النجمة داخل أي مورد لإضافته
+          إلى المفضلة.
+        </p>
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  grid.innerHTML =
+    list.map(
+      resource =>
+        createResourceCard(
+          resource
+        )
+    ).join("");
+
+}
+
+
+/* =========================================================
+   RESOURCE CARD ENGINE
+========================================================= */
+
+function createResourceCard(
+  resource
+){
+
+  const favorite =
+    isFavorite(
+      resource.id
+    );
+
+
+  const url =
+    resource.url ||
+    "#";
+
+
+  const download =
+    resource.downloadUrl ||
+    url;
+
+
+  return `
+
+    <article
+      class="resource-card">
+
+
+      <div
+        class="resource-top">
+
+
+        <div
+          class="resource-icon">
+
+          ${escapeHTML(
+            resource.icon ||
+            "📚"
+          )}
+
+        </div>
+
+
+        <div style="
+          display:flex;
+          align-items:center;
+          gap:7px;
+        ">
+
+          <span
+            class="resource-type">
+
+            ${escapeHTML(
+              resource.type ||
+              "مرجع"
+            )}
+
+          </span>
+
+
+          <button
+            onclick="toggleFavorite('${escapeHTML(resource.id)}')"
+            aria-label="المفضلة"
+            title="المفضلة"
+            style="
+              width:34px;
+              height:34px;
+              border:0;
+              border-radius:10px;
+              background:#f8fafc;
+              font-size:17px;
+            ">
+
+            ${favorite ? "⭐" : "☆"}
+
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <h3>
+
+        ${escapeHTML(
+          resource.title
+        )}
+
+      </h3>
+
+
+      <p
+        class="resource-description">
+
+        ${escapeHTML(
+          resource.description ||
+          "مورد رياضي تعليمي."
+        )}
+
+      </p>
+
+
+      <div
+        class="resource-tags">
+
+        <span class="tag">
+          ${escapeHTML(
+            resource.level ||
+            "عام"
+          )}
+        </span>
+
+        <span class="tag">
+          ${escapeHTML(
+            resource.language ||
+            "متعدد"
+          )}
+        </span>
+
+        <span class="tag">
+          ${escapeHTML(
+            resource.field ||
+            "رياضيات"
+          )}
+        </span>
+
+        ${
+          resource.drive
+          ?
+          `<span class="tag">☁️ Drive</span>`
+          :
+          ""
+        }
+
+      </div>
+
+
+      <div
+        class="resource-source">
+
+        المصدر:
+        <strong>
+          ${escapeHTML(
+            resource.source ||
+            "HAMOU MATH"
+          )}
+        </strong>
+
+        ${
+          resource.author
+          ?
+          ` · ${escapeHTML(resource.author)}`
+          :
+          ""
+        }
+
+      </div>
+
+
+      <div
+        class="resource-actions">
+
+
+        <a
+          class="btn-primary"
+          href="${escapeHTML(url)}"
+          target="_blank"
+          rel="noopener noreferrer">
+
+          فتح المصدر ↗
+
+        </a>
+
+
+        <a
+          class="btn-secondary"
+          href="${escapeHTML(download)}"
+          target="_blank"
+          rel="noopener noreferrer">
+
+          قراءة / وصول
+
+        </a>
+
+
+      </div>
+
+
+    </article>
+
+  `;
+
+}
+
+
+/* =========================================================
+   REPLACE LIBRARY RENDERER
+========================================================= */
+
+window.renderLibrary =
+  function(){
+
+    const grid =
+      document.getElementById(
+        "resourceGrid"
+      );
+
+
+    const query =
+      normalizeText(
+        document.getElementById(
+          "searchInput"
+        ).value
+      );
+
+
+    const type =
+      document.getElementById(
+        "typeFilter"
+      ).value;
+
+
+    const level =
+      document.getElementById(
+        "levelFilter"
+      ).value;
+
+
+    const language =
+      document.getElementById(
+        "languageFilter"
+      ).value;
+
+
+    const field =
+      document.getElementById(
+        "fieldFilter"
+      ).value;
+
+
+    const filtered =
+      resources.filter(
+        resource => {
+
+          const searchable =
+            normalizeText(
+              [
+                resource.title,
+                resource.description,
+                resource.source,
+                resource.author,
+                resource.field,
+                resource.level,
+                resource.language,
+                resource.type,
+                ...(resource.tags || [])
+              ].join(" ")
+            );
+
+
+          return (
+
+            (!query ||
+             searchable.includes(query))
+
+            &&
+
+            (!type ||
+             resource.type === type)
+
+            &&
+
+            (!level ||
+             resource.level === level)
+
+            &&
+
+            (!language ||
+             resource.language === language)
+
+            &&
+
+            (!field ||
+             resource.field === field)
+
+          );
+
+        }
+      );
+
+
+    document.getElementById(
+      "resourceCount"
+    ).textContent =
+      resources.length;
+
+
+    document.getElementById(
+      "resultInfo"
+    ).textContent =
+      `${filtered.length} نتيجة`;
+
+
+    if(!filtered.length){
+
+      grid.innerHTML = `
+
+        <div class="empty">
+
+          🔎
+
+          <h3 style="margin:12px 0 6px">
+            لا توجد نتائج
+          </h3>
+
+          <p>
+            غيّر البحث أو الفلاتر وحاول مرة أخرى.
+          </p>
+
+        </div>
+
+      `;
+
+      return;
+
+    }
+
+
+    grid.innerHTML =
+      filtered
+        .map(
+          createResourceCard
+        )
+        .join("");
+
+  };
+
+
+/* =========================================================
+   IMPORT RESOURCE JSON
+========================================================= */
+
+function importResourceJSON(){
+
+  const input =
+    document.createElement(
+      "input"
+    );
+
+
+  input.type =
+    "file";
+
+
+  input.accept =
+    ".json,application/json";
+
+
+  input.onchange =
+    async function(){
+
+      const file =
+        input.files[0];
+
+
+      if(!file)
+        return;
+
+
+      try{
+
+        const text =
+          await file.text();
+
+
+        const data =
+          JSON.parse(text);
+
+
+        const list =
+          extractResourceArray(data);
+
+
+        if(!list.length){
+
+          showToast(
+            "ملف JSON لا يحتوي موارد",
+            "warning"
+          );
+
+          return;
+
+        }
+
+
+        mergeResources(list);
+
+
+        renderLibrary();
+
+
+        showToast(
+          `تمت إضافة ${list.length} مورد`,
+          "success"
+        );
+
+
+      }catch(error){
+
+        console.error(error);
+
+
+        showToast(
+          "ملف JSON غير صالح",
+          "error"
+        );
+
+      }
+
+    };
+
+
+  input.click();
+
+}
+
+
+/* =========================================================
+   EXPORT CURRENT LIBRARY
+========================================================= */
+
+function exportLibraryJSON(){
+
+  const blob =
+    new Blob(
+      [
+        JSON.stringify(
+          resources,
+          null,
+          2
+        )
+      ],
+      {
+        type:
+          "application/json;charset=utf-8"
+      }
+    );
+
+
+  const url =
+    URL.createObjectURL(
+      blob
+    );
+
+
+  const a =
+    document.createElement(
+      "a"
+    );
+
+
+  a.href =
+    url;
+
+
+  a.download =
+    "hamou-math-library.json";
+
+
+  document.body.appendChild(a);
+
+  a.click();
+
+  a.remove();
+
+  URL.revokeObjectURL(url);
+
+
+  showToast(
+    "تم تصدير فهرس المكتبة",
+    "success"
+  );
+
+}
+
+
+/* =========================================================
+   ADD RESOURCE MANUALLY
+========================================================= */
+
+function addResource(){
+
+  const title =
+    prompt(
+      "عنوان المورد:"
+    );
+
+
+  if(!title)
+    return;
+
+
+  const url =
+    prompt(
+      "رابط المصدر أو الملف:"
+    );
+
+
+  if(!url)
+    return;
+
+
+  const resource = {
+
+    id:
+      "custom-" +
+      Date.now(),
+
+    title:title,
+
+    type:
+      "مرجع",
+
+    level:
+      "جامعي",
+
+    language:
+      "العربية",
+
+    field:
+      "رياضيات",
+
+    source:
+      "HAMOU MATH",
+
+    description:
+      "مورد تمت إضافته إلى مكتبة HAMOU MATH.",
+
+    url:url,
+
+    icon:"📚"
+
+  };
+
+
+  resources.unshift(
+    resource
+  );
+
+
+  storageSet(
+    HAMOU_CONFIG.storageKey,
+    resources
+  );
+
+
+  renderLibrary();
+
+
+  showToast(
+    "تمت إضافة المورد",
+    "success"
+  );
+
+}
+
+
+/* =========================================================
+   CLEAR LOCAL CACHE
+========================================================= */
+
+function clearLocalLibrary(){
+
+  if(
+    !confirm(
+      "هل تريد حذف النسخة المحلية من فهرس المكتبة؟"
+    )
+  )
+    return;
+
+
+  localStorage.removeItem(
+    HAMOU_CONFIG.storageKey
+  );
+
+
+  resources =
+    [...SEED_RESOURCES];
+
+
+  renderLibrary();
+
+
+  showToast(
+    "تم تنظيف الفهرس المحلي",
+    "success"
+  );
+
+}
+
+
+/* =========================================================
+   TOAST SYSTEM
+========================================================= */
+
+function showToast(
+  message,
+  type="success"
+){
+
+  const old =
+    document.getElementById(
+      "hamouToast"
+    );
+
+
+  if(old)
+    old.remove();
+
+
+  const toast =
+    document.createElement(
+      "div"
+    );
+
+
+  toast.id =
+    "hamouToast";
+
+
+  const background =
+    type === "error"
+      ? "#dc2626"
+      : type === "warning"
+        ? "#d97706"
+        : "#059669";
+
+
+  toast.style.cssText = `
+
+    position:fixed;
+
+    bottom:22px;
+    right:22px;
+
+    z-index:10000;
+
+    max-width:
+      min(420px,calc(100vw - 44px));
+
+    padding:
+      13px 17px;
+
+    border-radius:13px;
+
+    background:${background};
+
+    color:white;
+
+    box-shadow:
+      0 15px 40px
+      rgba(0,0,0,.20);
+
+    font-size:13px;
+
+    font-weight:750;
+
+    line-height:1.6;
+
+  `;
+
+
+  toast.textContent =
+    message;
+
+
+  document.body.appendChild(
+    toast
+  );
+
+
+  setTimeout(
+    () => {
+
+      toast.remove();
+
+    },
+    3500
+  );
+
+}
+
+
+/* =========================================================
+   LIBRARY MANAGEMENT PANEL
+========================================================= */
+
+function openLibraryManager(){
+
+  const old =
+    document.getElementById(
+      "libraryManager"
+    );
+
+
+  if(old)
+    old.remove();
+
+
+  const modal =
+    document.createElement(
+      "div"
+    );
+
+
+  modal.id =
+    "libraryManager";
+
+
+  modal.style.cssText = `
+
+    position:fixed;
+    inset:0;
+    z-index:9999;
+
+    background:
+      rgba(15,23,42,.65);
+
+    display:grid;
+    place-items:center;
+
+    padding:18px;
+
+  `;
+
+
+  modal.innerHTML = `
+
+    <div style="
+      width:min(650px,100%);
+      background:white;
+      border-radius:22px;
+      padding:24px;
+      box-shadow:0 25px 70px rgba(0,0,0,.25);
+    ">
+
+      <div style="
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+      ">
+
+        <h2>
+          ⚙️ إدارة المكتبة
+        </h2>
+
+        <button
+          onclick="document.getElementById('libraryManager').remove()"
+          style="
+            width:38px;
+            height:38px;
+            border:0;
+            border-radius:10px;
+            background:#f1f5f9;
+            font-size:18px;
+          ">
+          ×
+        </button>
+
+      </div>
+
+
+      <div style="
+        display:grid;
+        grid-template-columns:
+          repeat(2,1fr);
+        gap:10px;
+        margin-top:20px;
+      ">
+
+
+        <button
+          onclick="syncGoogleDrive()"
+          style="
+            min-height:52px;
+            border:0;
+            border-radius:12px;
+            background:#2563eb;
+            color:white;
+            font-weight:800;
+          ">
+
+          ☁️ مزامنة Drive
+
+        </button>
+
+
+        <button
+          onclick="loadAPIResources()"
+          style="
+            min-height:52px;
+            border:1px solid #e2e8f0;
+            border-radius:12px;
+            background:white;
+            font-weight:800;
+          ">
+
+          🔄 تحديث API
+
+        </button>
+
+
+        <button
+          onclick="importResourceJSON()"
+          style="
+            min-height:52px;
+            border:1px solid #e2e8f0;
+            border-radius:12px;
+            background:white;
+            font-weight:800;
+          ">
+
+          📥 استيراد JSON
+
+        </button>
+
+
+        <button
+          onclick="exportLibraryJSON()"
+          style="
+            min-height:52px;
+            border:1px solid #e2e8f0;
+            border-radius:12px;
+            background:white;
+            font-weight:800;
+          ">
+
+          📤 تصدير JSON
+
+        </button>
+
+
+        <button
+          onclick="addResource()"
+          style="
+            min-height:52px;
+            border:1px solid #e2e8f0;
+            border-radius:12px;
+            background:white;
+            font-weight:800;
+          ">
+
+          ➕ إضافة مورد
+
+        </button>
+
+
+        <button
+          onclick="showFavorites();document.getElementById('libraryManager').remove()"
+          style="
+            min-height:52px;
+            border:1px solid #e2e8f0;
+            border-radius:12px;
+            background:white;
+            font-weight:800;
+          ">
+
+          ⭐ المفضلة
+
+        </button>
+
+
+      </div>
+
+
+      <div style="
+        margin-top:17px;
+        padding:13px;
+        background:#fff7ed;
+        color:#9a3412;
+        border:1px solid #fed7aa;
+        border-radius:12px;
+        font-size:12px;
+        line-height:1.7;
+      ">
+
+        سيتم استخدام Google Drive للملفات
+        التي تملكها أو التي يسمح ترخيصها
+        باستخدامها. لا ترفع كتبًا محمية بحقوق
+        النشر دون إذن.
+
+      </div>
+
+
+      <button
+        onclick="clearLocalLibrary()"
+        style="
+          margin-top:12px;
+          width:100%;
+          min-height:43px;
+          border:0;
+          border-radius:11px;
+          background:#fef2f2;
+          color:#b91c1c;
+          font-weight:750;
+        ">
+
+        🗑️ تنظيف الفهرس المحلي
+
+      </button>
+
+    </div>
+
+  `;
+
+
+  document.body.appendChild(
+    modal
+  );
+
+}
+
+
+/* =========================================================
+   ADD LIBRARY BUTTONS TO HEADER
+========================================================= */
+
+function addUtilityButtons(){
+
+  const nav =
+    document.querySelector(
+      ".nav-menu"
+    );
+
+
+  if(!nav)
+    return;
+
+
+  if(
+    document.getElementById(
+      "driveNavButton"
+    )
+  )
+    return;
+
+
+  const drive =
+    document.createElement(
+      "button"
+    );
+
+
+  drive.id =
+    "driveNavButton";
+
+
+  drive.className =
+    "nav-btn";
+
+
+  drive.innerHTML =
+    "☁️ Drive";
+
+
+  drive.onclick =
+    openDrivePanel;
+
+
+  nav.appendChild(
+    drive
+  );
+
+
+  const manage =
+    document.createElement(
+      "button"
+    );
+
+
+  manage.className =
+    "nav-btn";
+
+
+  manage.innerHTML =
+    "⚙️ إدارة";
+
+
+  manage.onclick =
+    openLibraryManager;
+
+
+  nav.appendChild(
+    manage
+  );
+
+}
+
+
+/* =========================================================
+   PWA / ONLINE STATUS
+========================================================= */
+
+function updateOnlineStatus(){
+
+  const status =
+    document.getElementById(
+      "engineStatus"
+    );
+
+
+  if(!navigator.onLine){
+
+    status.textContent =
+      "بدون اتصال";
+
+    return;
+
+  }
+
+
+  if(
+    status.textContent ===
+    "بدون اتصال"
+  ){
+
+    status.textContent =
+      "جاهز";
+
+  }
+
+}
+
+
+window.addEventListener(
+  "online",
+  updateOnlineStatus
+);
+
+
+window.addEventListener(
+  "offline",
+  updateOnlineStatus
+);
+
+
+/* =========================================================
+   KEYBOARD SEARCH
+========================================================= */
+
+document.addEventListener(
+  "keydown",
+  event => {
+
+    if(
+      event.key === "/" &&
+      document.activeElement.tagName !==
+      "INPUT"
+    ){
+
+      event.preventDefault();
+
+      document
+        .getElementById(
+          "searchInput"
+        )
+        .focus();
+
+    }
+
+
+    if(
+      event.key === "Escape"
+    ){
+
+      const drive =
+        document.getElementById(
+          "driveModal"
+        );
+
+
+      const manager =
+        document.getElementById(
+          "libraryManager"
+        );
+
+
+      if(drive)
+        drive.remove();
+
+
+      if(manager)
+        manager.remove();
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   BOOT ENGINE
+========================================================= */
+
+async function bootHamouMath(){
+
+  try{
+
+    document.getElementById(
+      "engineStatus"
+    ).textContent =
+      "تشغيل...";
+
+
+    loadCachedResources();
+
+
+    addUtilityButtons();
+
+
+    renderLibrary();
+
+
+    await loadAPIResources();
+
+
+  }catch(error){
+
+    console.error(
+      "HAMOU BOOT ERROR:",
+      error
+    );
+
+
+    document.getElementById(
+      "engineStatus"
+    ).textContent =
+      "جاهز";
+
+
+    renderLibrary();
+
+  }
+
+}
+
+
+/* =========================================================
+   START
+========================================================= */
+
+if(
+  document.readyState ===
+  "loading"
+){
+
+  document.addEventListener(
+    "DOMContentLoaded",
+    bootHamouMath
+  );
+
+}else{
+
+  bootHamouMath();
 
 }
 
 </script>
 
-</body>
-</html>
+
+<!-- =========================================================
+     HAMOU MATH GLOBAL
+     END OF INDEX.HTML
+========================================================= -->
