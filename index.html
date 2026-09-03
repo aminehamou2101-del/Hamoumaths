@@ -2,1313 +2,1229 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,viewport-fit=cover">
+
+<meta name="viewport"
+      content="width=device-width,initial-scale=1.0,
+      maximum-scale=1.0,viewport-fit=cover">
+
+<meta name="theme-color" content="#2563eb">
 
 <title>HAMOU MATH | سلسلة حمو في الرياضيات</title>
 
-<meta name="description" content="HAMOU MATH منصة عالمية للرياضيات والتمارين التفاعلية والتحديات والألعاب والمصادر التعليمية.">
-<meta name="theme-color" content="#2563eb">
+<meta name="description"
+content="HAMOU MATH منصة تفاعلية للرياضيات والتمارين والتحديات والمكتبة التعليمية.">
 
 <style>
+
+/* =========================
+   ROOT
+========================= */
+
 :root{
---primary:#2563eb;
---primary-dark:#1d4ed8;
---dark:#0f172a;
---text:#1e293b;
---muted:#64748b;
---bg:#f8fafc;
---white:#fff;
---border:#e2e8f0;
---success:#16a34a;
---danger:#dc2626;
---warning:#f59e0b;
---shadow:0 10px 30px rgba(15,23,42,.08);
---radius:18px;
+    --primary:#2563eb;
+    --primary-dark:#1d4ed8;
+    --secondary:#7c3aed;
+    --success:#16a34a;
+    --danger:#dc2626;
+    --warning:#f59e0b;
+
+    --dark:#0f172a;
+    --dark-2:#1e293b;
+
+    --text:#1e293b;
+    --muted:#64748b;
+
+    --bg:#f8fafc;
+    --card:#ffffff;
+    --border:#e2e8f0;
+
+    --shadow:0 10px 30px rgba(15,23,42,.08);
+    --radius:18px;
+
+    --header-height:70px;
 }
 
 *{
-box-sizing:border-box;
-margin:0;
-padding:0;
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
 }
 
 html{
-scroll-behavior:smooth;
-overflow-x:hidden;
+    scroll-behavior:smooth;
 }
 
 body{
-margin:0;
-min-width:0;
-overflow-x:hidden;
-background:var(--bg);
-color:var(--text);
-font-family:Arial,"Segoe UI",Tahoma,sans-serif;
-line-height:1.7;
-transition:background .2s,color .2s;
+    font-family:
+        "Noto Sans Arabic",
+        "Tahoma",
+        "Arial",
+        sans-serif;
+
+    background:var(--bg);
+    color:var(--text);
+    line-height:1.7;
+    overflow-x:hidden;
+
+    transition:
+        background .25s ease,
+        color .25s ease;
 }
 
-body,button,input,select{
--webkit-tap-highlight-color:transparent;
-}
-
-button,input,select{
-font:inherit;
-}
-
-button{
-cursor:pointer;
-}
-
-button:disabled{
-opacity:.6;
-cursor:not-allowed;
+body.dark{
+    --bg:#020617;
+    --card:#0f172a;
+    --text:#e2e8f0;
+    --muted:#94a3b8;
+    --border:#1e293b;
+    --dark:#f8fafc;
+    --shadow:0 10px 30px rgba(0,0,0,.30);
 }
 
 a{
-color:inherit;
-text-decoration:none;
+    color:inherit;
+    text-decoration:none;
+}
+
+button,
+input,
+select{
+    font:inherit;
+}
+
+button,
+a{
+    -webkit-tap-highlight-color:transparent;
+    touch-action:manipulation;
+}
+
+button{
+    cursor:pointer;
+}
+
+img{
+    max-width:100%;
+    display:block;
 }
 
 .container{
-width:min(1160px,calc(100% - 32px));
-margin:auto;
+    width:min(1180px,calc(100% - 32px));
+    margin:auto;
 }
 
-/* HEADER */
-.header{
-position:sticky;
-top:0;
-z-index:1000;
-background:rgba(255,255,255,.95);
-backdrop-filter:blur(15px);
--webkit-backdrop-filter:blur(15px);
-border-bottom:1px solid var(--border);
+/* =========================
+   HEADER
+========================= */
+
+header{
+    position:sticky;
+    top:0;
+    z-index:1000;
+
+    height:var(--header-height);
+
+    background:rgba(255,255,255,.94);
+    backdrop-filter:blur(14px);
+
+    border-bottom:1px solid var(--border);
+}
+
+body.dark header{
+    background:rgba(2,6,23,.94);
 }
 
 .navbar{
-min-height:72px;
-display:flex;
-align-items:center;
-justify-content:space-between;
-gap:15px;
+    height:100%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
 }
 
 .logo{
-display:flex;
-align-items:center;
-gap:10px;
-font-weight:900;
-font-size:21px;
-color:var(--primary);
-white-space:nowrap;
+    display:flex;
+    align-items:center;
+    gap:10px;
+
+    font-weight:900;
+    font-size:1.25rem;
+    color:var(--primary);
+
+    white-space:nowrap;
 }
 
 .logo-icon{
-width:42px;
-height:42px;
-border-radius:13px;
-background:linear-gradient(135deg,#2563eb,#60a5fa);
-color:#fff;
-display:grid;
-place-items:center;
-font-weight:900;
-box-shadow:0 8px 20px rgba(37,99,235,.25);
+    width:42px;
+    height:42px;
+
+    display:grid;
+    place-items:center;
+
+    border-radius:13px;
+
+    background:linear-gradient(
+        135deg,
+        var(--primary),
+        var(--secondary)
+    );
+
+    color:#fff;
+    font-weight:900;
+    box-shadow:0 8px 20px rgba(37,99,235,.25);
 }
 
 .nav-links{
-display:flex;
-align-items:center;
-gap:4px;
+    display:flex;
+    align-items:center;
+    gap:6px;
 }
 
-.nav-links a,
-.nav-links button{
-border:0;
-background:transparent;
-color:var(--text);
-padding:10px 12px;
-border-radius:10px;
-font-weight:700;
+.nav-links a{
+    padding:9px 13px;
+    border-radius:10px;
+    font-weight:700;
+    color:var(--muted);
+    transition:.2s;
 }
 
-.nav-links a:hover,
-.nav-links button:hover{
-background:#eff6ff;
-color:var(--primary);
+.nav-links a:hover{
+    background:#eff6ff;
+    color:var(--primary);
+}
+
+body.dark .nav-links a:hover{
+    background:#172554;
 }
 
 .nav-actions{
-display:flex;
-align-items:center;
-gap:7px;
+    display:flex;
+    align-items:center;
+    gap:8px;
 }
 
-.icon-btn{
-width:42px;
-height:42px;
-border:1px solid var(--border);
-background:var(--white);
-color:var(--text);
-border-radius:12px;
-display:grid;
-place-items:center;
-}
+.icon-btn,
+.menu-btn{
+    width:42px;
+    height:42px;
 
-.primary-btn,
-.secondary-btn,
-.danger-btn{
-min-height:44px;
-border:0;
-border-radius:12px;
-padding:10px 18px;
-font-weight:800;
-transition:.2s;
-}
+    border:1px solid var(--border);
+    background:var(--card);
 
-.primary-btn{
-background:var(--primary);
-color:#fff;
-}
+    border-radius:12px;
 
-.primary-btn:hover{
-background:var(--primary-dark);
-transform:translateY(-1px);
-}
+    display:grid;
+    place-items:center;
 
-.secondary-btn{
-background:#eff6ff;
-color:var(--primary);
-}
-
-.danger-btn{
-background:#fee2e2;
-color:var(--danger);
+    color:var(--text);
 }
 
 .menu-btn{
-display:none;
+    display:none;
+    font-size:1.3rem;
 }
+
+/* =========================
+   MOBILE NAV
+========================= */
 
 .mobile-nav{
-display:none;
+    display:none;
+
+    position:fixed;
+    top:var(--header-height);
+    right:0;
+    left:0;
+
+    background:var(--card);
+    border-bottom:1px solid var(--border);
+
+    padding:12px;
+
+    z-index:999;
+
+    box-shadow:var(--shadow);
 }
 
-/* HERO */
+.mobile-nav.open{
+    display:block;
+}
+
+.mobile-nav a,
+.mobile-nav button{
+    width:100%;
+    display:block;
+
+    border:0;
+    background:transparent;
+
+    text-align:right;
+
+    padding:12px;
+    border-radius:10px;
+
+    color:var(--text);
+    font-weight:700;
+}
+
+.mobile-nav a:hover,
+.mobile-nav button:hover{
+    background:rgba(37,99,235,.08);
+}
+
+/* =========================
+   BUTTONS
+========================= */
+
+.btn{
+    border:0;
+    border-radius:12px;
+
+    padding:10px 17px;
+
+    font-weight:800;
+
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:7px;
+
+    min-height:44px;
+
+    transition:
+        transform .15s ease,
+        box-shadow .2s ease,
+        background .2s ease;
+}
+
+.btn:active{
+    transform:scale(.97);
+}
+
+.btn-primary{
+    color:#fff;
+    background:linear-gradient(
+        135deg,
+        var(--primary),
+        var(--primary-dark)
+    );
+
+    box-shadow:0 8px 18px rgba(37,99,235,.20);
+}
+
+.btn-secondary{
+    background:#eef2ff;
+    color:#4338ca;
+}
+
+body.dark .btn-secondary{
+    background:#1e1b4b;
+    color:#c7d2fe;
+}
+
+.btn-success{
+    background:#dcfce7;
+    color:#166534;
+}
+
+.btn-danger{
+    background:#fee2e2;
+    color:#991b1b;
+}
+
+.btn-full{
+    width:100%;
+}
+
+/* =========================
+   HERO
+========================= */
+
 .hero{
-padding:70px 0 45px;
-background:
-radial-gradient(circle at 10% 20%,rgba(37,99,235,.10),transparent 30%),
-radial-gradient(circle at 90% 10%,rgba(96,165,250,.12),transparent 30%);
+    padding:75px 0 55px;
+
+    background:
+        radial-gradient(
+            circle at 10% 10%,
+            rgba(37,99,235,.12),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 90% 20%,
+            rgba(124,58,237,.12),
+            transparent 30%
+        );
 }
 
 .hero-grid{
-display:grid;
-grid-template-columns:1.15fr .85fr;
-gap:45px;
-align-items:center;
-}
-
-.badge{
-display:inline-flex;
-padding:7px 13px;
-border-radius:999px;
-background:#dbeafe;
-color:#1d4ed8;
-font-size:13px;
-font-weight:900;
-margin-bottom:16px;
+    display:grid;
+    grid-template-columns:1.15fr .85fr;
+    align-items:center;
+    gap:45px;
 }
 
 .hero h1{
-font-size:clamp(42px,7vw,76px);
-line-height:1;
-font-weight:1000;
-letter-spacing:-2px;
-color:var(--dark);
-margin-bottom:18px;
+    font-size:clamp(2.1rem,5vw,4rem);
+    line-height:1.15;
+    margin-bottom:18px;
+    font-weight:950;
 }
 
-.hero h1 span{
-color:var(--primary);
+.gradient-text{
+    background:
+        linear-gradient(
+            135deg,
+            var(--primary),
+            var(--secondary)
+        );
+
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
 }
 
 .hero p{
-color:var(--muted);
-font-size:18px;
-max-width:700px;
-margin-bottom:25px;
+    color:var(--muted);
+    font-size:1.08rem;
+    max-width:700px;
+    margin-bottom:25px;
 }
 
 .hero-buttons{
-display:flex;
-flex-wrap:wrap;
-gap:12px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
 }
 
 .hero-card{
-background:var(--white);
-border:1px solid var(--border);
-border-radius:28px;
-padding:30px;
-box-shadow:var(--shadow);
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:28px;
+    padding:30px;
+
+    box-shadow:var(--shadow);
+
+    position:relative;
+    overflow:hidden;
 }
 
-.math-symbols{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:12px;
+.hero-card::before{
+    content:"";
+    position:absolute;
+    width:180px;
+    height:180px;
+
+    border-radius:50%;
+
+    background:rgba(37,99,235,.08);
+
+    top:-80px;
+    right:-60px;
 }
 
-.math-symbol{
-min-height:85px;
-border-radius:16px;
-background:#eff6ff;
-color:var(--primary);
-display:grid;
-place-items:center;
-font-size:27px;
-font-weight:900;
+.math-display{
+    position:relative;
+
+    font-size:clamp(2rem,6vw,4rem);
+    font-weight:900;
+
+    text-align:center;
+
+    padding:35px 10px;
+
+    color:var(--primary);
 }
 
-/* STATS */
-.stats{
-padding:15px 0 35px;
-}
+/* =========================
+   SECTIONS
+========================= */
 
-.stats-grid{
-display:grid;
-grid-template-columns:repeat(4,1fr);
-gap:14px;
-}
-
-.stat{
-background:var(--white);
-border:1px solid var(--border);
-border-radius:var(--radius);
-padding:20px;
-text-align:center;
-box-shadow:var(--shadow);
-}
-
-.stat strong{
-display:block;
-font-size:28px;
-color:var(--primary);
-}
-
-.stat span{
-color:var(--muted);
-font-size:14px;
-}
-
-/* XP */
-.xp-box{
-margin:10px 0 35px;
-background:linear-gradient(135deg,#1d4ed8,#2563eb);
-color:#fff;
-border-radius:24px;
-padding:25px;
-box-shadow:0 15px 35px rgba(37,99,235,.22);
-}
-
-.xp-head{
-display:flex;
-justify-content:space-between;
-gap:15px;
-margin-bottom:13px;
-}
-
-.xp-progress{
-height:12px;
-background:rgba(255,255,255,.2);
-border-radius:99px;
-overflow:hidden;
-}
-
-.xp-progress span{
-display:block;
-height:100%;
-width:0;
-background:#fff;
-border-radius:99px;
-transition:.4s;
-}
-
-/* SECTIONS */
 section{
-scroll-margin-top:90px;
-}
-
-.section{
-padding:55px 0;
+    padding:65px 0;
 }
 
 .section-head{
-text-align:center;
-margin-bottom:30px;
+    text-align:center;
+    margin-bottom:30px;
 }
 
 .section-head h2{
-font-size:34px;
-color:var(--dark);
-margin-bottom:8px;
+    font-size:clamp(1.7rem,4vw,2.5rem);
+    margin-bottom:7px;
 }
 
 .section-head p{
-color:var(--muted);
+    color:var(--muted);
 }
 
-/* CARDS */
-.challenge-grid,
-.games-grid{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:18px;
+/* =========================
+   STATS
+========================= */
+
+.stats-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:16px;
 }
 
-.challenge-card,
-.game-card{
-background:var(--white);
-border:1px solid var(--border);
-border-radius:var(--radius);
-padding:23px;
-box-shadow:var(--shadow);
-min-width:0;
+.stat-card{
+    background:var(--card);
+    border:1px solid var(--border);
+
+    border-radius:var(--radius);
+    padding:22px;
+
+    text-align:center;
+    box-shadow:var(--shadow);
 }
 
-.card-icon{
-width:52px;
-height:52px;
-border-radius:15px;
-background:#eff6ff;
-color:var(--primary);
-display:grid;
-place-items:center;
-font-size:25px;
-margin-bottom:15px;
+.stat-number{
+    font-size:2rem;
+    font-weight:950;
+    color:var(--primary);
 }
 
-.challenge-card h3,
-.game-card h3{
-margin-bottom:7px;
-font-size:21px;
+.stat-label{
+    color:var(--muted);
+    font-weight:700;
 }
 
-.challenge-card p,
-.game-card p{
-color:var(--muted);
-margin-bottom:18px;
+/* =========================
+   CARDS
+========================= */
+
+.cards-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:18px;
 }
 
-.card-bottom{
-display:flex;
-justify-content:space-between;
-align-items:center;
-gap:10px;
+.card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+
+    padding:22px;
+
+    box-shadow:var(--shadow);
 }
 
-.points{
-color:var(--warning);
-font-weight:900;
+.card h3{
+    margin-bottom:8px;
 }
 
-/* EXERCISES */
-.exercise-section{
-background:#eef4ff;
+.card p{
+    color:var(--muted);
 }
 
-.exercise-box{
-background:var(--white);
-border:1px solid var(--border);
-border-radius:25px;
-padding:25px;
-box-shadow:var(--shadow);
+/* =========================
+   XP
+========================= */
+
+.xp-box{
+    background:
+        linear-gradient(
+            135deg,
+            var(--primary),
+            var(--secondary)
+        );
+
+    color:#fff;
+
+    border-radius:24px;
+    padding:25px;
+
+    box-shadow:var(--shadow);
 }
 
-.exercise-controls{
-display:grid;
-grid-template-columns:1fr 1fr 1fr;
-gap:12px;
-margin-bottom:25px;
+.xp-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
 }
 
-.exercise-control label{
-display:block;
-color:var(--muted);
-font-size:13px;
-font-weight:800;
-margin-bottom:6px;
+.xp-number{
+    font-size:2rem;
+    font-weight:950;
 }
 
-.exercise-control select{
-width:100%;
-min-height:46px;
-border:1px solid var(--border);
-border-radius:11px;
-padding:8px 12px;
-background:var(--white);
-color:var(--text);
-outline:none;
+.progress{
+    height:12px;
+    background:rgba(255,255,255,.25);
+    border-radius:20px;
+    overflow:hidden;
+    margin-top:16px;
 }
 
-.exercise-top{
-display:flex;
-justify-content:space-between;
-align-items:center;
-gap:15px;
-flex-wrap:wrap;
-margin-bottom:18px;
+.progress-bar{
+    height:100%;
+    width:0;
+    background:#fff;
+    border-radius:20px;
+    transition:width .4s ease;
 }
 
-.exercise-stat{
-display:flex;
-gap:8px;
-flex-wrap:wrap;
+/* =========================
+   EXERCISES
+========================= */
+
+.exercise-card{
+    max-width:700px;
+    margin:auto;
+    text-align:center;
 }
 
-.exercise-pill{
-padding:7px 12px;
-border-radius:999px;
-background:#f1f5f9;
-color:var(--text);
-font-weight:800;
-font-size:13px;
+.question{
+    font-size:2rem;
+    font-weight:950;
+    margin:15px 0;
 }
 
-.exercise-question{
-background:#f8fafc;
-border:2px dashed #bfdbfe;
-border-radius:20px;
-min-height:150px;
-padding:25px;
-display:grid;
-place-items:center;
-text-align:center;
-font-size:clamp(30px,5vw,48px);
-font-weight:1000;
-color:var(--primary);
-overflow-wrap:anywhere;
-word-break:break-word;
-margin-bottom:20px;
+.answer-input{
+    width:100%;
+    padding:14px 16px;
+
+    border:2px solid var(--border);
+    background:var(--bg);
+
+    color:var(--text);
+
+    border-radius:13px;
+
+    outline:none;
+
+    text-align:center;
+    font-size:1.2rem;
 }
 
-.exercise-answer-row{
-display:flex;
-gap:10px;
-max-width:700px;
-margin:auto;
+.answer-input:focus{
+    border-color:var(--primary);
 }
 
-.exercise-answer{
-flex:1;
-min-width:0;
-min-height:52px;
-border:2px solid var(--border);
-border-radius:13px;
-padding:10px 15px;
-text-align:center;
-outline:none;
-}
+/* =========================
+   LIBRARY
+========================= */
 
-.exercise-answer:focus{
-border-color:var(--primary);
-}
+.library-toolbar{
+    display:grid;
 
-.exercise-feedback{
-min-height:40px;
-margin-top:15px;
-text-align:center;
-font-weight:900;
-font-size:17px;
-}
+    grid-template-columns:
+        minmax(180px,2fr)
+        repeat(6,minmax(120px,1fr));
 
-.feedback-success{
-color:var(--success);
-}
+    gap:10px;
 
-.feedback-error{
-color:var(--danger);
-}
-
-.solution-box{
-display:none;
-margin-top:15px;
-background:#f0fdf4;
-border:1px solid #bbf7d0;
-color:#166534;
-border-radius:14px;
-padding:14px;
-text-align:center;
-font-weight:700;
-}
-
-.exercise-buttons{
-display:flex;
-justify-content:center;
-gap:10px;
-flex-wrap:wrap;
-margin-top:15px;
-}
-
-/* LIBRARY */
-.library{
-background:#f1f5f9;
-}
-
-.filters{
-background:var(--white);
-border:1px solid var(--border);
-border-radius:var(--radius);
-padding:18px;
-margin-bottom:22px;
-}
-
-.filter-grid{
-display:grid;
-grid-template-columns:2fr repeat(5,1fr);
-gap:10px;
+    margin-bottom:25px;
 }
 
 .field{
-min-width:0;
+    position:relative;
 }
 
 .field input,
 .field select{
-width:100%;
-min-height:46px;
-border:1px solid var(--border);
-border-radius:11px;
-padding:9px 12px;
-background:var(--white);
-color:var(--text);
-outline:none;
+    width:100%;
+
+    min-height:45px;
+
+    border:1px solid var(--border);
+
+    background:var(--card);
+    color:var(--text);
+
+    border-radius:11px;
+
+    padding:9px 12px;
+
+    outline:none;
 }
 
 .field input:focus,
 .field select:focus{
-border-color:var(--primary);
+    border-color:var(--primary);
 }
 
-.filter-actions{
-margin-top:12px;
-display:flex;
-justify-content:flex-end;
-gap:8px;
-}
-
-.library-status{
-color:var(--muted);
-font-weight:700;
-margin-bottom:14px;
-text-align:center;
-min-height:25px;
-}
-
-.resources-grid{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:18px;
+.library-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:18px;
 }
 
 .resource-card{
-background:var(--white);
-border:1px solid var(--border);
-border-radius:var(--radius);
-overflow:hidden;
-display:flex;
-flex-direction:column;
-min-width:0;
-box-shadow:var(--shadow);
+    background:var(--card);
+
+    border:1px solid var(--border);
+    border-radius:18px;
+
+    padding:20px;
+
+    box-shadow:var(--shadow);
+
+    display:flex;
+    flex-direction:column;
+
+    min-width:0;
 }
 
 .resource-top{
-padding:18px 18px 10px;
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:10px;
 }
 
-.resource-type{
-display:inline-flex;
-padding:5px 9px;
-border-radius:999px;
-background:#eff6ff;
-color:var(--primary);
-font-size:12px;
-font-weight:900;
-margin-bottom:10px;
+.resource-icon{
+    width:48px;
+    height:48px;
+
+    display:grid;
+    place-items:center;
+
+    background:#eff6ff;
+    color:var(--primary);
+
+    border-radius:14px;
+
+    font-size:1.35rem;
 }
 
-.resource-card h3{
-font-size:18px;
-line-height:1.45;
-margin-bottom:8px;
-overflow-wrap:anywhere;
+body.dark .resource-icon{
+    background:#172554;
+}
+
+.resource-title{
+    font-size:1.08rem;
+    font-weight:900;
+    margin:15px 0 7px;
 }
 
 .resource-description{
-color:var(--muted);
-font-size:14px;
+    color:var(--muted);
+    font-size:.92rem;
+
+    display:-webkit-box;
+    -webkit-line-clamp:3;
+    -webkit-box-orient:vertical;
+    overflow:hidden;
+
+    min-height:72px;
 }
 
 .resource-meta{
-display:flex;
-flex-wrap:wrap;
-gap:6px;
-padding:0 18px 14px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+
+    margin:13px 0;
 }
 
-.meta{
-padding:5px 8px;
-border-radius:8px;
-background:#f8fafc;
-color:var(--muted);
-font-size:12px;
+.badge{
+    padding:4px 9px;
+
+    border-radius:20px;
+
+    background:#f1f5f9;
+    color:#475569;
+
+    font-size:.78rem;
+    font-weight:800;
 }
 
-.resource-price{
-padding:0 18px 14px;
-font-weight:900;
-color:var(--success);
+body.dark .badge{
+    background:#1e293b;
+    color:#cbd5e1;
 }
 
 .resource-actions{
-margin-top:auto;
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:8px;
-padding:14px 18px 18px;
-}
+    margin-top:auto;
 
-.resource-actions button{
-min-height:44px;
-border:0;
-border-radius:10px;
-font-weight:800;
-}
+    display:grid;
+    grid-template-columns:1fr 1fr;
 
-.view-btn{
-background:#eff6ff;
-color:var(--primary);
+    gap:8px;
 }
 
 .favorite-btn{
-background:#f8fafc;
-color:var(--text);
+    width:40px;
+    height:40px;
+
+    border:1px solid var(--border);
+    background:var(--card);
+
+    border-radius:10px;
+
+    color:var(--muted);
 }
 
-.load-more{
-display:flex;
-justify-content:center;
-margin-top:25px;
+.favorite-btn.active{
+    color:#e11d48;
 }
 
-/* ABOUT */
-.about-box{
-background:var(--white);
-border:1px solid var(--border);
-border-radius:24px;
-padding:30px;
-box-shadow:var(--shadow);
-text-align:center;
+.empty-state{
+    text-align:center;
+    padding:45px 15px;
+    color:var(--muted);
 }
 
-.about-box p{
-max-width:850px;
-margin:auto;
-color:var(--muted);
+.library-loading{
+    text-align:center;
+    padding:30px;
+    color:var(--muted);
 }
 
-/* FOOTER */
-.footer{
-background:var(--dark);
-color:#fff;
-padding:35px 0;
-margin-top:40px;
+/* =========================
+   ABOUT
+========================= */
+
+.about-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
 }
 
-.footer-inner{
-display:flex;
-justify-content:space-between;
-align-items:center;
-gap:20px;
+.feature-list{
+    list-style:none;
 }
 
-.footer p{
-color:#94a3b8;
+.feature-list li{
+    padding:10px 0;
+    border-bottom:1px solid var(--border);
 }
 
-/* MODAL */
+.feature-list li:last-child{
+    border-bottom:0;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+footer{
+    background:#0f172a;
+    color:#cbd5e1;
+
+    padding:35px 0;
+}
+
+.footer-grid{
+    display:grid;
+    grid-template-columns:2fr 1fr 1fr;
+    gap:30px;
+}
+
+.footer-title{
+    color:#fff;
+    font-weight:900;
+    margin-bottom:10px;
+}
+
+footer a{
+    color:#cbd5e1;
+}
+
+footer a:hover{
+    color:#fff;
+}
+
+/* =========================
+   MODAL
+========================= */
+
 .modal{
-position:fixed;
-inset:0;
-z-index:3000;
-display:none;
-align-items:center;
-justify-content:center;
-padding:20px;
-background:rgba(15,23,42,.65);
-backdrop-filter:blur(5px);
--webkit-backdrop-filter:blur(5px);
+    position:fixed;
+    inset:0;
+
+    background:rgba(2,6,23,.65);
+
+    display:none;
+    align-items:center;
+    justify-content:center;
+
+    padding:18px;
+
+    z-index:3000;
+
+    backdrop-filter:blur(5px);
 }
 
 .modal.open{
-display:flex;
+    display:flex;
 }
 
 .modal-box{
-width:min(650px,100%);
-max-height:90vh;
-overflow:auto;
-background:var(--white);
-border-radius:22px;
-padding:25px;
-box-shadow:0 25px 70px rgba(0,0,0,.25);
-position:relative;
+    width:min(550px,100%);
+    max-height:90vh;
+    overflow:auto;
+
+    background:var(--card);
+    color:var(--text);
+
+    border:1px solid var(--border);
+    border-radius:22px;
+
+    padding:25px;
+
+    box-shadow:0 30px 80px rgba(0,0,0,.25);
+
+    position:relative;
 }
 
 .modal-close{
-position:absolute;
-top:12px;
-left:12px;
-width:40px;
-height:40px;
-border:0;
-border-radius:10px;
-background:#f1f5f9;
-font-size:20px;
+    position:absolute;
+    top:12px;
+    left:12px;
+
+    width:38px;
+    height:38px;
+
+    border:0;
+    background:var(--bg);
+
+    color:var(--text);
+
+    border-radius:10px;
+
+    font-size:1.2rem;
 }
 
-.modal-box h2{
-padding-left:45px;
-margin-bottom:15px;
-color:var(--dark);
+.modal-title{
+    font-size:1.4rem;
+    font-weight:950;
+    margin-bottom:18px;
 }
 
-.modal-content{
-color:var(--muted);
-}
+/* =========================
+   TOAST
+========================= */
 
-.modal-actions{
-display:flex;
-flex-wrap:wrap;
-gap:10px;
-margin-top:22px;
-}
-
-.modal-actions button{
-flex:1;
-min-width:130px;
-}
-
-/* AUTH */
-.auth-tabs{
-display:flex;
-gap:8px;
-margin-bottom:20px;
-}
-
-.auth-tab{
-flex:1;
-min-height:44px;
-border:1px solid var(--border);
-background:var(--bg);
-color:var(--text);
-border-radius:10px;
-font-weight:800;
-}
-
-.auth-tab.active{
-background:var(--primary);
-color:#fff;
-border-color:var(--primary);
-}
-
-.auth-form{
-display:grid;
-gap:12px;
-}
-
-.auth-form input{
-width:100%;
-min-height:48px;
-border:1px solid var(--border);
-border-radius:11px;
-padding:10px 13px;
-outline:none;
-background:var(--white);
-color:var(--text);
-}
-
-.auth-form input:focus{
-border-color:var(--primary);
-}
-
-/* GAME */
-.game-question{
-font-size:34px;
-text-align:center;
-font-weight:900;
-color:var(--primary);
-margin:20px 0;
-overflow-wrap:anywhere;
-word-break:break-word;
-}
-
-.answer-row{
-display:flex;
-gap:10px;
-}
-
-.answer-row input{
-flex:1;
-min-width:0;
-min-height:48px;
-border:1px solid var(--border);
-border-radius:12px;
-padding:10px 14px;
-outline:none;
-background:var(--white);
-color:var(--text);
-}
-
-.answer-row button{
-min-width:120px;
-}
-
-.game-feedback{
-text-align:center;
-min-height:35px;
-margin-top:15px;
-font-weight:900;
-}
-
-/* TOAST */
 .toast{
-position:fixed;
-z-index:5000;
-bottom:25px;
-left:50%;
-transform:translate(-50%,20px);
-opacity:0;
-pointer-events:none;
-background:var(--dark);
-color:#fff;
-padding:12px 18px;
-border-radius:12px;
-transition:.25s;
-max-width:calc(100% - 30px);
-text-align:center;
+    position:fixed;
+
+    bottom:22px;
+    left:50%;
+
+    transform:translate(-50%,120px);
+
+    background:#0f172a;
+    color:#fff;
+
+    padding:12px 18px;
+
+    border-radius:12px;
+
+    z-index:5000;
+
+    opacity:0;
+
+    transition:.3s;
+
+    max-width:90%;
+    text-align:center;
 }
 
 .toast.show{
-opacity:1;
-transform:translate(-50%,0);
+    opacity:1;
+    transform:translate(-50%,0);
 }
 
-/* DARK */
-html.dark{
---dark:#f8fafc;
---text:#e2e8f0;
---muted:#94a3b8;
---bg:#0b1120;
---white:#111827;
---border:#243044;
+/* =========================
+   FORMS
+========================= */
+
+.form-group{
+    margin-bottom:14px;
 }
 
-html.dark body{
-background:var(--bg);
+.form-group label{
+    display:block;
+    margin-bottom:6px;
+    font-weight:800;
 }
 
-html.dark .header{
-background:rgba(15,23,42,.95);
+.form-group input{
+    width:100%;
+    min-height:46px;
+
+    padding:10px 12px;
+
+    border:1px solid var(--border);
+    border-radius:11px;
+
+    background:var(--bg);
+    color:var(--text);
+
+    outline:none;
 }
 
-html.dark .nav-links a,
-html.dark .nav-links button,
-html.dark .icon-btn{
-color:#e2e8f0;
+.form-group input:focus{
+    border-color:var(--primary);
 }
 
-html.dark .nav-links a:hover,
-html.dark .nav-links button:hover{
-background:#1e293b;
+.auth-switch{
+    margin-top:15px;
+    text-align:center;
+    color:var(--muted);
 }
 
-html.dark .hero-card,
-html.dark .stat,
-html.dark .challenge-card,
-html.dark .game-card,
-html.dark .exercise-box,
-html.dark .filters,
-html.dark .resource-card,
-html.dark .about-box,
-html.dark .modal-box{
-background:#111827;
+.auth-switch button{
+    border:0;
+    background:transparent;
+    color:var(--primary);
+    font-weight:900;
 }
 
-html.dark .exercise-section,
-html.dark .library{
-background:#0f172a;
-}
+/* =========================
+   MOBILE
+========================= */
 
-html.dark .exercise-question{
-background:#0b1120;
-border-color:#1d4ed8;
-}
+@media(max-width:950px){
 
-html.dark .exercise-control select,
-html.dark .field input,
-html.dark .field select,
-html.dark .exercise-answer,
-html.dark .auth-form input,
-html.dark .answer-row input{
-background:#0f172a;
-color:#e2e8f0;
-}
+    .nav-links{
+        display:none;
+    }
 
-html.dark .meta,
-html.dark .favorite-btn,
-html.dark .modal-close,
-html.dark .exercise-pill,
-html.dark .auth-tab{
-background:#1e293b;
-color:#cbd5e1;
-}
+    .menu-btn{
+        display:grid;
+    }
 
-html.dark .math-symbol,
-html.dark .card-icon,
-html.dark .resource-type,
-html.dark .view-btn,
-html.dark .secondary-btn{
-background:#172554;
-color:#bfdbfe;
-}
+    .hero-grid{
+        grid-template-columns:1fr;
+    }
 
-html.dark .solution-box{
-background:#052e16;
-border-color:#166534;
-color:#bbf7d0;
-}
+    .cards-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
 
-html.dark .mobile-nav{
-background:#0f172a;
-}
+    .library-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
 
-/* RESPONSIVE */
-@media(max-width:1000px){
+    .library-toolbar{
+        grid-template-columns:
+            repeat(3,1fr);
+    }
 
-.nav-links{
-display:none;
-}
+    .about-grid{
+        grid-template-columns:1fr;
+    }
 
-.menu-btn{
-display:grid;
-}
-
-.hero-grid{
-grid-template-columns:1fr;
-text-align:center;
-}
-
-.hero p{
-margin-left:auto;
-margin-right:auto;
-}
-
-.hero-buttons{
-justify-content:center;
-}
-
-.filter-grid{
-grid-template-columns:repeat(3,1fr);
-}
-
-.resources-grid{
-grid-template-columns:repeat(2,1fr);
-}
+    .footer-grid{
+        grid-template-columns:1fr 1fr;
+    }
 
 }
 
 @media(max-width:700px){
 
-.container{
-width:min(100% - 24px,1160px);
-}
+    :root{
+        --header-height:62px;
+    }
 
-.navbar{
-min-height:64px;
-}
+    .container{
+        width:min(100% - 20px,1180px);
+    }
 
-.logo{
-font-size:18px;
-}
+    section{
+        padding:45px 0;
+    }
 
-.logo-icon{
-width:38px;
-height:38px;
-}
+    .hero{
+        padding:45px 0;
+    }
 
-.nav-actions .login-desktop{
-display:none;
-}
+    .hero h1{
+        font-size:2.15rem;
+    }
 
-.mobile-nav{
-border-top:1px solid var(--border);
-padding:10px 12px 15px;
-background:var(--white);
-}
+    .hero p{
+        font-size:.98rem;
+    }
 
-.mobile-nav.open{
-display:block;
-}
+    .hero-buttons{
+        display:grid;
+        grid-template-columns:1fr;
+    }
 
-.mobile-nav a,
-.mobile-nav button{
-width:100%;
-min-height:46px;
-display:flex;
-align-items:center;
-padding:9px 12px;
-border:0;
-background:transparent;
-border-radius:10px;
-font-weight:800;
-color:var(--text);
-text-align:right;
-}
+    .hero-buttons .btn{
+        width:100%;
+    }
 
-.mobile-nav button:hover,
-.mobile-nav a:hover{
-background:#eff6ff;
-color:var(--primary);
-}
+    .stats-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
 
-.hero{
-padding:42px 0 30px;
-}
+    .cards-grid,
+    .library-grid{
+        grid-template-columns:1fr;
+    }
 
-.hero h1{
-font-size:45px;
-letter-spacing:-1px;
-}
+    .library-toolbar{
+        grid-template-columns:1fr 1fr;
+    }
 
-.hero p{
-font-size:16px;
-}
+    .library-toolbar .search-field{
+        grid-column:1/-1;
+    }
 
-.hero-buttons{
-flex-direction:column;
-}
+    .resource-actions{
+        grid-template-columns:1fr 1fr;
+    }
 
-.hero-buttons button{
-width:100%;
-}
+    .footer-grid{
+        grid-template-columns:1fr;
+    }
 
-.stats-grid{
-grid-template-columns:repeat(2,1fr);
-}
+    .logo{
+        font-size:1rem;
+    }
 
-.challenge-grid,
-.games-grid,
-.resources-grid{
-grid-template-columns:1fr;
-}
+    .logo-icon{
+        width:38px;
+        height:38px;
+    }
 
-.exercise-controls{
-grid-template-columns:1fr;
-}
-
-.exercise-answer-row{
-flex-direction:column;
-}
-
-.exercise-answer-row button{
-width:100%;
-}
-
-.filter-grid{
-grid-template-columns:1fr;
-}
-
-.filter-actions{
-display:grid;
-grid-template-columns:1fr 1fr;
-}
-
-.filter-actions button{
-width:100%;
-}
-
-.section{
-padding:42px 0;
-}
-
-.section-head h2{
-font-size:28px;
-}
-
-.modal{
-padding:0;
-align-items:flex-end;
-}
-
-.modal-box{
-width:100%;
-max-height:92vh;
-border-radius:22px 22px 0 0;
-padding:22px 16px calc(22px + env(safe-area-inset-bottom));
-}
-
-.answer-row{
-flex-direction:column;
-}
-
-.answer-row button{
-width:100%;
-}
-
-.footer-inner{
-flex-direction:column;
-text-align:center;
-}
+    .nav-actions .btn{
+        padding:8px 11px;
+        min-height:40px;
+        font-size:.85rem;
+    }
 
 }
 
-@media(max-width:420px){
+@media(max-width:430px){
 
-.container{
-width:calc(100% - 18px);
-}
+    .stats-grid{
+        gap:10px;
+    }
 
-.nav-actions{
-gap:4px;
-}
+    .stat-card{
+        padding:16px 10px;
+    }
 
-.icon-btn{
-width:39px;
-height:39px;
-}
+    .stat-number{
+        font-size:1.55rem;
+    }
 
-.hero h1{
-font-size:38px;
-}
+    .library-toolbar{
+        grid-template-columns:1fr;
+    }
 
-.math-symbols{
-grid-template-columns:repeat(2,1fr);
-}
+    .library-toolbar .search-field{
+        grid-column:auto;
+    }
 
-.stats-grid{
-gap:9px;
-}
-
-.stat{
-padding:15px 8px;
-}
-
-.stat strong{
-font-size:23px;
-}
-
-.resource-actions{
-grid-template-columns:1fr;
-}
-
-.filter-actions{
-grid-template-columns:1fr;
-}
-
-.xp-box{
-padding:19px;
-}
-
-.game-question{
-font-size:28px;
-}
-
-.exercise-question{
-min-height:125px;
-padding:18px 10px;
-font-size:30px;
-}
-
-.exercise-box{
-padding:17px 12px;
-}
-
-.modal-actions{
-display:grid;
-grid-template-columns:1fr;
-}
+    .resource-actions{
+        grid-template-columns:1fr;
+    }
 
 }
 
-@media(max-width:340px){
+/* =========================
+   ACCESSIBILITY
+========================= */
 
-.logo{
-font-size:15px;
+:focus-visible{
+    outline:3px solid rgba(37,99,235,.35);
+    outline-offset:2px;
 }
 
-.logo-icon{
-width:34px;
-height:34px;
+.hidden{
+    display:none!important;
 }
 
-.nav-actions .icon-btn{
-width:36px;
-height:36px;
+.text-center{
+    text-align:center;
 }
 
+.mt-15{
+    margin-top:15px;
 }
+
 </style>
 </head>
 
 <body>
 
-<header class="header">
+<!-- =========================
+     HEADER
+========================= -->
+
+<header>
 
 <div class="container navbar">
 
 <a href="#home" class="logo">
+
 <span class="logo-icon">∑</span>
+
 <span>HAMOU MATH</span>
+
 </a>
 
 <nav class="nav-links">
-<a href="#home" data-i18n="home">الرئيسية</a>
-<a href="#challenges" data-i18n="challenges">التحديات</a>
-<a href="#games" data-i18n="games">الألعاب</a>
-<a href="#exercises" data-i18n="exercisesNav">التمارين</a>
-<a href="#library" data-i18n="library">المكتبة</a>
-<a href="#about" data-i18n="about">حول المنصة</a>
+
+<a href="#home">الرئيسية</a>
+<a href="#challenges">التحديات</a>
+<a href="#games">الألعاب</a>
+<a href="#exercises">التمارين</a>
+<a href="#library">المكتبة</a>
+<a href="#about">حول الموقع</a>
+
 </nav>
 
 <div class="nav-actions">
 
-<button class="icon-btn" id="languageBtn" aria-label="Language">AR</button>
+<button
+class="icon-btn"
+id="themeToggle"
+type="button"
+aria-label="الوضع الليلي">
+🌙
+</button>
 
-<button class="icon-btn" id="themeBtn" aria-label="Theme">☾</button>
+<button
+class="btn btn-primary"
+id="loginBtn"
+type="button">
+دخول
+</button>
 
-<button class="primary-btn login-desktop" id="loginBtn" data-i18n="login">دخول</button>
-
-<button class="icon-btn menu-btn" id="menuBtn" aria-label="Menu">☰</button>
+<button
+class="menu-btn"
+id="menuBtn"
+type="button"
+aria-label="القائمة">
+☰
+</button>
 
 </div>
+
 </div>
-
-<nav class="mobile-nav" id="mobileNav">
-
-<a href="#home" data-i18n="home">الرئيسية</a>
-<a href="#challenges" data-i18n="challenges">التحديات</a>
-<a href="#games" data-i18n="games">الألعاب</a>
-<a href="#exercises" data-i18n="exercisesNav">التمارين</a>
-<a href="#library" data-i18n="library">المكتبة</a>
-<a href="#about" data-i18n="about">حول المنصة</a>
-
-<button id="mobileLogin" data-i18n="login">دخول</button>
-
-</nav>
 
 </header>
+
+<!-- MOBILE NAV -->
+
+<div class="mobile-nav" id="mobileNav">
+
+<a href="#home">الرئيسية</a>
+<a href="#challenges">التحديات</a>
+<a href="#games">الألعاب</a>
+<a href="#exercises">التمارين</a>
+<a href="#library">المكتبة</a>
+<a href="#about">حول الموقع</a>
+
+<button
+type="button"
+id="mobileLogin">
+تسجيل الدخول
+</button>
+
+</div>
+
+<!-- =========================
+     HERO
+========================= -->
 
 <main>
 
@@ -1318,25 +1234,31 @@ height:36px;
 
 <div>
 
-<span class="badge" data-i18n="globalBadge">
-🌍 منصة رياضيات عالمية
+<h1>
+طوّر مهاراتك في
+<span class="gradient-text">
+الرياضيات
 </span>
+</h1>
 
-<h1>HAMOU <span>MATH</span></h1>
-
-<p data-i18n="heroText">
-منصة تفاعلية للرياضيات تجمع التعلم والتمارين والتحديات والألعاب والمصادر التعليمية.
+<p>
+مرحبًا بك في HAMOU MATH،
+منصة تعليمية تفاعلية تجمع بين
+التمارين والتحديات والألعاب
+والمصادر التعليمية في مكان واحد.
 </p>
 
 <div class="hero-buttons">
 
-<button class="primary-btn" onclick="scrollToSection('library')" data-i18n="openLibrary">
-استكشف المكتبة
-</button>
+<a href="#exercises"
+class="btn btn-primary">
+ابدأ التمرين
+</a>
 
-<button class="secondary-btn" onclick="scrollToSection('exercises')" data-i18n="startExercises">
-ابدأ التمارين
-</button>
+<a href="#library"
+class="btn btn-secondary">
+استكشف المكتبة
+</a>
 
 </div>
 
@@ -1344,568 +1266,628 @@ height:36px;
 
 <div class="hero-card">
 
-<div class="math-symbols">
-<div class="math-symbol">ℕ</div>
-<div class="math-symbol">ℤ</div>
-<div class="math-symbol">ℚ</div>
-<div class="math-symbol">ℝ</div>
-<div class="math-symbol">π</div>
-<div class="math-symbol">√</div>
-<div class="math-symbol">≤</div>
-<div class="math-symbol">≥</div>
-<div class="math-symbol">∈</div>
+<div class="math-display">
+√(a² + b²) = c
+</div>
+
+<div class="text-center">
+<strong>سلسلة حمو في الرياضيات</strong>
+<p>
+تعلم • تحدَّ نفسك • تطور
+</p>
 </div>
 
 </div>
 
 </div>
+
 </section>
 
-<section class="stats">
+<!-- =========================
+     STATS
+========================= -->
 
-<div class="container stats-grid">
+<section>
 
-<div class="stat">
-<strong id="resourcesCount">0+</strong>
-<span data-i18n="resources">المصادر</span>
+<div class="container">
+
+<div class="stats-grid">
+
+<div class="stat-card">
+<div class="stat-number" id="statXP">0</div>
+<div class="stat-label">XP</div>
 </div>
 
-<div class="stat">
-<strong id="exercisesCount">∞</strong>
-<span data-i18n="exercises">التمارين</span>
+<div class="stat-card">
+<div class="stat-number" id="statSolved">0</div>
+<div class="stat-label">تمرين محلول</div>
 </div>
 
-<div class="stat">
-<strong>195+</strong>
-<span data-i18n="countries">دولة</span>
+<div class="stat-card">
+<div class="stat-number" id="statStreak">0</div>
+<div class="stat-label">سلسلة متتالية</div>
 </div>
 
-<div class="stat">
-<strong id="xpStat">0</strong>
-<span>XP</span>
+<div class="stat-card">
+<div class="stat-number" id="statResources">0</div>
+<div class="stat-label">مورد تعليمي</div>
 </div>
 
 </div>
+
+</div>
+
 </section>
+
+<!-- =========================
+     XP
+========================= -->
+
+<section id="progress">
 
 <div class="container">
 
 <div class="xp-box">
 
-<div class="xp-head">
-<strong data-i18n="yourProgress">تقدمك</strong>
+<div class="xp-top">
+
+<div>
+<div>مستواك الحالي</div>
+<div class="xp-number" id="levelNumber">1</div>
+</div>
+
+<div>
 <strong id="xpText">0 XP</strong>
 </div>
 
-<div class="xp-progress">
-<span id="xpBar"></span>
+</div>
+
+<div class="progress">
+<div
+class="progress-bar"
+id="xpProgress">
+</div>
+</div>
+
 </div>
 
 </div>
 
-</div>
-
-<section class="section" id="challenges">
-
-<div class="container">
-
-<div class="section-head">
-<h2 data-i18n="challenges">التحديات</h2>
-<p data-i18n="challengeText">اختبر سرعتك ومهاراتك الرياضية.</p>
-</div>
-
-<div class="challenge-grid">
-
-<article class="challenge-card">
-
-<div class="card-icon">⚡</div>
-
-<h3 data-i18n="speedChallenge">تحدي السرعة</h3>
-
-<p data-i18n="speedText">أجب بأسرع وقت ممكن.</p>
-
-<div class="card-bottom">
-<span class="points">+20 XP</span>
-<button class="primary-btn" onclick="startChallenge('speed')" data-i18n="start">ابدأ</button>
-</div>
-
-</article>
-
-<article class="challenge-card">
-
-<div class="card-icon">🧩</div>
-
-<h3 data-i18n="puzzleChallenge">تحدي الألغاز</h3>
-
-<p data-i18n="puzzleText">حل المسألة المنطقية.</p>
-
-<div class="card-bottom">
-<span class="points">+30 XP</span>
-<button class="primary-btn" onclick="startChallenge('puzzle')" data-i18n="start">ابدأ</button>
-</div>
-
-</article>
-
-<article class="challenge-card">
-
-<div class="card-icon">🔥</div>
-
-<h3 data-i18n="dailyChallenge">التحدي اليومي</h3>
-
-<p data-i18n="dailyText">مسألة جديدة كل يوم.</p>
-
-<div class="card-bottom">
-<span class="points">+50 XP</span>
-<button class="primary-btn" onclick="startChallenge('daily')" data-i18n="start">ابدأ</button>
-</div>
-
-</article>
-
-</div>
-</div>
 </section>
 
-<section class="section" id="games">
+<!-- =========================
+     CHALLENGES
+========================= -->
+
+<section id="challenges">
 
 <div class="container">
 
 <div class="section-head">
-<h2 data-i18n="games">الألعاب</h2>
-<p data-i18n="gamesText">تعلم الرياضيات بطريقة ممتعة.</p>
-</div>
 
-<div class="games-grid">
+<h2>🏆 التحديات</h2>
 
-<article class="game-card">
-<div class="card-icon">🏁</div>
-<h3 data-i18n="calculation">سباق الحساب</h3>
-<p data-i18n="calculationText">احسب واختبر سرعتك.</p>
-<button class="primary-btn" onclick="startGame('calculation')" data-i18n="play">العب</button>
-</article>
-
-<article class="game-card">
-<div class="card-icon">🔢</div>
-<h3 data-i18n="sequence">المتتاليات</h3>
-<p data-i18n="sequenceText">اكتشف الحد المفقود.</p>
-<button class="primary-btn" onclick="startGame('sequence')" data-i18n="play">العب</button>
-</article>
-
-<article class="game-card">
-<div class="card-icon">📐</div>
-<h3 data-i18n="geometry">الهندسة الذكية</h3>
-<p data-i18n="geometryText">اختبر مهاراتك في الهندسة.</p>
-<button class="primary-btn" onclick="startGame('geometry')" data-i18n="play">العب</button>
-</article>
-
-</div>
-</div>
-</section>
-
-<section class="section exercise-section" id="exercises">
-
-<div class="container">
-
-<div class="section-head">
-<h2 data-i18n="interactiveExercises">تمارين تفاعلية</h2>
-<p data-i18n="interactiveExercisesText">حل التمارين واكسب XP.</p>
-</div>
-
-<div class="exercise-box">
-
-<div class="exercise-controls">
-
-<div class="exercise-control">
-<label data-i18n="exerciseLevel">المستوى</label>
-
-<select id="exerciseLevel">
-<option value="primary" data-i18n="primary">ابتدائي</option>
-<option value="middle" data-i18n="middle">متوسط</option>
-<option value="secondary" data-i18n="secondary">ثانوي</option>
-<option value="university" data-i18n="university">جامعة</option>
-</select>
+<p>
+اختبر مستواك واجمع XP
+</p>
 
 </div>
 
-<div class="exercise-control">
+<div class="cards-grid">
 
-<label data-i18n="exerciseType">نوع التمرين</label>
+<div class="card">
 
-<select id="exerciseType">
-<option value="mixed" data-i18n="mixed">متنوع</option>
-<option value="addition" data-i18n="addition">جمع</option>
-<option value="subtraction" data-i18n="subtraction">طرح</option>
-<option value="multiplication" data-i18n="multiplication">ضرب</option>
-<option value="division" data-i18n="division">قسمة</option>
-<option value="equation" data-i18n="equation">معادلة</option>
-<option value="percentage" data-i18n="percentage">نسبة مئوية</option>
-</select>
+<h3>⚡ تحدي السرعة</h3>
 
-</div>
-
-<div class="exercise-control">
-
-<label data-i18n="exerciseDifficulty">الصعوبة</label>
-
-<select id="exerciseDifficulty">
-<option value="easy" data-i18n="easy">سهل</option>
-<option value="medium" data-i18n="medium">متوسط</option>
-<option value="hard" data-i18n="hard">صعب</option>
-</select>
-
-</div>
-
-</div>
-
-<div class="exercise-top">
-
-<strong data-i18n="currentExercise">التمرين الحالي</strong>
-
-<div class="exercise-stat">
-<span class="exercise-pill" id="exerciseScore">0 XP</span>
-<span class="exercise-pill" id="exerciseStreak">🔥 0</span>
-</div>
-
-</div>
-
-<div class="exercise-question" id="exerciseQuestion">
-اضغط على "تمرين جديد"
-</div>
-
-<div class="exercise-answer-row">
-
-<input
-id="exerciseAnswer"
-class="exercise-answer"
-inputmode="decimal"
-autocomplete="off"
-placeholder="الإجابة"
-data-placeholder="answerPlaceholder">
+<p>
+حل أكبر عدد من العمليات خلال وقت قصير.
+</p>
 
 <button
-class="primary-btn"
-id="checkExerciseBtn"
-data-i18n="checkAnswer">
+class="btn btn-primary mt-15"
+type="button"
+id="speedChallenge">
+ابدأ التحدي
+</button>
+
+</div>
+
+<div class="card">
+
+<h3>🧠 تحدي الذكاء</h3>
+
+<p>
+أسئلة منطقية ورياضية متنوعة.
+</p>
+
+<button
+class="btn btn-primary mt-15"
+type="button"
+id="logicChallenge">
+ابدأ التحدي
+</button>
+
+</div>
+
+<div class="card">
+
+<h3>🎯 تحدي اليوم</h3>
+
+<p>
+سؤال جديد يوميًا لتطوير مستواك.
+</p>
+
+<button
+class="btn btn-primary mt-15"
+type="button"
+id="dailyChallenge">
+ابدأ التحدي
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- =========================
+     GAMES
+========================= -->
+
+<section id="games">
+
+<div class="container">
+
+<div class="section-head">
+
+<h2>🎮 ألعاب الرياضيات</h2>
+
+<p>
+تعلم الرياضيات بطريقة ممتعة.
+</p>
+
+</div>
+
+<div class="cards-grid">
+
+<div class="card text-center">
+
+<h3>➕ الحساب السريع</h3>
+
+<p>
+تحدى نفسك في الحساب الذهني.
+</p>
+
+<button
+class="btn btn-primary mt-15"
+type="button"
+id="quickGame">
+العب الآن
+</button>
+
+</div>
+
+<div class="card text-center">
+
+<h3>🔢 خمن العدد</h3>
+
+<p>
+حاول اكتشاف العدد الصحيح.
+</p>
+
+<button
+class="btn btn-primary mt-15"
+type="button"
+id="guessGame">
+العب الآن
+</button>
+
+</div>
+
+<div class="card text-center">
+
+<h3>📐 تحدي الهندسة</h3>
+
+<p>
+أسئلة هندسية متنوعة.
+</p>
+
+<button
+class="btn btn-primary mt-15"
+type="button"
+id="geometryGame">
+العب الآن
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- =========================
+     EXERCISES
+========================= -->
+
+<section id="exercises">
+
+<div class="container">
+
+<div class="section-head">
+
+<h2>✏️ التمارين التفاعلية</h2>
+
+<p>
+أجب عن السؤال واحصل على XP.
+</p>
+
+</div>
+
+<div class="card exercise-card">
+
+<div id="exerciseCategory">
+الحساب
+</div>
+
+<div class="question" id="question">
+...
+</div>
+
+<input
+id="answerInput"
+class="answer-input"
+type="number"
+inputmode="decimal"
+autocomplete="off"
+placeholder="اكتب الإجابة">
+
+<div class="hero-buttons mt-15">
+
+<button
+class="btn btn-primary"
+type="button"
+id="checkAnswer">
 تحقق
 </button>
 
-</div>
-
-<div class="exercise-feedback" id="exerciseFeedback"></div>
-
-<div class="solution-box" id="exerciseSolution"></div>
-
-<div class="exercise-buttons">
-
 <button
-class="secondary-btn"
-id="newExerciseBtn"
-data-i18n="newExercise">
-تمرين جديد
-</button>
-
-<button
-class="secondary-btn"
-id="showSolutionBtn"
-data-i18n="showSolution">
-إظهار الحل
+class="btn btn-secondary"
+type="button"
+id="newQuestion">
+سؤال جديد
 </button>
 
 </div>
 
-</div>
-</div>
-</section>
-
-<section class="section library" id="library">
-
-<div class="container">
-
-<div class="section-head">
-<h2 data-i18n="library">المكتبة العالمية</h2>
-<p data-i18n="libraryText">ابحث عن المصادر والتمارين التعليمية.</p>
-</div>
-
-<div class="filters">
-
-<div class="filter-grid">
-
-<div class="field">
-<input
-id="librarySearch"
-type="search"
-data-placeholder="search"
-placeholder="ابحث في المكتبة..."
-autocomplete="off">
-</div>
-
-<div class="field">
-<select id="filterLanguage">
-<option value="" data-i18n="allLanguages">كل اللغات</option>
-<option value="ar">العربية</option>
-<option value="fr">Français</option>
-<option value="en">English</option>
-</select>
-</div>
-
-<div class="field">
-<select id="filterEducation">
-<option value="" data-i18n="allLevels">كل المستويات</option>
-<option value="primary" data-i18n="primary">ابتدائي</option>
-<option value="middle" data-i18n="middle">متوسط</option>
-<option value="secondary" data-i18n="secondary">ثانوي</option>
-<option value="university" data-i18n="university">جامعة</option>
-</select>
-</div>
-
-<div class="field">
-<select id="filterType">
-<option value="" data-i18n="allTypes">كل الأنواع</option>
-<option value="lesson" data-i18n="lessonType">درس</option>
-<option value="exercise" data-i18n="exerciseTypeLibrary">تمرين</option>
-<option value="exam" data-i18n="examType">اختبار</option>
-<option value="book" data-i18n="bookType">كتاب</option>
-<option value="worksheet" data-i18n="worksheetType">ورقة عمل</option>
-</select>
-</div>
-
-<div class="field">
-<select id="filterPrice">
-<option value="" data-i18n="allResources">الكل</option>
-<option value="free" data-i18n="free">مجاني</option>
-<option value="paid" data-i18n="paid">مدفوع</option>
-</select>
-</div>
-
-<div class="field">
-<select id="filterSort">
-<option value="newest" data-i18n="newest">الأحدث</option>
-<option value="popular" data-i18n="popular">الأكثر مشاهدة</option>
-<option value="az">A-Z</option>
-</select>
-</div>
-
-</div>
-
-<div class="filter-actions">
-
-<button
-class="secondary-btn"
-id="resetFilters"
-data-i18n="reset">
-إعادة ضبط
-</button>
-
-<button
-class="primary-btn"
-id="refreshLibrary"
-data-i18n="searchBtn">
-بحث
-</button>
-
-</div>
-
-</div>
-
-<div class="library-status" id="libraryStatus"></div>
-
-<div class="resources-grid" id="resourcesGrid"></div>
-
-<div class="load-more">
-
-<button
-class="secondary-btn"
-id="loadMore"
-data-i18n="loadMore">
-تحميل المزيد
-</button>
-
-</div>
-
-</div>
-</section>
-
-<section class="section" id="about">
-
-<div class="container">
-
-<div class="about-box">
-
-<div class="section-head">
-<h2 data-i18n="about">حول المنصة</h2>
-</div>
-
-<p data-i18n="aboutText">
-HAMOU MATH منصة تعليمية تهدف إلى جعل الرياضيات أسهل وأكثر تفاعلية ومتعة.
+<p
+id="exerciseResult"
+class="mt-15">
 </p>
 
 </div>
 
 </div>
+
+</section>
+
+<!-- =========================
+     LIBRARY
+========================= -->
+
+<section id="library">
+
+<div class="container">
+
+<div class="section-head">
+
+<h2>📚 المكتبة التعليمية</h2>
+
+<p>
+كتب ومصادر رياضيات مجانية ومدفوعة من مصادر مختلفة.
+</p>
+
+</div>
+
+<div class="library-toolbar">
+
+<div class="field search-field">
+
+<input
+id="librarySearch"
+type="search"
+placeholder="🔎 ابحث عن كتاب أو مورد...">
+
+</div>
+
+<div class="field">
+
+<select id="filterCountry">
+
+<option value="">🌍 كل الدول</option>
+<option value="global">🌎 دولية</option>
+<option value="dz">🇩🇿 الجزائر</option>
+<option value="fr">🇫🇷 فرنسا</option>
+<option value="us">🇺🇸 الولايات المتحدة</option>
+<option value="uk">🇬🇧 بريطانيا</option>
+<option value="in">🇮🇳 الهند</option>
+<option value="de">🇩🇪 ألمانيا</option>
+<option value="es">🇪🇸 إسبانيا</option>
+<option value="tr">🇹🇷 تركيا</option>
+
+</select>
+
+</div>
+
+<div class="field">
+
+<select id="filterLanguage">
+
+<option value="">🗣️ كل اللغات</option>
+<option value="ar">العربية</option>
+<option value="fr">الفرنسية</option>
+<option value="en">الإنجليزية</option>
+<option value="es">الإسبانية</option>
+<option value="de">الألمانية</option>
+<option value="pt">البرتغالية</option>
+<option value="tr">التركية</option>
+
+</select>
+
+</div>
+
+<div class="field">
+
+<select id="filterEducation">
+
+<option value="">🎓 كل المستويات</option>
+<option value="primary">ابتدائي</option>
+<option value="middle">متوسط</option>
+<option value="secondary">ثانوي</option>
+<option value="university">جامعي</option>
+<option value="all">جميع المستويات</option>
+
+</select>
+
+</div>
+
+<div class="field">
+
+<select id="filterType">
+
+<option value="">📖 كل الأنواع</option>
+<option value="book">كتب</option>
+<option value="course">دورات</option>
+<option value="exercise">تمارين</option>
+<option value="tool">أدوات</option>
+<option value="website">مواقع</option>
+
+</select>
+
+</div>
+
+<div class="field">
+
+<select id="filterPrice">
+
+<option value="">💰 الكل</option>
+<option value="free">مجاني</option>
+<option value="paid">مدفوع</option>
+
+</select>
+
+</div>
+
+<div class="field">
+
+<select id="filterSort">
+
+<option value="newest">الأحدث</option>
+<option value="oldest">الأقدم</option>
+<option value="az">أبجديًا</option>
+<option value="price">السعر</option>
+
+</select>
+
+</div>
+
+</div>
+
+<div
+id="libraryLoading"
+class="library-loading">
+جاري تحميل المكتبة...
+</div>
+
+<div
+id="libraryGrid"
+class="library-grid">
+</div>
+
+<div
+id="libraryEmpty"
+class="empty-state hidden">
+
+<h3>لا توجد نتائج</h3>
+
+<p>
+جرّب تغيير الفلاتر أو كلمة البحث.
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- =========================
+     ABOUT
+========================= -->
+
+<section id="about">
+
+<div class="container">
+
+<div class="section-head">
+
+<h2>📘 حول HAMOU MATH</h2>
+
+<p>
+سلسلة حمو في الرياضيات
+</p>
+
+</div>
+
+<div class="about-grid">
+
+<div class="card">
+
+<h3>🎓 هدف المنصة</h3>
+
+<p>
+تقديم محتوى رياضي تفاعلي يساعد التلاميذ
+والطلبة على تطوير مهاراتهم في الرياضيات
+من خلال التمارين والتحديات والمصادر التعليمية.
+</p>
+
+</div>
+
+<div class="card">
+
+<h3>⭐ مميزات المنصة</h3>
+
+<ul class="feature-list">
+
+<li>✓ تمارين تفاعلية</li>
+<li>✓ نظام XP ومستويات</li>
+<li>✓ تحديات وألعاب رياضية</li>
+<li>✓ مكتبة تعليمية متنوعة</li>
+<li>✓ دعم الهاتف والحاسوب</li>
+<li>✓ الوضع الليلي</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
 </section>
 
 </main>
 
-<footer class="footer">
+<!-- =========================
+     FOOTER
+========================= -->
 
-<div class="container footer-inner">
+<footer>
+
+<div class="container footer-grid">
 
 <div>
-<strong>HAMOU MATH</strong>
 
-<p data-i18n="footer">
-سلسلة حمو في الرياضيات — تعلم، تحدَّ نفسك ونجح.
+<div class="footer-title">
+HAMOU MATH
+</div>
+
+<p>
+سلسلة حمو في الرياضيات
+</p>
+
+<p>
+منصة تعليمية تفاعلية للرياضيات.
 </p>
 
 </div>
 
 <div>
-© <span id="year"></span> HAMOU MATH
+
+<div class="footer-title">
+روابط
+</div>
+
+<p><a href="#home">الرئيسية</a></p>
+<p><a href="#library">المكتبة</a></p>
+<p><a href="#exercises">التمارين</a></p>
+
+</div>
+
+<div>
+
+<div class="footer-title">
+HAMOU MATH
+</div>
+
+<p>تعلم • تحدَّ نفسك • تطور</p>
+
 </div>
 
 </div>
 
 </footer>
 
-<!-- RESOURCE MODAL -->
+<!-- =========================
+     AUTH MODAL
+========================= -->
 
-<div class="modal" id="resourceModal">
+<div
+class="modal"
+id="authModal">
 
 <div class="modal-box">
 
 <button
 class="modal-close"
-data-close="resourceModal"
-aria-label="Close">
+type="button"
+data-close="authModal">
 ×
 </button>
 
-<h2 id="resourceModalTitle">HAMOU MATH</h2>
-
-<div
-class="modal-content"
-id="resourceModalDescription">
-</div>
-
-<div id="resourceModalMeta"></div>
-
-<div class="modal-actions">
-
-<button
-class="primary-btn"
-id="resourceOpenBtn">
-فتح المورد
-</button>
-
-<button
-class="secondary-btn"
-id="resourceDownloadBtn"
-data-i18n="download">
-تحميل
-</button>
-
-</div>
-
-</div>
-</div>
-
-<!-- GAME MODAL -->
-
-<div class="modal" id="gameModal">
-
-<div class="modal-box">
-
-<button
-class="modal-close"
-data-close="gameModal"
-aria-label="Close">
-×
-</button>
-
-<h2 id="gameTitle">HAMOU MATH</h2>
-
-<div
-class="game-question"
-id="gameQuestion">
-</div>
-
-<div class="answer-row">
-
-<input
-id="gameAnswer"
-inputmode="decimal"
-autocomplete="off"
-data-placeholder="answerPlaceholder">
-
-<button
-class="primary-btn"
-id="gameCheckBtn"
-data-i18n="checkAnswer">
-تحقق
-</button>
-
+<div class="modal-title" id="authTitle">
+تسجيل الدخول
 </div>
 
 <div
-class="game-feedback"
-id="gameFeedback">
+id="authMessage"
+class="mt-15">
 </div>
 
-</div>
-</div>
+<form id="authForm">
 
-<!-- AUTH MODAL -->
+<div class="form-group">
 
-<div class="modal" id="authModal">
-
-<div class="modal-box">
-
-<button
-class="modal-close"
-data-close="authModal"
-aria-label="Close">
-×
-</button>
-
-<h2 data-i18n="login">دخول</h2>
-
-<div class="auth-tabs">
-
-<button
-class="auth-tab active"
-id="loginTab"
-data-i18n="login">
-دخول
-</button>
-
-<button
-class="auth-tab"
-id="registerTab"
-data-i18n="newAccount">
-حساب جديد
-</button>
-
-</div>
-
-<form class="auth-form" id="authForm">
+<label for="authEmail">
+البريد الإلكتروني
+</label>
 
 <input
 id="authEmail"
 type="email"
-data-placeholder="emailPlaceholder"
-placeholder="البريد الإلكتروني"
 required
 autocomplete="email">
+
+</div>
+
+<div class="form-group">
+
+<label for="authPassword">
+كلمة المرور
+</label>
 
 <input
 id="authPassword"
 type="password"
-data-placeholder="passwordPlaceholder"
-placeholder="كلمة المرور"
 required
 autocomplete="current-password">
 
+</div>
+
 <button
-class="primary-btn"
+class="btn btn-primary btn-full"
 type="submit"
 id="authSubmit">
 دخول
@@ -1913,56 +1895,196 @@ id="authSubmit">
 
 </form>
 
-</div>
+<div class="auth-switch">
+
+<span id="authSwitchText">
+ليس لديك حساب؟
+</span>
+
+<button
+type="button"
+id="authSwitch">
+إنشاء حساب
+</button>
+
 </div>
 
-<div class="toast" id="toast"></div>
+</div>
+
+</div>
+
+<!-- =========================
+     RESOURCE MODAL
+========================= -->
+
+<div
+class="modal"
+id="resourceModal">
+
+<div class="modal-box">
+
+<button
+class="modal-close"
+type="button"
+data-close="resourceModal">
+×
+</button>
+
+<div
+class="modal-title"
+id="resourceModalTitle">
+المورد
+</div>
+
+<p
+id="resourceModalDescription">
+</p>
+
+<div
+class="resource-meta mt-15"
+id="resourceModalMeta">
+</div>
+
+<div class="hero-buttons mt-15">
+
+<button
+class="btn btn-primary"
+type="button"
+id="resourceOpenBtn">
+فتح المورد
+</button>
+
+<button
+class="btn btn-secondary"
+type="button"
+id="resourceDownloadBtn">
+فتح المصدر
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- =========================
+     CHALLENGE MODAL
+========================= -->
+
+<div
+class="modal"
+id="challengeModal">
+
+<div class="modal-box">
+
+<button
+class="modal-close"
+type="button"
+data-close="challengeModal">
+×
+</button>
+
+<div
+class="modal-title"
+id="challengeTitle">
+التحدي
+</div>
+
+<div
+class="question"
+id="challengeQuestion">
+...
+</div>
+
+<input
+id="challengeAnswer"
+class="answer-input"
+type="number"
+inputmode="decimal"
+placeholder="الإجابة">
+
+<button
+class="btn btn-primary btn-full mt-15"
+type="button"
+id="challengeCheck">
+تحقق من الإجابة
+</button>
+
+<p
+id="challengeResult"
+class="text-center mt-15">
+</p>
+
+</div>
+
+</div>
+
+<!-- TOAST -->
+
+<div
+class="toast"
+id="toast">
+تم
+</div>
+
+<!-- =========================
+     SUPABASE
+========================= -->
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
-"use strict";
 
 /* =========================================================
    CONFIGURATION
 ========================================================= */
 
-const SUPABASE_URL="https://ifurlsucekmaynuhsfva.supabase.co";
+const SUPABASE_URL =
+"https://ifurlsucekmaynuhsfva.supabase.co";
 
-const SUPABASE_KEY="sb_publishable_WRvn0kt8kJ3SSy2WG1ca4w_dzZQBrBU";
+const SUPABASE_KEY =
+"sb_publishable_WRvn0kt8kJ3SSy2WG1ca4w_dzZQBrBU";
 
-const CONFIG={
-paymentEndpoint:"/api/create-payment",
-paymentStatusEndpoint:"/api/payment-status",
-storageBucket:"math-resources",
-pageSize:9,
-paymentPollAttempts:20,
-paymentPollDelay:1500
+const CONFIG = {
+
+    paymentEndpoint:"/api/create-payment",
+
+    paymentStatusEndpoint:"/api/payment-status",
+
+    storageBucket:"math-resources",
+
+    pageSize:9,
+
+    paymentPollAttempts:20,
+
+    paymentPollDelay:1500
+
 };
 
-let supabaseClient=null;
+let supabaseClient = null;
 
 try{
 
-if(
-window.supabase &&
-SUPABASE_URL &&
-SUPABASE_KEY
-){
+    if(
+        window.supabase &&
+        SUPABASE_URL &&
+        SUPABASE_KEY
+    ){
 
-supabaseClient=window.supabase.createClient(
-SUPABASE_URL,
-SUPABASE_KEY
-);
+        supabaseClient =
+            window.supabase.createClient(
+                SUPABASE_URL,
+                SUPABASE_KEY
+            );
 
-}
+    }
 
 }catch(error){
 
-console.warn(
-"Supabase initialization failed:",
-error
-);
+    console.warn(
+        "Supabase initialization failed:",
+        error
+    );
 
 }
 
@@ -1970,617 +2092,94 @@ error
    HELPERS
 ========================================================= */
 
-const $=id=>document.getElementById(id);
-
-function safeString(value){
-
-if(
-value===null ||
-value===undefined
-)return "";
-
-if(Array.isArray(value))
-return value.join(" ");
-
-if(typeof value==="object"){
-
-try{
-return JSON.stringify(value);
-}catch{
-return "";
-}
-
-}
-
-return String(value).trim();
-
-}
+const $ = id =>
+    document.getElementById(id);
 
 function escapeHTML(value){
 
-return safeString(value)
-.replace(/&/g,"&amp;")
-.replace(/</g,"&lt;")
-.replace(/>/g,"&gt;")
-.replace(/"/g,"&quot;")
-.replace(/'/g,"&#039;");
+    return String(value ?? "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
 
 }
 
-function randomInt(min,max){
+function safeURL(url){
 
-return Math.floor(
-Math.random()*(max-min+1)
-)+min;
+    try{
 
-}
+        const parsed =
+            new URL(
+                String(url),
+                window.location.origin
+            );
 
-function formatNumber(value){
+        if(
+            parsed.protocol === "http:" ||
+            parsed.protocol === "https:"
+        ){
 
-const n=Number(value);
+            return parsed.href;
 
-if(!Number.isFinite(n))
-return "0";
+        }
 
-return n.toLocaleString(
-currentLanguage==="ar"
-?"ar-DZ"
-:currentLanguage==="fr"
-?"fr-FR"
-:"en-US"
-);
+    }catch(e){}
 
-}
-
-function sleep(ms){
-
-return new Promise(
-resolve=>setTimeout(resolve,ms)
-);
+    return "#";
 
 }
 
-function scrollToSection(id){
+function showToast(message){
 
-const el=$(id);
+    const toast =
+        $("toast");
 
-if(el){
+    if(!toast)return;
 
-el.scrollIntoView({
-behavior:"smooth",
-block:"start"
-});
+    toast.textContent =
+        message;
+
+    toast.classList.add("show");
+
+    clearTimeout(
+        window.__toastTimer
+    );
+
+    window.__toastTimer =
+        setTimeout(
+            ()=>{
+                toast.classList.remove("show");
+            },
+            2600
+        );
 
 }
 
-closeMobileMenu();
+function openModal(id){
+
+    $(id)?.classList.add("open");
+
+    document.body.style.overflow =
+        "hidden";
 
 }
 
-/* =========================================================
-   TRANSLATIONS
-========================================================= */
+function closeModal(id){
 
-const translations={
+    $(id)?.classList.remove("open");
 
-ar:{
-home:"الرئيسية",
-challenges:"التحديات",
-games:"الألعاب",
-exercisesNav:"التمارين",
-library:"المكتبة",
-about:"حول المنصة",
-login:"دخول",
-newAccount:"حساب جديد",
+    if(
+        !document.querySelector(
+            ".modal.open"
+        )
+    ){
 
-globalBadge:"🌍 منصة رياضيات عالمية",
+        document.body.style.overflow =
+            "";
 
-heroText:"منصة تفاعلية للرياضيات تجمع التعلم والتمارين والتحديات والألعاب والمصادر التعليمية.",
-
-openLibrary:"استكشف المكتبة",
-startExercises:"ابدأ التمارين",
-
-resources:"المصادر",
-exercises:"التمارين",
-countries:"الدول",
-yourProgress:"تقدمك",
-
-challengeText:"اختبر سرعتك ومهاراتك الرياضية.",
-
-speedChallenge:"تحدي السرعة",
-speedText:"أجب بأسرع وقت ممكن.",
-
-puzzleChallenge:"تحدي الألغاز",
-puzzleText:"حل المسألة المنطقية.",
-
-dailyChallenge:"التحدي اليومي",
-dailyText:"مسألة جديدة كل يوم.",
-
-start:"ابدأ",
-
-gamesText:"تعلم الرياضيات بطريقة ممتعة.",
-
-calculation:"سباق الحساب",
-calculationText:"احسب واختبر سرعتك.",
-
-sequence:"المتتاليات",
-sequenceText:"اكتشف الحد المفقود.",
-
-geometry:"الهندسة الذكية",
-geometryText:"اختبر مهاراتك في الهندسة.",
-
-play:"العب",
-
-interactiveExercises:"تمارين تفاعلية",
-interactiveExercisesText:"حل التمارين واكسب XP.",
-
-exerciseLevel:"المستوى",
-exerciseType:"نوع التمرين",
-exerciseDifficulty:"الصعوبة",
-
-primary:"ابتدائي",
-middle:"متوسط",
-secondary:"ثانوي",
-university:"جامعة",
-
-mixed:"متنوع",
-addition:"جمع",
-subtraction:"طرح",
-multiplication:"ضرب",
-division:"قسمة",
-equation:"معادلة",
-percentage:"نسبة مئوية",
-
-easy:"سهل",
-medium:"متوسط",
-hard:"صعب",
-
-currentExercise:"التمرين الحالي",
-checkAnswer:"تحقق",
-newExercise:"تمرين جديد",
-showSolution:"إظهار الحل",
-
-answerPlaceholder:"الإجابة",
-emailPlaceholder:"البريد الإلكتروني",
-passwordPlaceholder:"كلمة المرور",
-
-correct:"إجابة صحيحة! +10 XP 🎉",
-wrong:"إجابة خاطئة.",
-emptyAnswer:"أدخل إجابتك أولًا.",
-newExerciseNeeded:"أنشئ تمرينًا جديدًا أولًا.",
-solution:"الحل:",
-
-libraryText:"ابحث عن المصادر والتمارين التعليمية.",
-search:"ابحث في المكتبة...",
-
-allLanguages:"كل اللغات",
-allLevels:"كل المستويات",
-allTypes:"كل الأنواع",
-allResources:"الكل",
-
-lessonType:"درس",
-exerciseTypeLibrary:"تمرين",
-examType:"اختبار",
-bookType:"كتاب",
-worksheetType:"ورقة عمل",
-
-free:"مجاني",
-paid:"مدفوع",
-newest:"الأحدث",
-popular:"الأكثر مشاهدة",
-
-reset:"إعادة ضبط",
-searchBtn:"بحث",
-loadMore:"تحميل المزيد",
-
-openResource:"فتح المورد",
-download:"تحميل",
-
-aboutText:"HAMOU MATH منصة تعليمية تهدف إلى جعل الرياضيات أسهل وأكثر تفاعلية ومتعة.",
-
-footer:"سلسلة حمو في الرياضيات — تعلم، تحدَّ نفسك ونجح.",
-
-freeResource:"مورد مجاني",
-paidResource:"مورد مدفوع",
-
-paymentNotConfigured:"تعذر بدء عملية الدفع حاليًا.",
-paymentLoginRequired:"يجب تسجيل الدخول قبل الدفع.",
-paymentPending:"تم إرسال الدفع. ننتظر تأكيد العملية...",
-paymentSuccess:"تم تأكيد الدفع بنجاح! 🎉",
-paymentFailed:"لم يتم تأكيد الدفع.",
-paymentAlreadyPaid:"لقد دفعت ثمن هذا المورد بالفعل.",
-
-noResources:"لا توجد موارد مطابقة.",
-loading:"جاري التحميل...",
-
-loginRequired:"أدخل البريد الإلكتروني وكلمة المرور.",
-loginSuccess:"تم تسجيل الدخول بنجاح.",
-registerSuccess:"تم إنشاء الحساب بنجاح.",
-registerConfirm:"تم إنشاء الحساب. تحقق من بريدك الإلكتروني إذا كان تأكيد البريد مفعلًا.",
-logout:"خروج",
-
-authError:"تعذر إتمام العملية.",
-resourceUnavailable:"رابط المورد غير متوفر.",
-
-dailyAlreadyDone:"لقد أكملت التحدي اليومي بالفعل. عد غدًا! 🔥",
-challengeComplete:"أحسنت! حصلت على XP.",
-gameComplete:"أحسنت! +20 XP 🎉"
-},
-
-fr:{
-home:"Accueil",
-challenges:"Défis",
-games:"Jeux",
-exercisesNav:"Exercices",
-library:"Bibliothèque",
-about:"À propos",
-login:"Connexion",
-newAccount:"Nouveau compte",
-
-globalBadge:"🌍 Plateforme mondiale de mathématiques",
-
-heroText:"Une plateforme interactive pour apprendre, pratiquer, relever des défis, jouer et découvrir des ressources mathématiques.",
-
-openLibrary:"Explorer la bibliothèque",
-startExercises:"Commencer",
-
-resources:"Ressources",
-exercises:"Exercices",
-countries:"Pays",
-yourProgress:"Votre progression",
-
-challengeText:"Testez votre vitesse et vos compétences.",
-
-speedChallenge:"Défi de vitesse",
-speedText:"Répondez le plus rapidement possible.",
-
-puzzleChallenge:"Défi logique",
-puzzleText:"Résolvez le problème logique.",
-
-dailyChallenge:"Défi quotidien",
-dailyText:"Un nouveau problème chaque jour.",
-
-start:"Commencer",
-
-gamesText:"Apprenez les mathématiques en vous amusant.",
-
-calculation:"Course de calcul",
-calculationText:"Calculez et testez votre vitesse.",
-
-sequence:"Suites",
-sequenceText:"Trouvez le terme manquant.",
-
-geometry:"Géométrie intelligente",
-geometryText:"Testez vos compétences en géométrie.",
-
-play:"Jouer",
-
-interactiveExercises:"Exercices interactifs",
-interactiveExercisesText:"Résolvez des exercices et gagnez de l'XP.",
-
-exerciseLevel:"Niveau",
-exerciseType:"Type",
-exerciseDifficulty:"Difficulté",
-
-primary:"Primaire",
-middle:"Collège",
-secondary:"Lycée",
-university:"Université",
-
-mixed:"Mixte",
-addition:"Addition",
-subtraction:"Soustraction",
-multiplication:"Multiplication",
-division:"Division",
-equation:"Équation",
-percentage:"Pourcentage",
-
-easy:"Facile",
-medium:"Moyen",
-hard:"Difficile",
-
-currentExercise:"Exercice actuel",
-checkAnswer:"Vérifier",
-newExercise:"Nouvel exercice",
-showSolution:"Voir la solution",
-
-answerPlaceholder:"Réponse",
-emailPlaceholder:"Adresse email",
-passwordPlaceholder:"Mot de passe",
-
-correct:"Bonne réponse ! +10 XP 🎉",
-wrong:"Mauvaise réponse.",
-emptyAnswer:"Entrez votre réponse.",
-newExerciseNeeded:"Créez d'abord un nouvel exercice.",
-solution:"Solution:",
-
-libraryText:"Recherchez des ressources et exercices éducatifs.",
-search:"Rechercher...",
-
-allLanguages:"Toutes les langues",
-allLevels:"Tous les niveaux",
-allTypes:"Tous les types",
-allResources:"Tous",
-
-lessonType:"Cours",
-exerciseTypeLibrary:"Exercice",
-examType:"Examen",
-bookType:"Livre",
-worksheetType:"Fiche",
-
-free:"Gratuit",
-paid:"Payant",
-newest:"Plus récents",
-popular:"Plus populaires",
-
-reset:"Réinitialiser",
-searchBtn:"Rechercher",
-loadMore:"Charger plus",
-
-openResource:"Ouvrir",
-download:"Télécharger",
-
-aboutText:"HAMOU MATH est une plateforme éducative destinée à rendre les mathématiques plus simples et interactives.",
-
-footer:"Série Hamou en mathématiques — apprendre, relever des défis et réussir.",
-
-freeResource:"Ressource gratuite",
-paidResource:"Ressource payante",
-
-paymentNotConfigured:"Impossible de démarrer le paiement.",
-paymentLoginRequired:"Vous devez vous connecter avant de payer.",
-paymentPending:"Paiement envoyé. En attente de confirmation...",
-paymentSuccess:"Paiement confirmé avec succès ! 🎉",
-paymentFailed:"Le paiement n'a pas été confirmé.",
-paymentAlreadyPaid:"Vous avez déjà payé cette ressource.",
-
-noResources:"Aucune ressource trouvée.",
-loading:"Chargement...",
-
-loginRequired:"Entrez votre email et votre mot de passe.",
-loginSuccess:"Connexion réussie.",
-registerSuccess:"Compte créé avec succès.",
-registerConfirm:"Compte créé. Vérifiez votre email si la confirmation est activée.",
-logout:"Déconnexion",
-
-authError:"Impossible de terminer l'opération.",
-resourceUnavailable:"Le lien de la ressource est indisponible.",
-
-dailyAlreadyDone:"Vous avez déjà terminé le défi quotidien. Revenez demain ! 🔥",
-challengeComplete:"Bravo ! Vous avez gagné de l'XP.",
-gameComplete:"Bravo ! +20 XP 🎉"
-},
-
-en:{
-home:"Home",
-challenges:"Challenges",
-games:"Games",
-exercisesNav:"Exercises",
-library:"Library",
-about:"About",
-login:"Login",
-newAccount:"Create account",
-
-globalBadge:"🌍 Global Mathematics Platform",
-
-heroText:"An interactive mathematics platform for learning, practice, challenges, games and educational resources.",
-
-openLibrary:"Explore Library",
-startExercises:"Start Exercises",
-
-resources:"Resources",
-exercises:"Exercises",
-countries:"Countries",
-yourProgress:"Your Progress",
-
-challengeText:"Test your speed and mathematical skills.",
-
-speedChallenge:"Speed Challenge",
-speedText:"Answer as quickly as possible.",
-
-puzzleChallenge:"Puzzle Challenge",
-puzzleText:"Solve the logical problem.",
-
-dailyChallenge:"Daily Challenge",
-dailyText:"A new problem every day.",
-
-start:"Start",
-
-gamesText:"Learn mathematics through fun.",
-
-calculation:"Calculation Race",
-calculationText:"Calculate and test your speed.",
-
-sequence:"Sequences",
-sequenceText:"Find the missing term.",
-
-geometry:"Smart Geometry",
-geometryText:"Test your geometry skills.",
-
-play:"Play",
-
-interactiveExercises:"Interactive Exercises",
-interactiveExercisesText:"Solve mathematics exercises and earn XP.",
-
-exerciseLevel:"Level",
-exerciseType:"Exercise type",
-exerciseDifficulty:"Difficulty",
-
-primary:"Primary",
-middle:"Middle School",
-secondary:"High School",
-university:"University",
-
-mixed:"Mixed",
-addition:"Addition",
-subtraction:"Subtraction",
-multiplication:"Multiplication",
-division:"Division",
-equation:"Equation",
-percentage:"Percentage",
-
-easy:"Easy",
-medium:"Medium",
-hard:"Hard",
-
-currentExercise:"Current exercise",
-checkAnswer:"Check",
-newExercise:"New Exercise",
-showSolution:"Show Solution",
-
-answerPlaceholder:"Answer",
-emailPlaceholder:"Email",
-passwordPlaceholder:"Password",
-
-correct:"Correct answer! +10 XP 🎉",
-wrong:"Wrong answer.",
-emptyAnswer:"Enter your answer.",
-newExerciseNeeded:"Create a new exercise first.",
-solution:"Solution:",
-
-libraryText:"Search educational resources and exercises.",
-search:"Search the library...",
-
-allLanguages:"All languages",
-allLevels:"All levels",
-allTypes:"All types",
-allResources:"All",
-
-lessonType:"Lesson",
-exerciseTypeLibrary:"Exercise",
-examType:"Exam",
-bookType:"Book",
-worksheetType:"Worksheet",
-
-free:"Free",
-paid:"Paid",
-newest:"Newest",
-popular:"Most viewed",
-
-reset:"Reset",
-searchBtn:"Search",
-loadMore:"Load more",
-
-openResource:"Open resource",
-download:"Download",
-
-aboutText:"HAMOU MATH is an educational platform designed to make mathematics easier and more interactive.",
-
-footer:"Hamou Mathematics Series — learn, challenge yourself and succeed.",
-
-freeResource:"Free resource",
-paidResource:"Paid resource",
-
-paymentNotConfigured:"Unable to start payment.",
-paymentLoginRequired:"You must log in before paying.",
-paymentPending:"Payment sent. Waiting for confirmation...",
-paymentSuccess:"Payment confirmed successfully! 🎉",
-paymentFailed:"Payment was not confirmed.",
-paymentAlreadyPaid:"You already paid for this resource.",
-
-noResources:"No matching resources.",
-loading:"Loading...",
-
-loginRequired:"Enter your email and password.",
-loginSuccess:"Login successful.",
-registerSuccess:"Account created successfully.",
-registerConfirm:"Account created. Check your email if confirmation is enabled.",
-logout:"Logout",
-
-authError:"Unable to complete the operation.",
-resourceUnavailable:"Resource link is unavailable.",
-
-dailyAlreadyDone:"You already completed today's challenge. Come back tomorrow! 🔥",
-challengeComplete:"Great! You earned XP.",
-gameComplete:"Great! +20 XP 🎉"
-}
-
-};
-
-let currentLanguage=
-localStorage.getItem("hamou_language")||"ar";
-
-if(!["ar","fr","en"].includes(currentLanguage)){
-currentLanguage="ar";
-}
-
-function t(key){
-
-return translations[currentLanguage]?.[key]||
-translations.ar[key]||
-key;
-
-}
-
-function applyLanguage(){
-
-document.documentElement.lang=currentLanguage;
-
-document.documentElement.dir=
-currentLanguage==="ar"
-?"rtl"
-:"ltr";
-
-document.querySelectorAll(
-"[data-i18n]"
-).forEach(el=>{
-
-const key=el.dataset.i18n;
-
-if(
-translations[currentLanguage]?.[key]
-){
-el.textContent=
-translations[currentLanguage][key];
-}
-
-});
-
-document.querySelectorAll(
-"[data-placeholder]"
-).forEach(el=>{
-
-el.placeholder=
-t(el.dataset.placeholder);
-
-});
-
-if($("languageBtn")){
-$("languageBtn").textContent=
-currentLanguage.toUpperCase();
-}
-
-updateAuthButton();
-updateExerciseStats();
-
-if(currentResources.length){
-renderResources();
-}
-
-}
-
-function changeLanguage(){
-
-const languages=[
-"ar",
-"fr",
-"en"
-];
-
-const index=
-languages.indexOf(currentLanguage);
-
-currentLanguage=
-languages[
-(index+1)%languages.length
-];
-
-localStorage.setItem(
-"hamou_language",
-currentLanguage
-);
-
-applyLanguage();
+    }
 
 }
 
@@ -2590,875 +2189,654 @@ applyLanguage();
 
 function applyTheme(){
 
-const dark=
-localStorage.getItem("hamou_theme")==="dark";
+    const saved =
+        localStorage.getItem(
+            "hamou_theme"
+        );
 
-document.documentElement.classList.toggle(
-"dark",
-dark
-);
+    const dark =
+        saved === "dark";
 
-if($("themeBtn")){
-$("themeBtn").textContent=
-dark?"☀":"☾";
+    document.body.classList.toggle(
+        "dark",
+        dark
+    );
+
+    const btn =
+        $("themeToggle");
+
+    if(btn){
+
+        btn.textContent =
+            dark ? "☀️" : "🌙";
+
+    }
+
 }
 
-}
+$("themeToggle")?.addEventListener(
+    "click",
+    ()=>{
 
-function toggleTheme(){
+        const dark =
+            document.body.classList.toggle(
+                "dark"
+            );
 
-const dark=
-document.documentElement.classList.contains("dark");
+        localStorage.setItem(
+            "hamou_theme",
+            dark ? "dark" : "light"
+        );
 
-localStorage.setItem(
-"hamou_theme",
-dark?"light":"dark"
+        applyTheme();
+
+    }
 );
 
 applyTheme();
 
-}
-
 /* =========================================================
-   TOAST
-========================================================= */
-
-let toastTimer=null;
-
-function toast(message){
-
-const el=$("toast");
-
-if(!el)return;
-
-el.textContent=safeString(message);
-
-el.classList.add("show");
-
-clearTimeout(toastTimer);
-
-toastTimer=setTimeout(()=>{
-el.classList.remove("show");
-},2800);
-
-}
-
-/* =========================================================
-   XP
-========================================================= */
-
-let xp=Math.max(
-0,
-Number(
-localStorage.getItem("hamou_xp")||0
-)
-);
-
-function addXP(amount){
-
-const value=Number(amount);
-
-if(
-!Number.isFinite(value) ||
-value<=0
-)return;
-
-xp+=value;
-
-localStorage.setItem(
-"hamou_xp",
-String(xp)
-);
-
-updateXP();
-
-}
-
-function updateXP(){
-
-if($("xpText")){
-$("xpText").textContent=
-`${formatNumber(xp)} XP`;
-}
-
-if($("xpStat")){
-$("xpStat").textContent=
-formatNumber(xp);
-}
-
-if($("xpBar")){
-
-const progress=xp%100;
-
-$("xpBar").style.width=
-`${progress===0 && xp>0?100:progress}%`;
-
-}
-
-}
-
-/* =========================================================
-   MOBILE NAV
+   MOBILE MENU
 ========================================================= */
 
 function closeMobileMenu(){
 
-$("mobileNav")?.classList.remove(
-"open"
-);
+    $("mobileNav")?.
+        classList.remove("open");
 
 }
 
 $("menuBtn")?.addEventListener(
-"click",
-()=>{
+    "click",
+    ()=>{
 
-$("mobileNav")?.classList.toggle(
-"open"
-);
+        $("mobileNav")?.
+            classList.toggle("open");
 
-}
+    }
 );
 
 document.querySelectorAll(
-".mobile-nav a"
+    "#mobileNav a"
 ).forEach(link=>{
 
-link.addEventListener(
-"click",
-closeMobileMenu
-);
+    link.addEventListener(
+        "click",
+        closeMobileMenu
+    );
 
 });
-
-$("mobileLogin")?.addEventListener(
-"click",
-()=>{
-
-closeMobileMenu();
-
-openAuthModal();
-
-}
-);
 
 /* =========================================================
-   MODALS
+   LOCAL USER DATA
 ========================================================= */
 
-function openModal(id){
+let userData =
+    JSON.parse(
+        localStorage.getItem(
+            "hamou_user_data"
+        ) || "{}"
+    );
 
-const modal=$(id);
+userData.xp =
+    Number(userData.xp || 0);
 
-if(!modal)return;
+userData.solved =
+    Number(userData.solved || 0);
 
-modal.classList.add("open");
+userData.streak =
+    Number(userData.streak || 0);
 
-document.body.style.overflow="hidden";
+userData.lastSolved =
+    userData.lastSolved || "";
 
-}
+userData.favorites =
+    Array.isArray(userData.favorites)
+        ? userData.favorites
+        : [];
 
-function closeModal(id){
+function saveUserData(){
 
-const modal=$(id);
-
-if(!modal)return;
-
-modal.classList.remove("open");
-
-if(!document.querySelector(
-".modal.open"
-)){
-
-document.body.style.overflow="";
-
-}
-
-}
-
-document.querySelectorAll(
-"[data-close]"
-).forEach(btn=>{
-
-btn.addEventListener(
-"click",
-()=>{
-
-closeModal(
-btn.dataset.close
-);
-
-}
-);
-
-});
-
-document.querySelectorAll(
-".modal"
-).forEach(modal=>{
-
-modal.addEventListener(
-"click",
-event=>{
-
-if(event.target===modal){
-
-modal.classList.remove(
-"open"
-);
-
-if(!document.querySelector(
-".modal.open"
-)){
-
-document.body.style.overflow="";
+    localStorage.setItem(
+        "hamou_user_data",
+        JSON.stringify(userData)
+    );
 
 }
 
-}
+function getLevel(){
 
-}
-);
-
-});
-
-document.addEventListener(
-"keydown",
-event=>{
-
-if(event.key==="Escape"){
-
-document.querySelectorAll(
-".modal.open"
-).forEach(modal=>{
-modal.classList.remove("open");
-});
-
-document.body.style.overflow="";
+    return Math.floor(
+        userData.xp / 100
+    ) + 1;
 
 }
 
+function updateXPUI(){
+
+    const level =
+        getLevel();
+
+    const levelXP =
+        userData.xp % 100;
+
+    $("levelNumber").textContent =
+        level;
+
+    $("xpText").textContent =
+        `${userData.xp} XP`;
+
+    $("statXP").textContent =
+        userData.xp;
+
+    $("statSolved").textContent =
+        userData.solved;
+
+    $("statStreak").textContent =
+        userData.streak;
+
+    const progress =
+        Math.min(
+            levelXP,
+            100
+        );
+
+    $("xpProgress").style.width =
+        `${progress}%`;
+
 }
-);
+
+function addXP(amount){
+
+    userData.xp +=
+        Number(amount || 0);
+
+    saveUserData();
+
+    updateXPUI();
+
+    showToast(
+        `🎉 حصلت على ${amount} XP`
+    );
+
+}
+
+updateXPUI();
 
 /* =========================================================
-   EXERCISES
+   EXERCISE ENGINE
 ========================================================= */
 
-let currentExercise=null;
+let currentExercise = null;
 
-let exerciseScore=Math.max(
-0,
-Number(
-localStorage.getItem(
-"hamou_exercise_score"
-)||0
-)
-);
+function randomInt(min,max){
 
-let exerciseStreak=Math.max(
-0,
-Number(
-localStorage.getItem(
-"hamou_streak"
-)||0
-)
-);
-
-function normalizeAnswer(value){
-
-return String(value??"")
-.trim()
-.replace(",",".")
-.replace(/\s+/g,"")
-.replace(/−/g,"-");
-
-}
-
-function answersEqual(a,b){
-
-const first=normalizeAnswer(a);
-const second=normalizeAnswer(b);
-
-if(first===second)return true;
-
-const n1=Number(first);
-const n2=Number(second);
-
-return Number.isFinite(n1) &&
-Number.isFinite(n2) &&
-Math.abs(n1-n2)<0.000001;
-
-}
-
-function updateExerciseStats(){
-
-if($("exerciseScore")){
-$("exerciseScore").textContent=
-`${formatNumber(exerciseScore)} XP`;
-}
-
-if($("exerciseStreak")){
-$("exerciseStreak").textContent=
-`🔥 ${formatNumber(exerciseStreak)}`;
-}
-
-}
-
-function setExerciseFeedback(
-message,
-type
-){
-
-const el=$("exerciseFeedback");
-
-if(!el)return;
-
-el.textContent=message;
-
-el.classList.remove(
-"feedback-success",
-"feedback-error"
-);
-
-if(type==="success"){
-el.classList.add(
-"feedback-success"
-);
-}
-
-if(type==="error"){
-el.classList.add(
-"feedback-error"
-);
-}
+    return Math.floor(
+        Math.random() *
+        (max-min+1)
+    ) + min;
 
 }
 
 function createExercise(){
 
-const level=
-$("exerciseLevel")?.value||
-"primary";
+    const types = [
+        "addition",
+        "subtraction",
+        "multiplication",
+        "division",
+        "equation",
+        "percentage"
+    ];
 
-const type=
-$("exerciseType")?.value||
-"mixed";
+    const type =
+        types[
+            randomInt(
+                0,
+                types.length-1
+            )
+        ];
 
-const difficulty=
-$("exerciseDifficulty")?.value||
-"easy";
+    let question;
+    let answer;
 
-let selectedType=type;
+    if(type === "addition"){
 
-if(type==="mixed"){
+        const a =
+            randomInt(10,99);
 
-const types=[
-"addition",
-"subtraction",
-"multiplication",
-"division",
-"equation",
-"percentage"
-];
+        const b =
+            randomInt(10,99);
 
-selectedType=
-types[
-randomInt(
-0,
-types.length-1
-)
-];
+        question =
+            `${a} + ${b}`;
 
-}
+        answer =
+            a+b;
 
-let max=20;
+    }
 
-if(level==="middle")max=50;
-if(level==="secondary")max=100;
-if(level==="university")max=200;
+    else if(type === "subtraction"){
 
-if(difficulty==="medium"){
-max*=2;
-}
+        const a =
+            randomInt(30,120);
 
-if(difficulty==="hard"){
-max*=4;
-}
+        const b =
+            randomInt(5,a);
 
-let question="";
-let answer=null;
-let solution="";
+        question =
+            `${a} − ${b}`;
 
-if(selectedType==="addition"){
+        answer =
+            a-b;
 
-const a=randomInt(1,max);
-const b=randomInt(1,max);
+    }
 
-question=`${a} + ${b} = ?`;
-answer=a+b;
-solution=`${a} + ${b} = ${answer}`;
+    else if(type === "multiplication"){
 
-}
+        const a =
+            randomInt(2,15);
 
-else if(selectedType==="subtraction"){
+        const b =
+            randomInt(2,15);
 
-let a=randomInt(1,max);
-let b=randomInt(1,max);
+        question =
+            `${a} × ${b}`;
 
-if(b>a){
-[a,b]=[b,a];
-}
+        answer =
+            a*b;
 
-question=`${a} − ${b} = ?`;
-answer=a-b;
-solution=`${a} − ${b} = ${answer}`;
+    }
 
-}
+    else if(type === "division"){
 
-else if(selectedType==="multiplication"){
+        const b =
+            randomInt(2,12);
 
-const upper=
-difficulty==="hard"
-?Math.max(
-12,
-Math.floor(max/2)
-)
-:Math.max(
-8,
-Math.floor(max/3)
-);
+        const answerValue =
+            randomInt(2,12);
 
-const a=randomInt(2,upper);
-const b=randomInt(2,upper);
+        const a =
+            b * answerValue;
 
-question=`${a} × ${b} = ?`;
-answer=a*b;
-solution=`${a} × ${b} = ${answer}`;
+        question =
+            `${a} ÷ ${b}`;
 
-}
+        answer =
+            answerValue;
 
-else if(selectedType==="division"){
+    }
 
-const divisor=randomInt(
-2,
-difficulty==="hard"?15:10
-);
+    else if(type === "equation"){
 
-const quotient=randomInt(
-2,
-difficulty==="hard"?30:15
-);
+        const x =
+            randomInt(1,20);
 
-const dividend=
-divisor*quotient;
+        const a =
+            randomInt(2,9);
 
-question=
-`${dividend} ÷ ${divisor} = ?`;
+        const b =
+            randomInt(1,20);
 
-answer=quotient;
+        const result =
+            a*x+b;
 
-solution=
-`${dividend} ÷ ${divisor} = ${answer}`;
+        question =
+            `${a}x + ${b} = ${result}`;
 
-}
+        answer =
+            x;
 
-else if(selectedType==="equation"){
+    }
 
-const x=randomInt(
-1,
-difficulty==="hard"?30:15
-);
+    else{
 
-const a=randomInt(
-2,
-difficulty==="hard"?12:8
-);
+        const percentage =
+            randomInt(1,9)*10;
 
-const b=a*x;
+        const value =
+            randomInt(2,10)*10;
 
-question=
-currentLanguage==="ar"
-?`حل المعادلة: ${a}x = ${b}`
-:currentLanguage==="fr"
-?`Résoudre : ${a}x = ${b}`
-:`Solve: ${a}x = ${b}`;
+        question =
+            `${percentage}% من ${value}`;
 
-answer=x;
+        answer =
+            value *
+            percentage /
+            100;
 
-solution=`x = ${x}`;
+    }
+
+    currentExercise = {
+        type,
+        question,
+        answer
+    };
+
+    $("question").textContent =
+        question;
+
+    $("exerciseCategory").textContent =
+        getExerciseCategory(type);
+
+    $("answerInput").value =
+        "";
+
+    $("exerciseResult").textContent =
+        "";
 
 }
 
-else if(selectedType==="percentage"){
+function getExerciseCategory(type){
 
-const percentValues=
-difficulty==="hard"
-?[5,10,15,20,25,30,40,50]
-:[10,20,25,50];
+    const map = {
 
-const percent=
-percentValues[
-randomInt(
-0,
-percentValues.length-1
-)
-];
+        addition:"➕ جمع",
 
-const baseOptions=
-difficulty==="hard"
-?[100,200,300,400,500,800,1000]
-:[100,200,400,500];
+        subtraction:"➖ طرح",
 
-const base=
-baseOptions[
-randomInt(
-0,
-baseOptions.length-1
-)
-];
+        multiplication:"✖️ ضرب",
 
-answer=
-Number(
-(base*percent/100).toFixed(2)
-);
+        division:"➗ قسمة",
 
-question=
-currentLanguage==="ar"
-?`ما قيمة ${percent}% من ${base} ؟`
-:currentLanguage==="fr"
-?`Combien vaut ${percent}% de ${base} ?`
-:`What is ${percent}% of ${base}?`;
+        equation:"🔢 معادلة",
 
-solution=
-`${percent}% × ${base} = ${answer}`;
+        percentage:"📊 نسبة مئوية"
 
-}
+    };
 
-currentExercise={
-type:selectedType,
-question,
-answer,
-solution,
-answered:false
-};
-
-if($("exerciseQuestion")){
-$("exerciseQuestion").textContent=
-question;
-}
-
-if($("exerciseAnswer")){
-$("exerciseAnswer").value="";
-}
-
-setExerciseFeedback("");
-
-if($("exerciseSolution")){
-
-$("exerciseSolution").style.display=
-"none";
-
-$("exerciseSolution").textContent=
-`${t("solution")} ${solution}`;
-
-}
-
-updateExerciseStats();
-
-setTimeout(
-()=>$("exerciseAnswer")?.focus(),
-50
-);
+    return map[type] ||
+        "رياضيات";
 
 }
 
 function checkExercise(){
 
-if(!currentExercise){
+    if(!currentExercise)return;
 
-toast(t("newExerciseNeeded"));
+    const value =
+        Number(
+            $("answerInput").value
+        );
+
+    if(
+        $("answerInput").value === ""
+    ){
+
+        showToast(
+            "اكتب الإجابة أولًا"
+        );
+
+        return;
+
+    }
+
+    if(
+        Math.abs(
+            value -
+            currentExercise.answer
+        ) < 0.0001
+    ){
+
+        $("exerciseResult").textContent =
+            "✅ إجابة صحيحة!";
+
+        $("exerciseResult").style.color =
+            "var(--success)";
+
+        const today =
+            new Date()
+                .toISOString()
+                .slice(0,10);
+
+        if(
+            userData.lastSolved !== today
+        ){
+
+            userData.streak += 1;
+
+            userData.lastSolved =
+                today;
+
+        }
+
+        userData.solved += 1;
+
+        saveUserData();
+
+        addXP(10);
+
+        setTimeout(
+            createExercise,
+            800
+        );
+
+    }else{
+
+        $("exerciseResult").textContent =
+            "❌ إجابة غير صحيحة، حاول مرة أخرى.";
+
+        $("exerciseResult").style.color =
+            "var(--danger)";
+
+    }
+
+}
+
+$("checkAnswer")?.
+    addEventListener(
+        "click",
+        checkExercise
+    );
+
+$("newQuestion")?.
+    addEventListener(
+        "click",
+        createExercise
+    );
+
+$("answerInput")?.
+    addEventListener(
+        "keydown",
+        event=>{
+
+            if(event.key === "Enter"){
+
+                checkExercise();
+
+            }
+
+        }
+    );
 
 createExercise();
-
-return;
-
-}
-
-if(currentExercise.answered){
-
-toast(t("newExercise"));
-
-return;
-
-}
-
-const input=
-normalizeAnswer(
-$("exerciseAnswer")?.value
-);
-
-if(!input){
-
-setExerciseFeedback(
-t("emptyAnswer"),
-"error"
-);
-
-return;
-
-}
-
-if(
-answersEqual(
-input,
-currentExercise.answer
-)
-){
-
-currentExercise.answered=true;
-
-exerciseStreak++;
-exerciseScore+=10;
-
-localStorage.setItem(
-"hamou_exercise_score",
-String(exerciseScore)
-);
-
-localStorage.setItem(
-"hamou_streak",
-String(exerciseStreak)
-);
-
-addXP(10);
-
-setExerciseFeedback(
-t("correct"),
-"success"
-);
-
-if($("exerciseSolution")){
-$("exerciseSolution").style.display=
-"block";
-}
-
-}else{
-
-exerciseStreak=0;
-
-localStorage.setItem(
-"hamou_streak",
-"0"
-);
-
-setExerciseFeedback(
-t("wrong"),
-"error"
-);
-
-}
-
-updateExerciseStats();
-
-}
-
-$("checkExerciseBtn")?.addEventListener(
-"click",
-checkExercise
-);
-
-$("newExerciseBtn")?.addEventListener(
-"click",
-createExercise
-);
-
-$("showSolutionBtn")?.addEventListener(
-"click",
-()=>{
-
-if(!currentExercise){
-
-toast(t("newExerciseNeeded"));
-
-return;
-
-}
-
-if($("exerciseSolution")){
-
-$("exerciseSolution").style.display=
-"block";
-
-}
-
-}
-);
-
-$("exerciseAnswer")?.addEventListener(
-"keydown",
-event=>{
-
-if(event.key==="Enter"){
-
-event.preventDefault();
-
-checkExercise();
-
-}
-
-}
-);
-
-[
-"exerciseLevel",
-"exerciseType",
-"exerciseDifficulty"
-].forEach(id=>{
-
-$(id)?.addEventListener(
-"change",
-createExercise
-);
-
-});
 
 /* =========================================================
    FALLBACK LIBRARY
 ========================================================= */
 
-const fallbackResources=[
+const FALLBACK_RESOURCES = [
 
 {
-id:"fallback-openstax-ar",
-title:"OpenStax Calculus Volume 1",
-title_ar:"OpenStax — التفاضل والتكامل 1",
-title_fr:"OpenStax — Calcul différentiel et intégral 1",
-title_en:"OpenStax Calculus Volume 1",
-description:"كتاب مجاني مفتوح الوصول في الرياضيات والتفاضل والتكامل.",
-description_ar:"كتاب مجاني مفتوح الوصول في الرياضيات والتفاضل والتكامل.",
-description_fr:"Ressource gratuite et ouverte sur le calcul différentiel et intégral.",
-description_en:"Free open-access calculus resource.",
-language:"en",
-education:"university",
-type:"book",
-country:"International",
-views:0,
-is_paid:false,
-source_url:"https://openstax.org/details/books/calculus-volume-1",
-preview_url:"https://openstax.org/details/books/calculus-volume-1",
-file_url:"https://openstax.org/details/books/calculus-volume-1",
-created_at:"2026-01-01"
+    id:"fallback-one-course",
+    title:"One Course — كتب الرياضيات",
+    description:
+        "مكتبة تعليمية مجانية تضم كتبًا ومواد تعليمية في عدة مجالات ولغات.",
+    language:"ar",
+    country:"global",
+    education:"all",
+    type:"book",
+    price:0,
+    url:"https://one-course.com/ar/books",
+    created_at:"2026-01-01"
 },
 
 {
-id:"fallback-khan",
-title:"Khan Academy Mathematics",
-title_ar:"أكاديمية خان — الرياضيات",
-title_fr:"Khan Academy — Mathématiques",
-title_en:"Khan Academy Mathematics",
-description:"دروس وتمارين تفاعلية في الرياضيات.",
-description_ar:"دروس وتمارين تفاعلية في الرياضيات.",
-description_fr:"Cours et exercices interactifs de mathématiques.",
-description_en:"Interactive mathematics lessons and exercises.",
-language:"en",
-education:"all",
-type:"lesson",
-country:"International",
-views:0,
-is_paid:false,
-source_url:"https://www.khanacademy.org/math",
-preview_url:"https://www.khanacademy.org/math",
-file_url:"https://www.khanacademy.org/math",
-created_at:"2026-01-02"
+    id:"fallback-openstax-k12",
+    title:"OpenStax K12 Mathematics",
+    description:
+        "مصادر وكتب رياضيات تعليمية مجانية من OpenStax.",
+    language:"en",
+    country:"us",
+    education:"secondary",
+    type:"book",
+    price:0,
+    url:"https://openstax.org/k12/math",
+    created_at:"2026-01-02"
 },
 
 {
-id:"fallback-libretexts",
-title:"LibreTexts Mathematics",
-title_ar:"LibreTexts — الرياضيات",
-title_fr:"LibreTexts — Mathématiques",
-title_en:"LibreTexts Mathematics",
-description:"مصادر مفتوحة ومتنوعة في الرياضيات.",
-description_ar:"مصادر مفتوحة ومتنوعة في الرياضيات.",
-description_fr:"Ressources ouvertes en mathématiques.",
-description_en:"Open educational mathematics resources.",
-language:"en",
-education:"all",
-type:"book",
-country:"International",
-views:0,
-is_paid:false,
-source_url:"https://math.libretexts.org/",
-preview_url:"https://math.libretexts.org/",
-file_url:"https://math.libretexts.org/",
-created_at:"2026-01-03"
+    id:"fallback-intermediate-algebra",
+    title:"Intermediate Algebra 2e",
+    description:
+        "كتاب مجاني في الجبر المتوسط.",
+    language:"en",
+    country:"us",
+    education:"secondary",
+    type:"book",
+    price:0,
+    url:"https://openstax.org/books/intermediate-algebra-2e/pages/1-introduction",
+    created_at:"2026-01-03"
 },
 
 {
-id:"fallback-geogebra",
-title:"GeoGebra Mathematics",
-title_ar:"GeoGebra — الرياضيات التفاعلية",
-title_fr:"GeoGebra — Mathématiques interactives",
-title_en:"GeoGebra Mathematics",
-description:"أدوات تفاعلية للرسوم والهندسة والجبر.",
-description_ar:"أدوات تفاعلية للرسوم والهندسة والجبر.",
-description_fr:"Outils interactifs pour la géométrie et l'algèbre.",
-description_en:"Interactive tools for geometry and algebra.",
-language:"en",
-education:"all",
-type:"lesson",
-country:"International",
-views:0,
-is_paid:false,
-source_url:"https://www.geogebra.org/",
-preview_url:"https://www.geogebra.org/",
-file_url:"https://www.geogebra.org/",
-created_at:"2026-01-04"
+    id:"fallback-elementary-algebra",
+    title:"Elementary Algebra 2e",
+    description:
+        "كتاب مجاني في الجبر الأساسي.",
+    language:"en",
+    country:"us",
+    education:"secondary",
+    type:"book",
+    price:0,
+    url:"https://openstax.org/books/elementary-algebra-2e/pages/1-introduction",
+    created_at:"2026-01-04"
 },
 
 {
-id:"fallback-fr-maths",
-title:"Ressources Mathématiques Françaises",
-title_ar:"مصادر الرياضيات الفرنسية",
-title_fr:"Ressources Mathématiques Françaises",
-title_en:"French Mathematics Resources",
-description:"مجموعة من الموارد التعليمية الرياضية باللغة الفرنسية.",
-description_ar:"مجموعة من الموارد التعليمية الرياضية باللغة الفرنسية.",
-description_fr:"Ressources éducatives de mathématiques en français.",
-description_en:"Educational mathematics resources in French.",
-language:"fr",
-education:"secondary",
-type:"lesson",
-country:"France",
-views:0,
-is_paid:false,
-source_url:"https://www.education.gouv.fr/",
-preview_url:"https://www.education.gouv.fr/",
-file_url:"https://www.education.gouv.fr/",
-created_at:"2026-01-05"
+    id:"fallback-calculus1",
+    title:"Calculus Volume 1",
+    description:
+        "كتاب مجاني في التحليل والتفاضل والتكامل.",
+    language:"en",
+    country:"us",
+    education:"university",
+    type:"book",
+    price:0,
+    url:"https://openstax.org/books/calculus-volume-1/pages/1-introduction",
+    created_at:"2026-01-05"
 },
 
 {
-id:"fallback-ar-maths",
-title:"مصادر الرياضيات العربية",
-title_ar:"مصادر الرياضيات العربية",
-title_fr:"Ressources mathématiques arabes",
-title_en:"Arabic Mathematics Resources",
-description:"موارد تعليمية مفتوحة للرياضيات باللغة العربية.",
-description_ar:"موارد تعليمية مفتوحة للرياضيات باللغة العربية.",
-description_fr:"Ressources éducatives ouvertes en arabe.",
-description_en:"Open educational mathematics resources in Arabic.",
-language:"ar",
-education:"secondary",
-type:"lesson",
-country:"International",
-views:0,
-is_paid:false,
-source_url:"https://ar.wikipedia.org/wiki/رياضيات",
-preview_url:"https://ar.wikipedia.org/wiki/رياضيات",
-file_url:"https://ar.wikipedia.org/wiki/رياضيات",
-created_at:"2026-01-06"
+    id:"fallback-calculus3",
+    title:"Calculus Volume 3",
+    description:
+        "كتاب مجاني متقدم في التفاضل والتكامل.",
+    language:"en",
+    country:"us",
+    education:"university",
+    type:"book",
+    price:0,
+    url:"https://openstax.org/books/calculus-volume-3/pages/1-introduction",
+    created_at:"2026-01-06"
+},
+
+{
+    id:"fallback-libretexts",
+    title:"Mathematics LibreTexts",
+    description:
+        "مكتبة مفتوحة تضم مجموعة كبيرة من الموارد الرياضية.",
+    language:"en",
+    country:"us",
+    education:"all",
+    type:"website",
+    price:0,
+    url:"https://math.libretexts.org/",
+    created_at:"2026-01-07"
+},
+
+{
+    id:"fallback-basic-math",
+    title:"LibreTexts — Arithmetic & Basic Math",
+    description:
+        "مصادر مجانية للحساب والرياضيات الأساسية.",
+    language:"en",
+    country:"us",
+    education:"primary",
+    type:"book",
+    price:0,
+    url:"https://math.libretexts.org/Bookshelves/Arithmetic_and_Basic_Math",
+    created_at:"2026-01-08"
+},
+
+{
+    id:"fallback-geogebra",
+    title:"GeoGebra Mathematics",
+    description:
+        "أدوات تفاعلية لاستكشاف الرياضيات.",
+    language:"en",
+    country:"global",
+    education:"all",
+    type:"tool",
+    price:0,
+    url:"https://www.geogebra.org/math?lang=en",
+    created_at:"2026-01-09"
+},
+
+{
+    id:"fallback-geometry",
+    title:"GeoGebra Geometry",
+    description:
+        "أدوات تفاعلية للهندسة والأشكال والإنشاءات.",
+    language:"en",
+    country:"global",
+    education:"secondary",
+    type:"tool",
+    price:0,
+    url:"https://www.geogebra.org/math/geometry?lang=en",
+    created_at:"2026-01-10"
+},
+
+{
+    id:"fallback-khan",
+    title:"Khan Academy Mathematics",
+    description:
+        "دروس وتمارين رياضيات مجانية.",
+    language:"en",
+    country:"us",
+    education:"all",
+    type:"course",
+    price:0,
+    url:"https://www.khanacademy.org/math",
+    created_at:"2026-01-11"
+},
+
+{
+    id:"fallback-france",
+    title:"Ressources mathématiques — France",
+    description:
+        "موارد تعليمية رياضية من مصادر التعليم الفرنسية.",
+    language:"fr",
+    country:"fr",
+    education:"secondary",
+    type:"website",
+    price:0,
+    url:"https://www.education.gouv.fr/",
+    created_at:"2026-01-12"
+},
+
+{
+    id:"fallback-arabic",
+    title:"الرياضيات — مصادر عربية",
+    description:
+        "مصادر ومقالات عربية في مختلف مجالات الرياضيات.",
+    language:"ar",
+    country:"global",
+    education:"all",
+    type:"website",
+    price:0,
+    url:"https://ar.wikipedia.org/wiki/رياضيات",
+    created_at:"2026-01-13"
 }
 
 ];
@@ -3467,2698 +2845,1856 @@ created_at:"2026-01-06"
    RESOURCE NORMALIZATION
 ========================================================= */
 
-function parseBoolean(value){
-
-if(
-value===true ||
-value===1 ||
-value==="1"
-){
-return true;
-}
-
-if(
-typeof value==="string" &&
-[
-"true",
-"yes",
-"paid",
-"on"
-].includes(
-value.trim().toLowerCase()
-)
-){
-return true;
-}
-
-return false;
-
-}
+let resources = [];
 
 function normalizeLanguage(value){
 
-const v=
-safeString(value)
-.toLowerCase()
-.trim();
+    const v =
+        String(value || "")
+            .trim()
+            .toLowerCase();
 
-if([
-"ar",
-"arabic",
-"العربية",
-"عربي"
-].includes(v)){
-return "ar";
+    if(
+        v.includes("arab") ||
+        v.includes("عرب")
+    ) return "ar";
+
+    if(
+        v.includes("french") ||
+        v.includes("fran") ||
+        v === "fr"
+    ) return "fr";
+
+    if(
+        v.includes("english") ||
+        v.includes("anglais") ||
+        v === "en"
+    ) return "en";
+
+    if(
+        v.includes("span") ||
+        v === "es"
+    ) return "es";
+
+    if(
+        v.includes("german") ||
+        v.includes("allem") ||
+        v === "de"
+    ) return "de";
+
+    if(
+        v.includes("portug") ||
+        v === "pt"
+    ) return "pt";
+
+    if(
+        v.includes("turk") ||
+        v === "tr"
+    ) return "tr";
+
+    return v || "en";
+
 }
 
-if([
-"fr",
-"french",
-"français",
-"francais",
-"الفرنسية"
-].includes(v)){
-return "fr";
-}
+function normalizeCountry(value){
 
-if([
-"en",
-"english",
-"anglais",
-"الإنجليزية"
-].includes(v)){
-return "en";
-}
+    const v =
+        String(value || "")
+            .trim()
+            .toLowerCase();
 
-return v;
+    if(
+        v === "dz" ||
+        v.includes("alg") ||
+        v.includes("الجز")
+    ) return "dz";
+
+    if(
+        v === "fr" ||
+        v.includes("france") ||
+        v.includes("فرن")
+    ) return "fr";
+
+    if(
+        v === "us" ||
+        v.includes("united states") ||
+        v.includes("usa") ||
+        v.includes("america")
+    ) return "us";
+
+    if(
+        v === "uk" ||
+        v.includes("united kingdom") ||
+        v.includes("britain")
+    ) return "uk";
+
+    if(
+        v === "in" ||
+        v.includes("india")
+    ) return "in";
+
+    if(
+        v === "de" ||
+        v.includes("germany")
+    ) return "de";
+
+    if(
+        v === "es" ||
+        v.includes("spain")
+    ) return "es";
+
+    if(
+        v === "tr" ||
+        v.includes("turkey")
+    ) return "tr";
+
+    if(
+        v.includes("international") ||
+        v.includes("global") ||
+        v.includes("world")
+    ) return "global";
+
+    return v || "global";
 
 }
 
 function normalizeEducation(value){
 
-const v=
-safeString(value)
-.toLowerCase()
-.trim();
+    const v =
+        String(value || "")
+            .trim()
+            .toLowerCase();
 
-if([
-"primary",
-"primaire",
-"ابتدائي",
-"الابتدائي"
-].includes(v)){
-return "primary";
-}
+    if(
+        v.includes("primary") ||
+        v.includes("ابتد")
+    ) return "primary";
 
-if([
-"middle",
-"collège",
-"college",
-"متوسط",
-"المتوسط"
-].includes(v)){
-return "middle";
-}
+    if(
+        v.includes("middle") ||
+        v.includes("متوسط")
+    ) return "middle";
 
-if([
-"secondary",
-"lycée",
-"lycee",
-"ثانوي",
-"الثانوي"
-].includes(v)){
-return "secondary";
-}
+    if(
+        v.includes("secondary") ||
+        v.includes("ثان")
+    ) return "secondary";
 
-if([
-"university",
-"université",
-"universite",
-"جامعة",
-"الجامعة"
-].includes(v)){
-return "university";
-}
+    if(
+        v.includes("university") ||
+        v.includes("جامع")
+    ) return "university";
 
-if([
-"all",
-"mixed",
-"كل",
-"عام",
-"international"
-].includes(v)){
-return "all";
-}
-
-return v;
+    return "all";
 
 }
 
 function normalizeType(value){
 
-const v=
-safeString(value)
-.toLowerCase()
-.trim();
+    const v =
+        String(value || "")
+            .trim()
+            .toLowerCase();
 
-if([
-"lesson",
-"course",
-"cours",
-"درس"
-].includes(v)){
-return "lesson";
-}
+    if(
+        v.includes("book") ||
+        v.includes("كتاب")
+    ) return "book";
 
-if([
-"exercise",
-"exercice",
-"تمرين"
-].includes(v)){
-return "exercise";
-}
+    if(
+        v.includes("course") ||
+        v.includes("دورة")
+    ) return "course";
 
-if([
-"exam",
-"test",
-"examen",
-"اختبار"
-].includes(v)){
-return "exam";
-}
+    if(
+        v.includes("exercise") ||
+        v.includes("تمرين")
+    ) return "exercise";
 
-if([
-"book",
-"livre",
-"كتاب"
-].includes(v)){
-return "book";
-}
+    if(
+        v.includes("tool") ||
+        v.includes("أداة")
+    ) return "tool";
 
-if([
-"worksheet",
-"fiche",
-"ورقة",
-"ورقة عمل"
-].includes(v)){
-return "worksheet";
-}
+    if(
+        v.includes("website") ||
+        v.includes("site") ||
+        v.includes("موقع")
+    ) return "website";
 
-return v;
+    return "website";
 
 }
 
-function normalizeResource(r){
+function normalizeResource(item,index){
 
-const resource=r||{};
+    const title =
+        item.title ||
+        item.name ||
+        `مورد رياضيات ${index+1}`;
 
-return{
+    const description =
+        item.description ||
+        item.summary ||
+        "مورد تعليمي في الرياضيات.";
 
-...resource,
+    const url =
+        item.url ||
+        item.link ||
+        item.source_url ||
+        item.external_url ||
+        "#";
 
-id:
-safeString(resource.id)||
-`resource-${Math.random()
-.toString(36)
-.slice(2)}`,
+    const price =
+        Number(
+            item.price ??
+            item.amount ??
+            0
+        ) || 0;
 
-title:safeString(resource.title),
+    return {
 
-title_ar:safeString(
-resource.title_ar
-),
+        id:String(
+            item.id ||
+            item.slug ||
+            `resource-${index}`
+        ),
 
-title_fr:safeString(
-resource.title_fr
-),
+        title,
 
-title_en:safeString(
-resource.title_en
-),
+        description,
 
-description:
-safeString(resource.description),
+        language:
+            normalizeLanguage(
+                item.language ||
+                item.lang
+            ),
 
-description_ar:
-safeString(resource.description_ar),
+        country:
+            normalizeCountry(
+                item.country ||
+                item.country_code
+            ),
 
-description_fr:
-safeString(resource.description_fr),
+        education:
+            normalizeEducation(
+                item.education ||
+                item.education_level
+            ),
 
-description_en:
-safeString(resource.description_en),
+        type:
+            normalizeType(
+                item.type ||
+                item.resource_type
+            ),
 
-language:
-normalizeLanguage(
-resource.language
-),
+        price,
 
-education:
-normalizeEducation(
-resource.education
-),
+        url,
 
-type:
-normalizeType(
-resource.type
-),
+        created_at:
+            item.created_at ||
+            item.date ||
+            "2026-01-01",
 
-country:
-safeString(resource.country),
+        thumbnail:
+            item.thumbnail ||
+            item.image ||
+            ""
 
-subject:
-safeString(resource.subject),
-
-topic:
-safeString(resource.topic),
-
-chapter:
-safeString(resource.chapter),
-
-tags:
-safeString(resource.tags),
-
-views:
-Number(resource.views)||0,
-
-downloads:
-Number(resource.downloads)||0,
-
-featured:
-parseBoolean(resource.featured),
-
-verified:
-parseBoolean(resource.verified),
-
-is_paid:
-parseBoolean(
-resource.is_paid ??
-resource.paid
-),
-
-price_dzd:
-Number(resource.price_dzd)||0,
-
-price_eur:
-Number(resource.price_eur)||0,
-
-price_usd:
-Number(resource.price_usd)||0,
-
-currency:
-safeString(resource.currency),
-
-payment_url:
-safeString(
-resource.payment_url||
-resource.paymentUrl
-),
-
-license:
-safeString(resource.license),
-
-source_url:
-safeString(
-resource.source_url||
-resource.sourceUrl
-),
-
-fileUrl:
-safeString(
-resource.file_url||
-resource.fileUrl||
-resource.download_url||
-resource.downloadUrl||
-resource.file
-),
-
-previewUrl:
-safeString(
-resource.preview_url||
-resource.previewUrl||
-resource.preview_file_url||
-resource.file_url||
-resource.fileUrl
-),
-
-downloadUrl:
-safeString(
-resource.download_url||
-resource.downloadUrl||
-resource.file_url||
-resource.fileUrl
-),
-
-storagePath:
-safeString(
-resource.storage_path||
-resource.storagePath||
-resource.file_path||
-resource.filePath||
-resource.path
-),
-
-storageBucket:
-safeString(
-resource.storage_bucket||
-resource.storageBucket||
-resource.bucket
-),
-
-created_at:
-resource.created_at||
-resource.createdAt||
-null
-
-};
+    };
 
 }
 
 /* =========================================================
-   STORAGE
+   FETCH RESOURCES
 ========================================================= */
-
-function buildStorageUrl(
-bucket,
-path
-){
-
-const cleanBucket=
-safeString(bucket);
-
-const cleanPath=
-safeString(path)
-.replace(/^\/+/,"");
-
-if(
-!cleanBucket ||
-!cleanPath
-){
-return "";
-}
-
-return `${SUPABASE_URL}/storage/v1/object/public/${encodeURIComponent(cleanBucket)}/${cleanPath.split("/").map(encodeURIComponent).join("/")}`;
-
-}
-
-function resolveResourceUrl(
-resource,
-mode="open"
-){
-
-if(!resource)return "";
-
-const candidates=
-mode==="download"
-?[
-resource.downloadUrl,
-resource.fileUrl,
-resource.previewUrl,
-resource.source_url
-]
-:[
-resource.previewUrl,
-resource.fileUrl,
-resource.downloadUrl,
-resource.source_url
-];
-
-for(
-const value of candidates
-){
-
-const url=
-safeString(value);
-
-if(
-/^https?:\/\//i.test(url)
-){
-return url;
-}
-
-}
-
-if(resource.storagePath){
-
-return buildStorageUrl(
-resource.storageBucket||
-CONFIG.storageBucket,
-resource.storagePath
-);
-
-}
-
-return "";
-
-}
-
-/* =========================================================
-   LIBRARY
-========================================================= */
-
-let currentResources=[];
-
-let filteredResources=[];
-
-let currentResource=null;
-
-let libraryPage=0;
 
 async function fetchResources(){
 
-const status=
-$("libraryStatus");
+    let databaseResources = [];
 
-if(status){
-status.textContent=
-t("loading");
-}
+    if(supabaseClient){
 
-try{
+        try{
 
-if(!supabaseClient){
+            const {
+                data,
+                error
+            } =
+                await supabaseClient
+                    .from("math_resources")
+                    .select("*")
+                    .limit(500);
 
-currentResources=
-fallbackResources.map(
-normalizeResource
-);
+            if(
+                !error &&
+                Array.isArray(data)
+            ){
 
-updateResourceStats();
+                databaseResources =
+                    data;
 
-renderResources();
+            }
 
-return;
+        }catch(error){
 
-}
+            console.warn(
+                "Library database error:",
+                error
+            );
 
-const result=
-await supabaseClient
-.from("math_resources")
-.select("*")
-.limit(500);
+        }
 
-if(result.error){
-throw result.error;
-}
+    }
 
-const databaseResources=
-Array.isArray(result.data)
-?result.data
-:[];
+    const db =
+        databaseResources.map(
+            normalizeResource
+        );
 
-const normalized=
-databaseResources
-.map(normalizeResource)
-.filter(
-resource=>resource.id
-);
+    const fallback =
+        FALLBACK_RESOURCES.map(
+            normalizeResource
+        );
 
-currentResources=
-normalized.length
-?normalized
-:fallbackResources.map(
-normalizeResource
-);
+    const combined = [
+        ...db,
+        ...fallback
+    ];
 
-updateResourceStats();
+    const seen =
+        new Set();
 
-renderResources();
+    resources =
+        combined.filter(resource=>{
 
-}catch(error){
+            const key =
+                resource.url !== "#"
+                    ? resource.url
+                    : resource.id;
 
-console.warn(
-"HAMOU MATH library error:",
-error
-);
+            if(seen.has(key)){
 
-currentResources=
-fallbackResources.map(
-normalizeResource
-);
+                return false;
 
-updateResourceStats();
+            }
 
-renderResources();
+            seen.add(key);
 
-}
+            return true;
 
-}
+        });
 
-function updateResourceStats(){
+    $("libraryLoading")?.
+        classList.add("hidden");
 
-if($("resourcesCount")){
+    $("statResources").textContent =
+        resources.length;
 
-$("resourcesCount").textContent=
-`${formatNumber(
-currentResources.length
-)}+`;
+    renderResources();
 
 }
 
-}
-
-function updateExerciseCount(){
-
-if($("exercisesCount")){
-
-$("exercisesCount").textContent=
-"∞";
-
-}
-
-}
-
-function resourceTitle(resource){
-
-return resource[
-`title_${currentLanguage}`
-]||
-resource.title||
-resource.title_ar||
-resource.title_fr||
-resource.title_en||
-"HAMOU MATH";
-
-}
-
-function resourceDescription(
-resource
-){
-
-return resource[
-`description_${currentLanguage}`
-]||
-resource.description||
-resource.description_ar||
-resource.description_fr||
-resource.description_en||
-"";
-
-}
-
-function localizedType(type){
-
-const map={
-
-lesson:{
-ar:"درس",
-fr:"Cours",
-en:"Lesson"
-},
-
-exercise:{
-ar:"تمرين",
-fr:"Exercice",
-en:"Exercise"
-},
-
-exam:{
-ar:"اختبار",
-fr:"Examen",
-en:"Exam"
-},
-
-book:{
-ar:"كتاب",
-fr:"Livre",
-en:"Book"
-},
-
-worksheet:{
-ar:"ورقة عمل",
-fr:"Fiche",
-en:"Worksheet"
-}
-
-};
-
-return map[type]?.[
-currentLanguage
-]||
-type||
-"Resource";
-
-}
+/* =========================================================
+   FILTERS
+========================================================= */
 
 function getFilters(){
 
-return{
+    return {
 
-search:
-$("librarySearch")
-?.value
-.trim()
-.toLowerCase()||
-"",
+        search:
+            $("librarySearch")
+                ?.value
+                .trim()
+                .toLowerCase() || "",
 
-language:
-$("filterLanguage")?.value||
-"",
+        country:
+            $("filterCountry")
+                ?.value || "",
 
-education:
-$("filterEducation")?.value||
-"",
+        language:
+            $("filterLanguage")
+                ?.value || "",
 
-type:
-$("filterType")?.value||
-"",
+        education:
+            $("filterEducation")
+                ?.value || "",
 
-price:
-$("filterPrice")?.value||
-"",
+        type:
+            $("filterType")
+                ?.value || "",
 
-sort:
-$("filterSort")?.value||
-"newest"
+        price:
+            $("filterPrice")
+                ?.value || "",
 
-};
+        sort:
+            $("filterSort")
+                ?.value || "newest"
 
-}
-
-function resourceMatches(
-resource,
-filters
-){
-
-if(filters.search){
-
-const haystack=[
-
-resource.title,
-resource.title_ar,
-resource.title_fr,
-resource.title_en,
-
-resource.description,
-resource.description_ar,
-resource.description_fr,
-resource.description_en,
-
-resource.subject,
-resource.topic,
-resource.chapter,
-resource.tags,
-resource.country
-
-]
-.join(" ")
-.toLowerCase();
-
-if(
-!haystack.includes(
-filters.search
-)
-){
-return false;
-}
+    };
 
 }
 
-if(
-filters.language &&
-resource.language!==filters.language
-){
-return false;
+function filterResources(){
+
+    const filters =
+        getFilters();
+
+    let list =
+        resources.filter(resource=>{
+
+            const text = [
+
+                resource.title,
+
+                resource.description,
+
+                resource.language,
+
+                resource.country,
+
+                resource.education,
+
+                resource.type
+
+            ]
+            .join(" ")
+            .toLowerCase();
+
+            if(
+                filters.search &&
+                !text.includes(
+                    filters.search
+                )
+            ){
+
+                return false;
+
+            }
+
+            if(
+                filters.country &&
+                resource.country !==
+                filters.country
+            ){
+
+                return false;
+
+            }
+
+            if(
+                filters.language &&
+                resource.language !==
+                filters.language
+            ){
+
+                return false;
+
+            }
+
+            if(
+                filters.education &&
+                resource.education !==
+                filters.education &&
+                resource.education !== "all"
+            ){
+
+                return false;
+
+            }
+
+            if(
+                filters.type &&
+                resource.type !==
+                filters.type
+            ){
+
+                return false;
+
+            }
+
+            if(
+                filters.price === "free" &&
+                resource.price > 0
+            ){
+
+                return false;
+
+            }
+
+            if(
+                filters.price === "paid" &&
+                resource.price <= 0
+            ){
+
+                return false;
+
+            }
+
+            return true;
+
+        });
+
+    if(
+        filters.sort === "az"
+    ){
+
+        list.sort(
+            (a,b)=>
+                a.title.localeCompare(
+                    b.title,
+                    "ar"
+                )
+        );
+
+    }
+
+    else if(
+        filters.sort === "oldest"
+    ){
+
+        list.sort(
+            (a,b)=>
+                new Date(a.created_at) -
+                new Date(b.created_at)
+        );
+
+    }
+
+    else if(
+        filters.sort === "price"
+    ){
+
+        list.sort(
+            (a,b)=>
+                a.price-b.price
+        );
+
+    }
+
+    else{
+
+        list.sort(
+            (a,b)=>
+                new Date(b.created_at) -
+                new Date(a.created_at)
+        );
+
+    }
+
+    return list;
+
 }
 
-if(
-filters.education &&
-resource.education!=="all" &&
-resource.education!==filters.education
-){
-return false;
-}
+/* =========================================================
+   RESOURCE LABELS
+========================================================= */
 
-if(
-filters.type &&
-resource.type!==filters.type
-){
-return false;
-}
+function languageLabel(value){
 
-if(
-filters.price==="free" &&
-resource.is_paid
-){
-return false;
-}
+    const map = {
 
-if(
-filters.price==="paid" &&
-!resource.is_paid
-){
-return false;
-}
+        ar:"العربية",
+        fr:"الفرنسية",
+        en:"الإنجليزية",
+        es:"الإسبانية",
+        de:"الألمانية",
+        pt:"البرتغالية",
+        tr:"التركية"
 
-return true;
+    };
+
+    return map[value] ||
+        value ||
+        "غير محددة";
 
 }
 
-function sortResources(
-list,
-sort
-){
+function countryLabel(value){
 
-return [...list].sort(
-(a,b)=>{
+    const map = {
 
-if(sort==="popular"){
+        global:"🌎 دولية",
+        dz:"🇩🇿 الجزائر",
+        fr:"🇫🇷 فرنسا",
+        us:"🇺🇸 الولايات المتحدة",
+        uk:"🇬🇧 بريطانيا",
+        in:"🇮🇳 الهند",
+        de:"🇩🇪 ألمانيا",
+        es:"🇪🇸 إسبانيا",
+        tr:"🇹🇷 تركيا"
 
-return (
-b.views||0
-)-
-(
-a.views||0
-);
+    };
 
-}
-
-if(sort==="az"){
-
-return resourceTitle(a)
-.localeCompare(
-resourceTitle(b),
-currentLanguage
-);
+    return map[value] ||
+        value ||
+        "دولي";
 
 }
 
-const da=
-new Date(
-a.created_at||0
-).getTime();
+function educationLabel(value){
 
-const db=
-new Date(
-b.created_at||0
-).getTime();
+    const map = {
 
-return db-da;
+        primary:"ابتدائي",
+        middle:"متوسط",
+        secondary:"ثانوي",
+        university:"جامعي",
+        all:"جميع المستويات"
+
+    };
+
+    return map[value] ||
+        "جميع المستويات";
 
 }
-);
+
+function typeLabel(value){
+
+    const map = {
+
+        book:"كتاب",
+        course:"دورة",
+        exercise:"تمارين",
+        tool:"أداة",
+        website:"موقع"
+
+    };
+
+    return map[value] ||
+        value;
 
 }
+
+/* =========================================================
+   RENDER RESOURCES
+========================================================= */
 
 function renderResources(){
 
-const grid=$("resourcesGrid");
+    const grid =
+        $("libraryGrid");
 
-const status=$("libraryStatus");
+    if(!grid)return;
 
-if(!grid)return;
+    const list =
+        filterResources();
 
-const filters=
-getFilters();
+    grid.innerHTML = "";
 
-filteredResources=
-sortResources(
-currentResources.filter(
-resource=>
-resourceMatches(
-resource,
-filters
-)
-),
-filters.sort
-);
+    $("libraryEmpty")?.
+        classList.toggle(
+            "hidden",
+            list.length !== 0
+        );
 
-const visible=
-filteredResources.slice(
-0,
-(libraryPage+1)*
-CONFIG.pageSize
-);
+    list
+        .slice(0,500)
+        .forEach(resource=>{
 
-grid.innerHTML="";
+            const favorite =
+                userData.favorites
+                    .includes(resource.id);
 
-if(!visible.length){
+            const card =
+                document.createElement(
+                    "article"
+                );
 
-if(status){
-status.textContent=
-t("noResources");
+            card.className =
+                "resource-card";
+
+            const icon =
+                resource.type === "book"
+                    ? "📖"
+                    : resource.type === "course"
+                    ? "🎓"
+                    : resource.type === "tool"
+                    ? "🧮"
+                    : "📘";
+
+            const priceText =
+                resource.price > 0
+                    ? `${resource.price} DA`
+                    : "مجاني";
+
+            card.innerHTML = `
+
+                <div class="resource-top">
+
+                    <div class="resource-icon">
+                        ${icon}
+                    </div>
+
+                    <button
+                        class="favorite-btn ${favorite ? "active":""}"
+                        type="button"
+                        data-favorite="${escapeHTML(resource.id)}"
+                        aria-label="المفضلة">
+
+                        ${favorite ? "♥" : "♡"}
+
+                    </button>
+
+                </div>
+
+                <div class="resource-title">
+                    ${escapeHTML(resource.title)}
+                </div>
+
+                <div class="resource-description">
+                    ${escapeHTML(resource.description)}
+                </div>
+
+                <div class="resource-meta">
+
+                    <span class="badge">
+                        ${escapeHTML(
+                            languageLabel(
+                                resource.language
+                            )
+                        )}
+                    </span>
+
+                    <span class="badge">
+                        ${escapeHTML(
+                            countryLabel(
+                                resource.country
+                            )
+                        )}
+                    </span>
+
+                    <span class="badge">
+                        ${escapeHTML(
+                            educationLabel(
+                                resource.education
+                            )
+                        )}
+                    </span>
+
+                    <span class="badge">
+                        ${escapeHTML(priceText)}
+                    </span>
+
+                </div>
+
+                <div class="resource-actions">
+
+                    <button
+                        class="btn btn-primary"
+                        type="button"
+                        data-open-resource="${escapeHTML(resource.id)}">
+
+                        ${resource.price > 0
+                            ? "فتح المورد"
+                            : "فتح"}
+
+                    </button>
+
+                    <button
+                        class="btn btn-secondary"
+                        type="button"
+                        data-source-resource="${escapeHTML(resource.id)}">
+
+                        المصدر
+
+                    </button>
+
+                </div>
+            `;
+
+            grid.appendChild(card);
+
+        });
+
+    bindResourceButtons();
+
 }
 
-if($("loadMore")){
-$("loadMore").style.display=
-"none";
+function bindResourceButtons(){
+
+    document.querySelectorAll(
+        "[data-favorite]"
+    ).forEach(button=>{
+
+        button.addEventListener(
+            "click",
+            ()=>{
+
+                toggleFavorite(
+                    button.dataset.favorite
+                );
+
+            }
+        );
+
+    });
+
+    document.querySelectorAll(
+        "[data-open-resource]"
+    ).forEach(button=>{
+
+        button.addEventListener(
+            "click",
+            ()=>{
+
+                openResource(
+                    button.dataset.openResource
+                );
+
+            }
+        );
+
+    });
+
+    document.querySelectorAll(
+        "[data-source-resource]"
+    ).forEach(button=>{
+
+        button.addEventListener(
+            "click",
+            ()=>{
+
+                openResourceSource(
+                    button.dataset.sourceResource
+                );
+
+            }
+        );
+
+    });
+
 }
 
-return;
+function findResource(id){
+
+    return resources.find(
+        resource =>
+            String(resource.id) ===
+            String(id)
+    );
 
 }
 
-if(status){
+function toggleFavorite(id){
 
-status.textContent=
-`${formatNumber(
-visible.length
-)} / ${formatNumber(
-filteredResources.length
-)}`;
+    const index =
+        userData.favorites.indexOf(id);
 
-}
+    if(index >= 0){
 
-visible.forEach(resource=>{
+        userData.favorites.splice(
+            index,
+            1
+        );
 
-const card=
-document.createElement(
-"article"
-);
+        showToast(
+            "تمت إزالة المورد من المفضلة"
+        );
 
-card.className=
-"resource-card";
+    }else{
 
-const favorite=
-localStorage.getItem(
-`hamou_fav_${resource.id}`
-)==="1";
+        userData.favorites.push(id);
 
-let priceText=
-resource.is_paid
-?`${formatNumber(
-resource.price_dzd
-)} DZD`
-:t("freeResource");
+        showToast(
+            "❤️ تمت إضافة المورد للمفضلة"
+        );
 
-if(
-resource.is_paid &&
-resource.price_dzd<=0
-){
+    }
 
-priceText=
-t("paidResource");
+    saveUserData();
+
+    renderResources();
 
 }
 
-card.innerHTML=`
+function openResource(id){
 
-<div class="resource-top">
+    const resource =
+        findResource(id);
 
-<span class="resource-type">
-${escapeHTML(
-localizedType(
-resource.type
-)
-)}
-</span>
+    if(!resource)return;
 
-<h3>
-${escapeHTML(
-resourceTitle(resource)
-)}
-</h3>
+    $("resourceModalTitle").textContent =
+        resource.title;
 
-<p class="resource-description">
-${escapeHTML(
-resourceDescription(resource)
-)}
-</p>
+    $("resourceModalDescription").textContent =
+        resource.description;
 
-</div>
+    $("resourceModalMeta").innerHTML = `
 
-<div class="resource-meta">
+        <span class="badge">
+            ${escapeHTML(
+                languageLabel(
+                    resource.language
+                )
+            )}
+        </span>
 
-${
-resource.language
-?`
-<span class="meta">
-${escapeHTML(
-resource.language.toUpperCase()
-)}
-</span>
-`
-:""
+        <span class="badge">
+            ${escapeHTML(
+                countryLabel(
+                    resource.country
+                )
+            )}
+        </span>
+
+        <span class="badge">
+            ${escapeHTML(
+                educationLabel(
+                    resource.education
+                )
+            )}
+        </span>
+
+        <span class="badge">
+            ${resource.price > 0
+                ? `${resource.price} DA`
+                : "مجاني"}
+        </span>
+
+    `;
+
+    const openButton =
+        $("resourceOpenBtn");
+
+    const sourceButton =
+        $("resourceDownloadBtn");
+
+    openButton.onclick =
+        ()=>{
+
+            if(resource.price > 0){
+
+                showToast(
+                    "المورد المدفوع يحتاج إلى إتمام الدفع."
+                );
+
+                startPayment(resource);
+
+                return;
+
+            }
+
+            const url =
+                safeURL(resource.url);
+
+            if(url === "#"){
+
+                showToast(
+                    "رابط المورد غير صالح."
+                );
+
+                return;
+
+            }
+
+            window.location.href =
+                url;
+
+        };
+
+    sourceButton.onclick =
+        ()=>{
+
+            const url =
+                safeURL(resource.url);
+
+            if(url === "#"){
+
+                showToast(
+                    "رابط المصدر غير صالح."
+                );
+
+                return;
+
+            }
+
+            window.location.href =
+                url;
+
+        };
+
+    openModal(
+        "resourceModal"
+    );
+
 }
 
-${
-resource.education &&
-resource.education!=="all"
-?`
-<span class="meta">
-${escapeHTML(
-resource.education
-)}
-</span>
-`
-:""
+function openResourceSource(id){
+
+    const resource =
+        findResource(id);
+
+    if(!resource)return;
+
+    const url =
+        safeURL(resource.url);
+
+    if(url === "#"){
+
+        showToast(
+            "رابط المصدر غير صالح."
+        );
+
+        return;
+
+    }
+
+    window.location.href =
+        url;
+
 }
 
-${
-resource.country
-?`
-<span class="meta">
-🌍 ${escapeHTML(
-resource.country
-)}
-</span>
-`
-:""
-}
+/* =========================================================
+   FILTER EVENTS
+========================================================= */
 
-<span class="meta">
-👁 ${formatNumber(
-resource.views
-)}
-</span>
+[
+    "librarySearch",
+    "filterCountry",
+    "filterLanguage",
+    "filterEducation",
+    "filterType",
+    "filterPrice",
+    "filterSort"
+]
+.forEach(id=>{
 
-</div>
+    $(id)?.addEventListener(
+        "input",
+        renderResources
+    );
 
-<div class="resource-price">
-${escapeHTML(
-priceText
-)}
-</div>
-
-<div class="resource-actions">
-
-<button
-class="view-btn"
-data-resource-id="${escapeHTML(
-String(resource.id)
-)}">
-${
-resource.is_paid
-?t("paidResource")
-:t("openResource")
-}
-</button>
-
-<button
-class="favorite-btn"
-data-favorite-id="${escapeHTML(
-String(resource.id)
-)}"
-aria-label="Favorite">
-${favorite?"❤️":"♡"}
-</button>
-
-</div>
-`;
-
-card.querySelector(
-"[data-resource-id]"
-)?.addEventListener(
-"click",
-()=>openResource(resource)
-);
-
-card.querySelector(
-"[data-favorite-id]"
-)?.addEventListener(
-"click",
-()=>toggleFavorite(resource)
-);
-
-grid.appendChild(card);
+    $(id)?.addEventListener(
+        "change",
+        renderResources
+    );
 
 });
-
-if($("loadMore")){
-
-$("loadMore").style.display=
-visible.length<
-filteredResources.length
-?"inline-flex"
-:"none";
-
-}
-
-}
-
-function toggleFavorite(
-resource
-){
-
-const key=
-`hamou_fav_${resource.id}`;
-
-const exists=
-localStorage.getItem(key)==="1";
-
-if(exists){
-
-localStorage.removeItem(key);
-
-toast("♡");
-
-}else{
-
-localStorage.setItem(
-key,
-"1"
-);
-
-addXP(2);
-
-toast("❤️ +2 XP");
-
-}
-
-renderResources();
-
-}
-
-async function openResource(
-resource
-){
-
-if(!resource)return;
-
-currentResource=resource;
-
-if($("resourceModalTitle")){
-
-$("resourceModalTitle").textContent=
-resourceTitle(resource);
-
-}
-
-if($("resourceModalDescription")){
-
-$("resourceModalDescription").textContent=
-resourceDescription(resource);
-
-}
-
-if($("resourceModalMeta")){
-
-$("resourceModalMeta").innerHTML=`
-
-<div
-class="resource-meta"
-style="padding:15px 0 0">
-
-<span class="meta">
-${escapeHTML(
-localizedType(
-resource.type
-)
-)}
-</span>
-
-${
-resource.language
-?`
-<span class="meta">
-${escapeHTML(
-resource.language.toUpperCase()
-)}
-</span>
-`
-:""
-}
-
-<span class="meta">
-${
-resource.is_paid
-?`${formatNumber(
-resource.price_dzd
-)} DZD`
-:t("free")
-}
-</span>
-
-${
-resource.license
-?`
-<span class="meta">
-${escapeHTML(
-resource.license
-)}
-</span>
-`
-:""
-}
-
-</div>
-`;
-
-}
-
-if($("resourceOpenBtn")){
-
-$("resourceOpenBtn").textContent=
-resource.is_paid
-?t("paidResource")
-:t("openResource");
-
-}
-
-openModal("resourceModal");
-
-trackResourceView(resource);
-
-}
-
-async function trackResourceView(
-resource
-){
-
-if(
-!supabaseClient ||
-!resource?.id ||
-String(
-resource.id
-).startsWith("fallback-")
-){
-return;
-}
-
-try{
-
-await supabaseClient.rpc(
-"increment_resource_view",
-{
-resource_id:resource.id
-}
-);
-
-}catch(error){
-
-console.warn(
-"View tracking unavailable",
-error
-);
-
-}
-
-}
-
-/* =========================================================
-   AUTH SESSION
-========================================================= */
-
-async function getCurrentSession(){
-
-if(!supabaseClient){
-return null;
-}
-
-try{
-
-const result=
-await supabaseClient.auth.getSession();
-
-return result?.data?.session||
-null;
-
-}catch(error){
-
-console.warn(
-"Session error:",
-error
-);
-
-return null;
-
-}
-
-}
-
-async function requireSession(){
-
-const session=
-await getCurrentSession();
-
-if(!session?.access_token){
-
-toast(
-t("paymentLoginRequired")
-);
-
-openAuthModal();
-
-return null;
-
-}
-
-return session;
-
-}
-
-/* =========================================================
-   PAYMENT STATUS
-========================================================= */
-
-async function checkPaymentStatus(
-resourceId
-){
-
-if(
-!resourceId ||
-!supabaseClient
-){
-return {
-paid:false,
-status:"unknown"
-};
-}
-
-const session=
-await getCurrentSession();
-
-if(!session?.access_token){
-
-return {
-paid:false,
-status:"unauthenticated"
-};
-
-}
-
-try{
-
-const response=
-await fetch(
-`${CONFIG.paymentStatusEndpoint}?resourceId=${encodeURIComponent(
-String(resourceId)
-)}`,
-{
-method:"GET",
-headers:{
-"Authorization":
-`Bearer ${session.access_token}`,
-"Accept":
-"application/json"
-},
-cache:"no-store"
-}
-);
-
-const data=
-await response
-.json()
-.catch(()=>({}));
-
-if(!response.ok){
-
-return{
-paid:false,
-status:
-data?.status||
-"error"
-};
-
-}
-
-return{
-
-paid:
-data?.paid===true ||
-data?.status==="paid",
-
-status:
-data?.status||
-(data?.paid?"paid":"pending"),
-
-data
-
-};
-
-}catch(error){
-
-console.warn(
-"Payment status error:",
-error
-);
-
-return{
-paid:false,
-status:"error"
-};
-
-}
-
-}
-
-async function waitForPayment(
-resource
-){
-
-if(!resource?.id){
-return false;
-}
-
-const session=
-await getCurrentSession();
-
-if(!session){
-
-openAuthModal();
-
-return false;
-
-}
-
-toast(t("paymentPending"));
-
-for(
-let attempt=0;
-attempt<CONFIG.paymentPollAttempts;
-attempt++
-){
-
-const result=
-await checkPaymentStatus(
-resource.id
-);
-
-if(result.paid){
-
-toast(
-t("paymentSuccess")
-);
-
-return true;
-
-}
-
-if(
-attempt<
-CONFIG.paymentPollAttempts-1
-){
-
-await sleep(
-CONFIG.paymentPollDelay
-);
-
-}
-
-}
-
-toast(
-t("paymentFailed")
-);
-
-return false;
-
-}
 
 /* =========================================================
    PAYMENT
 ========================================================= */
 
-async function startPayment(
-resource
-){
+async function startPayment(resource){
 
-if(!resource){
-return;
-}
+    if(!resource)return;
 
-/*
- * A direct payment_url is intentionally NOT used
- * when it is available from the database unless the
- * application has no backend payment endpoint.
- *
- * This prevents bypassing the authenticated payment flow.
- */
+    if(
+        !CONFIG.paymentEndpoint
+    ){
 
-const session=
-await requireSession();
+        showToast(
+            "الدفع غير مفعّل حاليًا."
+        );
 
-if(!session){
-return;
-}
+        return;
 
-/*
- * First check whether the user already paid.
- */
+    }
 
-const existing=
-await checkPaymentStatus(
-resource.id
-);
+    try{
 
-if(existing.paid){
+        const response =
+            await fetch(
+                CONFIG.paymentEndpoint,
+                {
+                    method:"POST",
 
-toast(
-t("paymentAlreadyPaid")
-);
+                    headers:{
+                        "Content-Type":
+                            "application/json"
+                    },
 
-closeModal("resourceModal");
+                    body:JSON.stringify({
+                        resourceId:
+                            resource.id,
 
-const url=
-resolveResourceUrl(
-resource,
-"open"
-);
+                        amount:
+                            resource.price
+                    })
+                }
+            );
 
-if(url){
+        if(!response.ok){
 
-window.location.href=url;
+            throw new Error(
+                "Payment request failed"
+            );
 
-}else{
+        }
 
-toast(
-t("resourceUnavailable")
-);
+        const data =
+            await response.json();
 
-}
+        if(data.url){
 
-return;
+            window.location.href =
+                data.url;
 
-}
+            return;
 
-try{
+        }
 
-const response=
-await fetch(
-CONFIG.paymentEndpoint,
-{
-method:"POST",
+        if(data.checkout_url){
 
-headers:{
-"Content-Type":
-"application/json",
+            window.location.href =
+                data.checkout_url;
 
-"Authorization":
-`Bearer ${session.access_token}`,
+            return;
 
-"Accept":
-"application/json"
-},
+        }
 
-body:JSON.stringify({
-resourceId:
-resource.id
-})
-}
-);
+        showToast(
+            "تم إرسال طلب الدفع."
+        );
 
-const data=
-await response
-.json()
-.catch(()=>({}));
+    }catch(error){
 
-if(
-!response.ok ||
-!data.checkout_url
-){
+        console.error(error);
 
-throw new Error(
-data.error||
-"Payment unavailable"
-);
+        showToast(
+            "تعذر بدء عملية الدفع."
+        );
+
+    }
 
 }
-
-window.location.href=
-data.checkout_url;
-
-}catch(error){
-
-console.error(
-"Payment error:",
-error
-);
-
-toast(
-error?.message||
-t("paymentNotConfigured")
-);
-
-}
-
-}
-
-async function openCurrentResource(){
-
-if(!currentResource){
-return;
-}
-
-/*
- * FREE RESOURCE
- */
-
-if(!currentResource.is_paid){
-
-const url=
-resolveResourceUrl(
-currentResource,
-"open"
-);
-
-if(!url){
-
-toast(
-t("resourceUnavailable")
-);
-
-return;
-
-}
-
-closeModal("resourceModal");
-
-/*
- * Using location for mobile reliability.
- * It avoids popup blockers after async operations.
- */
-
-window.location.href=url;
-
-return;
-
-}
-
-/*
- * PAID RESOURCE
- */
-
-const session=
-await getCurrentSession();
-
-if(!session){
-
-openAuthModal();
-
-return;
-
-}
-
-const payment=
-await checkPaymentStatus(
-currentResource.id
-);
-
-if(payment.paid){
-
-const url=
-resolveResourceUrl(
-currentResource,
-"open"
-);
-
-if(!url){
-
-toast(
-t("resourceUnavailable")
-);
-
-return;
-
-}
-
-closeModal("resourceModal");
-
-window.location.href=url;
-
-return;
-
-}
-
-await startPayment(
-currentResource
-);
-
-}
-
-async function downloadResource(){
-
-if(!currentResource){
-return;
-}
-
-/*
- * FREE
- */
-
-if(!currentResource.is_paid){
-
-const url=
-resolveResourceUrl(
-currentResource,
-"download"
-);
-
-if(!url){
-
-toast(
-t("resourceUnavailable")
-);
-
-return;
-
-}
-
-closeModal("resourceModal");
-
-window.location.href=url;
-
-return;
-
-}
-
-/*
- * PAID
- */
-
-const session=
-await getCurrentSession();
-
-if(!session){
-
-openAuthModal();
-
-return;
-
-}
-
-const payment=
-await checkPaymentStatus(
-currentResource.id
-);
-
-if(payment.paid){
-
-const url=
-resolveResourceUrl(
-currentResource,
-"download"
-);
-
-if(!url){
-
-toast(
-t("resourceUnavailable")
-);
-
-return;
-
-}
-
-closeModal("resourceModal");
-
-window.location.href=url;
-
-return;
-
-}
-
-await startPayment(
-currentResource
-);
-
-}
-
-$("resourceOpenBtn")?.addEventListener(
-"click",
-openCurrentResource
-);
-
-$("resourceDownloadBtn")?.addEventListener(
-"click",
-downloadResource
-);
-
-/* =========================================================
-   PAYMENT RETURN
-========================================================= */
-
-async function handlePaymentReturn(){
-
-const params=
-new URLSearchParams(
-window.location.search
-);
-
-const payment=
-params.get("payment");
-
-const resourceId=
-params.get("resource")||
-params.get("resourceId");
-
-if(
-!payment ||
-!resourceId
-){
-return;
-}
-
-/*
- * Remove URL parameters without reloading.
- */
-
-try{
-
-const cleanUrl=
-window.location.origin+
-window.location.pathname;
-
-window.history.replaceState(
-{},
-document.title,
-cleanUrl
-);
-
-}catch(error){
-
-console.warn(
-"URL cleanup failed:",
-error
-);
-
-}
-
-if(payment!=="success"){
-
-toast(
-t("paymentFailed")
-);
-
-return;
-
-}
-
-/*
- * Wait until library has loaded.
- */
-
-let resource=null;
-
-for(
-let i=0;
-i<30;
-i++
-){
-
-resource=
-currentResources.find(
-item=>
-String(item.id)===
-String(resourceId)
-);
-
-if(resource){
-break;
-}
-
-await sleep(200);
-
-}
-
-if(!resource){
-
-toast(
-t("resourceUnavailable")
-);
-
-return;
-
-}
-
-currentResource=resource;
-
-const paid=
-await waitForPayment(
-resource
-);
-
-if(!paid){
-return;
-}
-
-const url=
-resolveResourceUrl(
-resource,
-"open"
-);
-
-if(!url){
-
-toast(
-t("resourceUnavailable")
-);
-
-return;
-
-}
-
-window.location.href=url;
-
-}
-
-/* =========================================================
-   LIBRARY EVENTS
-========================================================= */
-
-let searchTimer=null;
-
-$("librarySearch")?.addEventListener(
-"input",
-()=>{
-
-clearTimeout(
-searchTimer
-);
-
-searchTimer=
-setTimeout(
-()=>{
-libraryPage=0;
-renderResources();
-},
-220
-);
-
-}
-);
-
-[
-"filterLanguage",
-"filterEducation",
-"filterType",
-"filterPrice",
-"filterSort"
-].forEach(id=>{
-
-$(id)?.addEventListener(
-"change",
-()=>{
-libraryPage=0;
-renderResources();
-}
-);
-
-});
-
-$("refreshLibrary")?.addEventListener(
-"click",
-async()=>{
-
-libraryPage=0;
-
-await fetchResources();
-
-}
-);
-
-$("resetFilters")?.addEventListener(
-"click",
-()=>{
-
-[
-"librarySearch",
-"filterLanguage",
-"filterEducation",
-"filterType",
-"filterPrice"
-].forEach(id=>{
-
-if($(id)){
-$(id).value="";
-}
-
-});
-
-if($("filterSort")){
-$("filterSort").value=
-"newest";
-}
-
-libraryPage=0;
-
-renderResources();
-
-}
-);
-
-$("loadMore")?.addEventListener(
-"click",
-()=>{
-
-libraryPage++;
-
-renderResources();
-
-}
-);
-
-/* =========================================================
-   GAMES
-========================================================= */
-
-let activeGame=null;
-
-let gameAnswer=null;
-
-let gameXP=20;
-
-let activeChallenge=null;
-
-function resetGameState(){
-
-gameAnswer=null;
-
-if($("gameAnswer")){
-$("gameAnswer").value="";
-}
-
-if($("gameFeedback")){
-
-$("gameFeedback").textContent="";
-
-$("gameFeedback")
-.classList.remove(
-"feedback-success",
-"feedback-error"
-);
-
-}
-
-}
-
-function startGame(type){
-
-activeGame=type;
-
-activeChallenge=null;
-
-gameXP=20;
-
-resetGameState();
-
-let question="";
-
-if(type==="calculation"){
-
-const a=randomInt(5,50);
-const b=randomInt(5,50);
-
-question=
-`${a} + ${b} = ?`;
-
-gameAnswer=
-a+b;
-
-if($("gameTitle")){
-$("gameTitle").textContent=
-t("calculation");
-}
-
-}
-
-else if(type==="sequence"){
-
-const start=
-randomInt(2,15);
-
-const step=
-randomInt(2,10);
-
-question=
-`${start}, ${
-start+step
-}, ${
-start+step*2
-}, ?, ${
-start+step*4
-}`;
-
-gameAnswer=
-start+step*3;
-
-if($("gameTitle")){
-$("gameTitle").textContent=
-t("sequence");
-}
-
-}
-
-else{
-
-const base=
-randomInt(3,15);
-
-question=
-currentLanguage==="ar"
-?`إذا كان ضلع المربع = ${base}، فما مساحته؟`
-:currentLanguage==="fr"
-?`Si le côté du carré = ${base}, quelle est son aire ?`
-:`If the square side = ${base}, what is its area?`;
-
-gameAnswer=
-base*base;
-
-if($("gameTitle")){
-$("gameTitle").textContent=
-t("geometry");
-}
-
-}
-
-if($("gameQuestion")){
-$("gameQuestion").textContent=
-question;
-}
-
-openModal("gameModal");
-
-setTimeout(
-()=>$("gameAnswer")?.focus(),
-100
-);
-
-}
-
-function completeGame(){
-
-addXP(gameXP);
-
-if(activeChallenge==="daily"){
-
-localStorage.setItem(
-"hamou_daily_date",
-getTodayKey()
-);
-
-}
-
-activeChallenge=null;
-
-gameAnswer=null;
-
-}
-
-function checkGame(){
-
-if(gameAnswer===null){
-
-return;
-
-}
-
-const input=
-normalizeAnswer(
-$("gameAnswer")?.value
-);
-
-if(!input){
-
-if($("gameFeedback")){
-
-$("gameFeedback").textContent=
-t("emptyAnswer");
-
-$("gameFeedback")
-.classList.remove(
-"feedback-success",
-"feedback-error"
-);
-
-}
-
-return;
-
-}
-
-if(
-answersEqual(
-input,
-gameAnswer
-)
-){
-
-if($("gameFeedback")){
-
-$("gameFeedback").textContent=
-`✓ ${t("gameComplete")}`;
-
-$("gameFeedback")
-.classList.remove(
-"feedback-error"
-);
-
-$("gameFeedback")
-.classList.add(
-"feedback-success"
-);
-
-}
-
-completeGame();
-
-}else{
-
-if($("gameFeedback")){
-
-$("gameFeedback").textContent=
-t("wrong");
-
-$("gameFeedback")
-.classList.remove(
-"feedback-success"
-);
-
-$("gameFeedback")
-.classList.add(
-"feedback-error"
-);
-
-}
-
-}
-
-}
-
-$("gameCheckBtn")?.addEventListener(
-"click",
-checkGame
-);
-
-$("gameAnswer")?.addEventListener(
-"keydown",
-event=>{
-
-if(event.key==="Enter"){
-
-event.preventDefault();
-
-checkGame();
-
-}
-
-}
-);
 
 /* =========================================================
    CHALLENGES
 ========================================================= */
 
-function getTodayKey(){
+let currentChallenge = null;
 
-const now=new Date();
+function createChallenge(type){
 
-return[
-now.getFullYear(),
-String(
-now.getMonth()+1
-).padStart(2,"0"),
-String(
-now.getDate()
-).padStart(2,"0")
-].join("-");
+    let question;
+    let answer;
+
+    if(type === "speed"){
+
+        const a =
+            randomInt(10,60);
+
+        const b =
+            randomInt(10,60);
+
+        question =
+            `${a} + ${b}`;
+
+        answer =
+            a+b;
+
+        $("challengeTitle").textContent =
+            "⚡ تحدي السرعة";
+
+    }
+
+    else if(type === "logic"){
+
+        const a =
+            randomInt(2,9);
+
+        const b =
+            randomInt(2,9);
+
+        question =
+            `${a} × ${b} + ${a}`;
+
+        answer =
+            a*b+a;
+
+        $("challengeTitle").textContent =
+            "🧠 تحدي الذكاء";
+
+    }
+
+    else{
+
+        const n =
+            randomInt(2,10);
+
+        question =
+            `إذا كان x = ${n}، فما قيمة 2x + 5؟`;
+
+        answer =
+            2*n+5;
+
+        $("challengeTitle").textContent =
+            "🎯 تحدي اليوم";
+
+    }
+
+    currentChallenge = {
+        type,
+        question,
+        answer
+    };
+
+    $("challengeQuestion").textContent =
+        question;
+
+    $("challengeAnswer").value =
+        "";
+
+    $("challengeResult").textContent =
+        "";
+
+    openModal(
+        "challengeModal"
+    );
 
 }
 
-function startChallenge(type){
+[
+    ["speedChallenge","speed"],
+    ["logicChallenge","logic"],
+    ["dailyChallenge","daily"]
+]
+.forEach(
+    ([id,type])=>{
 
-activeChallenge=type;
+        $(id)?.addEventListener(
+            "click",
+            ()=>createChallenge(type)
+        );
 
-if(type==="speed"){
-
-gameXP=20;
-
-startChallengeGame(
-"calculation"
+    }
 );
 
-return;
+$("challengeCheck")?.
+    addEventListener(
+        "click",
+        ()=>{
 
-}
+            if(!currentChallenge)return;
 
-if(type==="puzzle"){
+            const raw =
+                $("challengeAnswer").value;
 
-gameXP=30;
+            if(raw === ""){
 
-startChallengeGame(
-"sequence"
+                showToast(
+                    "اكتب الإجابة أولًا."
+                );
+
+                return;
+
+            }
+
+            const answer =
+                Number(raw);
+
+            if(
+                answer ===
+                currentChallenge.answer
+            ){
+
+                $("challengeResult").textContent =
+                    "🏆 إجابة صحيحة! +20 XP";
+
+                $("challengeResult").style.color =
+                    "var(--success)";
+
+                addXP(20);
+
+            }else{
+
+                $("challengeResult").textContent =
+                    "❌ إجابة غير صحيحة.";
+
+                $("challengeResult").style.color =
+                    "var(--danger)";
+
+            }
+
+        }
+    );
+
+/* =========================================================
+   GAMES
+========================================================= */
+
+$("quickGame")?.
+    addEventListener(
+        "click",
+        ()=>{
+
+            createChallenge(
+                "speed"
+            );
+
+        }
+    );
+
+$("geometryGame")?.
+    addEventListener(
+        "click",
+        ()=>{
+
+            $("challengeTitle").textContent =
+                "📐 تحدي الهندسة";
+
+            const base =
+                randomInt(3,12);
+
+            const height =
+                randomInt(3,12);
+
+            currentChallenge = {
+
+                question:
+                    `مساحة مثلث قاعدته ${base} وارتفاعه ${height}؟`,
+
+                answer:
+                    base*height/2,
+
+                type:"geometry"
+
+            };
+
+            $("challengeQuestion").textContent =
+                currentChallenge.question;
+
+            $("challengeAnswer").value =
+                "";
+
+            $("challengeResult").textContent =
+                "";
+
+            openModal(
+                "challengeModal"
+            );
+
+        }
+    );
+
+$("guessGame")?.
+    addEventListener(
+        "click",
+        ()=>{
+
+            const number =
+                randomInt(1,20);
+
+            currentChallenge = {
+
+                question:
+                    "خمن عددًا بين 1 و20.",
+
+                answer:
+                    number,
+
+                type:"guess"
+
+            };
+
+            $("challengeTitle").textContent =
+                "🔢 خمن العدد";
+
+            $("challengeQuestion").textContent =
+                currentChallenge.question;
+
+            $("challengeAnswer").value =
+                "";
+
+            $("challengeResult").textContent =
+                "";
+
+            openModal(
+                "challengeModal"
+            );
+
+            showToast(
+                "تم اختيار عدد جديد بين 1 و20."
+            );
+
+        }
+    );
+
+/* =========================================================
+   MODALS
+========================================================= */
+
+document.querySelectorAll(
+    "[data-close]"
+).forEach(button=>{
+
+    button.addEventListener(
+        "click",
+        ()=>{
+
+            closeModal(
+                button.dataset.close
+            );
+
+        }
+    );
+
+});
+
+document.querySelectorAll(
+    ".modal"
+).forEach(modal=>{
+
+    modal.addEventListener(
+        "click",
+        event=>{
+
+            if(
+                event.target === modal
+            ){
+
+                closeModal(
+                    modal.id
+                );
+
+            }
+
+        }
+    );
+
+});
+
+document.addEventListener(
+    "keydown",
+    event=>{
+
+        if(
+            event.key === "Escape"
+        ){
+
+            document.querySelectorAll(
+                ".modal.open"
+            ).forEach(modal=>{
+
+                closeModal(
+                    modal.id
+                );
+
+            });
+
+            closeMobileMenu();
+
+        }
+
+    }
 );
-
-return;
-
-}
-
-if(type==="daily"){
-
-const today=
-getTodayKey();
-
-if(
-localStorage.getItem(
-"hamou_daily_date"
-)===today
-){
-
-toast(
-t("dailyAlreadyDone")
-);
-
-activeChallenge=null;
-
-return;
-
-}
-
-gameXP=50;
-
-startChallengeGame(
-"geometry"
-);
-
-}
-
-}
-
-function startChallengeGame(
-type
-){
-
-activeGame=type;
-
-resetGameState();
-
-let question="";
-
-if(type==="calculation"){
-
-const a=randomInt(10,80);
-const b=randomInt(10,80);
-
-question=
-`${a} + ${b} = ?`;
-
-gameAnswer=
-a+b;
-
-$("gameTitle").textContent=
-t("speedChallenge");
-
-}
-
-else if(type==="sequence"){
-
-const start=
-randomInt(2,20);
-
-const step=
-randomInt(2,12);
-
-question=
-`${start}, ${
-start+step
-}, ${
-start+step*2
-}, ?, ${
-start+step*4
-}`;
-
-gameAnswer=
-start+step*3;
-
-$("gameTitle").textContent=
-t("puzzleChallenge");
-
-}
-
-else{
-
-const base=
-randomInt(3,18);
-
-question=
-currentLanguage==="ar"
-?`إذا كان ضلع المربع = ${base}، فما مساحته؟`
-:currentLanguage==="fr"
-?`Si le côté du carré = ${base}, quelle est son aire ?`
-:`If the square side = ${base}, what is its area?`;
-
-gameAnswer=
-base*base;
-
-$("gameTitle").textContent=
-t("dailyChallenge");
-
-}
-
-$("gameQuestion").textContent=
-question;
-
-openModal("gameModal");
-
-setTimeout(
-()=>$("gameAnswer")?.focus(),
-100
-);
-
-}
 
 /* =========================================================
    AUTH
 ========================================================= */
 
-let authMode="login";
+let authMode =
+    "login";
 
-function setAuthMode(mode){
+function updateAuthUI(user){
 
-authMode=
-mode==="register"
-?"register"
-:"login";
+    const loginBtn =
+        $("loginBtn");
 
-$("loginTab")?.classList.toggle(
-"active",
-authMode==="login"
-);
+    const mobileLogin =
+        $("mobileLogin");
 
-$("registerTab")?.classList.toggle(
-"active",
-authMode==="register"
-);
+    if(user){
 
-if($("authSubmit")){
+        const email =
+            user.email || "";
 
-$("authSubmit").textContent=
-authMode==="login"
-?t("login")
-:t("newAccount");
+        loginBtn.textContent =
+            email
+                ? email.split("@")[0]
+                : "حسابي";
 
-}
+        mobileLogin.textContent =
+            "تسجيل الخروج";
 
-}
+    }else{
 
-function openAuthModal(
-mode="login"
-){
+        loginBtn.textContent =
+            "دخول";
 
-setAuthMode(mode);
+        mobileLogin.textContent =
+            "تسجيل الدخول";
 
-openModal("authModal");
-
-setTimeout(
-()=>$("authEmail")?.focus(),
-100
-);
+    }
 
 }
 
-$("loginTab")?.addEventListener(
-"click",
-()=>setAuthMode("login")
-);
+async function getCurrentUser(){
 
-$("registerTab")?.addEventListener(
-"click",
-()=>setAuthMode("register")
-);
+    if(!supabaseClient){
 
-async function updateAuthButton(){
+        updateAuthUI(null);
 
-if(!supabaseClient){
-return;
-}
+        return null;
 
-try{
+    }
 
-const session=
-await getCurrentSession();
+    try{
 
-const name=
-session?.user?.email
-?.split("@")[0]||
-"";
+        const {
+            data
+        } =
+            await supabaseClient
+                .auth
+                .getUser();
 
-const label=
-session?.user
-?(
-name||
-t("login")
-)
-:t("login");
+        updateAuthUI(
+            data?.user || null
+        );
 
-if($("loginBtn")){
-$("loginBtn").textContent=
-label;
-}
+        return data?.user || null;
 
-if($("mobileLogin")){
-$("mobileLogin").textContent=
-session?.user
-?`${t("logout")} ${
-name||""
-}`.trim()
-:t("login");
-}
+    }catch(error){
 
-}catch(error){
+        updateAuthUI(null);
 
-console.warn(
-"Auth button update error:",
-error
-);
+        return null;
+
+    }
 
 }
 
+function openAuthModal(){
+
+    authMode =
+        "login";
+
+    updateAuthMode();
+
+    openModal(
+        "authModal"
+    );
+
 }
+
+function updateAuthMode(){
+
+    const login =
+        authMode === "login";
+
+    $("authTitle").textContent =
+        login
+            ? "تسجيل الدخول"
+            : "إنشاء حساب";
+
+    $("authSubmit").textContent =
+        login
+            ? "دخول"
+            : "إنشاء الحساب";
+
+    $("authSwitchText").textContent =
+        login
+            ? "ليس لديك حساب؟"
+            : "لديك حساب؟";
+
+    $("authSwitch").textContent =
+        login
+            ? "إنشاء حساب"
+            : "تسجيل الدخول";
+
+    $("authMessage").textContent =
+        "";
+
+}
+
+$("authSwitch")?.
+    addEventListener(
+        "click",
+        ()=>{
+
+            authMode =
+                authMode === "login"
+                    ? "signup"
+                    : "login";
+
+            updateAuthMode();
+
+        }
+    );
+
+$("authForm")?.
+    addEventListener(
+        "submit",
+        async event=>{
+
+            event.preventDefault();
+
+            const email =
+                $("authEmail")
+                    .value
+                    .trim();
+
+            const password =
+                $("authPassword")
+                    .value;
+
+            if(
+                !email ||
+                !password
+            ){
+
+                showToast(
+                    "أدخل البريد وكلمة المرور."
+                );
+
+                return;
+
+            }
+
+            if(!supabaseClient){
+
+                showToast(
+                    "خدمة الحساب غير متاحة حاليًا."
+                );
+
+                return;
+
+            }
+
+            $("authSubmit").disabled =
+                true;
+
+            try{
+
+                let result;
+
+                if(
+                    authMode === "login"
+                ){
+
+                    result =
+                        await supabaseClient
+                            .auth
+                            .signInWithPassword({
+                                email,
+                                password
+                            });
+
+                }else{
+
+                    result =
+                        await supabaseClient
+                            .auth
+                            .signUp({
+                                email,
+                                password
+                            });
+
+                }
+
+                if(result.error){
+
+                    throw result.error;
+
+                }
+
+                if(
+                    authMode === "signup"
+                ){
+
+                    showToast(
+                        "تم إنشاء الحساب. تحقق من بريدك إذا طُلب ذلك."
+                    );
+
+                }else{
+
+                    showToast(
+                        "تم تسجيل الدخول بنجاح."
+                    );
+
+                }
+
+                closeModal(
+                    "authModal"
+                );
+
+                await getCurrentUser();
+
+            }catch(error){
+
+                console.error(error);
+
+                $("authMessage").textContent =
+                    error.message ||
+                    "حدث خطأ.";
+
+                $("authMessage").style.color =
+                    "var(--danger)";
+
+            }finally{
+
+                $("authSubmit").disabled =
+                    false;
+
+            }
+
+        }
+    );
 
 async function handleAuthButton(){
 
-if(!supabaseClient){
+    const user =
+        await getCurrentUser();
 
-openAuthModal();
+    if(!user){
 
-return;
+        openAuthModal();
 
-}
+        return;
 
-const session=
-await getCurrentSession();
+    }
 
-if(session){
+    if(
+        confirm(
+            "هل تريد تسجيل الخروج؟"
+        )
+    ){
 
-try{
+        if(supabaseClient){
 
-await supabaseClient.auth.signOut();
+            await supabaseClient
+                .auth
+                .signOut();
 
-toast(t("logout"));
+        }
 
-}catch(error){
+        updateAuthUI(null);
 
-console.error(error);
+        showToast(
+            "تم تسجيل الخروج."
+        );
 
-toast(t("authError"));
-
-}
-
-updateAuthButton();
-
-return;
-
-}
-
-openAuthModal();
+    }
 
 }
 
-$("loginBtn")?.addEventListener(
-"click",
-handleAuthButton
-);
+/* مهم:
+   listener واحد فقط لكل زر */
+$("loginBtn")?.
+    addEventListener(
+        "click",
+        handleAuthButton
+    );
 
-$("mobileLogin")?.addEventListener(
-"click",
-async()=>{
+$("mobileLogin")?.
+    addEventListener(
+        "click",
+        async()=>{
 
-closeMobileMenu();
+            closeMobileMenu();
 
-await handleAuthButton();
+            await handleAuthButton();
 
-}
-);
-
-$("authForm")?.addEventListener(
-"submit",
-async event=>{
-
-event.preventDefault();
-
-const email=
-$("authEmail")
-?.value
-.trim();
-
-const password=
-$("authPassword")
-?.value||
-"";
-
-if(!email || !password){
-
-toast(
-t("loginRequired")
-);
-
-return;
-
-}
-
-if(!supabaseClient){
-
-toast(
-t("authError")
-);
-
-return;
-
-}
-
-const submit=
-$("authSubmit");
-
-if(submit){
-submit.disabled=true;
-}
-
-try{
-
-let result;
-
-if(authMode==="login"){
-
-result=
-await supabaseClient.auth.signInWithPassword({
-email,
-password
-});
-
-}else{
-
-result=
-await supabaseClient.auth.signUp({
-email,
-password
-});
-
-}
-
-if(result.error){
-throw result.error;
-}
-
-if(authMode==="login"){
-
-toast(
-t("loginSuccess")
-);
-
-closeModal("authModal");
-
-}else{
-
-if(result.data?.session){
-
-toast(
-t("registerSuccess")
-);
-
-closeModal("authModal");
-
-}else{
-
-toast(
-t("registerConfirm")
-);
-
-}
-
-}
-
-updateAuthButton();
-
-}catch(error){
-
-console.error(
-"Authentication error:",
-error
-);
-
-toast(
-error?.message||
-t("authError")
-);
-
-}finally{
-
-if(submit){
-submit.disabled=false;
-}
-
-}
-
-}
-);
-
-/* =========================================================
-   AUTH STATE
-========================================================= */
+        }
+    );
 
 if(supabaseClient){
 
-supabaseClient.auth.onAuthStateChange(
-(event,session)=>{
+    supabaseClient
+        .auth
+        .onAuthStateChange(
+            (_event,session)=>{
 
-/*
- * Supabase recommends keeping callbacks light.
- * Update UI asynchronously.
- */
+                updateAuthUI(
+                    session?.user || null
+                );
 
-setTimeout(
-()=>{
-updateAuthButton();
-},
-0
-);
+            }
+        );
 
 }
-);
 
-}
+getCurrentUser();
 
 /* =========================================================
-   INITIALIZATION
+   PAYMENT RETURN
 ========================================================= */
 
-document.addEventListener(
-"DOMContentLoaded",
-async()=>{
+function handlePaymentReturn(){
 
-if($("languageBtn")){
-$("languageBtn").addEventListener(
-"click",
-changeLanguage
-);
+    const params =
+        new URLSearchParams(
+            window.location.search
+        );
+
+    if(
+        params.has("payment") ||
+        params.has("status")
+    ){
+
+        const status =
+            params.get("payment") ||
+            params.get("status");
+
+        if(
+            status === "success" ||
+            status === "paid"
+        ){
+
+            showToast(
+                "✅ تمت عملية الدفع بنجاح."
+            );
+
+        }
+
+        else if(
+            status === "cancelled" ||
+            status === "canceled"
+        ){
+
+            showToast(
+                "تم إلغاء عملية الدفع."
+            );
+
+        }
+
+        else{
+
+            showToast(
+                "تمت العودة من بوابة الدفع."
+            );
+
+        }
+
+        history.replaceState(
+            {},
+            document.title,
+            window.location.pathname +
+            window.location.hash
+        );
+
+    }
+
 }
 
-if($("themeBtn")){
-$("themeBtn").addEventListener(
-"click",
-toggleTheme
-);
-}
+handlePaymentReturn();
 
-if($("year")){
-$("year").textContent=
-new Date().getFullYear();
-}
+/* =========================================================
+   INITIALIZE LIBRARY
+========================================================= */
 
-applyTheme();
+fetchResources();
 
-applyLanguage();
+/* =========================================================
+   GLOBAL SAFETY
+========================================================= */
 
-currentResources=
-fallbackResources.map(
-normalizeResource
-);
+window.addEventListener(
+    "error",
+    event=>{
 
-updateResourceStats();
+        console.error(
+            "HAMOU MATH error:",
+            event.error || event.message
+        );
 
-updateExerciseCount();
-
-updateXP();
-
-updateExerciseStats();
-
-renderResources();
-
-createExercise();
-
-await fetchResources();
-
-/*
- * Important:
- * Handle Chargily return only
- * AFTER resources are available.
- */
-
-await handlePaymentReturn();
-
-updateAuthButton();
-
-}
+    }
 );
 
 </script>
