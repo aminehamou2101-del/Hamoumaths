@@ -7,18 +7,24 @@ export const config = {
   }
 };
 
-async function getRawBody(req) {
-  const chunks = [];
+function readRawBody(req) {
+  return new Promise((resolve, reject) => {
+    const chunks = [];
 
-  for await (const chunk of req) {
-    chunks.push(
-      Buffer.isBuffer(chunk)
-        ? chunk
-        : Buffer.from(chunk)
-    );
-  }
+    req.on("data", chunk => {
+      chunks.push(
+        Buffer.isBuffer(chunk)
+          ? chunk
+          : Buffer.from(chunk)
+      );
+    });
 
-  return Buffer.concat(chunks);
+    req.on("end", () => {
+      resolve(Buffer.concat(chunks));
+    });
+
+    req.on("error", reject);
+  });
 }
 
 export default async function handler(req, res) {
@@ -29,43 +35,58 @@ export default async function handler(req, res) {
   }
 
   try {
-    const secret = process.env.CHARGILY_SECRET_KEY;
-    const supabaseUrl = process.env.SUPABASE_URL;
+    const secret =
+      process.env.CHARGILY_SECRET_KEY;
+
+    const supabaseUrl =
+      process.env.SUPABASE_URL;
+
     const serviceRoleKey =
       process.env.SUPABASE_SERVICE_ROLE_KEY;
 
-    if (!secret || !supabaseUrl || !serviceRoleKey) {
-      console.error("Missing environment variables");
-
+    if (
+      !secret ||
+      !supabaseUrl ||
+      !serviceRoleKey
+    ) {
       return res.status(500).json({
         error: "إعدادات الخادم غير مكتملة"
       });
     }
 
-    const signature = req.headers.signature;
+    const signature =
+      req.headers.signature;
 
-    if (!signature || typeof signature !== "string") {
+    if (
+      !signature ||
+      typeof signature !== "string"
+    ) {
       return res.status(401).json({
         error: "Missing signature"
       });
     }
 
-    const rawBody = await getRawBody(req);
+    const rawBody =
+      await readRawBody(req);
 
-    const expectedSignature = crypto
-      .createHmac("sha256", secret)
-      .update(rawBody)
-      .digest("hex");
+    const expectedSignature =
+      crypto
+        .createHmac("sha256", secret)
+        .update(rawBody)
+        .digest("hex");
 
-    const receivedBuffer =
+    const received =
       Buffer.from(signature, "utf8");
 
-    const expectedBuffer =
-      Buffer.from(expectedSignature, "utf8");
+    const expected =
+      Buffer.from(
+        expectedSignature,
+        "utf8"
+      );
 
     if (
-      receivedBuffer.length !==
-      expectedBuffer.length
+      received.length !==
+      expected.length
     ) {
       return res.status(401).json({
         error: "Invalid signature"
@@ -74,8 +95,8 @@ export default async function handler(req, res) {
 
     if (
       !crypto.timingSafeEqual(
-        receivedBuffer,
-        expectedBuffer
+        received,
+        expected
       )
     ) {
       return res.status(401).json({
@@ -95,23 +116,25 @@ export default async function handler(req, res) {
       });
     }
 
-    const supabaseAdmin = createClient(
-      supabaseUrl,
-      serviceRoleKey,
-      {
-        auth: {
-          autoRefreshToken: false,
-          persistSession: false
+    const supabase =
+      createClient(
+        supabaseUrl,
+        serviceRoleKey,
+        {
+          auth: {
+            autoRefreshToken: false,
+            persistSession: false
+          }
         }
-      }
-    );
+      );
 
     const checkout =
       event?.data ||
       event?.checkout ||
       event;
 
-    const checkoutId = checkout?.id;
+    const checkoutId =
+      checkout?.id;
 
     if (!checkoutId) {
       return res.status(400).json({
@@ -123,31 +146,22 @@ export default async function handler(req, res) {
       event?.type ||
       event?.event;
 
-    /*
-     * الدفع فشل
-     */
-    if (eventType === "checkout.failed") {
-      const { error } =
-        await supabaseAdmin
-          .from("payments")
-          .update({
-            status: "failed",
-            updated_at:
-              new Date().toISOString()
-          })
-          .eq("checkout_id", checkoutId);
-
-      if (error) {
-        console.error(
-          "Failed payment update:",
-          error
+    /* الدفع فشل */
+    if (
+      eventType ===
+      "checkout.failed"
+    ) {
+      await supabase
+        .from("payments")
+        .update({
+          status: "failed",
+          updated_at:
+            new Date().toISOString()
+        })
+        .eq(
+          "checkout_id",
+          checkoutId
         );
-
-        return res.status(500).json({
-          error:
-            "تعذر تحديث حالة الدفع"
-        });
-      }
 
       return res.status(200).json({
         received: true,
@@ -155,24 +169,22 @@ export default async function handler(req, res) {
       });
     }
 
-    /*
-     * تجاهل أي حدث آخر
-     */
-    if (eventType !== "checkout.paid") {
+    /* تجاهل الأحداث غير المطلوبة */
+    if (
+      eventType !==
+      "checkout.paid"
+    ) {
       return res.status(200).json({
         received: true,
-        ignored: true,
-        event: eventType || null
+        ignored: true
       });
     }
 
-    /*
-     * البحث عن عملية الدفع
-     */
+    /* العثور على الدفع */
     const {
       data: payment,
-      error: paymentFindError
-    } = await supabaseAdmin
+      error: paymentError
+    } = await supabase
       .from("payments")
       .select(`
         id,
@@ -183,92 +195,73 @@ export default async function handler(req, res) {
         currency,
         status
       `)
-      .eq("checkout_id", checkoutId)
+      .eq(
+        "checkout_id",
+        checkoutId
+      )
       .maybeSingle();
 
-    if (paymentFindError) {
-      console.error(
-        "Payment lookup error:",
-        paymentFindError
-      );
+    if (paymentError) {
+      console.error(paymentError);
 
       return res.status(500).json({
-        error:
-          "تعذر العثور على عملية الدفع"
+        error: "خطأ في قاعدة البيانات"
       });
     }
 
     if (!payment) {
-      console.error(
-        "Unknown checkout:",
-        checkoutId
-      );
-
       return res.status(404).json({
         error:
           "عملية الدفع غير موجودة"
       });
     }
 
-    /*
-     * تحديث الدفع إلى paid
-     *
-     * حتى لو كان paid مسبقًا،
-     * نستمر بالتحقق من الاشتراك.
-     */
+    /* تحديث الدفع */
     if (payment.status !== "paid") {
-      const paidAt =
+      const now =
         new Date().toISOString();
 
       const {
-        error: paymentUpdateError
-      } = await supabaseAdmin
+        error
+      } = await supabase
         .from("payments")
         .update({
           status: "paid",
-          paid_at: paidAt,
-          updated_at: paidAt
+          paid_at: now,
+          updated_at: now
         })
-        .eq("id", payment.id);
-
-      if (paymentUpdateError) {
-        console.error(
-          "Payment update error:",
-          paymentUpdateError
+        .eq(
+          "id",
+          payment.id
         );
+
+      if (error) {
+        console.error(error);
 
         return res.status(500).json({
           error:
-            "تعذر تحديث حالة الدفع"
+            "تعذر تحديث الدفع"
         });
       }
     }
 
     /*
-     * التحقق من وجود الاشتراك
-     *
-     * هذا الجزء مهم جدًا لمنع إنشاء
-     * اشتراكين إذا أرسل Chargily
-     * نفس الحدث أكثر من مرة.
+     * التأكد من عدم وجود اشتراك
      */
     const {
-      data: existingSubscription,
-      error: subscriptionCheckError
-    } = await supabaseAdmin
+      data: existing,
+      error: existingError
+    } = await supabase
       .from("subscriptions")
-      .select(`
-        id,
-        status,
-        expires_at
-      `)
-      .eq("payment_id", payment.id)
+      .select("id")
+      .eq(
+        "payment_id",
+        payment.id
+      )
       .maybeSingle();
 
-    if (subscriptionCheckError) {
-      console.error(
-        "Subscription lookup error:",
-        subscriptionCheckError
-      );
+    if (existingError) {
+      console.error(existingError);
 
       return res.status(500).json({
         error:
@@ -276,43 +269,41 @@ export default async function handler(req, res) {
       });
     }
 
-    /*
-     * الاشتراك موجود مسبقًا
-     */
-    if (existingSubscription) {
+    if (existing) {
       return res.status(200).json({
         received: true,
         paid: true,
+        subscriptionActivated: true,
         alreadyProcessed: true,
         subscriptionId:
-          existingSubscription.id
+          existing.id
       });
     }
 
     /*
      * مدة الاشتراك
      */
-    const configuredDays =
+    const days =
       Number(
-        process.env.SUBSCRIPTION_DAYS || 30
+        process.env.SUBSCRIPTION_DAYS ||
+        30
       );
 
     const subscriptionDays =
-      Number.isFinite(configuredDays) &&
-      configuredDays > 0
-        ? Math.floor(configuredDays)
+      Number.isFinite(days) &&
+      days > 0
+        ? Math.floor(days)
         : 30;
 
-    const startsAt = new Date();
+    const startsAt =
+      new Date();
 
-    const expiresAt = new Date(
-      startsAt.getTime() +
-      subscriptionDays *
-        24 *
-        60 *
-        60 *
-        1000
-    );
+    const expiresAt =
+      new Date(
+        startsAt.getTime() +
+        subscriptionDays *
+          86400000
+      );
 
     /*
      * إنشاء الاشتراك
@@ -320,8 +311,8 @@ export default async function handler(req, res) {
     const {
       data: subscription,
       error:
-        subscriptionInsertError
-    } = await supabaseAdmin
+        subscriptionError
+    } = await supabase
       .from("subscriptions")
       .insert({
         user_id:
@@ -347,36 +338,23 @@ export default async function handler(req, res) {
       .select()
       .single();
 
-    if (subscriptionInsertError) {
+    if (subscriptionError) {
       /*
-       * في حالة وصول Webhook مرتين
-       * في نفس اللحظة، قد يمنع unique index
-       * إنشاء نسخة ثانية.
+       * إذا كان Webhook مكررًا
        */
       if (
-        subscriptionInsertError.code ===
+        subscriptionError.code ===
         "23505"
       ) {
-        const {
-          data: existingAfterConflict
-        } = await supabaseAdmin
-          .from("subscriptions")
-          .select("id")
-          .eq("payment_id", payment.id)
-          .maybeSingle();
-
         return res.status(200).json({
           received: true,
           paid: true,
-          alreadyProcessed: true,
-          subscriptionId:
-            existingAfterConflict?.id || null
+          alreadyProcessed: true
         });
       }
 
       console.error(
-        "Subscription creation error:",
-        subscriptionInsertError
+        subscriptionError
       );
 
       return res.status(500).json({
@@ -384,23 +362,6 @@ export default async function handler(req, res) {
           "تم الدفع ولكن تعذر تفعيل الاشتراك"
       });
     }
-
-    console.log(
-      "HAMOU MATH subscription activated:",
-      {
-        userId:
-          payment.user_id,
-
-        resourceId:
-          payment.resource_id,
-
-        paymentId:
-          payment.id,
-
-        subscriptionId:
-          subscription.id
-      }
-    );
 
     return res.status(200).json({
       received: true,
@@ -412,13 +373,12 @@ export default async function handler(req, res) {
 
   } catch (error) {
     console.error(
-      "Chargily webhook error:",
+      "Webhook error:",
       error
     );
 
     return res.status(500).json({
-      error:
-        "Webhook server error"
+      error: "Webhook server error"
     });
   }
 }
