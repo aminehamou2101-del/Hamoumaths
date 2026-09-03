@@ -1,53 +1,26 @@
-// HAMOU MATH GLOBAL V18.2
-// API: /api/resources
-// البحث + التصفية + pagination
-// يعمل حاليًا مع Google Drive metadata إذا تم توفيرها
-// ويحتوي على fallback آمن حتى لا تتعطل المكتبة.
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 
-const LOCAL_RESOURCES = [
-  {
-    id: "hm-001",
-    title: "HAMOU MATH — مكتبة الرياضيات العربية",
-    description: "موارد تعليمية في الرياضيات باللغة العربية.",
-    language: "ar",
-    type: "library",
-    level: "secondary",
-    author: "HAMOU MATH",
-    url: "/",
-    source: "HAMOU MATH"
-  },
-  {
-    id: "hm-002",
-    title: "HAMOU MATH — Mathématiques en français",
-    description: "Ressources de mathématiques en français.",
-    language: "fr",
-    type: "library",
-    level: "secondary",
-    author: "HAMOU MATH",
-    url: "/",
-    source: "HAMOU MATH"
-  },
-  {
-    id: "hm-003",
-    title: "HAMOU MATH — Mathematics Resources",
-    description: "Mathematics resources in English.",
-    language: "en",
-    type: "library",
-    level: "advanced",
-    author: "HAMOU MATH",
-    url: "/",
-    source: "HAMOU MATH"
-  }
-];
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-function json(data, status = 200) {
-  return new Response(JSON.stringify(data), {
-    status,
-    headers: {
-      "Content-Type": "application/json; charset=utf-8",
-      "Cache-Control": "public, max-age=60, s-maxage=300"
+const DATA_FILE = path.join(__dirname, "..", "data", "resources.json");
+
+function readResources() {
+  try {
+    const raw = fs.readFileSync(DATA_FILE, "utf8");
+    const data = JSON.parse(raw);
+
+    if (!Array.isArray(data)) {
+      return [];
     }
-  });
+
+    return data;
+  } catch (error) {
+    console.error("HAMOU MATH resources error:", error);
+    return [];
+  }
 }
 
 function normalize(value) {
@@ -58,247 +31,147 @@ function normalize(value) {
     .trim();
 }
 
-function matches(resource, query, language, type, level) {
-  const q = normalize(query);
+function matches(resource, q) {
+  if (!q) return true;
 
-  const text = normalize([
+  const text = [
     resource.title,
+    resource.titleAr,
     resource.description,
     resource.author,
-    resource.category,
-    resource.keywords,
-    resource.source
-  ].join(" "));
+    resource.source,
+    resource.field,
+    resource.fieldAr,
+    resource.level,
+    resource.levelAr,
+    resource.type,
+    resource.typeAr,
+    ...(resource.keywords || [])
+  ]
+    .map(normalize)
+    .join(" ");
 
-  if (q && !text.includes(q)) {
-    return false;
-  }
-
-  if (language && language !== "all") {
-    if (normalize(resource.language) !== normalize(language)) {
-      return false;
-    }
-  }
-
-  if (type && type !== "all") {
-    if (normalize(resource.type) !== normalize(type)) {
-      return false;
-    }
-  }
-
-  if (level && level !== "all") {
-    if (normalize(resource.level) !== normalize(level)) {
-      return false;
-    }
-  }
-
-  return true;
+  return text.includes(q);
 }
 
-function mapDriveFile(file) {
-  const appProperties = file.appProperties || {};
+export default function handler(req, res) {
+  res.setHeader("Content-Type", "application/json; charset=utf-8");
 
-  return {
-    id: file.id,
-    title: file.name || "بدون عنوان",
-    description:
-      appProperties.description ||
-      file.description ||
-      "مورد رياضي من مكتبة HAMOU MATH.",
-    language: appProperties.language || "ar",
-    type: appProperties.type || detectType(file),
-    level: appProperties.level || "all",
-    category: appProperties.category || "Mathematics",
-    author: appProperties.author || "غير محدد",
-    year: appProperties.year || "",
-    keywords: appProperties.keywords || "",
-    mimeType: file.mimeType || "",
-    modifiedTime: file.modifiedTime || "",
-    createdTime: file.createdTime || "",
-    url:
-      file.webViewLink ||
-      (file.id
-        ? `https://drive.google.com/open?id=${encodeURIComponent(file.id)}`
-        : "#"),
-    source: "Google Drive"
-  };
-}
+  res.setHeader(
+    "Cache-Control",
+    "public, s-maxage=300, stale-while-revalidate=3600"
+  );
 
-function detectType(file) {
-  const name = normalize(file.name);
-  const mime = normalize(file.mimeType);
+  res.setHeader("Access-Control-Allow-Origin", "*");
 
-  if (name.includes("exam") || name.includes("اختبار") || name.includes("امتحان")) {
-    return "exam";
-  }
-
-  if (name.includes("exercise") || name.includes("تمرين") || name.includes("exercice")) {
-    return "exercise";
-  }
-
-  if (name.includes("summary") || name.includes("ملخص") || name.includes("resume")) {
-    return "summary";
-  }
-
-  if (
-    name.includes("lesson") ||
-    name.includes("درس") ||
-    name.includes("cours")
-  ) {
-    return "lesson";
-  }
-
-  if (mime.includes("pdf")) {
-    return "book";
-  }
-
-  return "reference";
-}
-
-async function loadDriveResources() {
-  /*
-   * هذا الجزء سيُربط لاحقًا بقاعدة الفهرسة/Google Drive.
-   *
-   * لا نضع GOOGLE_CLIENT_SECRET أو Refresh Token هنا.
-   * الأسرار يجب أن تبقى في Vercel Environment Variables.
-   */
-
-  return [];
-}
-
-export async function GET(request) {
-  try {
-    const url = new URL(request.url);
-
-    const query =
-      url.searchParams.get("q") ||
-      url.searchParams.get("search") ||
-      "";
-
-    const language =
-      url.searchParams.get("language") ||
-      url.searchParams.get("lang") ||
-      "";
-
-    const type = url.searchParams.get("type") || "";
-
-    const level = url.searchParams.get("level") || "";
-
-    let page = Number(url.searchParams.get("page") || 1);
-    let pageSize = Number(url.searchParams.get("pageSize") || 12);
-
-    if (!Number.isFinite(page) || page < 1) {
-      page = 1;
-    }
-
-    if (!Number.isFinite(pageSize) || pageSize < 1) {
-      pageSize = 12;
-    }
-
-    page = Math.floor(page);
-    pageSize = Math.min(Math.floor(pageSize), 100);
-
-    let resources = [];
-
-    // محاولة تحميل موارد Drive المفهرسة
-    try {
-      const driveResources = await loadDriveResources();
-
-      if (Array.isArray(driveResources)) {
-        resources = driveResources;
-      }
-    } catch (error) {
-      console.error("Drive resources unavailable:", error);
-    }
-
-    // fallback
-    if (!resources.length) {
-      resources = LOCAL_RESOURCES;
-    }
-
-    const filtered = resources.filter(resource =>
-      matches(resource, query, language, type, level)
+  if (req.method === "OPTIONS") {
+    res.setHeader(
+      "Access-Control-Allow-Methods",
+      "GET, OPTIONS"
     );
 
-    // ترتيب:
-    // 1. العنوان
-    // 2. الأحدث
-    filtered.sort((a, b) => {
-      const titleA = normalize(a.title);
-      const titleB = normalize(b.title);
-
-      return titleA.localeCompare(titleB);
-    });
-
-    const total = filtered.length;
-
-    const totalPages =
-      total === 0 ? 0 : Math.ceil(total / pageSize);
-
-    const safePage =
-      totalPages === 0
-        ? 1
-        : Math.min(page, totalPages);
-
-    const start = (safePage - 1) * pageSize;
-    const end = start + pageSize;
-
-    const items = filtered.slice(start, end);
-
-    return json({
-      success: true,
-
-      data: items,
-
-      resources: items,
-
-      total,
-
-      page: safePage,
-
-      pageSize,
-
-      totalPages,
-
-      hasNextPage:
-        totalPages > 0 && safePage < totalPages,
-
-      hasPreviousPage:
-        safePage > 1,
-
-      filters: {
-        q: query,
-        language,
-        type,
-        level
-      },
-
-      source:
-        resources === LOCAL_RESOURCES
-          ? "local-fallback"
-          : "google-drive"
-    });
-  } catch (error) {
-    console.error("resources API error:", error);
-
-    return json(
-      {
-        success: false,
-        error: "حدث خطأ أثناء تحميل مكتبة HAMOU MATH.",
-        data: [],
-        resources: [],
-        total: 0,
-        page: 1,
-        pageSize: 12,
-        totalPages: 0
-      },
-      500
+    res.setHeader(
+      "Access-Control-Allow-Headers",
+      "Content-Type"
     );
-  }
-}
 
-export default {
-  async fetch(request) {
-    return GET(request);
+    return res.status(204).end();
   }
-};
+
+  if (req.method !== "GET") {
+    return res.status(405).json({
+      success: false,
+      error: "Method Not Allowed"
+    });
+  }
+
+  const allResources = readResources();
+
+  const q = normalize(req.query?.q);
+  const type = normalize(req.query?.type);
+  const field = normalize(req.query?.field);
+  const level = normalize(req.query?.level);
+  const language = normalize(req.query?.language);
+
+  let filtered = allResources.filter((resource) => {
+    if (!matches(resource, q)) {
+      return false;
+    }
+
+    if (
+      type &&
+      normalize(resource.type) !== type &&
+      normalize(resource.typeAr) !== type
+    ) {
+      return false;
+    }
+
+    if (
+      field &&
+      normalize(resource.field) !== field &&
+      normalize(resource.fieldAr) !== field
+    ) {
+      return false;
+    }
+
+    if (
+      level &&
+      normalize(resource.level) !== level &&
+      normalize(resource.levelAr) !== level
+    ) {
+      return false;
+    }
+
+    if (
+      language &&
+      normalize(resource.language) !== language
+    ) {
+      return false;
+    }
+
+    return true;
+  });
+
+  const page = Math.max(
+    1,
+    Number.parseInt(req.query?.page || "1", 10) || 1
+  );
+
+  const requestedLimit = Number.parseInt(
+    req.query?.limit || "50",
+    10
+  ) || 50;
+
+  const limit = Math.min(
+    Math.max(requestedLimit, 1),
+    100
+  );
+
+  const total = filtered.length;
+  const totalPages = Math.max(
+    1,
+    Math.ceil(total / limit)
+  );
+
+  const safePage = Math.min(page, totalPages);
+
+  const start = (safePage - 1) * limit;
+
+  const resources = filtered.slice(
+    start,
+    start + limit
+  );
+
+  return res.status(200).json({
+    success: true,
+    platform: "HAMOU MATH GLOBAL",
+    version: "20.1.0",
+    total,
+    page: safePage,
+    limit,
+    totalPages,
+    hasNextPage: safePage < totalPages,
+    hasPreviousPage: safePage > 1,
+    resources
+  });
+}
