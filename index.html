@@ -1119,6 +1119,247 @@ footer a:hover{
 
 }
 
+
+/* =========================
+   EXTRA MOBILE HARDENING
+========================= */
+
+html,body{
+    width:100%;
+    max-width:100%;
+}
+
+main,
+section,
+.container,
+.hero-grid,
+.cards-grid,
+.library-grid,
+.about-grid,
+.footer-grid,
+.resource-card,
+.card{
+    min-width:0;
+}
+
+@media(max-width:700px){
+
+    body{
+        font-size:15px;
+        -webkit-text-size-adjust:100%;
+    }
+
+    header{
+        height:var(--header-height);
+    }
+
+    .navbar{
+        gap:7px;
+    }
+
+    .nav-actions{
+        margin-right:auto;
+        gap:6px;
+    }
+
+    .nav-actions .icon-btn,
+    .menu-btn{
+        width:40px;
+        min-width:40px;
+        height:40px;
+    }
+
+    .nav-actions #loginBtn{
+        max-width:110px;
+        overflow:hidden;
+        text-overflow:ellipsis;
+        white-space:nowrap;
+    }
+
+    .mobile-nav{
+        max-height:calc(100dvh - var(--header-height));
+        overflow-y:auto;
+        overscroll-behavior:contain;
+        padding:
+            10px
+            10px
+            calc(10px + env(safe-area-inset-bottom));
+    }
+
+    .mobile-nav a,
+    .mobile-nav button{
+        min-height:46px;
+    }
+
+    .hero-card{
+        padding:20px 14px;
+        border-radius:20px;
+    }
+
+    .math-display{
+        padding:20px 4px;
+        font-size:2rem;
+        overflow-x:auto;
+        white-space:nowrap;
+    }
+
+    .section-head{
+        margin-bottom:22px;
+    }
+
+    .section-head h2{
+        font-size:1.65rem;
+    }
+
+    .card,
+    .stat-card,
+    .resource-card{
+        padding:17px;
+    }
+
+    .library-toolbar{
+        display:grid;
+        grid-template-columns:1fr;
+        gap:9px;
+    }
+
+    .library-toolbar .search-field{
+        grid-column:1;
+    }
+
+    .field input,
+    .field select{
+        min-height:48px;
+        font-size:16px; /* prevents iOS zoom */
+    }
+
+    .resource-card{
+        width:100%;
+        overflow:hidden;
+    }
+
+    .resource-title,
+    .resource-description{
+        overflow-wrap:anywhere;
+        word-break:break-word;
+    }
+
+    .resource-actions{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .resource-actions .btn{
+        width:100%;
+        min-width:0;
+        padding-inline:10px;
+    }
+
+    .xp-top{
+        align-items:flex-start;
+    }
+
+    .xp-number{
+        font-size:1.7rem;
+    }
+
+    .question{
+        font-size:1.55rem;
+        overflow-wrap:anywhere;
+    }
+
+    .modal{
+        align-items:flex-end;
+        padding:8px;
+        padding-bottom:calc(8px + env(safe-area-inset-bottom));
+    }
+
+    .modal-box{
+        width:100%;
+        max-height:92dvh;
+        border-radius:20px 20px 14px 14px;
+        padding:22px 16px;
+        overflow-y:auto;
+        -webkit-overflow-scrolling:touch;
+    }
+
+    .modal-close{
+        width:42px;
+        height:42px;
+    }
+
+    .toast{
+        bottom:calc(12px + env(safe-area-inset-bottom));
+        max-width:calc(100% - 24px);
+    }
+
+    footer{
+        padding-bottom:calc(35px + env(safe-area-inset-bottom));
+    }
+}
+
+@media(max-width:380px){
+
+    .logo{
+        gap:6px;
+        font-size:.88rem;
+    }
+
+    .logo-icon{
+        width:34px;
+        min-width:34px;
+        height:34px;
+    }
+
+    .nav-actions #loginBtn{
+        max-width:76px;
+        padding-inline:8px;
+        font-size:.78rem;
+    }
+
+    .nav-actions .icon-btn,
+    .menu-btn{
+        width:38px;
+        min-width:38px;
+        height:38px;
+    }
+
+    .stats-grid{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .stat-card{
+        padding:13px 8px;
+    }
+
+    .stat-number{
+        font-size:1.4rem;
+    }
+
+    .resource-actions{
+        grid-template-columns:1fr;
+    }
+}
+
+@media(hover:none) and (pointer:coarse){
+
+    .btn,
+    .icon-btn,
+    .menu-btn,
+    .favorite-btn,
+    .mobile-nav a,
+    .mobile-nav button{
+        min-height:44px;
+    }
+
+    .btn:active,
+    .icon-btn:active,
+    .menu-btn:active,
+    .favorite-btn:active{
+        transform:scale(.97);
+    }
+}
+
+
 /* =========================
    ACCESSIBILITY
 ========================= */
@@ -1587,7 +1828,7 @@ class="mt-15">
 <h2>📚 المكتبة التعليمية</h2>
 
 <p>
-كتب ومصادر رياضيات مجانية ومدفوعة من مصادر مختلفة.
+كتب ومصادر رياضيات مجانية ومفتوحة من مصادر تعليمية مختلفة.
 </p>
 
 </div>
@@ -1617,6 +1858,10 @@ placeholder="🔎 ابحث عن كتاب أو مورد...">
 <option value="de">🇩🇪 ألمانيا</option>
 <option value="es">🇪🇸 إسبانيا</option>
 <option value="tr">🇹🇷 تركيا</option>
+<option value="nl">🇳🇱 هولندا</option>
+<option value="id">🇮🇩 إندونيسيا</option>
+<option value="br">🇧🇷 البرازيل</option>
+<option value="it">🇮🇹 إيطاليا</option>
 
 </select>
 
@@ -1634,6 +1879,10 @@ placeholder="🔎 ابحث عن كتاب أو مورد...">
 <option value="de">الألمانية</option>
 <option value="pt">البرتغالية</option>
 <option value="tr">التركية</option>
+<option value="hi">الهندية</option>
+<option value="nl">الهولندية</option>
+<option value="id">الإندونيسية</option>
+<option value="it">الإيطالية</option>
 
 </select>
 
@@ -2660,8 +2909,7 @@ const FALLBACK_RESOURCES = [
 {
     id:"fallback-one-course",
     title:"One Course — كتب الرياضيات",
-    description:
-        "مكتبة تعليمية مجانية تضم كتبًا ومواد تعليمية في عدة مجالات ولغات.",
+    description:"كتب ومواد تعليمية مجانية بعدة لغات، تشمل الرياضيات لمراحل مختلفة.",
     language:"ar",
     country:"global",
     education:"all",
@@ -2673,170 +2921,314 @@ const FALLBACK_RESOURCES = [
 
 {
     id:"fallback-openstax-k12",
-    title:"OpenStax K12 Mathematics",
-    description:
-        "مصادر وكتب رياضيات تعليمية مجانية من OpenStax.",
+    title:"OpenStax K–12 Mathematics",
+    description:"بوابة OpenStax لمصادر وكتب الرياضيات المجانية.",
     language:"en",
     country:"us",
-    education:"secondary",
+    education:"all",
     type:"book",
     price:0,
     url:"https://openstax.org/k12/math",
-    created_at:"2026-01-02"
+    created_at:"2026-01-01"
 },
 
 {
-    id:"fallback-intermediate-algebra",
-    title:"Intermediate Algebra 2e",
-    description:
-        "كتاب مجاني في الجبر المتوسط.",
+    id:"fallback-openstax-prealgebra",
+    title:"OpenStax Prealgebra 2e",
+    description:"كتاب مجاني في مبادئ الجبر والحساب.",
     language:"en",
     country:"us",
     education:"secondary",
     type:"book",
     price:0,
-    url:"https://openstax.org/books/intermediate-algebra-2e/pages/1-introduction",
-    created_at:"2026-01-03"
+    url:"https://openstax.org/books/prealgebra-2e/pages/1-introduction",
+    created_at:"2026-01-01"
 },
 
 {
-    id:"fallback-elementary-algebra",
-    title:"Elementary Algebra 2e",
-    description:
-        "كتاب مجاني في الجبر الأساسي.",
+    id:"fallback-openstax-elementary",
+    title:"OpenStax Elementary Algebra 2e",
+    description:"كتاب مجاني في الجبر الابتدائي.",
     language:"en",
     country:"us",
     education:"secondary",
     type:"book",
     price:0,
     url:"https://openstax.org/books/elementary-algebra-2e/pages/1-introduction",
-    created_at:"2026-01-04"
+    created_at:"2026-01-01"
 },
 
 {
-    id:"fallback-calculus1",
-    title:"Calculus Volume 1",
-    description:
-        "كتاب مجاني في التحليل والتفاضل والتكامل.",
+    id:"fallback-openstax-intermediate",
+    title:"OpenStax Intermediate Algebra 2e",
+    description:"كتاب مجاني في الجبر المتوسط.",
+    language:"en",
+    country:"us",
+    education:"secondary",
+    type:"book",
+    price:0,
+    url:"https://openstax.org/books/intermediate-algebra-2e/pages/1-introduction",
+    created_at:"2026-01-01"
+},
+
+{
+    id:"fallback-openstax-college-algebra",
+    title:"OpenStax College Algebra 2e",
+    description:"كتاب مجاني في الجبر الجامعي.",
+    language:"en",
+    country:"us",
+    education:"university",
+    type:"book",
+    price:0,
+    url:"https://openstax.org/books/college-algebra-2e/pages/1-introduction",
+    created_at:"2026-01-01"
+},
+
+{
+    id:"fallback-openstax-trig",
+    title:"OpenStax Algebra and Trigonometry 2e",
+    description:"كتاب مجاني في الجبر وحساب المثلثات.",
+    language:"en",
+    country:"us",
+    education:"secondary",
+    type:"book",
+    price:0,
+    url:"https://openstax.org/books/algebra-and-trigonometry-2e/pages/1-introduction",
+    created_at:"2026-01-01"
+},
+
+{
+    id:"fallback-openstax-precalc",
+    title:"OpenStax Precalculus 2e",
+    description:"كتاب مجاني في ما قبل التفاضل والتكامل.",
+    language:"en",
+    country:"us",
+    education:"secondary",
+    type:"book",
+    price:0,
+    url:"https://openstax.org/books/precalculus-2e/pages/1-introduction",
+    created_at:"2026-01-01"
+},
+
+{
+    id:"fallback-openstax-calculus1",
+    title:"OpenStax Calculus Volume 1",
+    description:"كتاب مجاني في التفاضل والتكامل.",
     language:"en",
     country:"us",
     education:"university",
     type:"book",
     price:0,
     url:"https://openstax.org/books/calculus-volume-1/pages/1-introduction",
-    created_at:"2026-01-05"
+    created_at:"2026-01-01"
 },
 
 {
-    id:"fallback-calculus3",
-    title:"Calculus Volume 3",
-    description:
-        "كتاب مجاني متقدم في التفاضل والتكامل.",
+    id:"fallback-openstax-calculus2",
+    title:"OpenStax Calculus Volume 2",
+    description:"كتاب مجاني في التكامل والمتسلسلات والدوال متعددة المتغيرات.",
+    language:"en",
+    country:"us",
+    education:"university",
+    type:"book",
+    price:0,
+    url:"https://openstax.org/books/calculus-volume-2/pages/1-introduction",
+    created_at:"2026-01-01"
+},
+
+{
+    id:"fallback-openstax-calculus3",
+    title:"OpenStax Calculus Volume 3",
+    description:"كتاب مجاني متقدم في التفاضل والتكامل متعدد المتغيرات.",
     language:"en",
     country:"us",
     education:"university",
     type:"book",
     price:0,
     url:"https://openstax.org/books/calculus-volume-3/pages/1-introduction",
-    created_at:"2026-01-06"
+    created_at:"2026-01-01"
 },
 
 {
-    id:"fallback-libretexts",
-    title:"Mathematics LibreTexts",
-    description:
-        "مكتبة مفتوحة تضم مجموعة كبيرة من الموارد الرياضية.",
+    id:"fallback-openstax-stats",
+    title:"OpenStax Introductory Statistics 2e",
+    description:"كتاب مجاني في الإحصاء والاحتمالات التمهيدية.",
     language:"en",
     country:"us",
-    education:"all",
-    type:"website",
+    education:"university",
+    type:"book",
     price:0,
-    url:"https://math.libretexts.org/",
-    created_at:"2026-01-07"
+    url:"https://openstax.org/books/introductory-statistics-2e/pages/1-introduction",
+    created_at:"2026-01-01"
 },
 
 {
-    id:"fallback-basic-math",
+    id:"fallback-openstax-contemporary",
+    title:"OpenStax Contemporary Mathematics",
+    description:"كتاب مجاني يقدم موضوعات متنوعة من الرياضيات المعاصرة.",
+    language:"en",
+    country:"us",
+    education:"university",
+    type:"book",
+    price:0,
+    url:"https://openstax.org/books/contemporary-mathematics/pages/1-introduction",
+    created_at:"2026-01-01"
+},
+
+{
+    id:"fallback-libretexts-basic",
     title:"LibreTexts — Arithmetic & Basic Math",
-    description:
-        "مصادر مجانية للحساب والرياضيات الأساسية.",
+    description:"مصادر مفتوحة في الحساب والرياضيات الأساسية.",
     language:"en",
     country:"us",
     education:"primary",
     type:"book",
     price:0,
     url:"https://math.libretexts.org/Bookshelves/Arithmetic_and_Basic_Math",
-    created_at:"2026-01-08"
+    created_at:"2026-01-01"
 },
 
 {
-    id:"fallback-geogebra",
+    id:"fallback-libretexts-math",
+    title:"Mathematics LibreTexts",
+    description:"مكتبة مفتوحة واسعة في الرياضيات.",
+    language:"en",
+    country:"global",
+    education:"all",
+    type:"website",
+    price:0,
+    url:"https://math.libretexts.org/",
+    created_at:"2026-01-01"
+},
+
+{
+    id:"fallback-libretexts-algebra",
+    title:"LibreTexts — Algebra",
+    description:"موارد مفتوحة في الجبر لمستويات متعددة.",
+    language:"en",
+    country:"global",
+    education:"secondary",
+    type:"website",
+    price:0,
+    url:"https://math.libretexts.org/Bookshelves/Algebra",
+    created_at:"2026-01-01"
+},
+
+{
+    id:"fallback-libretexts-calculus",
+    title:"LibreTexts — Calculus",
+    description:"موارد مفتوحة في التفاضل والتكامل.",
+    language:"en",
+    country:"global",
+    education:"university",
+    type:"website",
+    price:0,
+    url:"https://math.libretexts.org/Bookshelves/Calculus",
+    created_at:"2026-01-01"
+},
+
+{
+    id:"fallback-libretexts-statistics",
+    title:"LibreTexts — Statistics",
+    description:"موارد مفتوحة في الإحصاء والاحتمالات.",
+    language:"en",
+    country:"global",
+    education:"university",
+    type:"website",
+    price:0,
+    url:"https://stats.libretexts.org/",
+    created_at:"2026-01-01"
+},
+
+{
+    id:"fallback-geogebra-math",
     title:"GeoGebra Mathematics",
-    description:
-        "أدوات تفاعلية لاستكشاف الرياضيات.",
+    description:"أدوات تفاعلية مجانية للجبر والهندسة والدوال والإحصاء.",
     language:"en",
     country:"global",
     education:"all",
     type:"tool",
     price:0,
     url:"https://www.geogebra.org/math?lang=en",
-    created_at:"2026-01-09"
+    created_at:"2026-01-01"
 },
 
 {
-    id:"fallback-geometry",
+    id:"fallback-geogebra-geometry",
     title:"GeoGebra Geometry",
-    description:
-        "أدوات تفاعلية للهندسة والأشكال والإنشاءات.",
+    description:"أدوات تفاعلية مجانية للهندسة والإنشاءات.",
     language:"en",
     country:"global",
     education:"secondary",
     type:"tool",
     price:0,
     url:"https://www.geogebra.org/math/geometry?lang=en",
-    created_at:"2026-01-10"
+    created_at:"2026-01-01"
 },
 
 {
-    id:"fallback-khan",
+    id:"fallback-khan-math",
     title:"Khan Academy Mathematics",
-    description:
-        "دروس وتمارين رياضيات مجانية.",
+    description:"دروس وتمارين رياضيات مجانية عبر الإنترنت.",
     language:"en",
     country:"us",
     education:"all",
     type:"course",
     price:0,
     url:"https://www.khanacademy.org/math",
-    created_at:"2026-01-11"
+    created_at:"2026-01-01"
 },
 
 {
-    id:"fallback-france",
-    title:"Ressources mathématiques — France",
-    description:
-        "موارد تعليمية رياضية من مصادر التعليم الفرنسية.",
+    id:"fallback-gutenberg-math",
+    title:"Project Gutenberg — Mathematics",
+    description:"مجموعة من الكتب القديمة المتاحة ضمن مشروع الكتب الحرة؛ تحقق من حالة الحقوق في بلدك قبل إعادة النشر.",
+    language:"en",
+    country:"global",
+    education:"all",
+    type:"book",
+    price:0,
+    url:"https://www.gutenberg.org/ebooks/search/?query=mathematics",
+    created_at:"2026-01-01"
+},
+
+{
+    id:"fallback-gutenberg-algebra",
+    title:"Project Gutenberg — Algebra",
+    description:"بحث مباشر عن كتب الجبر المتاحة ضمن المجموعة العامة للمشروع.",
+    language:"en",
+    country:"global",
+    education:"all",
+    type:"book",
+    price:0,
+    url:"https://www.gutenberg.org/ebooks/search/?query=algebra",
+    created_at:"2026-01-01"
+},
+
+{
+    id:"fallback-french-education",
+    title:"Ressources mathématiques — Éducation nationale",
+    description:"بوابة رسمية فرنسية تحتوي على موارد تربوية وتعليمية.",
     language:"fr",
     country:"fr",
     education:"secondary",
     type:"website",
     price:0,
     url:"https://www.education.gouv.fr/",
-    created_at:"2026-01-12"
+    created_at:"2026-01-01"
 },
 
 {
-    id:"fallback-arabic",
-    title:"الرياضيات — مصادر عربية",
-    description:
-        "مصادر ومقالات عربية في مختلف مجالات الرياضيات.",
+    id:"fallback-arabic-wikipedia",
+    title:"الرياضيات — ويكيبيديا العربية",
+    description:"مدخل عربي عام إلى الرياضيات وروابط لمواضيع متعددة.",
     language:"ar",
     country:"global",
     education:"all",
     type:"website",
     price:0,
     url:"https://ar.wikipedia.org/wiki/رياضيات",
-    created_at:"2026-01-13"
+    created_at:"2026-01-01"
 }
 
 ];
@@ -2891,6 +3283,11 @@ function normalizeLanguage(value){
         v.includes("turk") ||
         v === "tr"
     ) return "tr";
+
+    if(v.includes("hindi") || v.includes("الهند") || v === "hi") return "hi";
+    if(v.includes("dutch") || v.includes("nether") || v === "nl") return "nl";
+    if(v.includes("indones") || v === "id") return "id";
+    if(v.includes("ital") || v === "it") return "it";
 
     return v || "en";
 
@@ -2947,6 +3344,11 @@ function normalizeCountry(value){
         v === "tr" ||
         v.includes("turkey")
     ) return "tr";
+
+    if(v === "nl" || v.includes("netherlands") || v.includes("holland")) return "nl";
+    if(v === "id" || v.includes("indonesia")) return "id";
+    if(v === "br" || v.includes("brazil")) return "br";
+    if(v === "it" || v.includes("italy")) return "it";
 
     if(
         v.includes("international") ||
@@ -3403,7 +3805,11 @@ function languageLabel(value){
         es:"الإسبانية",
         de:"الألمانية",
         pt:"البرتغالية",
-        tr:"التركية"
+        tr:"التركية",
+        hi:"الهندية",
+        nl:"الهولندية",
+        id:"الإندونيسية",
+        it:"الإيطالية"
 
     };
 
@@ -3425,7 +3831,11 @@ function countryLabel(value){
         in:"🇮🇳 الهند",
         de:"🇩🇪 ألمانيا",
         es:"🇪🇸 إسبانيا",
-        tr:"🇹🇷 تركيا"
+        tr:"🇹🇷 تركيا",
+        nl:"🇳🇱 هولندا",
+        id:"🇮🇩 إندونيسيا",
+        br:"🇧🇷 البرازيل",
+        it:"🇮🇹 إيطاليا"
 
     };
 
@@ -4065,6 +4475,13 @@ function createChallenge(type){
 
     }
 );
+
+$("challengeAnswer")?.addEventListener("keydown", event=>{
+    if(event.key === "Enter"){
+        event.preventDefault();
+        $("challengeCheck")?.click();
+    }
+});
 
 $("challengeCheck")?.
     addEventListener(
