@@ -12,13 +12,13 @@
 <title>HAMOU MATH | سلسلة حمو في الرياضيات</title>
 
 <meta name="description"
-content="HAMOU MATH منصة تفاعلية للرياضيات والتمارين والتحديات والمكتبة التعليمية.">
+content="HAMOU MATH منصة تفاعلية للرياضيات والتمارين والتحديات والألعاب والمكتبة التعليمية.">
 
 <style>
 
-/* =========================
+/* =========================================================
    ROOT
-========================= */
+========================================================= */
 
 :root{
     --primary:#2563eb;
@@ -52,6 +52,8 @@ content="HAMOU MATH منصة تفاعلية للرياضيات والتماري�
 
 html{
     scroll-behavior:smooth;
+    width:100%;
+    max-width:100%;
 }
 
 body{
@@ -64,11 +66,14 @@ body{
     background:var(--bg);
     color:var(--text);
     line-height:1.7;
+
     overflow-x:hidden;
 
     transition:
         background .25s ease,
         color .25s ease;
+
+    -webkit-text-size-adjust:100%;
 }
 
 body.dark{
@@ -78,6 +83,7 @@ body.dark{
     --muted:#94a3b8;
     --border:#1e293b;
     --dark:#f8fafc;
+
     --shadow:0 10px 30px rgba(0,0,0,.30);
 }
 
@@ -102,9 +108,27 @@ button{
     cursor:pointer;
 }
 
+button:disabled{
+    opacity:.55;
+    cursor:not-allowed;
+}
+
 img{
     max-width:100%;
     display:block;
+}
+
+main,
+section,
+.container,
+.hero-grid,
+.cards-grid,
+.library-grid,
+.about-grid,
+.footer-grid,
+.resource-card,
+.card{
+    min-width:0;
 }
 
 .container{
@@ -112,9 +136,9 @@ img{
     margin:auto;
 }
 
-/* =========================
+/* =========================================================
    HEADER
-========================= */
+========================================================= */
 
 header{
     position:sticky;
@@ -135,9 +159,11 @@ body.dark header{
 
 .navbar{
     height:100%;
+
     display:flex;
     align-items:center;
     justify-content:space-between;
+
     gap:20px;
 }
 
@@ -148,6 +174,7 @@ body.dark header{
 
     font-weight:900;
     font-size:1.25rem;
+
     color:var(--primary);
 
     white-space:nowrap;
@@ -162,15 +189,20 @@ body.dark header{
 
     border-radius:13px;
 
-    background:linear-gradient(
-        135deg,
-        var(--primary),
-        var(--secondary)
-    );
+    background:
+        linear-gradient(
+            135deg,
+            var(--primary),
+            var(--secondary)
+        );
 
     color:#fff;
+
     font-weight:900;
-    box-shadow:0 8px 20px rgba(37,99,235,.25);
+
+    box-shadow:
+        0 8px 20px
+        rgba(37,99,235,.25);
 }
 
 .nav-links{
@@ -182,8 +214,10 @@ body.dark header{
 .nav-links a{
     padding:9px 13px;
     border-radius:10px;
+
     font-weight:700;
     color:var(--muted);
+
     transition:.2s;
 }
 
@@ -208,6 +242,7 @@ body.dark .nav-links a:hover{
     height:42px;
 
     border:1px solid var(--border);
+
     background:var(--card);
 
     border-radius:12px;
@@ -223,19 +258,21 @@ body.dark .nav-links a:hover{
     font-size:1.3rem;
 }
 
-/* =========================
+/* =========================================================
    MOBILE NAV
-========================= */
+========================================================= */
 
 .mobile-nav{
     display:none;
 
     position:fixed;
+
     top:var(--header-height);
     right:0;
     left:0;
 
     background:var(--card);
+
     border-bottom:1px solid var(--border);
 
     padding:12px;
@@ -252,6 +289,7 @@ body.dark .nav-links a:hover{
 .mobile-nav a,
 .mobile-nav button{
     width:100%;
+
     display:block;
 
     border:0;
@@ -260,10 +298,14 @@ body.dark .nav-links a:hover{
     text-align:right;
 
     padding:12px;
+
     border-radius:10px;
 
     color:var(--text);
+
     font-weight:700;
+
+    min-height:46px;
 }
 
 .mobile-nav a:hover,
@@ -271,12 +313,13 @@ body.dark .nav-links a:hover{
     background:rgba(37,99,235,.08);
 }
 
-/* =========================
+/* =========================================================
    BUTTONS
-========================= */
+========================================================= */
 
 .btn{
     border:0;
+
     border-radius:12px;
 
     padding:10px 17px;
@@ -286,6 +329,7 @@ body.dark .nav-links a:hover{
     display:inline-flex;
     align-items:center;
     justify-content:center;
+
     gap:7px;
 
     min-height:44px;
@@ -302,13 +346,17 @@ body.dark .nav-links a:hover{
 
 .btn-primary{
     color:#fff;
-    background:linear-gradient(
-        135deg,
-        var(--primary),
-        var(--primary-dark)
-    );
 
-    box-shadow:0 8px 18px rgba(37,99,235,.20);
+    background:
+        linear-gradient(
+            135deg,
+            var(--primary),
+            var(--primary-dark)
+        );
+
+    box-shadow:
+        0 8px 18px
+        rgba(37,99,235,.20);
 }
 
 .btn-secondary{
@@ -335,9 +383,9 @@ body.dark .btn-secondary{
     width:100%;
 }
 
-/* =========================
+/* =========================================================
    HERO
-========================= */
+========================================================= */
 
 .hero{
     padding:75px 0 55px;
@@ -357,15 +405,23 @@ body.dark .btn-secondary{
 
 .hero-grid{
     display:grid;
-    grid-template-columns:1.15fr .85fr;
+
+    grid-template-columns:
+        1.15fr .85fr;
+
     align-items:center;
+
     gap:45px;
 }
 
 .hero h1{
-    font-size:clamp(2.1rem,5vw,4rem);
+    font-size:
+        clamp(2.1rem,5vw,4rem);
+
     line-height:1.15;
+
     margin-bottom:18px;
+
     font-weight:950;
 }
 
@@ -379,13 +435,17 @@ body.dark .btn-secondary{
 
     -webkit-background-clip:text;
     background-clip:text;
+
     color:transparent;
 }
 
 .hero p{
     color:var(--muted);
+
     font-size:1.08rem;
+
     max-width:700px;
+
     margin-bottom:25px;
 }
 
@@ -397,19 +457,25 @@ body.dark .btn-secondary{
 
 .hero-card{
     background:var(--card);
+
     border:1px solid var(--border);
+
     border-radius:28px;
+
     padding:30px;
 
     box-shadow:var(--shadow);
 
     position:relative;
+
     overflow:hidden;
 }
 
 .hero-card::before{
     content:"";
+
     position:absolute;
+
     width:180px;
     height:180px;
 
@@ -424,7 +490,9 @@ body.dark .btn-secondary{
 .math-display{
     position:relative;
 
-    font-size:clamp(2rem,6vw,4rem);
+    font-size:
+        clamp(2rem,6vw,4rem);
+
     font-weight:900;
 
     text-align:center;
@@ -434,9 +502,9 @@ body.dark .btn-secondary{
     color:var(--primary);
 }
 
-/* =========================
+/* =========================================================
    SECTIONS
-========================= */
+========================================================= */
 
 section{
     padding:65px 0;
@@ -448,7 +516,9 @@ section{
 }
 
 .section-head h2{
-    font-size:clamp(1.7rem,4vw,2.5rem);
+    font-size:
+        clamp(1.7rem,4vw,2.5rem);
+
     margin-bottom:7px;
 }
 
@@ -456,30 +526,38 @@ section{
     color:var(--muted);
 }
 
-/* =========================
+/* =========================================================
    STATS
-========================= */
+========================================================= */
 
 .stats-grid{
     display:grid;
-    grid-template-columns:repeat(4,1fr);
+
+    grid-template-columns:
+        repeat(4,1fr);
+
     gap:16px;
 }
 
 .stat-card{
     background:var(--card);
+
     border:1px solid var(--border);
 
     border-radius:var(--radius);
+
     padding:22px;
 
     text-align:center;
+
     box-shadow:var(--shadow);
 }
 
 .stat-number{
     font-size:2rem;
+
     font-weight:950;
+
     color:var(--primary);
 }
 
@@ -488,19 +566,24 @@ section{
     font-weight:700;
 }
 
-/* =========================
+/* =========================================================
    CARDS
-========================= */
+========================================================= */
 
 .cards-grid{
     display:grid;
-    grid-template-columns:repeat(3,1fr);
+
+    grid-template-columns:
+        repeat(3,1fr);
+
     gap:18px;
 }
 
 .card{
     background:var(--card);
+
     border:1px solid var(--border);
+
     border-radius:var(--radius);
 
     padding:22px;
@@ -516,9 +599,9 @@ section{
     color:var(--muted);
 }
 
-/* =========================
+/* =========================================================
    XP
-========================= */
+========================================================= */
 
 .xp-box{
     background:
@@ -531,6 +614,7 @@ section{
     color:#fff;
 
     border-radius:24px;
+
     padding:25px;
 
     box-shadow:var(--shadow);
@@ -538,8 +622,11 @@ section{
 
 .xp-top{
     display:flex;
+
     justify-content:space-between;
+
     align-items:center;
+
     gap:15px;
 }
 
@@ -550,41 +637,58 @@ section{
 
 .progress{
     height:12px;
-    background:rgba(255,255,255,.25);
+
+    background:
+        rgba(255,255,255,.25);
+
     border-radius:20px;
+
     overflow:hidden;
+
     margin-top:16px;
 }
 
 .progress-bar{
     height:100%;
+
     width:0;
+
     background:#fff;
+
     border-radius:20px;
+
     transition:width .4s ease;
 }
 
-/* =========================
+/* =========================================================
    EXERCISES
-========================= */
+========================================================= */
 
 .exercise-card{
     max-width:700px;
+
     margin:auto;
+
     text-align:center;
 }
 
 .question{
     font-size:2rem;
+
     font-weight:950;
+
     margin:15px 0;
+
+    overflow-wrap:anywhere;
 }
 
 .answer-input{
     width:100%;
+
     padding:14px 16px;
 
     border:2px solid var(--border);
+
     background:var(--bg);
 
     color:var(--text);
@@ -594,6 +698,7 @@ section{
     outline:none;
 
     text-align:center;
+
     font-size:1.2rem;
 }
 
@@ -601,9 +706,9 @@ section{
     border-color:var(--primary);
 }
 
-/* =========================
+/* =========================================================
    LIBRARY
-========================= */
+========================================================= */
 
 .library-toolbar{
     display:grid;
@@ -630,6 +735,7 @@ section{
     border:1px solid var(--border);
 
     background:var(--card);
+
     color:var(--text);
 
     border-radius:11px;
@@ -646,7 +752,10 @@ section{
 
 .library-grid{
     display:grid;
-    grid-template-columns:repeat(3,1fr);
+
+    grid-template-columns:
+        repeat(3,1fr);
+
     gap:18px;
 }
 
@@ -654,6 +763,7 @@ section{
     background:var(--card);
 
     border:1px solid var(--border);
+
     border-radius:18px;
 
     padding:20px;
@@ -661,6 +771,7 @@ section{
     box-shadow:var(--shadow);
 
     display:flex;
+
     flex-direction:column;
 
     min-width:0;
@@ -668,8 +779,11 @@ section{
 
 .resource-top{
     display:flex;
+
     justify-content:space-between;
+
     align-items:flex-start;
+
     gap:10px;
 }
 
@@ -681,6 +795,7 @@ section{
     place-items:center;
 
     background:#eff6ff;
+
     color:var(--primary);
 
     border-radius:14px;
@@ -694,25 +809,37 @@ body.dark .resource-icon{
 
 .resource-title{
     font-size:1.08rem;
+
     font-weight:900;
+
     margin:15px 0 7px;
+
+    overflow-wrap:anywhere;
 }
 
 .resource-description{
     color:var(--muted);
+
     font-size:.92rem;
 
     display:-webkit-box;
+
     -webkit-line-clamp:3;
+
     -webkit-box-orient:vertical;
+
     overflow:hidden;
 
     min-height:72px;
+
+    overflow-wrap:anywhere;
 }
 
 .resource-meta{
     display:flex;
+
     flex-wrap:wrap;
+
     gap:6px;
 
     margin:13px 0;
@@ -724,9 +851,11 @@ body.dark .resource-icon{
     border-radius:20px;
 
     background:#f1f5f9;
+
     color:#475569;
 
     font-size:.78rem;
+
     font-weight:800;
 }
 
@@ -739,7 +868,9 @@ body.dark .badge{
     margin-top:auto;
 
     display:grid;
-    grid-template-columns:1fr 1fr;
+
+    grid-template-columns:
+        1fr 1fr;
 
     gap:8px;
 }
@@ -749,6 +880,7 @@ body.dark .badge{
     height:40px;
 
     border:1px solid var(--border);
+
     background:var(--card);
 
     border-radius:10px;
@@ -762,23 +894,30 @@ body.dark .badge{
 
 .empty-state{
     text-align:center;
+
     padding:45px 15px;
+
     color:var(--muted);
 }
 
 .library-loading{
     text-align:center;
+
     padding:30px;
+
     color:var(--muted);
 }
 
-/* =========================
+/* =========================================================
    ABOUT
-========================= */
+========================================================= */
 
 .about-grid{
     display:grid;
-    grid-template-columns:1fr 1fr;
+
+    grid-template-columns:
+        1fr 1fr;
+
     gap:20px;
 }
 
@@ -788,19 +927,22 @@ body.dark .badge{
 
 .feature-list li{
     padding:10px 0;
-    border-bottom:1px solid var(--border);
+
+    border-bottom:
+        1px solid var(--border);
 }
 
 .feature-list li:last-child{
     border-bottom:0;
 }
 
-/* =========================
+/* =========================================================
    FOOTER
-========================= */
+========================================================= */
 
 footer{
     background:#0f172a;
+
     color:#cbd5e1;
 
     padding:35px 0;
@@ -808,13 +950,18 @@ footer{
 
 .footer-grid{
     display:grid;
-    grid-template-columns:2fr 1fr 1fr;
+
+    grid-template-columns:
+        2fr 1fr 1fr;
+
     gap:30px;
 }
 
 .footer-title{
     color:#fff;
+
     font-weight:900;
+
     margin-bottom:10px;
 }
 
@@ -826,17 +973,20 @@ footer a:hover{
     color:#fff;
 }
 
-/* =========================
+/* =========================================================
    MODAL
-========================= */
+========================================================= */
 
 .modal{
     position:fixed;
+
     inset:0;
 
-    background:rgba(2,6,23,.65);
+    background:
+        rgba(2,6,23,.65);
 
     display:none;
+
     align-items:center;
     justify-content:center;
 
@@ -853,24 +1003,31 @@ footer a:hover{
 
 .modal-box{
     width:min(550px,100%);
+
     max-height:90vh;
+
     overflow:auto;
 
     background:var(--card);
+
     color:var(--text);
 
     border:1px solid var(--border);
+
     border-radius:22px;
 
     padding:25px;
 
-    box-shadow:0 30px 80px rgba(0,0,0,.25);
+    box-shadow:
+        0 30px 80px
+        rgba(0,0,0,.25);
 
     position:relative;
 }
 
 .modal-close{
     position:absolute;
+
     top:12px;
     left:12px;
 
@@ -878,6 +1035,7 @@ footer a:hover{
     height:38px;
 
     border:0;
+
     background:var(--bg);
 
     color:var(--text);
@@ -889,13 +1047,39 @@ footer a:hover{
 
 .modal-title{
     font-size:1.4rem;
+
     font-weight:950;
+
     margin-bottom:18px;
+
+    padding-left:45px;
 }
 
-/* =========================
+.game-info{
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    gap:10px;
+
+    margin-bottom:10px;
+
+    color:var(--muted);
+
+    font-weight:800;
+}
+
+.timer{
+    color:var(--danger);
+
+    font-weight:950;
+}
+
+/* =========================================================
    TOAST
-========================= */
+========================================================= */
 
 .toast{
     position:fixed;
@@ -903,9 +1087,11 @@ footer a:hover{
     bottom:22px;
     left:50%;
 
-    transform:translate(-50%,120px);
+    transform:
+        translate(-50%,120px);
 
     background:#0f172a;
+
     color:#fff;
 
     padding:12px 18px;
@@ -919,17 +1105,20 @@ footer a:hover{
     transition:.3s;
 
     max-width:90%;
+
     text-align:center;
 }
 
 .toast.show{
     opacity:1;
-    transform:translate(-50%,0);
+
+    transform:
+        translate(-50%,0);
 }
 
-/* =========================
+/* =========================================================
    FORMS
-========================= */
+========================================================= */
 
 .form-group{
     margin-bottom:14px;
@@ -937,20 +1126,25 @@ footer a:hover{
 
 .form-group label{
     display:block;
+
     margin-bottom:6px;
+
     font-weight:800;
 }
 
 .form-group input{
     width:100%;
+
     min-height:46px;
 
     padding:10px 12px;
 
     border:1px solid var(--border);
+
     border-radius:11px;
 
     background:var(--bg);
+
     color:var(--text);
 
     outline:none;
@@ -962,20 +1156,49 @@ footer a:hover{
 
 .auth-switch{
     margin-top:15px;
+
     text-align:center;
+
     color:var(--muted);
 }
 
 .auth-switch button{
     border:0;
+
     background:transparent;
+
     color:var(--primary);
+
     font-weight:900;
 }
 
-/* =========================
-   MOBILE
-========================= */
+/* =========================================================
+   UTILITIES
+========================================================= */
+
+:focus-visible{
+    outline:
+        3px solid
+        rgba(37,99,235,.35);
+
+    outline-offset:2px;
+}
+
+.hidden{
+    display:none!important;
+}
+
+.text-center{
+    text-align:center;
+}
+
+.mt-15{
+    margin-top:15px;
+}
+
+/* =========================================================
+   TABLET
+========================================================= */
 
 @media(max-width:950px){
 
@@ -992,11 +1215,13 @@ footer a:hover{
     }
 
     .cards-grid{
-        grid-template-columns:repeat(2,1fr);
+        grid-template-columns:
+            repeat(2,1fr);
     }
 
     .library-grid{
-        grid-template-columns:repeat(2,1fr);
+        grid-template-columns:
+            repeat(2,1fr);
     }
 
     .library-toolbar{
@@ -1009,10 +1234,14 @@ footer a:hover{
     }
 
     .footer-grid{
-        grid-template-columns:1fr 1fr;
+        grid-template-columns:
+            1fr 1fr;
     }
-
 }
+
+/* =========================================================
+   MOBILE
+========================================================= */
 
 @media(max-width:700px){
 
@@ -1021,7 +1250,11 @@ footer a:hover{
     }
 
     .container{
-        width:min(100% - 20px,1180px);
+        width:
+            min(
+                calc(100% - 20px),
+                1180px
+            );
     }
 
     section{
@@ -1042,6 +1275,7 @@ footer a:hover{
 
     .hero-buttons{
         display:grid;
+
         grid-template-columns:1fr;
     }
 
@@ -1050,7 +1284,8 @@ footer a:hover{
     }
 
     .stats-grid{
-        grid-template-columns:repeat(2,1fr);
+        grid-template-columns:
+            repeat(2,1fr);
     }
 
     .cards-grid,
@@ -1059,15 +1294,16 @@ footer a:hover{
     }
 
     .library-toolbar{
-        grid-template-columns:1fr 1fr;
+        grid-template-columns:1fr;
     }
 
     .library-toolbar .search-field{
-        grid-column:1/-1;
+        grid-column:1;
     }
 
     .resource-actions{
-        grid-template-columns:1fr 1fr;
+        grid-template-columns:
+            1fr 1fr;
     }
 
     .footer-grid{
@@ -1083,83 +1319,17 @@ footer a:hover{
         height:38px;
     }
 
-    .nav-actions .btn{
-        padding:8px 11px;
-        min-height:40px;
-        font-size:.85rem;
-    }
-
-}
-
-@media(max-width:430px){
-
-    .stats-grid{
-        gap:10px;
-    }
-
-    .stat-card{
-        padding:16px 10px;
-    }
-
-    .stat-number{
-        font-size:1.55rem;
-    }
-
-    .library-toolbar{
-        grid-template-columns:1fr;
-    }
-
-    .library-toolbar .search-field{
-        grid-column:auto;
-    }
-
-    .resource-actions{
-        grid-template-columns:1fr;
-    }
-
-}
-
-
-/* =========================
-   EXTRA MOBILE HARDENING
-========================= */
-
-html,body{
-    width:100%;
-    max-width:100%;
-}
-
-main,
-section,
-.container,
-.hero-grid,
-.cards-grid,
-.library-grid,
-.about-grid,
-.footer-grid,
-.resource-card,
-.card{
-    min-width:0;
-}
-
-@media(max-width:700px){
-
-    body{
-        font-size:15px;
-        -webkit-text-size-adjust:100%;
-    }
-
-    header{
-        height:var(--header-height);
-    }
-
-    .navbar{
-        gap:7px;
-    }
-
     .nav-actions{
         margin-right:auto;
         gap:6px;
+    }
+
+    .nav-actions .btn{
+        padding:8px 11px;
+
+        min-height:40px;
+
+        font-size:.85rem;
     }
 
     .nav-actions .icon-btn,
@@ -1171,35 +1341,49 @@ section,
 
     .nav-actions #loginBtn{
         max-width:110px;
+
         overflow:hidden;
+
         text-overflow:ellipsis;
+
         white-space:nowrap;
     }
 
     .mobile-nav{
-        max-height:calc(100dvh - var(--header-height));
+        max-height:
+            calc(
+                100dvh -
+                var(--header-height)
+            );
+
         overflow-y:auto;
+
         overscroll-behavior:contain;
+
         padding:
             10px
             10px
-            calc(10px + env(safe-area-inset-bottom));
-    }
-
-    .mobile-nav a,
-    .mobile-nav button{
-        min-height:46px;
+            calc(
+                10px +
+                env(
+                    safe-area-inset-bottom
+                )
+            );
     }
 
     .hero-card{
         padding:20px 14px;
+
         border-radius:20px;
     }
 
     .math-display{
         padding:20px 4px;
+
         font-size:2rem;
+
         overflow-x:auto;
+
         white-space:nowrap;
     }
 
@@ -1217,41 +1401,17 @@ section,
         padding:17px;
     }
 
-    .library-toolbar{
-        display:grid;
-        grid-template-columns:1fr;
-        gap:9px;
-    }
-
-    .library-toolbar .search-field{
-        grid-column:1;
-    }
-
     .field input,
     .field select{
         min-height:48px;
-        font-size:16px; /* prevents iOS zoom */
+
+        font-size:16px;
     }
 
     .resource-card{
         width:100%;
+
         overflow:hidden;
-    }
-
-    .resource-title,
-    .resource-description{
-        overflow-wrap:anywhere;
-        word-break:break-word;
-    }
-
-    .resource-actions{
-        grid-template-columns:1fr 1fr;
-    }
-
-    .resource-actions .btn{
-        width:100%;
-        min-width:0;
-        padding-inline:10px;
     }
 
     .xp-top{
@@ -1264,21 +1424,34 @@ section,
 
     .question{
         font-size:1.55rem;
-        overflow-wrap:anywhere;
     }
 
     .modal{
         align-items:flex-end;
+
         padding:8px;
-        padding-bottom:calc(8px + env(safe-area-inset-bottom));
+
+        padding-bottom:
+            calc(
+                8px +
+                env(
+                    safe-area-inset-bottom
+                )
+            );
     }
 
     .modal-box{
         width:100%;
+
         max-height:92dvh;
-        border-radius:20px 20px 14px 14px;
+
+        border-radius:
+            20px 20px 14px 14px;
+
         padding:22px 16px;
+
         overflow-y:auto;
+
         -webkit-overflow-scrolling:touch;
     }
 
@@ -1288,12 +1461,49 @@ section,
     }
 
     .toast{
-        bottom:calc(12px + env(safe-area-inset-bottom));
-        max-width:calc(100% - 24px);
+        bottom:
+            calc(
+                12px +
+                env(
+                    safe-area-inset-bottom
+                )
+            );
+
+        max-width:
+            calc(100% - 24px);
     }
 
     footer{
-        padding-bottom:calc(35px + env(safe-area-inset-bottom));
+        padding-bottom:
+            calc(
+                35px +
+                env(
+                    safe-area-inset-bottom
+                )
+            );
+    }
+}
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media(max-width:430px){
+
+    .stats-grid{
+        gap:10px;
+    }
+
+    .stat-card{
+        padding:16px 10px;
+    }
+
+    .stat-number{
+        font-size:1.55rem;
+    }
+
+    .resource-actions{
+        grid-template-columns:1fr;
     }
 }
 
@@ -1312,7 +1522,9 @@ section,
 
     .nav-actions #loginBtn{
         max-width:76px;
+
         padding-inline:8px;
+
         font-size:.78rem;
     }
 
@@ -1324,7 +1536,8 @@ section,
     }
 
     .stats-grid{
-        grid-template-columns:1fr 1fr;
+        grid-template-columns:
+            1fr 1fr;
     }
 
     .stat-card{
@@ -1359,36 +1572,14 @@ section,
     }
 }
 
-
-/* =========================
-   ACCESSIBILITY
-========================= */
-
-:focus-visible{
-    outline:3px solid rgba(37,99,235,.35);
-    outline-offset:2px;
-}
-
-.hidden{
-    display:none!important;
-}
-
-.text-center{
-    text-align:center;
-}
-
-.mt-15{
-    margin-top:15px;
-}
-
 </style>
 </head>
 
 <body>
 
-<!-- =========================
+<!-- =========================================================
      HEADER
-========================= -->
+========================================================= -->
 
 <header>
 
@@ -1446,7 +1637,9 @@ aria-label="القائمة">
 
 <!-- MOBILE NAV -->
 
-<div class="mobile-nav" id="mobileNav">
+<div
+class="mobile-nav"
+id="mobileNav">
 
 <a href="#home">الرئيسية</a>
 <a href="#challenges">التحديات</a>
@@ -1463,40 +1656,51 @@ id="mobileLogin">
 
 </div>
 
-<!-- =========================
-     HERO
-========================= -->
+<!-- =========================================================
+     MAIN
+========================================================= -->
 
 <main>
 
-<section class="hero" id="home">
+<!-- HERO -->
+
+<section
+class="hero"
+id="home">
 
 <div class="container hero-grid">
 
 <div>
 
 <h1>
+
 طوّر مهاراتك في
+
 <span class="gradient-text">
 الرياضيات
 </span>
+
 </h1>
 
 <p>
+
 مرحبًا بك في HAMOU MATH،
 منصة تعليمية تفاعلية تجمع بين
 التمارين والتحديات والألعاب
 والمصادر التعليمية في مكان واحد.
+
 </p>
 
 <div class="hero-buttons">
 
-<a href="#exercises"
+<a
+href="#exercises"
 class="btn btn-primary">
 ابدأ التمرين
 </a>
 
-<a href="#library"
+<a
+href="#library"
 class="btn btn-secondary">
 استكشف المكتبة
 </a>
@@ -1512,10 +1716,15 @@ class="btn btn-secondary">
 </div>
 
 <div class="text-center">
-<strong>سلسلة حمو في الرياضيات</strong>
+
+<strong>
+سلسلة حمو في الرياضيات
+</strong>
+
 <p>
 تعلم • تحدَّ نفسك • تطور
 </p>
+
 </div>
 
 </div>
@@ -1524,9 +1733,7 @@ class="btn btn-secondary">
 
 </section>
 
-<!-- =========================
-     STATS
-========================= -->
+<!-- STATS -->
 
 <section>
 
@@ -1535,23 +1742,59 @@ class="btn btn-secondary">
 <div class="stats-grid">
 
 <div class="stat-card">
-<div class="stat-number" id="statXP">0</div>
-<div class="stat-label">XP</div>
+
+<div
+class="stat-number"
+id="statXP">
+0
+</div>
+
+<div class="stat-label">
+XP
+</div>
+
 </div>
 
 <div class="stat-card">
-<div class="stat-number" id="statSolved">0</div>
-<div class="stat-label">تمرين محلول</div>
+
+<div
+class="stat-number"
+id="statSolved">
+0
+</div>
+
+<div class="stat-label">
+تمرين محلول
+</div>
+
 </div>
 
 <div class="stat-card">
-<div class="stat-number" id="statStreak">0</div>
-<div class="stat-label">سلسلة متتالية</div>
+
+<div
+class="stat-number"
+id="statStreak">
+0
+</div>
+
+<div class="stat-label">
+سلسلة متتالية
+</div>
+
 </div>
 
 <div class="stat-card">
-<div class="stat-number" id="statResources">0</div>
-<div class="stat-label">مورد تعليمي</div>
+
+<div
+class="stat-number"
+id="statResources">
+0
+</div>
+
+<div class="stat-label">
+مورد تعليمي
+</div>
+
 </div>
 
 </div>
@@ -1560,9 +1803,7 @@ class="btn btn-secondary">
 
 </section>
 
-<!-- =========================
-     XP
-========================= -->
+<!-- XP -->
 
 <section id="progress">
 
@@ -1573,21 +1814,36 @@ class="btn btn-secondary">
 <div class="xp-top">
 
 <div>
-<div>مستواك الحالي</div>
-<div class="xp-number" id="levelNumber">1</div>
+
+<div>
+مستواك الحالي
+</div>
+
+<div
+class="xp-number"
+id="levelNumber">
+1
+</div>
+
 </div>
 
 <div>
-<strong id="xpText">0 XP</strong>
+
+<strong id="xpText">
+0 XP
+</strong>
+
 </div>
 
 </div>
 
 <div class="progress">
+
 <div
 class="progress-bar"
 id="xpProgress">
 </div>
+
 </div>
 
 </div>
@@ -1596,9 +1852,9 @@ id="xpProgress">
 
 </section>
 
-<!-- =========================
+<!-- =========================================================
      CHALLENGES
-========================= -->
+========================================================= -->
 
 <section id="challenges">
 
@@ -1606,7 +1862,9 @@ id="xpProgress">
 
 <div class="section-head">
 
-<h2>🏆 التحديات</h2>
+<h2>
+🏆 التحديات
+</h2>
 
 <p>
 اختبر مستواك واجمع XP
@@ -1618,7 +1876,9 @@ id="xpProgress">
 
 <div class="card">
 
-<h3>⚡ تحدي السرعة</h3>
+<h3>
+⚡ تحدي السرعة
+</h3>
 
 <p>
 حل أكبر عدد من العمليات خلال وقت قصير.
@@ -1635,7 +1895,9 @@ id="speedChallenge">
 
 <div class="card">
 
-<h3>🧠 تحدي الذكاء</h3>
+<h3>
+🧠 تحدي الذكاء
+</h3>
 
 <p>
 أسئلة منطقية ورياضية متنوعة.
@@ -1652,7 +1914,9 @@ id="logicChallenge">
 
 <div class="card">
 
-<h3>🎯 تحدي اليوم</h3>
+<h3>
+🎯 تحدي اليوم
+</h3>
 
 <p>
 سؤال جديد يوميًا لتطوير مستواك.
@@ -1673,9 +1937,9 @@ id="dailyChallenge">
 
 </section>
 
-<!-- =========================
+<!-- =========================================================
      GAMES
-========================= -->
+========================================================= -->
 
 <section id="games">
 
@@ -1683,7 +1947,9 @@ id="dailyChallenge">
 
 <div class="section-head">
 
-<h2>🎮 ألعاب الرياضيات</h2>
+<h2>
+🎮 ألعاب الرياضيات
+</h2>
 
 <p>
 تعلم الرياضيات بطريقة ممتعة.
@@ -1695,7 +1961,9 @@ id="dailyChallenge">
 
 <div class="card text-center">
 
-<h3>➕ الحساب السريع</h3>
+<h3>
+➕ الحساب السريع
+</h3>
 
 <p>
 تحدى نفسك في الحساب الذهني.
@@ -1712,7 +1980,9 @@ id="quickGame">
 
 <div class="card text-center">
 
-<h3>🔢 خمن العدد</h3>
+<h3>
+🔢 خمن العدد
+</h3>
 
 <p>
 حاول اكتشاف العدد الصحيح.
@@ -1729,7 +1999,9 @@ id="guessGame">
 
 <div class="card text-center">
 
-<h3>📐 تحدي الهندسة</h3>
+<h3>
+📐 تحدي الهندسة
+</h3>
 
 <p>
 أسئلة هندسية متنوعة.
@@ -1750,9 +2022,9 @@ id="geometryGame">
 
 </section>
 
-<!-- =========================
+<!-- =========================================================
      EXERCISES
-========================= -->
+========================================================= -->
 
 <section id="exercises">
 
@@ -1760,7 +2032,9 @@ id="geometryGame">
 
 <div class="section-head">
 
-<h2>✏️ التمارين التفاعلية</h2>
+<h2>
+✏️ التمارين التفاعلية
+</h2>
 
 <p>
 أجب عن السؤال واحصل على XP.
@@ -1774,7 +2048,9 @@ id="geometryGame">
 الحساب
 </div>
 
-<div class="question" id="question">
+<div
+class="question"
+id="question">
 ...
 </div>
 
@@ -1815,9 +2091,9 @@ class="mt-15">
 
 </section>
 
-<!-- =========================
+<!-- =========================================================
      LIBRARY
-========================= -->
+========================================================= -->
 
 <section id="library">
 
@@ -1825,7 +2101,9 @@ class="mt-15">
 
 <div class="section-head">
 
-<h2>📚 المكتبة التعليمية</h2>
+<h2>
+📚 المكتبة التعليمية
+</h2>
 
 <p>
 كتب ومصادر رياضيات مجانية ومفتوحة من مصادر تعليمية مختلفة.
@@ -1840,6 +2118,7 @@ class="mt-15">
 <input
 id="librarySearch"
 type="search"
+autocomplete="off"
 placeholder="🔎 ابحث عن كتاب أو مورد...">
 
 </div>
@@ -1848,20 +2127,61 @@ placeholder="🔎 ابحث عن كتاب أو مورد...">
 
 <select id="filterCountry">
 
-<option value="">🌍 كل الدول</option>
-<option value="global">🌎 دولية</option>
-<option value="dz">🇩🇿 الجزائر</option>
-<option value="fr">🇫🇷 فرنسا</option>
-<option value="us">🇺🇸 الولايات المتحدة</option>
-<option value="uk">🇬🇧 بريطانيا</option>
-<option value="in">🇮🇳 الهند</option>
-<option value="de">🇩🇪 ألمانيا</option>
-<option value="es">🇪🇸 إسبانيا</option>
-<option value="tr">🇹🇷 تركيا</option>
-<option value="nl">🇳🇱 هولندا</option>
-<option value="id">🇮🇩 إندونيسيا</option>
-<option value="br">🇧🇷 البرازيل</option>
-<option value="it">🇮🇹 إيطاليا</option>
+<option value="">
+🌍 كل الدول
+</option>
+
+<option value="global">
+🌎 دولية
+</option>
+
+<option value="dz">
+🇩🇿 الجزائر
+</option>
+
+<option value="fr">
+🇫🇷 فرنسا
+</option>
+
+<option value="us">
+🇺🇸 الولايات المتحدة
+</option>
+
+<option value="uk">
+🇬🇧 بريطانيا
+</option>
+
+<option value="in">
+🇮🇳 الهند
+</option>
+
+<option value="de">
+🇩🇪 ألمانيا
+</option>
+
+<option value="es">
+🇪🇸 إسبانيا
+</option>
+
+<option value="tr">
+🇹🇷 تركيا
+</option>
+
+<option value="nl">
+🇳🇱 هولندا
+</option>
+
+<option value="id">
+🇮🇩 إندونيسيا
+</option>
+
+<option value="br">
+🇧🇷 البرازيل
+</option>
+
+<option value="it">
+🇮🇹 إيطاليا
+</option>
 
 </select>
 
@@ -1871,7 +2191,10 @@ placeholder="🔎 ابحث عن كتاب أو مورد...">
 
 <select id="filterLanguage">
 
-<option value="">🗣️ كل اللغات</option>
+<option value="">
+🗣️ كل اللغات
+</option>
+
 <option value="ar">العربية</option>
 <option value="fr">الفرنسية</option>
 <option value="en">الإنجليزية</option>
@@ -1892,12 +2215,29 @@ placeholder="🔎 ابحث عن كتاب أو مورد...">
 
 <select id="filterEducation">
 
-<option value="">🎓 كل المستويات</option>
-<option value="primary">ابتدائي</option>
-<option value="middle">متوسط</option>
-<option value="secondary">ثانوي</option>
-<option value="university">جامعي</option>
-<option value="all">جميع المستويات</option>
+<option value="">
+🎓 كل المستويات
+</option>
+
+<option value="primary">
+ابتدائي
+</option>
+
+<option value="middle">
+متوسط
+</option>
+
+<option value="secondary">
+ثانوي
+</option>
+
+<option value="university">
+جامعي
+</option>
+
+<option value="all">
+جميع المستويات
+</option>
 
 </select>
 
@@ -1907,12 +2247,29 @@ placeholder="🔎 ابحث عن كتاب أو مورد...">
 
 <select id="filterType">
 
-<option value="">📖 كل الأنواع</option>
-<option value="book">كتب</option>
-<option value="course">دورات</option>
-<option value="exercise">تمارين</option>
-<option value="tool">أدوات</option>
-<option value="website">مواقع</option>
+<option value="">
+📖 كل الأنواع
+</option>
+
+<option value="book">
+كتب
+</option>
+
+<option value="course">
+دورات
+</option>
+
+<option value="exercise">
+تمارين
+</option>
+
+<option value="tool">
+أدوات
+</option>
+
+<option value="website">
+مواقع
+</option>
 
 </select>
 
@@ -1922,9 +2279,17 @@ placeholder="🔎 ابحث عن كتاب أو مورد...">
 
 <select id="filterPrice">
 
-<option value="">💰 الكل</option>
-<option value="free">مجاني</option>
-<option value="paid">مدفوع</option>
+<option value="">
+💰 الكل
+</option>
+
+<option value="free">
+مجاني
+</option>
+
+<option value="paid">
+مدفوع
+</option>
 
 </select>
 
@@ -1934,10 +2299,21 @@ placeholder="🔎 ابحث عن كتاب أو مورد...">
 
 <select id="filterSort">
 
-<option value="newest">الأحدث</option>
-<option value="oldest">الأقدم</option>
-<option value="az">أبجديًا</option>
-<option value="price">السعر</option>
+<option value="newest">
+الأحدث
+</option>
+
+<option value="oldest">
+الأقدم
+</option>
+
+<option value="az">
+أبجديًا
+</option>
+
+<option value="price">
+السعر
+</option>
 
 </select>
 
@@ -1960,7 +2336,9 @@ class="library-grid">
 id="libraryEmpty"
 class="empty-state hidden">
 
-<h3>لا توجد نتائج</h3>
+<h3>
+لا توجد نتائج
+</h3>
 
 <p>
 جرّب تغيير الفلاتر أو كلمة البحث.
@@ -1972,9 +2350,9 @@ class="empty-state hidden">
 
 </section>
 
-<!-- =========================
+<!-- =========================================================
      ABOUT
-========================= -->
+========================================================= -->
 
 <section id="about">
 
@@ -1982,7 +2360,9 @@ class="empty-state hidden">
 
 <div class="section-head">
 
-<h2>📘 حول HAMOU MATH</h2>
+<h2>
+📘 حول HAMOU MATH
+</h2>
 
 <p>
 سلسلة حمو في الرياضيات
@@ -1994,7 +2374,9 @@ class="empty-state hidden">
 
 <div class="card">
 
-<h3>🎓 هدف المنصة</h3>
+<h3>
+🎓 هدف المنصة
+</h3>
 
 <p>
 تقديم محتوى رياضي تفاعلي يساعد التلاميذ
@@ -2006,7 +2388,9 @@ class="empty-state hidden">
 
 <div class="card">
 
-<h3>⭐ مميزات المنصة</h3>
+<h3>
+⭐ مميزات المنصة
+</h3>
 
 <ul class="feature-list">
 
@@ -2029,9 +2413,9 @@ class="empty-state hidden">
 
 </main>
 
-<!-- =========================
+<!-- =========================================================
      FOOTER
-========================= -->
+========================================================= -->
 
 <footer>
 
@@ -2059,9 +2443,17 @@ HAMOU MATH
 روابط
 </div>
 
-<p><a href="#home">الرئيسية</a></p>
-<p><a href="#library">المكتبة</a></p>
-<p><a href="#exercises">التمارين</a></p>
+<p>
+<a href="#home">الرئيسية</a>
+</p>
+
+<p>
+<a href="#library">المكتبة</a>
+</p>
+
+<p>
+<a href="#exercises">التمارين</a>
+</p>
 
 </div>
 
@@ -2071,7 +2463,9 @@ HAMOU MATH
 HAMOU MATH
 </div>
 
-<p>تعلم • تحدَّ نفسك • تطور</p>
+<p>
+تعلم • تحدَّ نفسك • تطور
+</p>
 
 </div>
 
@@ -2079,9 +2473,9 @@ HAMOU MATH
 
 </footer>
 
-<!-- =========================
+<!-- =========================================================
      AUTH MODAL
-========================= -->
+========================================================= -->
 
 <div
 class="modal"
@@ -2096,7 +2490,9 @@ data-close="authModal">
 ×
 </button>
 
-<div class="modal-title" id="authTitle">
+<div
+class="modal-title"
+id="authTitle">
 تسجيل الدخول
 </div>
 
@@ -2131,7 +2527,8 @@ autocomplete="email">
 id="authPassword"
 type="password"
 required
-autocomplete="current-password">
+autocomplete="current-password"
+minlength="6">
 
 </div>
 
@@ -2162,9 +2559,9 @@ id="authSwitch">
 
 </div>
 
-<!-- =========================
+<!-- =========================================================
      RESOURCE MODAL
-========================= -->
+========================================================= -->
 
 <div
 class="modal"
@@ -2216,9 +2613,9 @@ id="resourceDownloadBtn">
 
 </div>
 
-<!-- =========================
+<!-- =========================================================
      CHALLENGE MODAL
-========================= -->
+========================================================= -->
 
 <div
 class="modal"
@@ -2240,6 +2637,20 @@ id="challengeTitle">
 </div>
 
 <div
+class="game-info">
+
+<span id="gameRound">
+السؤال
+</span>
+
+<span
+class="timer"
+id="gameTimer">
+</span>
+
+</div>
+
+<div
 class="question"
 id="challengeQuestion">
 ...
@@ -2250,6 +2661,7 @@ id="challengeAnswer"
 class="answer-input"
 type="number"
 inputmode="decimal"
+autocomplete="off"
 placeholder="الإجابة">
 
 <button
@@ -2257,6 +2669,13 @@ class="btn btn-primary btn-full mt-15"
 type="button"
 id="challengeCheck">
 تحقق من الإجابة
+</button>
+
+<button
+class="btn btn-secondary btn-full mt-15 hidden"
+type="button"
+id="challengeNext">
+السؤال التالي
 </button>
 
 <p
@@ -2276,16 +2695,16 @@ id="toast">
 تم
 </div>
 
-<!-- =========================
+<!-- =========================================================
      SUPABASE
-========================= -->
+========================================================= -->
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
 
 /* =========================================================
-   CONFIGURATION
+   CONFIG
 ========================================================= */
 
 const SUPABASE_URL =
@@ -2296,11 +2715,14 @@ const SUPABASE_KEY =
 
 const CONFIG = {
 
-    paymentEndpoint:"/api/create-payment",
+    paymentEndpoint:
+        "/api/create-payment",
 
-    paymentStatusEndpoint:"/api/payment-status",
+    paymentStatusEndpoint:
+        "/api/payment-status",
 
-    storageBucket:"math-resources",
+    storageBucket:
+        "math-resources",
 
     pageSize:9,
 
@@ -2374,7 +2796,7 @@ function safeURL(url){
 
         }
 
-    }catch(e){}
+    }catch(error){}
 
     return "#";
 
@@ -2408,7 +2830,11 @@ function showToast(message){
 
 function openModal(id){
 
-    $(id)?.classList.add("open");
+    const modal = $(id);
+
+    if(!modal)return;
+
+    modal.classList.add("open");
 
     document.body.style.overflow =
         "hidden";
@@ -2417,7 +2843,11 @@ function openModal(id){
 
 function closeModal(id){
 
-    $(id)?.classList.remove("open");
+    const modal = $(id);
+
+    if(!modal)return;
+
+    modal.classList.remove("open");
 
     if(
         !document.querySelector(
@@ -2451,12 +2881,12 @@ function applyTheme(){
         dark
     );
 
-    const btn =
+    const button =
         $("themeToggle");
 
-    if(btn){
+    if(button){
 
-        btn.textContent =
+        button.textContent =
             dark ? "☀️" : "🌙";
 
     }
@@ -2520,21 +2950,40 @@ document.querySelectorAll(
    LOCAL USER DATA
 ========================================================= */
 
-let userData =
-    JSON.parse(
-        localStorage.getItem(
-            "hamou_user_data"
-        ) || "{}"
-    );
+let userData = {};
+
+try{
+
+    userData =
+        JSON.parse(
+            localStorage.getItem(
+                "hamou_user_data"
+            ) || "{}"
+        ) || {};
+
+}catch(error){
+
+    userData = {};
+
+}
 
 userData.xp =
-    Number(userData.xp || 0);
+    Math.max(
+        0,
+        Number(userData.xp || 0)
+    );
 
 userData.solved =
-    Number(userData.solved || 0);
+    Math.max(
+        0,
+        Number(userData.solved || 0)
+    );
 
 userData.streak =
-    Number(userData.streak || 0);
+    Math.max(
+        0,
+        Number(userData.streak || 0)
+    );
 
 userData.lastSolved =
     userData.lastSolved || "";
@@ -2544,12 +2993,32 @@ userData.favorites =
         ? userData.favorites
         : [];
 
+userData.dailyCompleted =
+    userData.dailyCompleted || "";
+
+userData.dailyAnswer =
+    userData.dailyAnswer ?? null;
+
+userData.challengeStats =
+    userData.challengeStats || {};
+
 function saveUserData(){
 
-    localStorage.setItem(
-        "hamou_user_data",
-        JSON.stringify(userData)
-    );
+    try{
+
+        localStorage.setItem(
+            "hamou_user_data",
+            JSON.stringify(userData)
+        );
+
+    }catch(error){
+
+        console.warn(
+            "Could not save user data:",
+            error
+        );
+
+    }
 
 }
 
@@ -2569,48 +3038,91 @@ function updateXPUI(){
     const levelXP =
         userData.xp % 100;
 
-    $("levelNumber").textContent =
-        level;
+    if($("levelNumber"))
+        $("levelNumber").textContent =
+            level;
 
-    $("xpText").textContent =
-        `${userData.xp} XP`;
+    if($("xpText"))
+        $("xpText").textContent =
+            `${userData.xp} XP`;
 
-    $("statXP").textContent =
-        userData.xp;
+    if($("statXP"))
+        $("statXP").textContent =
+            userData.xp;
 
-    $("statSolved").textContent =
-        userData.solved;
+    if($("statSolved"))
+        $("statSolved").textContent =
+            userData.solved;
 
-    $("statStreak").textContent =
-        userData.streak;
+    if($("statStreak"))
+        $("statStreak").textContent =
+            userData.streak;
 
-    const progress =
-        Math.min(
-            levelXP,
-            100
-        );
-
-    $("xpProgress").style.width =
-        `${progress}%`;
+    if($("xpProgress"))
+        $("xpProgress").style.width =
+            `${levelXP}%`;
 
 }
 
 function addXP(amount){
 
-    userData.xp +=
-        Number(amount || 0);
+    const value =
+        Math.max(
+            0,
+            Number(amount || 0)
+        );
+
+    if(!value)return;
+
+    userData.xp += value;
 
     saveUserData();
 
     updateXPUI();
 
     showToast(
-        `🎉 حصلت على ${amount} XP`
+        `🎉 حصلت على ${value} XP`
     );
 
 }
 
 updateXPUI();
+
+/* =========================================================
+   DATE HELPERS
+========================================================= */
+
+function getLocalDateKey(date = new Date()){
+
+    const y =
+        date.getFullYear();
+
+    const m =
+        String(
+            date.getMonth()+1
+        ).padStart(2,"0");
+
+    const d =
+        String(
+            date.getDate()
+        ).padStart(2,"0");
+
+    return `${y}-${m}-${d}`;
+
+}
+
+function getYesterdayKey(){
+
+    const date =
+        new Date();
+
+    date.setDate(
+        date.getDate()-1
+    );
+
+    return getLocalDateKey(date);
+
+}
 
 /* =========================================================
    EXERCISE ENGINE
@@ -2646,8 +3158,8 @@ function createExercise(){
             )
         ];
 
-    let question;
-    let answer;
+    let question = "";
+    let answer = 0;
 
     if(type === "addition"){
 
@@ -2706,7 +3218,7 @@ function createExercise(){
             randomInt(2,12);
 
         const a =
-            b * answerValue;
+            b*answerValue;
 
         question =
             `${a} ÷ ${b}`;
@@ -2757,9 +3269,12 @@ function createExercise(){
     }
 
     currentExercise = {
+
         type,
         question,
-        answer
+        answer,
+        completed:false
+
     };
 
     $("question").textContent =
@@ -2773,6 +3288,9 @@ function createExercise(){
 
     $("exerciseResult").textContent =
         "";
+
+    $("checkAnswer").disabled =
+        false;
 
 }
 
@@ -2801,19 +3319,37 @@ function getExerciseCategory(type){
 
 function checkExercise(){
 
-    if(!currentExercise)return;
-
-    const value =
-        Number(
-            $("answerInput").value
-        );
-
     if(
-        $("answerInput").value === ""
+        !currentExercise ||
+        currentExercise.completed
     ){
+
+        return;
+
+    }
+
+    const raw =
+        $("answerInput").value.trim();
+
+    if(raw === ""){
 
         showToast(
             "اكتب الإجابة أولًا"
+        );
+
+        return;
+
+    }
+
+    const value =
+        Number(raw);
+
+    if(
+        !Number.isFinite(value)
+    ){
+
+        showToast(
+            "أدخل رقمًا صالحًا."
         );
 
         return;
@@ -2827,22 +3363,37 @@ function checkExercise(){
         ) < 0.0001
     ){
 
+        currentExercise.completed =
+            true;
+
         $("exerciseResult").textContent =
             "✅ إجابة صحيحة!";
 
         $("exerciseResult").style.color =
             "var(--success)";
 
+        $("checkAnswer").disabled =
+            true;
+
         const today =
-            new Date()
-                .toISOString()
-                .slice(0,10);
+            getLocalDateKey();
 
         if(
             userData.lastSolved !== today
         ){
 
-            userData.streak += 1;
+            if(
+                userData.lastSolved ===
+                getYesterdayKey()
+            ){
+
+                userData.streak += 1;
+
+            }else{
+
+                userData.streak = 1;
+
+            }
 
             userData.lastSolved =
                 today;
@@ -2854,6 +3405,8 @@ function checkExercise(){
         saveUserData();
 
         addXP(10);
+
+        updateXPUI();
 
         setTimeout(
             createExercise,
@@ -2872,70 +3425,43 @@ function checkExercise(){
 
 }
 
-$("checkAnswer")?.
-    addEventListener(
-        "click",
-        checkExercise
-    );
+$("checkAnswer")?.addEventListener(
+    "click",
+    checkExercise
+);
 
-$("newQuestion")?.
-    addEventListener(
-        "click",
-        createExercise
-    );
+$("newQuestion")?.addEventListener(
+    "click",
+    createExercise
+);
 
-$("answerInput")?.
-    addEventListener(
-        "keydown",
-        event=>{
+$("answerInput")?.addEventListener(
+    "keydown",
+    event=>{
 
-            if(event.key === "Enter"){
+        if(event.key === "Enter"){
 
-                checkExercise();
+            event.preventDefault();
 
-            }
+            checkExercise();
 
         }
-    );
+
+    }
+);
 
 createExercise();
 
 /* =========================================================
-   FALLBACK LIBRARY
+   LIBRARY
 ========================================================= */
 
 const FALLBACK_RESOURCES = [
 
 {
-    id:"fallback-one-course",
-    title:"One Course — كتب الرياضيات",
-    description:"كتب ومواد تعليمية مجانية بعدة لغات، تشمل الرياضيات لمراحل مختلفة.",
-    language:"ar",
-    country:"global",
-    education:"all",
-    type:"book",
-    price:0,
-    url:"https://one-course.com/ar/books",
-    created_at:"2026-01-01"
-},
-
-{
-    id:"fallback-openstax-k12",
-    title:"OpenStax K–12 Mathematics",
-    description:"بوابة OpenStax لمصادر وكتب الرياضيات المجانية.",
-    language:"en",
-    country:"us",
-    education:"all",
-    type:"book",
-    price:0,
-    url:"https://openstax.org/k12/math",
-    created_at:"2026-01-01"
-},
-
-{
-    id:"fallback-openstax-prealgebra",
+    id:"openstax-prealgebra",
     title:"OpenStax Prealgebra 2e",
-    description:"كتاب مجاني في مبادئ الجبر والحساب.",
+    description:"كتاب مجاني في الحساب والجبر الأساسي.",
     language:"en",
     country:"us",
     education:"secondary",
@@ -2946,7 +3472,7 @@ const FALLBACK_RESOURCES = [
 },
 
 {
-    id:"fallback-openstax-elementary",
+    id:"openstax-elementary-algebra",
     title:"OpenStax Elementary Algebra 2e",
     description:"كتاب مجاني في الجبر الابتدائي.",
     language:"en",
@@ -2955,11 +3481,11 @@ const FALLBACK_RESOURCES = [
     type:"book",
     price:0,
     url:"https://openstax.org/books/elementary-algebra-2e/pages/1-introduction",
-    created_at:"2026-01-01"
+    created_at:"2026-01-02"
 },
 
 {
-    id:"fallback-openstax-intermediate",
+    id:"openstax-intermediate-algebra",
     title:"OpenStax Intermediate Algebra 2e",
     description:"كتاب مجاني في الجبر المتوسط.",
     language:"en",
@@ -2968,11 +3494,11 @@ const FALLBACK_RESOURCES = [
     type:"book",
     price:0,
     url:"https://openstax.org/books/intermediate-algebra-2e/pages/1-introduction",
-    created_at:"2026-01-01"
+    created_at:"2026-01-03"
 },
 
 {
-    id:"fallback-openstax-college-algebra",
+    id:"openstax-college-algebra",
     title:"OpenStax College Algebra 2e",
     description:"كتاب مجاني في الجبر الجامعي.",
     language:"en",
@@ -2981,24 +3507,24 @@ const FALLBACK_RESOURCES = [
     type:"book",
     price:0,
     url:"https://openstax.org/books/college-algebra-2e/pages/1-introduction",
-    created_at:"2026-01-01"
+    created_at:"2026-01-04"
 },
 
 {
-    id:"fallback-openstax-trig",
+    id:"openstax-trigonometry",
     title:"OpenStax Algebra and Trigonometry 2e",
-    description:"كتاب مجاني في الجبر وحساب المثلثات.",
+    description:"مصدر مجاني في الجبر وحساب المثلثات.",
     language:"en",
     country:"us",
     education:"secondary",
     type:"book",
     price:0,
     url:"https://openstax.org/books/algebra-and-trigonometry-2e/pages/1-introduction",
-    created_at:"2026-01-01"
+    created_at:"2026-01-05"
 },
 
 {
-    id:"fallback-openstax-precalc",
+    id:"openstax-precalculus",
     title:"OpenStax Precalculus 2e",
     description:"كتاب مجاني في ما قبل التفاضل والتكامل.",
     language:"en",
@@ -3007,11 +3533,11 @@ const FALLBACK_RESOURCES = [
     type:"book",
     price:0,
     url:"https://openstax.org/books/precalculus-2e/pages/1-introduction",
-    created_at:"2026-01-01"
+    created_at:"2026-01-06"
 },
 
 {
-    id:"fallback-openstax-calculus1",
+    id:"openstax-calculus1",
     title:"OpenStax Calculus Volume 1",
     description:"كتاب مجاني في التفاضل والتكامل.",
     language:"en",
@@ -3020,24 +3546,24 @@ const FALLBACK_RESOURCES = [
     type:"book",
     price:0,
     url:"https://openstax.org/books/calculus-volume-1/pages/1-introduction",
-    created_at:"2026-01-01"
+    created_at:"2026-01-07"
 },
 
 {
-    id:"fallback-openstax-calculus2",
+    id:"openstax-calculus2",
     title:"OpenStax Calculus Volume 2",
-    description:"كتاب مجاني في التكامل والمتسلسلات والدوال متعددة المتغيرات.",
+    description:"كتاب مجاني في التكامل والمتسلسلات.",
     language:"en",
     country:"us",
     education:"university",
     type:"book",
     price:0,
     url:"https://openstax.org/books/calculus-volume-2/pages/1-introduction",
-    created_at:"2026-01-01"
+    created_at:"2026-01-08"
 },
 
 {
-    id:"fallback-openstax-calculus3",
+    id:"openstax-calculus3",
     title:"OpenStax Calculus Volume 3",
     description:"كتاب مجاني متقدم في التفاضل والتكامل متعدد المتغيرات.",
     language:"en",
@@ -3046,50 +3572,37 @@ const FALLBACK_RESOURCES = [
     type:"book",
     price:0,
     url:"https://openstax.org/books/calculus-volume-3/pages/1-introduction",
-    created_at:"2026-01-01"
+    created_at:"2026-01-09"
 },
 
 {
-    id:"fallback-openstax-stats",
+    id:"openstax-statistics",
     title:"OpenStax Introductory Statistics 2e",
-    description:"كتاب مجاني في الإحصاء والاحتمالات التمهيدية.",
+    description:"كتاب مجاني في الإحصاء والاحتمالات.",
     language:"en",
     country:"us",
     education:"university",
     type:"book",
     price:0,
     url:"https://openstax.org/books/introductory-statistics-2e/pages/1-introduction",
-    created_at:"2026-01-01"
+    created_at:"2026-01-10"
 },
 
 {
-    id:"fallback-openstax-contemporary",
+    id:"openstax-contemporary",
     title:"OpenStax Contemporary Mathematics",
-    description:"كتاب مجاني يقدم موضوعات متنوعة من الرياضيات المعاصرة.",
+    description:"مصدر مجاني لموضوعات متنوعة في الرياضيات.",
     language:"en",
     country:"us",
     education:"university",
     type:"book",
     price:0,
     url:"https://openstax.org/books/contemporary-mathematics/pages/1-introduction",
-    created_at:"2026-01-01"
+    created_at:"2026-01-11"
 },
 
 {
-    id:"fallback-libretexts-basic",
-    title:"LibreTexts — Arithmetic & Basic Math",
-    description:"مصادر مفتوحة في الحساب والرياضيات الأساسية.",
-    language:"en",
-    country:"us",
-    education:"primary",
-    type:"book",
-    price:0,
-    url:"https://math.libretexts.org/Bookshelves/Arithmetic_and_Basic_Math",
-    created_at:"2026-01-01"
-},
-
-{
-    id:"fallback-libretexts-math",
+    id:"libretexts-math",
     title:"Mathematics LibreTexts",
     description:"مكتبة مفتوحة واسعة في الرياضيات.",
     language:"en",
@@ -3098,144 +3611,153 @@ const FALLBACK_RESOURCES = [
     type:"website",
     price:0,
     url:"https://math.libretexts.org/",
-    created_at:"2026-01-01"
+    created_at:"2026-01-12"
 },
 
 {
-    id:"fallback-libretexts-algebra",
-    title:"LibreTexts — Algebra",
-    description:"موارد مفتوحة في الجبر لمستويات متعددة.",
+    id:"libretexts-algebra",
+    title:"LibreTexts Algebra",
+    description:"مصادر مفتوحة في الجبر.",
     language:"en",
     country:"global",
     education:"secondary",
     type:"website",
     price:0,
     url:"https://math.libretexts.org/Bookshelves/Algebra",
-    created_at:"2026-01-01"
+    created_at:"2026-01-13"
 },
 
 {
-    id:"fallback-libretexts-calculus",
-    title:"LibreTexts — Calculus",
-    description:"موارد مفتوحة في التفاضل والتكامل.",
+    id:"libretexts-calculus",
+    title:"LibreTexts Calculus",
+    description:"مصادر مفتوحة في التفاضل والتكامل.",
     language:"en",
     country:"global",
     education:"university",
     type:"website",
     price:0,
     url:"https://math.libretexts.org/Bookshelves/Calculus",
-    created_at:"2026-01-01"
+    created_at:"2026-01-14"
 },
 
 {
-    id:"fallback-libretexts-statistics",
-    title:"LibreTexts — Statistics",
-    description:"موارد مفتوحة في الإحصاء والاحتمالات.",
+    id:"libretexts-statistics",
+    title:"LibreTexts Statistics",
+    description:"مصادر مفتوحة في الإحصاء والاحتمالات.",
     language:"en",
     country:"global",
     education:"university",
     type:"website",
     price:0,
     url:"https://stats.libretexts.org/",
-    created_at:"2026-01-01"
+    created_at:"2026-01-15"
 },
 
 {
-    id:"fallback-geogebra-math",
+    id:"geogebra-math",
     title:"GeoGebra Mathematics",
-    description:"أدوات تفاعلية مجانية للجبر والهندسة والدوال والإحصاء.",
+    description:"أدوات تفاعلية للجبر والهندسة والدوال والإحصاء.",
     language:"en",
     country:"global",
     education:"all",
     type:"tool",
     price:0,
-    url:"https://www.geogebra.org/math?lang=en",
-    created_at:"2026-01-01"
+    url:"https://www.geogebra.org/math",
+    created_at:"2026-01-16"
 },
 
 {
-    id:"fallback-geogebra-geometry",
+    id:"geogebra-geometry",
     title:"GeoGebra Geometry",
-    description:"أدوات تفاعلية مجانية للهندسة والإنشاءات.",
+    description:"أدوات تفاعلية مجانية للهندسة.",
     language:"en",
     country:"global",
     education:"secondary",
     type:"tool",
     price:0,
-    url:"https://www.geogebra.org/math/geometry?lang=en",
-    created_at:"2026-01-01"
+    url:"https://www.geogebra.org/math/geometry",
+    created_at:"2026-01-17"
 },
 
 {
-    id:"fallback-khan-math",
+    id:"khan-math",
     title:"Khan Academy Mathematics",
-    description:"دروس وتمارين رياضيات مجانية عبر الإنترنت.",
+    description:"دروس وتمارين رياضيات مجانية.",
     language:"en",
     country:"us",
     education:"all",
     type:"course",
     price:0,
     url:"https://www.khanacademy.org/math",
-    created_at:"2026-01-01"
+    created_at:"2026-01-18"
 },
 
 {
-    id:"fallback-gutenberg-math",
+    id:"project-gutenberg-math",
     title:"Project Gutenberg — Mathematics",
-    description:"مجموعة من الكتب القديمة المتاحة ضمن مشروع الكتب الحرة؛ تحقق من حالة الحقوق في بلدك قبل إعادة النشر.",
+    description:"مجموعة من الكتب الرياضية المتاحة ضمن مشروع الكتب الحرة.",
     language:"en",
     country:"global",
     education:"all",
     type:"book",
     price:0,
     url:"https://www.gutenberg.org/ebooks/search/?query=mathematics",
-    created_at:"2026-01-01"
+    created_at:"2026-01-19"
 },
 
 {
-    id:"fallback-gutenberg-algebra",
+    id:"project-gutenberg-algebra",
     title:"Project Gutenberg — Algebra",
-    description:"بحث مباشر عن كتب الجبر المتاحة ضمن المجموعة العامة للمشروع.",
+    description:"بحث عن كتب الجبر المتاحة ضمن المجموعة.",
     language:"en",
     country:"global",
     education:"all",
     type:"book",
     price:0,
     url:"https://www.gutenberg.org/ebooks/search/?query=algebra",
-    created_at:"2026-01-01"
+    created_at:"2026-01-20"
 },
 
 {
-    id:"fallback-french-education",
+    id:"education-fr",
     title:"Ressources mathématiques — Éducation nationale",
-    description:"بوابة رسمية فرنسية تحتوي على موارد تربوية وتعليمية.",
+    description:"بوابة تعليمية رسمية فرنسية تحتوي على موارد تربوية.",
     language:"fr",
     country:"fr",
     education:"secondary",
     type:"website",
     price:0,
     url:"https://www.education.gouv.fr/",
-    created_at:"2026-01-01"
+    created_at:"2026-01-21"
 },
 
 {
-    id:"fallback-arabic-wikipedia",
+    id:"arabic-wikipedia-math",
     title:"الرياضيات — ويكيبيديا العربية",
-    description:"مدخل عربي عام إلى الرياضيات وروابط لمواضيع متعددة.",
+    description:"مدخل عربي عام إلى الرياضيات ومواضيعها المختلفة.",
     language:"ar",
     country:"global",
     education:"all",
     type:"website",
     price:0,
     url:"https://ar.wikipedia.org/wiki/رياضيات",
-    created_at:"2026-01-01"
+    created_at:"2026-01-22"
+},
+
+{
+    id:"one-course-books",
+    title:"One Course — كتب الرياضيات",
+    description:"مواد تعليمية وكتب في الرياضيات بعدة لغات.",
+    language:"ar",
+    country:"global",
+    education:"all",
+    type:"book",
+    price:0,
+    url:"https://one-course.com/ar/books",
+    created_at:"2026-01-23"
 }
 
 ];
-
-/* =========================================================
-   RESOURCE NORMALIZATION
-========================================================= */
 
 let resources = [];
 
@@ -3247,47 +3769,64 @@ function normalizeLanguage(value){
             .toLowerCase();
 
     if(
+        v === "ar" ||
         v.includes("arab") ||
         v.includes("عرب")
-    ) return "ar";
+    )return "ar";
 
     if(
+        v === "fr" ||
         v.includes("french") ||
-        v.includes("fran") ||
-        v === "fr"
-    ) return "fr";
+        v.includes("fran")
+    )return "fr";
 
     if(
+        v === "en" ||
         v.includes("english") ||
-        v.includes("anglais") ||
-        v === "en"
-    ) return "en";
+        v.includes("anglais")
+    )return "en";
 
     if(
-        v.includes("span") ||
-        v === "es"
-    ) return "es";
+        v === "es" ||
+        v.includes("span")
+    )return "es";
 
     if(
+        v === "de" ||
         v.includes("german") ||
-        v.includes("allem") ||
-        v === "de"
-    ) return "de";
+        v.includes("allem")
+    )return "de";
 
     if(
-        v.includes("portug") ||
-        v === "pt"
-    ) return "pt";
+        v === "pt" ||
+        v.includes("portug")
+    )return "pt";
 
     if(
-        v.includes("turk") ||
-        v === "tr"
-    ) return "tr";
+        v === "tr" ||
+        v.includes("turk")
+    )return "tr";
 
-    if(v.includes("hindi") || v.includes("الهند") || v === "hi") return "hi";
-    if(v.includes("dutch") || v.includes("nether") || v === "nl") return "nl";
-    if(v.includes("indones") || v === "id") return "id";
-    if(v.includes("ital") || v === "it") return "it";
+    if(
+        v === "hi" ||
+        v.includes("hindi")
+    )return "hi";
+
+    if(
+        v === "nl" ||
+        v.includes("dutch") ||
+        v.includes("nether")
+    )return "nl";
+
+    if(
+        v === "id" ||
+        v.includes("indones")
+    )return "id";
+
+    if(
+        v === "it" ||
+        v.includes("ital")
+    )return "it";
 
     return v || "en";
 
@@ -3304,57 +3843,73 @@ function normalizeCountry(value){
         v === "dz" ||
         v.includes("alg") ||
         v.includes("الجز")
-    ) return "dz";
+    )return "dz";
 
     if(
         v === "fr" ||
         v.includes("france") ||
         v.includes("فرن")
-    ) return "fr";
+    )return "fr";
 
     if(
         v === "us" ||
         v.includes("united states") ||
         v.includes("usa") ||
         v.includes("america")
-    ) return "us";
+    )return "us";
 
     if(
         v === "uk" ||
         v.includes("united kingdom") ||
         v.includes("britain")
-    ) return "uk";
+    )return "uk";
 
     if(
         v === "in" ||
         v.includes("india")
-    ) return "in";
+    )return "in";
 
     if(
         v === "de" ||
         v.includes("germany")
-    ) return "de";
+    )return "de";
 
     if(
         v === "es" ||
         v.includes("spain")
-    ) return "es";
+    )return "es";
 
     if(
         v === "tr" ||
         v.includes("turkey")
-    ) return "tr";
+    )return "tr";
 
-    if(v === "nl" || v.includes("netherlands") || v.includes("holland")) return "nl";
-    if(v === "id" || v.includes("indonesia")) return "id";
-    if(v === "br" || v.includes("brazil")) return "br";
-    if(v === "it" || v.includes("italy")) return "it";
+    if(
+        v === "nl" ||
+        v.includes("netherlands") ||
+        v.includes("holland")
+    )return "nl";
+
+    if(
+        v === "id" ||
+        v.includes("indonesia")
+    )return "id";
+
+    if(
+        v === "br" ||
+        v.includes("brazil")
+    )return "br";
+
+    if(
+        v === "it" ||
+        v.includes("italy")
+    )return "it";
 
     if(
         v.includes("international") ||
         v.includes("global") ||
         v.includes("world")
-    ) return "global";
+    )return "global";
 
     return v || "global";
 
@@ -3370,22 +3925,22 @@ function normalizeEducation(value){
     if(
         v.includes("primary") ||
         v.includes("ابتد")
-    ) return "primary";
+    )return "primary";
 
     if(
         v.includes("middle") ||
         v.includes("متوسط")
-    ) return "middle";
+    )return "middle";
 
     if(
         v.includes("secondary") ||
         v.includes("ثان")
-    ) return "secondary";
+    )return "secondary";
 
     if(
         v.includes("university") ||
         v.includes("جامع")
-    ) return "university";
+    )return "university";
 
     return "all";
 
@@ -3401,28 +3956,28 @@ function normalizeType(value){
     if(
         v.includes("book") ||
         v.includes("كتاب")
-    ) return "book";
+    )return "book";
 
     if(
         v.includes("course") ||
         v.includes("دورة")
-    ) return "course";
+    )return "course";
 
     if(
         v.includes("exercise") ||
         v.includes("تمرين")
-    ) return "exercise";
+    )return "exercise";
 
     if(
         v.includes("tool") ||
         v.includes("أداة")
-    ) return "tool";
+    )return "tool";
 
     if(
         v.includes("website") ||
         v.includes("site") ||
         v.includes("موقع")
-    ) return "website";
+    )return "website";
 
     return "website";
 
@@ -3462,9 +4017,9 @@ function normalizeResource(item,index){
             `resource-${index}`
         ),
 
-        title,
+        title:String(title),
 
-        description,
+        description:String(description),
 
         language:
             normalizeLanguage(
@@ -3560,33 +4115,36 @@ async function fetchResources(){
             normalizeResource
         );
 
-    const combined = [
-        ...db,
-        ...fallback
-    ];
+    const combined =
+        [
+            ...db,
+            ...fallback
+        ];
 
     const seen =
         new Set();
 
     resources =
-        combined.filter(resource=>{
+        combined.filter(
+            resource=>{
 
-            const key =
-                resource.url !== "#"
-                    ? resource.url
-                    : resource.id;
+                const key =
+                    resource.url !== "#"
+                        ? resource.url
+                        : resource.id;
 
-            if(seen.has(key)){
+                if(seen.has(key)){
 
-                return false;
+                    return false;
+
+                }
+
+                seen.add(key);
+
+                return true;
 
             }
-
-            seen.add(key);
-
-            return true;
-
-        });
+        );
 
     $("libraryLoading")?.
         classList.add("hidden");
@@ -3597,10 +4155,6 @@ async function fetchResources(){
     renderResources();
 
 }
-
-/* =========================================================
-   FILTERS
-========================================================= */
 
 function getFilters(){
 
@@ -3646,103 +4200,98 @@ function filterResources(){
         getFilters();
 
     let list =
-        resources.filter(resource=>{
+        resources.filter(
+            resource=>{
 
-            const text = [
+                const text =
+                    [
+                        resource.title,
+                        resource.description,
+                        resource.language,
+                        resource.country,
+                        resource.education,
+                        resource.type
+                    ]
+                    .join(" ")
+                    .toLowerCase();
 
-                resource.title,
+                if(
+                    filters.search &&
+                    !text.includes(
+                        filters.search
+                    )
+                ){
 
-                resource.description,
+                    return false;
 
-                resource.language,
+                }
 
-                resource.country,
+                if(
+                    filters.country &&
+                    resource.country !==
+                    filters.country
+                ){
 
-                resource.education,
+                    return false;
 
-                resource.type
+                }
 
-            ]
-            .join(" ")
-            .toLowerCase();
+                if(
+                    filters.language &&
+                    resource.language !==
+                    filters.language
+                ){
 
-            if(
-                filters.search &&
-                !text.includes(
-                    filters.search
-                )
-            ){
+                    return false;
 
-                return false;
+                }
+
+                if(
+                    filters.education &&
+                    resource.education !==
+                    filters.education &&
+                    resource.education !==
+                    "all"
+                ){
+
+                    return false;
+
+                }
+
+                if(
+                    filters.type &&
+                    resource.type !==
+                    filters.type
+                ){
+
+                    return false;
+
+                }
+
+                if(
+                    filters.price === "free" &&
+                    resource.price > 0
+                ){
+
+                    return false;
+
+                }
+
+                if(
+                    filters.price === "paid" &&
+                    resource.price <= 0
+                ){
+
+                    return false;
+
+                }
+
+                return true;
 
             }
+        );
 
-            if(
-                filters.country &&
-                resource.country !==
-                filters.country
-            ){
-
-                return false;
-
-            }
-
-            if(
-                filters.language &&
-                resource.language !==
-                filters.language
-            ){
-
-                return false;
-
-            }
-
-            if(
-                filters.education &&
-                resource.education !==
-                filters.education &&
-                resource.education !== "all"
-            ){
-
-                return false;
-
-            }
-
-            if(
-                filters.type &&
-                resource.type !==
-                filters.type
-            ){
-
-                return false;
-
-            }
-
-            if(
-                filters.price === "free" &&
-                resource.price > 0
-            ){
-
-                return false;
-
-            }
-
-            if(
-                filters.price === "paid" &&
-                resource.price <= 0
-            ){
-
-                return false;
-
-            }
-
-            return true;
-
-        });
-
-    if(
-        filters.sort === "az"
-    ){
+    if(filters.sort === "az"){
 
         list.sort(
             (a,b)=>
@@ -3754,9 +4303,7 @@ function filterResources(){
 
     }
 
-    else if(
-        filters.sort === "oldest"
-    ){
+    else if(filters.sort === "oldest"){
 
         list.sort(
             (a,b)=>
@@ -3766,9 +4313,7 @@ function filterResources(){
 
     }
 
-    else if(
-        filters.sort === "price"
-    ){
+    else if(filters.sort === "price"){
 
         list.sort(
             (a,b)=>
@@ -3792,7 +4337,7 @@ function filterResources(){
 }
 
 /* =========================================================
-   RESOURCE LABELS
+   LABELS
 ========================================================= */
 
 function languageLabel(value){
@@ -3875,7 +4420,8 @@ function typeLabel(value){
     };
 
     return map[value] ||
-        value;
+        value ||
+        "مورد";
 
 }
 
@@ -3907,7 +4453,9 @@ function renderResources(){
 
             const favorite =
                 userData.favorites
-                    .includes(resource.id);
+                    .includes(
+                        resource.id
+                    );
 
             const card =
                 document.createElement(
@@ -3924,6 +4472,8 @@ function renderResources(){
                     ? "🎓"
                     : resource.type === "tool"
                     ? "🧮"
+                    : resource.type === "exercise"
+                    ? "✏️"
                     : "📘";
 
             const priceText =
@@ -3940,23 +4490,39 @@ function renderResources(){
                     </div>
 
                     <button
-                        class="favorite-btn ${favorite ? "active":""}"
+                        class="favorite-btn ${
+                            favorite
+                            ? "active"
+                            : ""
+                        }"
                         type="button"
-                        data-favorite="${escapeHTML(resource.id)}"
+                        data-favorite="${
+                            escapeHTML(
+                                resource.id
+                            )
+                        }"
                         aria-label="المفضلة">
 
-                        ${favorite ? "♥" : "♡"}
+                        ${
+                            favorite
+                            ? "♥"
+                            : "♡"
+                        }
 
                     </button>
 
                 </div>
 
                 <div class="resource-title">
-                    ${escapeHTML(resource.title)}
+                    ${escapeHTML(
+                        resource.title
+                    )}
                 </div>
 
                 <div class="resource-description">
-                    ${escapeHTML(resource.description)}
+                    ${escapeHTML(
+                        resource.description
+                    )}
                 </div>
 
                 <div class="resource-meta">
@@ -3986,7 +4552,9 @@ function renderResources(){
                     </span>
 
                     <span class="badge">
-                        ${escapeHTML(priceText)}
+                        ${escapeHTML(
+                            priceText
+                        )}
                     </span>
 
                 </div>
@@ -3996,18 +4564,28 @@ function renderResources(){
                     <button
                         class="btn btn-primary"
                         type="button"
-                        data-open-resource="${escapeHTML(resource.id)}">
+                        data-open-resource="${
+                            escapeHTML(
+                                resource.id
+                            )
+                        }">
 
-                        ${resource.price > 0
+                        ${
+                            resource.price > 0
                             ? "فتح المورد"
-                            : "فتح"}
+                            : "فتح"
+                        }
 
                     </button>
 
                     <button
                         class="btn btn-secondary"
                         type="button"
-                        data-source-resource="${escapeHTML(resource.id)}">
+                        data-source-resource="${
+                            escapeHTML(
+                                resource.id
+                            )
+                        }">
 
                         المصدر
 
@@ -4026,63 +4604,69 @@ function renderResources(){
 
 function bindResourceButtons(){
 
-    document.querySelectorAll(
-        "[data-favorite]"
-    ).forEach(button=>{
+    document
+        .querySelectorAll(
+            "[data-favorite]"
+        )
+        .forEach(button=>{
 
-        button.addEventListener(
-            "click",
-            ()=>{
+            button.addEventListener(
+                "click",
+                ()=>{
 
-                toggleFavorite(
-                    button.dataset.favorite
-                );
+                    toggleFavorite(
+                        button.dataset.favorite
+                    );
 
-            }
-        );
+                }
+            );
 
-    });
+        });
 
-    document.querySelectorAll(
-        "[data-open-resource]"
-    ).forEach(button=>{
+    document
+        .querySelectorAll(
+            "[data-open-resource]"
+        )
+        .forEach(button=>{
 
-        button.addEventListener(
-            "click",
-            ()=>{
+            button.addEventListener(
+                "click",
+                ()=>{
 
-                openResource(
-                    button.dataset.openResource
-                );
+                    openResource(
+                        button.dataset.openResource
+                    );
 
-            }
-        );
+                }
+            );
 
-    });
+        });
 
-    document.querySelectorAll(
-        "[data-source-resource]"
-    ).forEach(button=>{
+    document
+        .querySelectorAll(
+            "[data-source-resource]"
+        )
+        .forEach(button=>{
 
-        button.addEventListener(
-            "click",
-            ()=>{
+            button.addEventListener(
+                "click",
+                ()=>{
 
-                openResourceSource(
-                    button.dataset.sourceResource
-                );
+                    openResourceSource(
+                        button.dataset.sourceResource
+                    );
 
-            }
-        );
+                }
+            );
 
-    });
+        });
 
 }
 
 function findResource(id){
 
     return resources.find(
-        resource =>
+        resource=>
             String(resource.id) ===
             String(id)
     );
@@ -4128,13 +4712,16 @@ function openResource(id){
 
     if(!resource)return;
 
-    $("resourceModalTitle").textContent =
+    $("resourceModalTitle")
+        .textContent =
         resource.title;
 
-    $("resourceModalDescription").textContent =
+    $("resourceModalDescription")
+        .textContent =
         resource.description;
 
-    $("resourceModalMeta").innerHTML = `
+    $("resourceModalMeta")
+        .innerHTML = `
 
         <span class="badge">
             ${escapeHTML(
@@ -4161,11 +4748,20 @@ function openResource(id){
         </span>
 
         <span class="badge">
-            ${resource.price > 0
-                ? `${resource.price} DA`
-                : "مجاني"}
+            ${escapeHTML(
+                typeLabel(
+                    resource.type
+                )
+            )}
         </span>
 
+        <span class="badge">
+            ${
+                resource.price > 0
+                ? `${resource.price} DA`
+                : "مجاني"
+            }
+        </span>
     `;
 
     const openButton =
@@ -4179,18 +4775,18 @@ function openResource(id){
 
             if(resource.price > 0){
 
-                showToast(
-                    "المورد المدفوع يحتاج إلى إتمام الدفع."
+                startPayment(
+                    resource
                 );
-
-                startPayment(resource);
 
                 return;
 
             }
 
             const url =
-                safeURL(resource.url);
+                safeURL(
+                    resource.url
+                );
 
             if(url === "#"){
 
@@ -4202,8 +4798,11 @@ function openResource(id){
 
             }
 
-            window.location.href =
-                url;
+            window.open(
+                url,
+                "_blank",
+                "noopener,noreferrer"
+            );
 
         };
 
@@ -4211,7 +4810,9 @@ function openResource(id){
         ()=>{
 
             const url =
-                safeURL(resource.url);
+                safeURL(
+                    resource.url
+                );
 
             if(url === "#"){
 
@@ -4223,8 +4824,11 @@ function openResource(id){
 
             }
 
-            window.location.href =
-                url;
+            window.open(
+                url,
+                "_blank",
+                "noopener,noreferrer"
+            );
 
         };
 
@@ -4242,7 +4846,9 @@ function openResourceSource(id){
     if(!resource)return;
 
     const url =
-        safeURL(resource.url);
+        safeURL(
+            resource.url
+        );
 
     if(url === "#"){
 
@@ -4254,8 +4860,11 @@ function openResourceSource(id){
 
     }
 
-    window.location.href =
-        url;
+    window.open(
+        url,
+        "_blank",
+        "noopener,noreferrer"
+    );
 
 }
 
@@ -4294,9 +4903,7 @@ async function startPayment(resource){
 
     if(!resource)return;
 
-    if(
-        !CONFIG.paymentEndpoint
-    ){
+    if(!CONFIG.paymentEndpoint){
 
         showToast(
             "الدفع غير مفعّل حاليًا."
@@ -4307,6 +4914,10 @@ async function startPayment(resource){
     }
 
     try{
+
+        showToast(
+            "جاري تجهيز عملية الدفع..."
+        );
 
         const response =
             await fetch(
@@ -4320,11 +4931,13 @@ async function startPayment(resource){
                     },
 
                     body:JSON.stringify({
+
                         resourceId:
                             resource.id,
 
                         amount:
                             resource.price
+
                     })
                 }
             );
@@ -4332,7 +4945,7 @@ async function startPayment(resource){
         if(!response.ok){
 
             throw new Error(
-                "Payment request failed"
+                `Payment request failed: ${response.status}`
             );
 
         }
@@ -4340,19 +4953,27 @@ async function startPayment(resource){
         const data =
             await response.json();
 
-        if(data.url){
+        const paymentURL =
+            data.url ||
+            data.checkout_url;
+
+        if(paymentURL){
+
+            const url =
+                safeURL(
+                    paymentURL
+                );
+
+            if(url === "#"){
+
+                throw new Error(
+                    "Invalid payment URL"
+                );
+
+            }
 
             window.location.href =
-                data.url;
-
-            return;
-
-        }
-
-        if(data.checkout_url){
-
-            window.location.href =
-                data.checkout_url;
+                url;
 
             return;
 
@@ -4364,7 +4985,10 @@ async function startPayment(resource){
 
     }catch(error){
 
-        console.error(error);
+        console.error(
+            "Payment error:",
+            error
+        );
 
         showToast(
             "تعذر بدء عملية الدفع."
@@ -4380,10 +5004,90 @@ async function startPayment(resource){
 
 let currentChallenge = null;
 
+let challengeTimer = null;
+
+let challengeTimeLeft = 0;
+
+let speedGame = null;
+
+function stopChallengeTimer(){
+
+    if(challengeTimer){
+
+        clearInterval(
+            challengeTimer
+        );
+
+        challengeTimer =
+            null;
+
+    }
+
+}
+
+function updateChallengeTimer(){
+
+    if(!$("gameTimer"))return;
+
+    $("gameTimer").textContent =
+        challengeTimeLeft > 0
+            ? `⏱️ ${challengeTimeLeft}s`
+            : "";
+
+}
+
+function startChallengeTimer(seconds){
+
+    stopChallengeTimer();
+
+    challengeTimeLeft =
+        seconds;
+
+    updateChallengeTimer();
+
+    challengeTimer =
+        setInterval(
+            ()=>{
+
+                challengeTimeLeft--;
+
+                updateChallengeTimer();
+
+                if(
+                    challengeTimeLeft <= 0
+                ){
+
+                    stopChallengeTimer();
+
+                    if(
+                        speedGame &&
+                        speedGame.active
+                    ){
+
+                        finishSpeedGame(
+                            true
+                        );
+
+                    }
+
+                }
+
+            },
+            1000
+        );
+
+}
+
 function createChallenge(type){
 
-    let question;
-    let answer;
+    stopChallengeTimer();
+
+    speedGame =
+        null;
+
+    let question = "";
+    let answer = 0;
+    let title = "";
 
     if(type === "speed"){
 
@@ -4399,8 +5103,29 @@ function createChallenge(type){
         answer =
             a+b;
 
-        $("challengeTitle").textContent =
+        title =
             "⚡ تحدي السرعة";
+
+        speedGame = {
+
+            active:true,
+
+            round:1,
+
+            total:5,
+
+            score:0,
+
+            answers:0,
+
+            startedAt:Date.now()
+
+        };
+
+        $("gameRound").textContent =
+            "السؤال 1 / 5";
+
+        startChallengeTimer(15);
 
     }
 
@@ -4418,12 +5143,62 @@ function createChallenge(type){
         answer =
             a*b+a;
 
-        $("challengeTitle").textContent =
+        title =
             "🧠 تحدي الذكاء";
+
+        $("gameRound").textContent =
+            "تحدي واحد";
 
     }
 
     else{
+
+        const today =
+            getLocalDateKey();
+
+        if(
+            userData.dailyCompleted ===
+            today
+        ){
+
+            $("challengeTitle").textContent =
+                "🎯 تحدي اليوم";
+
+            $("challengeQuestion").textContent =
+                "🏆 لقد أكملت تحدي اليوم بالفعل.";
+
+            $("challengeAnswer").value =
+                "";
+
+            $("challengeAnswer").disabled =
+                true;
+
+            $("challengeCheck").disabled =
+                true;
+
+            $("challengeNext").classList.add(
+                "hidden"
+            );
+
+            $("challengeResult").textContent =
+                "عد غدًا للحصول على تحدي جديد.";
+
+            $("challengeResult").style.color =
+                "var(--success)";
+
+            $("gameRound").textContent =
+                "مكتمل";
+
+            $("gameTimer").textContent =
+                "";
+
+            openModal(
+                "challengeModal"
+            );
+
+            return;
+
+        }
 
         const n =
             randomInt(2,10);
@@ -4434,16 +5209,28 @@ function createChallenge(type){
         answer =
             2*n+5;
 
-        $("challengeTitle").textContent =
+        title =
             "🎯 تحدي اليوم";
+
+        $("gameRound").textContent =
+            "تحدي اليوم";
 
     }
 
     currentChallenge = {
+
         type,
+
         question,
-        answer
+
+        answer,
+
+        completed:false
+
     };
+
+    $("challengeTitle").textContent =
+        title;
 
     $("challengeQuestion").textContent =
         question;
@@ -4451,12 +5238,272 @@ function createChallenge(type){
     $("challengeAnswer").value =
         "";
 
+    $("challengeAnswer").disabled =
+        false;
+
+    $("challengeCheck").disabled =
+        false;
+
+    $("challengeNext").classList.add(
+        "hidden"
+    );
+
     $("challengeResult").textContent =
         "";
 
     openModal(
         "challengeModal"
     );
+
+}
+
+function checkChallenge(){
+
+    if(!currentChallenge){
+
+        return;
+
+    }
+
+    if(currentChallenge.completed){
+
+        return;
+
+    }
+
+    const raw =
+        $("challengeAnswer")
+            .value
+            .trim();
+
+    if(raw === ""){
+
+        showToast(
+            "اكتب الإجابة أولًا."
+        );
+
+        return;
+
+    }
+
+    const answer =
+        Number(raw);
+
+    if(!Number.isFinite(answer)){
+
+        showToast(
+            "أدخل رقمًا صالحًا."
+        );
+
+        return;
+
+    }
+
+    if(
+        answer !==
+        currentChallenge.answer
+    ){
+
+        $("challengeResult").textContent =
+            "❌ إجابة غير صحيحة، حاول مرة أخرى.";
+
+        $("challengeResult").style.color =
+            "var(--danger)";
+
+        return;
+
+    }
+
+    currentChallenge.completed =
+        true;
+
+    $("challengeAnswer").disabled =
+        true;
+
+    $("challengeCheck").disabled =
+        true;
+
+    if(
+        currentChallenge.type ===
+        "speed"
+    ){
+
+        speedGame.answers++;
+        speedGame.score++;
+
+        $("challengeResult").textContent =
+            "✅ صحيح! +10 XP";
+
+        $("challengeResult").style.color =
+            "var(--success)";
+
+        addXP(10);
+
+        setTimeout(
+            nextSpeedQuestion,
+            500
+        );
+
+        return;
+
+    }
+
+    if(
+        currentChallenge.type ===
+        "daily"
+    ){
+
+        const today =
+            getLocalDateKey();
+
+        userData.dailyCompleted =
+            today;
+
+        userData.dailyAnswer =
+            currentChallenge.answer;
+
+        saveUserData();
+
+        $("challengeResult").textContent =
+            "🏆 إجابة صحيحة! +20 XP";
+
+        $("challengeResult").style.color =
+            "var(--success)";
+
+        addXP(20);
+
+        return;
+
+    }
+
+    $("challengeResult").textContent =
+        "🏆 إجابة صحيحة! +20 XP";
+
+    $("challengeResult").style.color =
+        "var(--success)";
+
+    addXP(20);
+
+}
+
+function nextSpeedQuestion(){
+
+    if(
+        !speedGame ||
+        !speedGame.active
+    ){
+
+        return;
+
+    }
+
+    if(
+        speedGame.round >=
+        speedGame.total
+    ){
+
+        finishSpeedGame(false);
+
+        return;
+
+    }
+
+    speedGame.round++;
+
+    const a =
+        randomInt(10,70);
+
+    const b =
+        randomInt(10,70);
+
+    currentChallenge = {
+
+        type:"speed",
+
+        question:
+            `${a} + ${b}`,
+
+        answer:
+            a+b,
+
+        completed:false
+
+    };
+
+    $("gameRound").textContent =
+        `السؤال ${speedGame.round} / ${speedGame.total}`;
+
+    $("challengeQuestion").textContent =
+        currentChallenge.question;
+
+    $("challengeAnswer").value =
+        "";
+
+    $("challengeAnswer").disabled =
+        false;
+
+    $("challengeCheck").disabled =
+        false;
+
+    $("challengeResult").textContent =
+        "";
+
+    startChallengeTimer(15);
+
+}
+
+function finishSpeedGame(timeout){
+
+    stopChallengeTimer();
+
+    if(
+        !speedGame ||
+        !speedGame.active
+    ){
+
+        return;
+
+    }
+
+    speedGame.active =
+        false;
+
+    currentChallenge =
+        null;
+
+    $("challengeAnswer").disabled =
+        true;
+
+    $("challengeCheck").disabled =
+        true;
+
+    $("gameTimer").textContent =
+        "";
+
+    $("gameRound").textContent =
+        "انتهى التحدي";
+
+    $("challengeQuestion").textContent =
+        timeout
+            ? "⏰ انتهى الوقت!"
+            : "🎉 انتهى التحدي!";
+
+    $("challengeResult").textContent =
+        `نتيجتك: ${speedGame.score} / ${speedGame.total}`;
+
+    $("challengeResult").style.color =
+        "var(--primary)";
+
+    if(speedGame.score > 0){
+
+        addXP(
+            speedGame.score * 5
+        );
+
+    }
+
+    speedGame =
+        null;
 
 }
 
@@ -4476,162 +5523,336 @@ function createChallenge(type){
     }
 );
 
-$("challengeAnswer")?.addEventListener("keydown", event=>{
-    if(event.key === "Enter"){
-        event.preventDefault();
-        $("challengeCheck")?.click();
-    }
-});
+$("challengeAnswer")?.addEventListener(
+    "keydown",
+    event=>{
 
-$("challengeCheck")?.
-    addEventListener(
-        "click",
-        ()=>{
+        if(event.key === "Enter"){
 
-            if(!currentChallenge)return;
+            event.preventDefault();
 
-            const raw =
-                $("challengeAnswer").value;
-
-            if(raw === ""){
-
-                showToast(
-                    "اكتب الإجابة أولًا."
-                );
-
-                return;
-
-            }
-
-            const answer =
-                Number(raw);
-
-            if(
-                answer ===
-                currentChallenge.answer
-            ){
-
-                $("challengeResult").textContent =
-                    "🏆 إجابة صحيحة! +20 XP";
-
-                $("challengeResult").style.color =
-                    "var(--success)";
-
-                addXP(20);
-
-            }else{
-
-                $("challengeResult").textContent =
-                    "❌ إجابة غير صحيحة.";
-
-                $("challengeResult").style.color =
-                    "var(--danger)";
-
-            }
+            $("challengeCheck")?.click();
 
         }
-    );
+
+    }
+);
+
+$("challengeCheck")?.addEventListener(
+    "click",
+    checkChallenge
+);
 
 /* =========================================================
    GAMES
 ========================================================= */
 
-$("quickGame")?.
-    addEventListener(
-        "click",
-        ()=>{
+/* QUICK GAME = SPEED */
 
-            createChallenge(
-                "speed"
-            );
+$("quickGame")?.addEventListener(
+    "click",
+    ()=>{
 
-        }
+        createChallenge(
+            "speed"
+        );
+
+    }
+);
+
+/* GUESS GAME */
+
+let guessGameState = null;
+
+function startGuessGame(){
+
+    stopChallengeTimer();
+
+    speedGame =
+        null;
+
+    const secret =
+        randomInt(1,20);
+
+    guessGameState = {
+
+        secret,
+
+        attempts:0,
+
+        maxAttempts:6,
+
+        active:true
+
+    };
+
+    currentChallenge = {
+
+        type:"guess",
+
+        question:
+            "خمن عددًا بين 1 و20.",
+
+        answer:
+            secret,
+
+        completed:false
+
+    };
+
+    $("challengeTitle").textContent =
+        "🔢 خمن العدد";
+
+    $("challengeQuestion").textContent =
+        "خمن عددًا بين 1 و20.";
+
+    $("challengeAnswer").value =
+        "";
+
+    $("challengeAnswer").disabled =
+        false;
+
+    $("challengeCheck").disabled =
+        false;
+
+    $("challengeNext").classList.add(
+        "hidden"
     );
 
-$("geometryGame")?.
-    addEventListener(
-        "click",
-        ()=>{
+    $("challengeResult").textContent =
+        "لديك 6 محاولات.";
 
-            $("challengeTitle").textContent =
-                "📐 تحدي الهندسة";
+    $("challengeResult").style.color =
+        "var(--muted)";
 
-            const base =
-                randomInt(3,12);
+    $("gameRound").textContent =
+        "6 محاولات";
 
-            const height =
-                randomInt(3,12);
+    $("gameTimer").textContent =
+        "";
 
-            currentChallenge = {
-
-                question:
-                    `مساحة مثلث قاعدته ${base} وارتفاعه ${height}؟`,
-
-                answer:
-                    base*height/2,
-
-                type:"geometry"
-
-            };
-
-            $("challengeQuestion").textContent =
-                currentChallenge.question;
-
-            $("challengeAnswer").value =
-                "";
-
-            $("challengeResult").textContent =
-                "";
-
-            openModal(
-                "challengeModal"
-            );
-
-        }
+    openModal(
+        "challengeModal"
     );
 
-$("guessGame")?.
-    addEventListener(
-        "click",
-        ()=>{
+}
 
-            const number =
-                randomInt(1,20);
+function checkGuessGame(){
 
-            currentChallenge = {
+    if(
+        !guessGameState ||
+        !guessGameState.active
+    ){
 
-                question:
-                    "خمن عددًا بين 1 و20.",
+        return;
 
-                answer:
-                    number,
+    }
 
-                type:"guess"
+    const raw =
+        $("challengeAnswer")
+            .value
+            .trim();
 
-            };
+    if(raw === ""){
 
-            $("challengeTitle").textContent =
-                "🔢 خمن العدد";
+        showToast(
+            "اكتب رقمًا بين 1 و20."
+        );
 
-            $("challengeQuestion").textContent =
-                currentChallenge.question;
+        return;
 
-            $("challengeAnswer").value =
-                "";
+    }
 
-            $("challengeResult").textContent =
-                "";
+    const value =
+        Number(raw);
 
-            openModal(
-                "challengeModal"
-            );
+    if(
+        !Number.isInteger(value) ||
+        value < 1 ||
+        value > 20
+    ){
 
-            showToast(
-                "تم اختيار عدد جديد بين 1 و20."
-            );
+        showToast(
+            "اختر عددًا صحيحًا من 1 إلى 20."
+        );
+
+        return;
+
+    }
+
+    guessGameState.attempts++;
+
+    const remaining =
+        guessGameState.maxAttempts -
+        guessGameState.attempts;
+
+    if(
+        value ===
+        guessGameState.secret
+    ){
+
+        guessGameState.active =
+            false;
+
+        currentChallenge.completed =
+            true;
+
+        $("challengeAnswer").disabled =
+            true;
+
+        $("challengeCheck").disabled =
+            true;
+
+        $("gameRound").textContent =
+            "فائز 🏆";
+
+        $("challengeResult").textContent =
+            `🎉 أحسنت! العدد هو ${guessGameState.secret}. +20 XP`;
+
+        $("challengeResult").style.color =
+            "var(--success)";
+
+        addXP(20);
+
+        return;
+
+    }
+
+    if(remaining <= 0){
+
+        guessGameState.active =
+            false;
+
+        $("challengeAnswer").disabled =
+            true;
+
+        $("challengeCheck").disabled =
+            true;
+
+        $("gameRound").textContent =
+            "انتهت المحاولات";
+
+        $("challengeResult").textContent =
+            `❌ العدد الصحيح هو ${guessGameState.secret}.`;
+
+        $("challengeResult").style.color =
+            "var(--danger)";
+
+        return;
+
+    }
+
+    const hint =
+        value <
+        guessGameState.secret
+            ? "📈 العدد أكبر."
+            : "📉 العدد أصغر.";
+
+    $("challengeResult").textContent =
+        `${hint} تبقت ${remaining} محاولات.`;
+
+    $("challengeResult").style.color =
+        "var(--primary)";
+
+    $("gameRound").textContent =
+        `${remaining} محاولات`;
+
+}
+
+$("guessGame")?.addEventListener(
+    "click",
+    startGuessGame
+);
+
+/* GEOMETRY */
+
+function startGeometryGame(){
+
+    stopChallengeTimer();
+
+    speedGame =
+        null;
+
+    const base =
+        randomInt(3,12);
+
+    const height =
+        randomInt(3,12);
+
+    const answer =
+        base*height/2;
+
+    currentChallenge = {
+
+        type:"geometry",
+
+        question:
+            `مساحة مثلث قاعدته ${base} وارتفاعه ${height}؟`,
+
+        answer,
+
+        completed:false
+
+    };
+
+    $("challengeTitle").textContent =
+        "📐 تحدي الهندسة";
+
+    $("challengeQuestion").textContent =
+        currentChallenge.question;
+
+    $("challengeAnswer").value =
+        "";
+
+    $("challengeAnswer").disabled =
+        false;
+
+    $("challengeCheck").disabled =
+        false;
+
+    $("challengeResult").textContent =
+        "";
+
+    $("gameRound").textContent =
+        "سؤال هندسي";
+
+    $("gameTimer").textContent =
+        "";
+
+    openModal(
+        "challengeModal"
+    );
+
+}
+
+$("geometryGame")?.addEventListener(
+    "click",
+    startGeometryGame
+);
+
+/* SPECIAL CHECK FOR GUESS */
+
+const originalCheckChallenge =
+    checkChallenge;
+
+$("challengeCheck")?.addEventListener(
+    "click",
+    event=>{
+
+        if(
+            guessGameState &&
+            guessGameState.active
+        ){
+
+            event.stopImmediatePropagation();
+
+            checkGuessGame();
 
         }
-    );
+
+    },
+    true
+);
 
 /* =========================================================
    MODALS
@@ -4645,9 +5866,34 @@ document.querySelectorAll(
         "click",
         ()=>{
 
-            closeModal(
-                button.dataset.close
-            );
+            const id =
+                button.dataset.close;
+
+            if(
+                id === "challengeModal"
+            ){
+
+                stopChallengeTimer();
+
+                if(speedGame){
+
+                    speedGame.active =
+                        false;
+
+                    speedGame =
+                        null;
+
+                }
+
+                guessGameState =
+                    null;
+
+                currentChallenge =
+                    null;
+
+            }
+
+            closeModal(id);
 
         }
     );
@@ -4665,6 +5911,24 @@ document.querySelectorAll(
             if(
                 event.target === modal
             ){
+
+                if(
+                    modal.id ===
+                    "challengeModal"
+                ){
+
+                    stopChallengeTimer();
+
+                    speedGame =
+                        null;
+
+                    guessGameState =
+                        null;
+
+                    currentChallenge =
+                        null;
+
+                }
 
                 closeModal(
                     modal.id
@@ -4685,15 +5949,28 @@ document.addEventListener(
             event.key === "Escape"
         ){
 
-            document.querySelectorAll(
-                ".modal.open"
-            ).forEach(modal=>{
+            stopChallengeTimer();
 
-                closeModal(
-                    modal.id
-                );
+            document
+                .querySelectorAll(
+                    ".modal.open"
+                )
+                .forEach(modal=>{
 
-            });
+                    closeModal(
+                        modal.id
+                    );
+
+                });
+
+            speedGame =
+                null;
+
+            guessGameState =
+                null;
+
+            currentChallenge =
+                null;
 
             closeMobileMenu();
 
@@ -4716,6 +5993,12 @@ function updateAuthUI(user){
 
     const mobileLogin =
         $("mobileLogin");
+
+    if(!loginBtn || !mobileLogin){
+
+        return;
+
+    }
 
     if(user){
 
@@ -4761,11 +6044,12 @@ async function getCurrentUser(){
                 .auth
                 .getUser();
 
-        updateAuthUI(
-            data?.user || null
-        );
+        const user =
+            data?.user || null;
 
-        return data?.user || null;
+        updateAuthUI(user);
+
+        return user;
 
     }catch(error){
 
@@ -4820,139 +6104,164 @@ function updateAuthMode(){
 
 }
 
-$("authSwitch")?.
-    addEventListener(
-        "click",
-        ()=>{
+$("authSwitch")?.addEventListener(
+    "click",
+    ()=>{
 
-            authMode =
-                authMode === "login"
-                    ? "signup"
-                    : "login";
+        authMode =
+            authMode === "login"
+                ? "signup"
+                : "login";
 
-            updateAuthMode();
+        updateAuthMode();
+
+    }
+);
+
+$("authForm")?.addEventListener(
+    "submit",
+    async event=>{
+
+        event.preventDefault();
+
+        const email =
+            $("authEmail")
+                .value
+                .trim();
+
+        const password =
+            $("authPassword")
+                .value;
+
+        if(
+            !email ||
+            !password
+        ){
+
+            showToast(
+                "أدخل البريد وكلمة المرور."
+            );
+
+            return;
 
         }
-    );
 
-$("authForm")?.
-    addEventListener(
-        "submit",
-        async event=>{
+        if(
+            password.length < 6
+        ){
 
-            event.preventDefault();
+            showToast(
+                "كلمة المرور يجب أن تكون 6 أحرف على الأقل."
+            );
 
-            const email =
-                $("authEmail")
-                    .value
-                    .trim();
+            return;
 
-            const password =
-                $("authPassword")
-                    .value;
+        }
+
+        if(!supabaseClient){
+
+            showToast(
+                "خدمة الحساب غير متاحة حاليًا."
+            );
+
+            return;
+
+        }
+
+        $("authSubmit").disabled =
+            true;
+
+        $("authMessage").textContent =
+            "جاري المعالجة...";
+
+        $("authMessage").style.color =
+            "var(--muted)";
+
+        try{
+
+            let result;
 
             if(
-                !email ||
-                !password
+                authMode === "login"
+            ){
+
+                result =
+                    await supabaseClient
+                        .auth
+                        .signInWithPassword({
+
+                            email,
+
+                            password
+
+                        });
+
+            }else{
+
+                result =
+                    await supabaseClient
+                        .auth
+                        .signUp({
+
+                            email,
+
+                            password
+
+                        });
+
+            }
+
+            if(result.error){
+
+                throw result.error;
+
+            }
+
+            if(
+                authMode === "signup"
             ){
 
                 showToast(
-                    "أدخل البريد وكلمة المرور."
+                    "تم إنشاء الحساب. تحقق من بريدك إذا طُلب ذلك."
                 );
 
-                return;
-
-            }
-
-            if(!supabaseClient){
+            }else{
 
                 showToast(
-                    "خدمة الحساب غير متاحة حاليًا."
+                    "تم تسجيل الدخول بنجاح."
                 );
 
-                return;
-
             }
+
+            closeModal(
+                "authModal"
+            );
+
+            await getCurrentUser();
+
+        }catch(error){
+
+            console.error(
+                "Auth error:",
+                error
+            );
+
+            $("authMessage").textContent =
+                error.message ||
+                "حدث خطأ أثناء العملية.";
+
+            $("authMessage").style.color =
+                "var(--danger)";
+
+        }finally{
 
             $("authSubmit").disabled =
-                true;
-
-            try{
-
-                let result;
-
-                if(
-                    authMode === "login"
-                ){
-
-                    result =
-                        await supabaseClient
-                            .auth
-                            .signInWithPassword({
-                                email,
-                                password
-                            });
-
-                }else{
-
-                    result =
-                        await supabaseClient
-                            .auth
-                            .signUp({
-                                email,
-                                password
-                            });
-
-                }
-
-                if(result.error){
-
-                    throw result.error;
-
-                }
-
-                if(
-                    authMode === "signup"
-                ){
-
-                    showToast(
-                        "تم إنشاء الحساب. تحقق من بريدك إذا طُلب ذلك."
-                    );
-
-                }else{
-
-                    showToast(
-                        "تم تسجيل الدخول بنجاح."
-                    );
-
-                }
-
-                closeModal(
-                    "authModal"
-                );
-
-                await getCurrentUser();
-
-            }catch(error){
-
-                console.error(error);
-
-                $("authMessage").textContent =
-                    error.message ||
-                    "حدث خطأ.";
-
-                $("authMessage").style.color =
-                    "var(--danger)";
-
-            }finally{
-
-                $("authSubmit").disabled =
-                    false;
-
-            }
+                false;
 
         }
-    );
+
+    }
+);
 
 async function handleAuthButton(){
 
@@ -4973,11 +6282,21 @@ async function handleAuthButton(){
         )
     ){
 
-        if(supabaseClient){
+        try{
 
-            await supabaseClient
-                .auth
-                .signOut();
+            if(supabaseClient){
+
+                await supabaseClient
+                    .auth
+                    .signOut();
+
+            }
+
+        }catch(error){
+
+            console.error(
+                error
+            );
 
         }
 
@@ -4991,25 +6310,21 @@ async function handleAuthButton(){
 
 }
 
-/* مهم:
-   listener واحد فقط لكل زر */
-$("loginBtn")?.
-    addEventListener(
-        "click",
-        handleAuthButton
-    );
+$("loginBtn")?.addEventListener(
+    "click",
+    handleAuthButton
+);
 
-$("mobileLogin")?.
-    addEventListener(
-        "click",
-        async()=>{
+$("mobileLogin")?.addEventListener(
+    "click",
+    async()=>{
 
-            closeMobileMenu();
+        closeMobileMenu();
 
-            await handleAuthButton();
+        await handleAuthButton();
 
-        }
-    );
+    }
+);
 
 if(supabaseClient){
 
@@ -5079,12 +6394,16 @@ function handlePaymentReturn(){
 
         }
 
-        history.replaceState(
-            {},
-            document.title,
-            window.location.pathname +
-            window.location.hash
-        );
+        try{
+
+            history.replaceState(
+                {},
+                document.title,
+                window.location.pathname +
+                window.location.hash
+            );
+
+        }catch(error){}
 
     }
 
@@ -5108,7 +6427,20 @@ window.addEventListener(
 
         console.error(
             "HAMOU MATH error:",
-            event.error || event.message
+            event.error ||
+            event.message
+        );
+
+    }
+);
+
+window.addEventListener(
+    "unhandledrejection",
+    event=>{
+
+        console.error(
+            "HAMOU MATH promise error:",
+            event.reason
         );
 
     }
