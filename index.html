@@ -69,6 +69,252 @@
     "url": "https://hamoumaths.vercel.app/"
   }
   </script>
+  <script>
+(function(){
+
+  const grid = document.getElementById("hmLibraryGrid");
+  const count = document.getElementById("hmBookCount");
+  const empty = document.getElementById("hmLibraryEmpty");
+
+  const search = document.getElementById("hmLibrarySearch");
+  const level = document.getElementById("hmLevelFilter");
+  const category = document.getElementById("hmCategoryFilter");
+  const language = document.getElementById("hmLanguageFilter");
+  const sort = document.getElementById("hmSort");
+
+  let activeTab = "all";
+
+  let favorites =
+    JSON.parse(localStorage.getItem("hamou_library_favorites") || "[]");
+
+  function isFavorite(id){
+    return favorites.includes(id);
+  }
+
+  function toggleFavorite(id){
+
+    if(isFavorite(id)){
+      favorites = favorites.filter(x => x !== id);
+    }else{
+      favorites.push(id);
+    }
+
+    localStorage.setItem(
+      "hamou_library_favorites",
+      JSON.stringify(favorites)
+    );
+
+    render();
+  }
+
+  function getFilteredBooks(){
+
+    const q = (search?.value || "").trim().toLowerCase();
+
+    let books = HAMOU_LIBRARY_BOOKS.filter(book => {
+
+      const matchesSearch =
+        !q ||
+        book.title.toLowerCase().includes(q) ||
+        book.description.toLowerCase().includes(q);
+
+      const matchesLevel =
+        level.value === "all" ||
+        book.level === level.value;
+
+      const matchesCategory =
+        category.value === "all" ||
+        book.category === category.value;
+
+      const matchesLanguage =
+        language.value === "all" ||
+        book.language === language.value;
+
+      let matchesTab = true;
+
+      if(activeTab === "favorites"){
+        matchesTab = isFavorite(book.id);
+      }
+
+      if(activeTab === "free"){
+        matchesTab = book.free === true;
+      }
+
+      return (
+        matchesSearch &&
+        matchesLevel &&
+        matchesCategory &&
+        matchesLanguage &&
+        matchesTab
+      );
+    });
+
+    if(sort.value === "title"){
+      books.sort((a,b) =>
+        a.title.localeCompare(b.title,"ar")
+      );
+    }
+
+    if(sort.value === "newest"){
+      books.sort((a,b) => b.year - a.year);
+    }
+
+    if(sort.value === "featured"){
+      books.sort((a,b) =>
+        Number(b.featured) - Number(a.featured)
+      );
+    }
+
+    return books;
+  }
+
+  function labelLevel(value){
+
+    const map = {
+      middle:"متوسط",
+      secondary:"ثانوي",
+      bac:"بكالوريا",
+      university:"جامعة",
+      general:"عام"
+    };
+
+    return map[value] || value;
+  }
+
+  function labelCategory(value){
+
+    const map = {
+      algebra:"الجبر",
+      analysis:"التحليل",
+      geometry:"الهندسة",
+      functions:"الدوال",
+      probability:"الاحتمالات",
+      statistics:"الإحصاء",
+      calculus:"التفاضل والتكامل",
+      trigonometry:"المثلثات",
+      general:"رياضيات عامة"
+    };
+
+    return map[value] || value;
+  }
+
+  function labelLanguage(value){
+
+    const map = {
+      ar:"العربية",
+      fr:"Français",
+      en:"English"
+    };
+
+    return map[value] || value;
+  }
+
+  function render(){
+
+    const books = getFilteredBooks();
+
+    count.textContent = books.length;
+
+    empty.hidden = books.length !== 0;
+
+    grid.innerHTML = books.map(book => {
+
+      const fav = isFavorite(book.id);
+
+      const source =
+        book.source && book.source !== "#"
+        ? book.source
+        : "javascript:void(0)";
+
+      const download =
+        book.download && book.download !== "#"
+        ? book.download
+        : "javascript:void(0)";
+
+      return `
+        <article class="hm-book">
+
+          <button
+            class="hm-book-fav"
+            type="button"
+            data-favorite="${book.id}"
+            aria-label="إضافة إلى المفضلة">
+            ${fav ? "❤️" : "♡"}
+          </button>
+
+          <div class="hm-book-cover">
+            ${book.icon || "📘"}
+          </div>
+
+          <h3>${book.title}</h3>
+
+          <p>${book.description}</p>
+
+          <div class="hm-book-meta">
+            <span>🎓 ${labelLevel(book.level)}</span>
+            <span>📚 ${labelCategory(book.category)}</span>
+            <span>🌍 ${labelLanguage(book.language)}</span>
+          </div>
+
+          <div class="hm-book-actions">
+
+            <a
+              href="${source}"
+              ${source !== "javascript:void(0)" ? 'target="_blank" rel="noopener noreferrer"' : ""}
+              class="secondary">
+              📖 قراءة
+            </a>
+
+            <a
+              href="${download}"
+              ${download !== "javascript:void(0)" ? 'target="_blank" rel="noopener noreferrer"' : ""}>
+              📥 فتح المصدر
+            </a>
+
+          </div>
+
+        </article>
+      `;
+
+    }).join("");
+
+    grid.querySelectorAll("[data-favorite]").forEach(button => {
+
+      button.addEventListener("click", () => {
+        toggleFavorite(button.dataset.favorite);
+      });
+
+    });
+  }
+
+  [search,level,category,language,sort].forEach(el => {
+    if(el){
+      el.addEventListener("input", render);
+      el.addEventListener("change", render);
+    }
+  });
+
+  document.querySelectorAll("[data-library-tab]").forEach(button => {
+
+    button.addEventListener("click", () => {
+
+      activeTab = button.dataset.libraryTab;
+
+      document
+        .querySelectorAll("[data-library-tab]")
+        .forEach(btn => btn.classList.remove("active"));
+
+      button.classList.add("active");
+
+      render();
+    });
+
+  });
+
+  render();
+
+})();
+</script>
 <script>
 const HAMOU_LIBRARY_BOOKS = [
 
