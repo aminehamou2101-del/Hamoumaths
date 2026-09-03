@@ -82,6 +82,269 @@
   </script>
 
   <style>
+    .hm-library{
+  width:min(1200px,94%);
+  margin:60px auto;
+}
+
+.hm-library-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:20px;
+  margin-bottom:25px;
+}
+
+.hm-kicker{
+  display:inline-block;
+  font-size:.78rem;
+  font-weight:800;
+  letter-spacing:.08em;
+  color:#2563eb;
+  margin-bottom:7px;
+}
+
+.hm-library-header h2{
+  margin:0 0 8px;
+  font-size:clamp(1.7rem,4vw,2.5rem);
+}
+
+.hm-library-header p{
+  margin:0;
+  opacity:.7;
+}
+
+.hm-library-count{
+  min-width:100px;
+  padding:18px;
+  text-align:center;
+  border-radius:18px;
+  background:rgba(37,99,235,.08);
+}
+
+.hm-library-count strong{
+  display:block;
+  font-size:2rem;
+  color:#2563eb;
+}
+
+.hm-library-count span{
+  font-size:.85rem;
+  opacity:.7;
+}
+
+.hm-library-tools{
+  display:grid;
+  grid-template-columns:2fr repeat(4,1fr);
+  gap:10px;
+  margin-bottom:18px;
+}
+
+.hm-search{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  min-height:48px;
+  padding:0 14px;
+  border:1px solid rgba(100,116,139,.2);
+  border-radius:14px;
+  background:rgba(255,255,255,.8);
+}
+
+.hm-search input{
+  width:100%;
+  border:0;
+  outline:0;
+  background:transparent;
+  font:inherit;
+  color:inherit;
+}
+
+.hm-library-tools select{
+  min-height:48px;
+  border:1px solid rgba(100,116,139,.2);
+  border-radius:14px;
+  padding:0 12px;
+  background:rgba(255,255,255,.8);
+  color:inherit;
+  font:inherit;
+}
+
+.hm-library-tabs{
+  display:flex;
+  gap:8px;
+  overflow-x:auto;
+  padding-bottom:15px;
+}
+
+.hm-library-tabs button{
+  border:0;
+  padding:10px 17px;
+  border-radius:999px;
+  background:rgba(100,116,139,.1);
+  color:inherit;
+  font:inherit;
+  cursor:pointer;
+  white-space:nowrap;
+}
+
+.hm-library-tabs button.active{
+  background:#2563eb;
+  color:#fff;
+}
+
+.hm-library-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:18px;
+}
+
+.hm-book{
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  min-height:300px;
+  padding:20px;
+  border:1px solid rgba(100,116,139,.16);
+  border-radius:22px;
+  background:rgba(255,255,255,.9);
+  box-shadow:0 8px 25px rgba(15,23,42,.06);
+  transition:.2s ease;
+}
+
+.hm-book:hover{
+  transform:translateY(-4px);
+  box-shadow:0 15px 35px rgba(15,23,42,.1);
+}
+
+.hm-book-cover{
+  height:105px;
+  display:grid;
+  place-items:center;
+  margin-bottom:15px;
+  border-radius:16px;
+  background:linear-gradient(135deg,#2563eb,#7c3aed);
+  color:white;
+  font-size:2.5rem;
+  font-weight:900;
+}
+
+.hm-book-fav{
+  position:absolute;
+  top:15px;
+  inset-inline-end:15px;
+  width:38px;
+  height:38px;
+  border:0;
+  border-radius:50%;
+  background:rgba(255,255,255,.9);
+  cursor:pointer;
+  font-size:1.1rem;
+}
+
+.hm-book h3{
+  margin:0 45px 8px 0;
+  font-size:1.12rem;
+}
+
+.hm-book p{
+  margin:0 0 15px;
+  line-height:1.7;
+  opacity:.7;
+  font-size:.9rem;
+}
+
+.hm-book-meta{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+  margin-top:auto;
+  margin-bottom:15px;
+}
+
+.hm-book-meta span{
+  padding:5px 9px;
+  border-radius:999px;
+  background:rgba(37,99,235,.08);
+  font-size:.75rem;
+}
+
+.hm-book-actions{
+  display:flex;
+  gap:8px;
+}
+
+.hm-book-actions a{
+  flex:1;
+  text-align:center;
+  padding:10px;
+  border-radius:12px;
+  text-decoration:none;
+  font-weight:700;
+  background:#2563eb;
+  color:white;
+}
+
+.hm-book-actions a.secondary{
+  background:rgba(100,116,139,.1);
+  color:inherit;
+}
+
+.hm-library-empty{
+  padding:60px 20px;
+  text-align:center;
+  opacity:.7;
+}
+
+.hm-library-empty div{
+  font-size:3rem;
+}
+
+@media(max-width:900px){
+  .hm-library-tools{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .hm-search{
+    grid-column:1/-1;
+  }
+
+  .hm-library-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
+
+@media(max-width:600px){
+  .hm-library{
+    width:92%;
+    margin:40px auto;
+  }
+
+  .hm-library-header{
+    align-items:flex-start;
+  }
+
+  .hm-library-count{
+    min-width:75px;
+    padding:12px;
+  }
+
+  .hm-library-count strong{
+    font-size:1.5rem;
+  }
+
+  .hm-library-tools{
+    grid-template-columns:1fr;
+  }
+
+  .hm-library-grid{
+    grid-template-columns:1fr;
+  }
+
+  .hm-book{
+    min-height:280px;
+  }
+}
     :root {
       --primary: #2563eb;
       --primary-dark: #1d4ed8;
