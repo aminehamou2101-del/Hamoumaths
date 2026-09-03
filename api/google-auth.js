@@ -2,13 +2,12 @@ export function GET() {
   return new Response(
     JSON.stringify({
       success: true,
-      message: "HAMOU MATH API يعمل بنجاح",
-      route: "/api/google-auth"
+      message: "HAMOU MATH API يعمل بنجاح"
     }),
     {
       status: 200,
       headers: {
-        "Content-Type": "application/json; charset=utf-8"
+        "Content-Type": "application/json"
       }
     }
   );
