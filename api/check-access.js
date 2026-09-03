@@ -21,6 +21,13 @@ export default async function handler(req, res) {
       .replace("Bearer ", "")
       .trim();
 
+    if (!token) {
+      return res.status(401).json({
+        allowed: false,
+        error: "جلسة المستخدم غير صالحة"
+      });
+    }
+
     const supabase = createClient(
       process.env.SUPABASE_URL,
       process.env.SUPABASE_SERVICE_ROLE_KEY,
@@ -44,8 +51,7 @@ export default async function handler(req, res) {
       });
     }
 
-    const resourceId =
-      req.query.resourceId;
+    const resourceId = req.query.resourceId;
 
     if (!resourceId) {
       return res.status(400).json({
@@ -54,12 +60,11 @@ export default async function handler(req, res) {
       });
     }
 
-    const now =
-      new Date().toISOString();
+    const now = new Date().toISOString();
 
     const {
       data: subscription,
-      error
+      error: subscriptionError
     } = await supabase
       .from("subscriptions")
       .select(`
@@ -73,17 +78,19 @@ export default async function handler(req, res) {
       .eq("resource_id", resourceId)
       .eq("status", "active")
       .lte("starts_at", now)
-      .or(`expires_at.is.null,expires_at.gt.${now}`)
+      .or(
+        `expires_at.is.null,expires_at.gt.${now}`
+      )
       .order("created_at", {
         ascending: false
       })
       .limit(1)
       .maybeSingle();
 
-    if (error) {
+    if (subscriptionError) {
       console.error(
-        "Access check error:",
-        error
+        "Subscription access error:",
+        subscriptionError
       );
 
       return res.status(500).json({
@@ -102,10 +109,9 @@ export default async function handler(req, res) {
     return res.status(200).json({
       allowed: true,
       status: "active",
-      subscriptionId:
-        subscription.id,
-      expiresAt:
-        subscription.expires_at
+      subscriptionId: subscription.id,
+      resourceId: subscription.resource_id,
+      expiresAt: subscription.expires_at
     });
 
   } catch (error) {
@@ -116,7 +122,7 @@ export default async function handler(req, res) {
 
     return res.status(500).json({
       allowed: false,
-      error: "حدث خطأ داخلي"
+      error: "حدث خطأ داخلي في الخادم"
     });
   }
 }
