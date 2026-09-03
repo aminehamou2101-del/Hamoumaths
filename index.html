@@ -2,2826 +2,3661 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,viewport-fit=cover">
+<meta name="viewport"
+      content="width=device-width,initial-scale=1.0,maximum-scale=1.0,viewport-fit=cover">
+
 <meta name="theme-color" content="#2563eb">
-<meta name="description" content="HAMOU MATH V18.4 - منصة تعليمية تفاعلية لتعلم الرياضيات">
-<title>HAMOU MATH V18.4</title>
+<meta name="description"
+      content="HAMOU MATH V20 - منصة عالمية لتعلم الرياضيات بالعربية والفرنسية والإنجليزية">
+<title>HAMOU MATH V20 | Math Learning Platform</title>
 
 <style>
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{
- margin:0;
- font-family:Arial,"Tahoma",sans-serif;
- background:#f5f9ff;
- color:#172033;
- min-height:100vh;
-}
-button,input,select{font:inherit}
-button{cursor:pointer}
-a{text-decoration:none;color:inherit}
-
 :root{
- --primary:#2563eb;
- --primary2:#06b6d4;
- --dark:#172033;
- --muted:#64748b;
- --card:#fff;
- --border:#e2e8f0;
- --bg:#f5f9ff;
- --success:#16a34a;
- --danger:#dc2626;
- --shadow:0 10px 30px rgba(37,99,235,.10);
+  --primary:#2563eb;
+  --primary2:#1d4ed8;
+  --cyan:#06b6d4;
+  --green:#16a34a;
+  --orange:#f59e0b;
+  --red:#dc2626;
+  --purple:#7c3aed;
+  --bg:#f5f7fb;
+  --card:#ffffff;
+  --text:#172033;
+  --muted:#64748b;
+  --line:#e2e8f0;
+  --soft:#eff6ff;
+  --shadow:0 12px 35px rgba(15,23,42,.08);
+  --radius:20px;
 }
 
-body.dark{
- --dark:#f1f5f9;
- --muted:#a8b3c5;
- --card:#111827;
- --border:#263449;
- --bg:#07111f;
- color:var(--dark);
+*{box-sizing:border-box}
+
+html{
+  scroll-behavior:smooth;
 }
 
-body.dark header{background:rgba(7,17,31,.94)}
-body.dark .hero,
-body.dark .card,
-body.dark .resource,
-body.dark .stat,
-body.dark .modal-box,
-body.dark .install-banner{background:#111827}
-body.dark input,
-body.dark select{background:#0b1525;color:#fff;border-color:#334155}
+body{
+  margin:0;
+  font-family:
+    Arial,
+    "Noto Sans Arabic",
+    "Segoe UI",
+    sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  transition:.25s;
+}
 
-header{
- position:sticky;
- top:0;
- z-index:1000;
- background:rgba(255,255,255,.95);
- backdrop-filter:blur(15px);
- border-bottom:1px solid var(--border);
+button,input,select,textarea{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+.topbar{
+  position:sticky;
+  top:0;
+  z-index:100;
+  background:rgba(255,255,255,.95);
+  backdrop-filter:blur(15px);
+  border-bottom:1px solid var(--line);
 }
 
 .nav{
- max-width:1200px;
- margin:auto;
- min-height:70px;
- padding:10px 18px;
- display:flex;
- align-items:center;
- gap:14px;
+  max-width:1250px;
+  margin:auto;
+  min-height:70px;
+  padding:8px 16px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.logo{
+  width:45px;
+  height:45px;
+  border-radius:14px;
+  background:linear-gradient(135deg,#2563eb,#06b6d4);
+  color:white;
+  display:grid;
+  place-items:center;
+  font-size:24px;
+  font-weight:1000;
+  box-shadow:0 7px 20px #2563eb55;
 }
 
 .brand{
- display:flex;
- align-items:center;
- gap:10px;
- margin-left:auto;
- cursor:pointer;
-}
-.logo{
- width:46px;height:46px;border-radius:15px;
- display:grid;place-items:center;
- color:white;font-size:21px;font-weight:900;
- background:linear-gradient(135deg,var(--primary),var(--primary2));
- box-shadow:0 8px 20px rgba(37,99,235,.25);
-}
-.brand-text strong{display:block;font-size:18px}
-.brand-text small{color:var(--muted)}
-
-.nav-links{
- display:flex;
- gap:5px;
- flex:1;
- justify-content:center;
-}
-.nav-links button,
-.mobile-nav button{
- border:0;
- background:transparent;
- color:var(--muted);
- padding:10px 12px;
- border-radius:12px;
- font-weight:700;
-}
-.nav-links button:hover,
-.nav-links button.active,
-.mobile-nav button.active{
- background:rgba(37,99,235,.10);
- color:var(--primary);
+  display:flex;
+  align-items:center;
+  gap:9px;
+  margin-left:auto;
+  white-space:nowrap;
 }
 
-.controls{display:flex;gap:7px;align-items:center}
-.icon-btn{
- width:42px;height:42px;
- border:1px solid var(--border);
- background:var(--card);
- border-radius:12px;
+.brand strong{
+  font-size:17px;
 }
-.lang-select{
- height:42px;
- border:1px solid var(--border);
- border-radius:12px;
- background:var(--card);
- padding:0 9px;
- color:var(--dark);
+
+.brand small{
+  display:block;
+  color:var(--muted);
+  font-size:10px;
+  margin-top:2px;
+}
+
+.navlinks{
+  display:flex;
+  gap:3px;
+  overflow:auto;
+}
+
+.navlinks button{
+  border:0;
+  background:transparent;
+  color:#475569;
+  padding:10px 11px;
+  border-radius:11px;
+  font-weight:800;
+  white-space:nowrap;
+}
+
+.navlinks button:hover,
+.navlinks button.active{
+  background:#eff6ff;
+  color:var(--primary);
+}
+
+.navactions{
+  display:flex;
+  gap:6px;
+}
+
+.iconbtn{
+  width:40px;
+  height:40px;
+  border:0;
+  background:#f1f5f9;
+  border-radius:11px;
 }
 
 main{
- max-width:1200px;
- margin:auto;
- padding:24px 16px 100px;
+  max-width:1250px;
+  margin:auto;
+  padding:24px 16px 110px;
 }
 
-.view{display:none}
-.view.active{display:block}
+.page{
+  display:none;
+}
+
+.page.active{
+  display:block;
+}
 
 .hero{
- padding:45px 25px;
- border-radius:28px;
- background:
- linear-gradient(135deg,rgba(37,99,235,.10),rgba(6,182,212,.10)),
- var(--card);
- border:1px solid var(--border);
- box-shadow:var(--shadow);
- text-align:center;
- overflow:hidden;
-}
-.hero h1{
- font-size:clamp(30px,6vw,58px);
- margin:5px 0 12px;
- background:linear-gradient(90deg,var(--primary),var(--primary2));
- -webkit-background-clip:text;
- background-clip:text;
- color:transparent;
-}
-.hero p{
- max-width:760px;
- margin:0 auto 25px;
- line-height:1.9;
- color:var(--muted);
-}
-.hero-actions{
- display:flex;
- justify-content:center;
- flex-wrap:wrap;
- gap:10px;
-}
-.primary-btn,.secondary-btn{
- border:0;
- border-radius:14px;
- padding:13px 20px;
- font-weight:800;
-}
-.primary-btn{
- color:#fff;
- background:linear-gradient(135deg,var(--primary),var(--primary2));
- box-shadow:0 8px 20px rgba(37,99,235,.22);
-}
-.secondary-btn{
- background:var(--card);
- border:1px solid var(--border);
- color:var(--dark);
+  position:relative;
+  overflow:hidden;
+  border:1px solid #dbeafe;
+  border-radius:28px;
+  background:
+    radial-gradient(circle at 90% 10%,#bfdbfe 0,transparent 30%),
+    linear-gradient(135deg,#eff6ff,#ecfeff);
+  padding:40px 30px;
+  box-shadow:var(--shadow);
+  margin-bottom:18px;
 }
 
-.stats{
- display:grid;
- grid-template-columns:repeat(4,1fr);
- gap:12px;
- margin:20px 0;
+.hero h1{
+  font-size:clamp(32px,6vw,58px);
+  margin:10px 0;
+  line-height:1.1;
 }
-.stat{
- background:var(--card);
- border:1px solid var(--border);
- border-radius:18px;
- padding:20px;
- text-align:center;
- box-shadow:var(--shadow);
+
+.gradient{
+  background:linear-gradient(90deg,#2563eb,#06b6d4,#7c3aed);
+  -webkit-background-clip:text;
+  color:transparent;
 }
-.stat strong{
- display:block;
- font-size:28px;
- color:var(--primary);
- margin-bottom:5px;
+
+.hero p{
+  max-width:820px;
+  color:#475569;
+  line-height:1.9;
+  font-size:17px;
 }
-.stat span{color:var(--muted)}
+
+.badge{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  padding:7px 12px;
+  border-radius:999px;
+  background:#dbeafe;
+  color:#1d4ed8;
+  font-weight:900;
+  font-size:12px;
+}
+
+.buttons{
+  display:flex;
+  gap:9px;
+  flex-wrap:wrap;
+}
+
+.primary,
+.secondary,
+.success,
+.warning,
+.danger{
+  border:0;
+  padding:12px 16px;
+  border-radius:12px;
+  font-weight:900;
+  transition:.2s;
+}
+
+.primary{
+  background:var(--primary);
+  color:white;
+}
+
+.primary:hover{
+  background:var(--primary2);
+  transform:translateY(-1px);
+}
+
+.secondary{
+  background:white;
+  border:1px solid var(--line);
+  color:var(--text);
+}
+
+.success{
+  background:#dcfce7;
+  color:#166534;
+}
+
+.warning{
+  background:#fef3c7;
+  color:#92400e;
+}
+
+.danger{
+  background:#fee2e2;
+  color:#991b1b;
+}
 
 .section-title{
- display:flex;
- justify-content:space-between;
- align-items:center;
- gap:10px;
- margin:28px 0 15px;
+  margin:25px 0 12px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
 }
-.section-title h2{margin:0;font-size:25px}
-.section-title span{color:var(--muted)}
+
+.section-title h2{
+  margin:0;
+}
 
 .grid{
- display:grid;
- grid-template-columns:repeat(4,1fr);
- gap:14px;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:13px;
+}
+
+.grid3{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+}
+
+.grid2{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:14px;
 }
 
 .card{
- background:var(--card);
- border:1px solid var(--border);
- border-radius:20px;
- padding:18px;
- box-shadow:var(--shadow);
- transition:.2s;
-}
-.card:hover{transform:translateY(-3px)}
-.card-icon{font-size:32px;margin-bottom:10px}
-.card h3{margin:7px 0;font-size:18px}
-.card p{
- color:var(--muted);
- line-height:1.7;
- min-height:48px;
-}
-.card-actions{
- display:flex;
- gap:7px;
- flex-wrap:wrap;
- margin-top:12px;
-}
-.small-btn{
- border:1px solid var(--border);
- background:var(--card);
- color:var(--dark);
- padding:9px 12px;
- border-radius:10px;
- font-weight:700;
-}
-.small-btn.primary{
- background:var(--primary);
- color:#fff;
- border-color:var(--primary);
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:18px;
+  box-shadow:0 6px 25px rgba(15,23,42,.045);
 }
 
-.toolbar{
- display:grid;
- grid-template-columns:2fr repeat(3,1fr) auto;
- gap:9px;
- margin-bottom:16px;
-}
-.toolbar input,.toolbar select{
- width:100%;
- height:46px;
- padding:0 13px;
- border:1px solid var(--border);
- border-radius:12px;
- outline:none;
- background:var(--card);
- color:var(--dark);
+.card h3{
+  margin:8px 0;
 }
 
-.resource-grid{
- display:grid;
- grid-template-columns:repeat(3,1fr);
- gap:13px;
+.muted{
+  color:var(--muted);
+  line-height:1.8;
 }
+
+.stat b{
+  display:block;
+  font-size:28px;
+  margin-top:5px;
+}
+
+.emoji{
+  font-size:38px;
+}
+
+.course{
+  min-height:210px;
+  display:flex;
+  flex-direction:column;
+}
+
+.course .buttons{
+  margin-top:auto;
+}
+
+.searchbar{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-bottom:15px;
+}
+
+.searchbar input,
+.searchbar select,
+.form input,
+.form select,
+.form textarea{
+  border:1px solid var(--line);
+  background:white;
+  color:var(--text);
+  padding:12px;
+  border-radius:11px;
+  outline:none;
+}
+
+.searchbar input{
+  flex:1;
+  min-width:220px;
+}
+
+.book{
+  display:flex;
+  flex-direction:column;
+}
+
+.cover{
+  min-height:110px;
+  border-radius:15px;
+  color:white;
+  display:grid;
+  place-items:center;
+  text-align:center;
+  font-weight:1000;
+  padding:10px;
+  background:linear-gradient(135deg,#2563eb,#7c3aed);
+}
+
+.book .buttons{
+  margin-top:auto;
+}
+
 .resource{
- background:var(--card);
- border:1px solid var(--border);
- border-radius:18px;
- padding:17px;
- box-shadow:var(--shadow);
+  display:flex;
+  flex-direction:column;
+  min-height:230px;
 }
-.resource-top{
- display:flex;
- justify-content:space-between;
- gap:8px;
+
+.resource-icon{
+  font-size:38px;
 }
-.badge{
- display:inline-block;
- background:rgba(37,99,235,.10);
- color:var(--primary);
- border-radius:999px;
- padding:5px 9px;
- font-size:12px;
- font-weight:800;
+
+.resource .buttons{
+  margin-top:auto;
 }
-.resource h3{margin:12px 0 7px}
-.resource p{color:var(--muted);line-height:1.65}
-.resource-actions{
- display:flex;
- gap:7px;
- margin-top:12px;
+
+.lesson{
+  margin-top:18px;
+  background:white;
+  border:1px solid var(--line);
+  border-radius:22px;
+  padding:22px;
+  box-shadow:var(--shadow);
 }
-.resource-actions a,
-.resource-actions button{
- border-radius:10px;
- padding:9px 12px;
- border:1px solid var(--border);
- background:var(--card);
- color:var(--dark);
- font-weight:700;
+
+.lesson h2{
+  margin-top:0;
 }
-.resource-actions a:first-child{
- background:var(--primary);
- color:#fff;
- border-color:var(--primary);
+
+.lesson h3{
+  margin-top:24px;
+}
+
+.formula{
+  background:#f8fafc;
+  border-right:5px solid var(--primary);
+  padding:14px;
+  border-radius:12px;
+  font-size:20px;
+  font-weight:800;
+  margin:12px 0;
+  direction:ltr;
+  text-align:center;
+}
+
+.example{
+  background:#f0fdf4;
+  border:1px solid #bbf7d0;
+  border-radius:14px;
+  padding:15px;
+  line-height:1.9;
+}
+
+.note{
+  background:#fffbeb;
+  border:1px solid #fde68a;
+  border-radius:14px;
+  padding:14px;
+  line-height:1.8;
 }
 
 .exercise{
- background:var(--card);
- border:1px solid var(--border);
- border-radius:18px;
- padding:18px;
- margin-bottom:12px;
+  background:#f8fafc;
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:15px;
+  margin:10px 0;
 }
-.exercise-question{
- font-size:18px;
- font-weight:800;
- line-height:1.8;
+
+.answer{
+  display:none;
+  margin-top:10px;
+  padding:12px;
+  border-radius:12px;
+  background:#eff6ff;
+  color:#1e40af;
+  line-height:1.8;
 }
-.answer-row{
- display:flex;
- gap:8px;
- margin-top:12px;
+
+.answer.show{
+  display:block;
 }
-.answer-row input{
- flex:1;
- height:45px;
- border:1px solid var(--border);
- border-radius:11px;
- padding:0 12px;
- background:var(--card);
- color:var(--dark);
+
+.quizbox{
+  background:white;
+  border:1px solid var(--line);
+  border-radius:22px;
+  padding:20px;
+  box-shadow:var(--shadow);
 }
+
+.question{
+  font-size:25px;
+  font-weight:1000;
+  text-align:center;
+  padding:20px 5px;
+}
+
+.choices{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+  max-width:700px;
+  margin:auto;
+}
+
+.choice{
+  background:#f8fafc;
+  border:1px solid var(--line);
+  border-radius:13px;
+  padding:15px;
+  font-weight:900;
+}
+
+.choice:hover{
+  background:#eff6ff;
+  border-color:#93c5fd;
+}
+
 .feedback{
- margin-top:10px;
- font-weight:800;
+  text-align:center;
+  font-weight:900;
+  min-height:28px;
+  margin:12px;
 }
 
-.challenge-grid{
- display:grid;
- grid-template-columns:repeat(3,1fr);
- gap:15px;
-}
-.challenge{
- border-radius:22px;
- padding:22px;
- color:white;
- background:linear-gradient(135deg,#2563eb,#06b6d4);
-}
-.challenge h3{font-size:22px}
-.challenge p{line-height:1.7;opacity:.95}
-.challenge button{
- border:0;
- background:#fff;
- color:#1554c0;
- padding:11px 16px;
- border-radius:12px;
- font-weight:900;
+.timer{
+  font-size:23px;
+  font-weight:1000;
 }
 
-.game-area{
- margin-top:18px;
- min-height:220px;
- display:none;
- background:var(--card);
- border:1px solid var(--border);
- border-radius:20px;
- padding:25px;
- text-align:center;
- box-shadow:var(--shadow);
-}
-.game-area.show{display:block}
-.game-question{font-size:32px;font-weight:900;margin:25px}
-.game-options{
- display:flex;
- justify-content:center;
- flex-wrap:wrap;
- gap:10px;
-}
-.game-options button{
- min-width:100px;
- border:1px solid var(--border);
- background:var(--card);
- color:var(--dark);
- padding:13px 18px;
- border-radius:12px;
- font-weight:900;
+.memory{
+  max-width:560px;
+  margin:20px auto;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:9px;
 }
 
-.progress-box{
- background:var(--card);
- border:1px solid var(--border);
- border-radius:22px;
- padding:25px;
- box-shadow:var(--shadow);
-}
-.level{
- font-size:28px;
- font-weight:900;
- color:var(--primary);
-}
-.progress-track{
- height:18px;
- border-radius:999px;
- background:#e2e8f0;
- overflow:hidden;
- margin:15px 0;
-}
-body.dark .progress-track{background:#263449}
-.progress-fill{
- height:100%;
- width:0%;
- background:linear-gradient(90deg,var(--primary),var(--primary2));
- transition:.4s;
-}
-.achievement-grid{
- display:grid;
- grid-template-columns:repeat(4,1fr);
- gap:12px;
- margin-top:15px;
-}
-.achievement{
- padding:18px;
- border-radius:17px;
- background:var(--card);
- border:1px solid var(--border);
-}
-.achievement.locked{opacity:.45}
-
-footer{
- border-top:1px solid var(--border);
- padding:30px 16px;
- text-align:center;
- color:var(--muted);
- background:var(--card);
+.mem{
+  aspect-ratio:1;
+  border:0;
+  border-radius:14px;
+  background:#dbeafe;
+  font-size:25px;
+  font-weight:1000;
 }
 
-.mobile-nav{
- display:none;
- position:fixed;
- bottom:0;
- right:0;left:0;
- z-index:1500;
- background:rgba(255,255,255,.97);
- backdrop-filter:blur(15px);
- border-top:1px solid var(--border);
- padding:6px 4px calc(6px + env(safe-area-inset-bottom));
- grid-template-columns:repeat(5,1fr);
-}
-body.dark .mobile-nav{background:rgba(7,17,31,.97)}
-.mobile-nav button{
- font-size:11px;
- padding:7px 3px;
-}
-.mobile-nav span{
- display:block;
- font-size:19px;
- margin-bottom:2px;
+.mem.open{
+  background:white;
+  border:1px solid var(--line);
 }
 
-.toast{
- position:fixed;
- left:50%;
- bottom:85px;
- transform:translateX(-50%) translateY(20px);
- opacity:0;
- pointer-events:none;
- z-index:3000;
- background:#172033;
- color:#fff;
- padding:12px 18px;
- border-radius:999px;
- transition:.25s;
+.progress{
+  height:11px;
+  background:#e2e8f0;
+  border-radius:999px;
+  overflow:hidden;
 }
-.toast.show{
- opacity:1;
- transform:translateX(-50%) translateY(0);
+
+.progress i{
+  display:block;
+  height:100%;
+  width:0;
+  background:linear-gradient(90deg,#2563eb,#06b6d4);
+}
+
+.links-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:13px;
+}
+
+.external{
+  text-decoration:none;
+  color:inherit;
+}
+
+.external:hover .card{
+  transform:translateY(-3px);
 }
 
 .modal{
- display:none;
- position:fixed;
- inset:0;
- z-index:2500;
- background:rgba(0,0,0,.55);
- padding:20px;
- align-items:center;
- justify-content:center;
-}
-.modal.show{display:flex}
-.modal-box{
- width:min(650px,100%);
- max-height:85vh;
- overflow:auto;
- background:#fff;
- color:#172033;
- border-radius:22px;
- padding:22px;
-}
-body.dark .modal-box{background:#111827;color:#fff}
-.modal-head{
- display:flex;
- justify-content:space-between;
- align-items:center;
- gap:10px;
-}
-.close{
- width:40px;height:40px;
- border:0;
- border-radius:10px;
- background:#fee2e2;
- color:#dc2626;
- font-weight:900;
+  position:fixed;
+  inset:0;
+  background:#0f172a99;
+  display:none;
+  place-items:center;
+  z-index:200;
+  padding:16px;
 }
 
-.install-banner{
- display:none;
- position:fixed;
- bottom:15px;
- left:15px;
- right:15px;
- z-index:1800;
- background:#fff;
- border:1px solid var(--border);
- border-radius:18px;
- padding:14px;
- box-shadow:0 15px 40px rgba(0,0,0,.15);
-}
-.install-banner.show{display:flex}
-.install-content{flex:1}
-.install-actions{display:flex;gap:6px;align-items:center}
-.install-actions button{
- border:0;border-radius:10px;padding:9px 12px;
+.modal.show{
+  display:grid;
 }
 
-.empty{
- text-align:center;
- padding:35px;
- color:var(--muted);
- background:var(--card);
- border:1px dashed var(--border);
- border-radius:18px;
+.modalbox{
+  width:min(800px,100%);
+  max-height:90vh;
+  overflow:auto;
+  background:white;
+  border-radius:22px;
+  padding:22px;
 }
 
-@media(max-width:1000px){
- .grid{grid-template-columns:repeat(2,1fr)}
- .resource-grid{grid-template-columns:repeat(2,1fr)}
- .stats{grid-template-columns:repeat(2,1fr)}
- .challenge-grid{grid-template-columns:1fr}
- .achievement-grid{grid-template-columns:repeat(2,1fr)}
- .nav-links{display:none}
- .mobile-nav{display:grid}
- main{padding-bottom:100px}
+.toast{
+  position:fixed;
+  bottom:90px;
+  right:18px;
+  background:#0f172a;
+  color:white;
+  padding:13px 17px;
+  border-radius:12px;
+  z-index:300;
+  opacity:0;
+  transform:translateY(15px);
+  pointer-events:none;
+  transition:.25s;
 }
 
-@media(max-width:650px){
- .nav{padding:8px 10px}
- .brand-text small{display:none}
- .controls .install-top{display:none}
- .hero{padding:32px 17px}
- .grid,.resource-grid{grid-template-columns:1fr}
- .stats{gap:8px}
- .stat{padding:14px}
- .stat strong{font-size:23px}
- .toolbar{grid-template-columns:1fr 1fr}
- .toolbar input{grid-column:1/-1}
- .toolbar button{grid-column:1/-1}
- .answer-row{flex-direction:column}
- .achievement-grid{grid-template-columns:1fr}
- .section-title h2{font-size:21px}
+.toast.show{
+  opacity:1;
+  transform:none;
+}
+
+.bottomnav{
+  display:none;
+}
+
+/* DARK */
+
+.dark{
+  --bg:#0b1220;
+  --card:#111827;
+  --text:#e5e7eb;
+  --muted:#94a3b8;
+  --line:#263244;
+}
+
+.dark .topbar{
+  background:rgba(15,23,42,.95);
+}
+
+.dark .hero{
+  background:
+    radial-gradient(circle at 90% 10%,#172554 0,transparent 35%),
+    linear-gradient(135deg,#101b33,#10252a);
+  border-color:#263b61;
+}
+
+.dark .secondary,
+.dark .searchbar input,
+.dark .searchbar select,
+.dark .form input,
+.dark .form select,
+.dark .form textarea,
+.dark .quizbox,
+.dark .lesson,
+.dark .modalbox,
+.dark .choice,
+.dark .mem.open{
+  background:#111827;
+  color:var(--text);
+}
+
+.dark .iconbtn{
+  background:#1e293b;
+  color:white;
+}
+
+.dark .formula{
+  background:#0f172a;
+}
+
+/* MOBILE */
+
+@media(max-width:900px){
+
+  .nav{
+    padding:7px 10px;
+  }
+
+  .navlinks{
+    display:none;
+  }
+
+  .grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .grid3,
+  .links-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .bottomnav{
+    position:fixed;
+    display:flex;
+    z-index:150;
+    bottom:0;
+    left:0;
+    right:0;
+    background:rgba(255,255,255,.96);
+    backdrop-filter:blur(14px);
+    border-top:1px solid var(--line);
+    justify-content:space-around;
+    padding:7px 4px calc(7px + env(safe-area-inset-bottom));
+  }
+
+  .dark .bottomnav{
+    background:rgba(15,23,42,.97);
+  }
+
+  .bottomnav button{
+    border:0;
+    background:transparent;
+    color:#64748b;
+    font-size:10px;
+    font-weight:900;
+    padding:3px 8px;
+  }
+
+  .bottomnav span{
+    display:block;
+    font-size:21px;
+    margin-bottom:2px;
+  }
+}
+
+@media(max-width:560px){
+
+  main{
+    padding:14px 10px 105px;
+  }
+
+  .hero{
+    padding:26px 18px;
+    border-radius:21px;
+  }
+
+  .hero p{
+    font-size:15px;
+  }
+
+  .grid,
+  .grid3,
+  .grid2,
+  .links-grid{
+    grid-template-columns:1fr;
+  }
+
+  .choices{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .question{
+    font-size:22px;
+  }
+
+  .brand strong{
+    font-size:14px;
+  }
+
+  .brand small{
+    display:none;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<header>
-  <div class="nav">
+<header class="topbar">
+<nav class="nav">
 
-    <div class="brand" id="brandHome">
-      <div class="logo">∑</div>
-      <div class="brand-text">
-        <strong>HAMOU MATH</strong>
-        <small id="brandSub">سلسلة حمو في الرياضيات</small>
-      </div>
+  <div class="brand">
+    <div class="logo">H</div>
+    <div>
+      <strong>HAMOU MATH</strong>
+      <small>V20 · Mathematics Learning Platform</small>
     </div>
-
-    <nav class="nav-links" id="navLinks"></nav>
-
-    <div class="controls">
-      <select id="langSelect" class="lang-select" aria-label="Language">
-        <option value="ar">العربية</option>
-        <option value="fr">Français</option>
-        <option value="en">English</option>
-      </select>
-      <button class="icon-btn" id="themeBtn" type="button">🌙</button>
-      <button class="small-btn install-top" id="installBtn" type="button">📲</button>
-    </div>
-
   </div>
+
+  <div class="navlinks">
+    <button data-page="home">🏠 الرئيسية</button>
+    <button data-page="academy">🎓 الأكاديمية</button>
+    <button data-page="library">📚 المكتبة</button>
+    <button data-page="exams">📝 الامتحانات</button>
+    <button data-page="tests">🧠 الاختبارات</button>
+    <button data-page="games">🎮 الألعاب</button>
+    <button data-page="resources">🌐 الروابط التعليمية</button>
+    <button data-page="progress">📈 تقدمي</button>
+  </div>
+
+  <div class="navactions">
+    <button class="iconbtn" id="languageBtn">ع</button>
+    <button class="iconbtn" id="themeBtn">🌙</button>
+  </div>
+
+</nav>
 </header>
+
 
 <main>
 
 <!-- HOME -->
-<section class="view active" id="home">
+
+<section id="home" class="page active">
 
   <div class="hero">
-    <div style="font-size:45px">📐 🧮 ∞</div>
-    <h1 id="heroTitle">HAMOU MATH</h1>
-    <p id="heroText">
-      منصتك التفاعلية لتعلم الرياضيات، التدريب، حل التمارين، التحديات والألعاب.
+
+    <span class="badge">
+      🚀 HAMOU MATH V20
+    </span>
+
+    <h1>
+      الرياضيات بطريقة
+      <span class="gradient">أذكى وأمتع</span>
+    </h1>
+
+    <p>
+      منصة تعليمية متكاملة للرياضيات بالعربية والفرنسية والإنجليزية.
+      دروس مفصلة، أمثلة محلولة، تمارين، اختبارات، امتحانات، ألعاب رياضية
+      ومصادر تعليمية حقيقية من الويب.
     </p>
 
-    <div class="hero-actions">
-      <button class="primary-btn" type="button" data-go="academy" id="heroAcademy">
+    <div class="buttons">
+      <button class="primary" onclick="go('academy')">
         🎓 ابدأ التعلم
       </button>
-      <button class="secondary-btn" type="button" data-go="library" id="heroLibrary">
+
+      <button class="secondary" onclick="go('library')">
         📚 افتح المكتبة
       </button>
+
+      <button class="secondary" onclick="go('games')">
+        🎮 العب
+      </button>
+
+      <button class="secondary" onclick="go('resources')">
+        🌐 المصادر
+      </button>
+    </div>
+
+  </div>
+
+
+  <div class="grid">
+
+    <div class="card stat">
+      ⭐ XP
+      <b id="xpStat">0</b>
+    </div>
+
+    <div class="card stat">
+      📝 تمارين
+      <b id="exerciseStat">0</b>
+    </div>
+
+    <div class="card stat">
+      🏆 تحديات
+      <b id="challengeStat">0</b>
+    </div>
+
+    <div class="card stat">
+      🎮 ألعاب
+      <b id="gameStat">0</b>
+    </div>
+
+  </div>
+
+
+  <div class="section-title">
+    <h2>📌 الأقسام الرئيسية</h2>
+  </div>
+
+  <div class="grid3">
+
+    <div class="card">
+      <div class="emoji">🎓</div>
+      <h3>الأكاديمية</h3>
+      <p class="muted">
+        تعلم الجبر، الدوال، الهندسة، التحليل، الاحتمالات،
+        الإحصاء وغيرها بطريقة تدريجية.
+      </p>
+      <button class="primary" onclick="go('academy')">
+        دخول الأكاديمية
+      </button>
+    </div>
+
+    <div class="card">
+      <div class="emoji">📚</div>
+      <h3>المكتبة</h3>
+      <p class="muted">
+        كتب ومراجع وملخصات وسلاسل تمارين واختبارات مصنفة حسب المستوى.
+      </p>
+      <button class="primary" onclick="go('library')">
+        تصفح المكتبة
+      </button>
+    </div>
+
+    <div class="card">
+      <div class="emoji">🏆</div>
+      <h3>التدريب والاختبارات</h3>
+      <p class="muted">
+        اختبارات قصيرة وامتحانات تجريبية مع التصحيح والنقاط.
+      </p>
+      <button class="primary" onclick="go('tests')">
+        ابدأ اختبارًا
+      </button>
+    </div>
+
+  </div>
+
+
+  <div class="section-title">
+    <h2>🌍 الرياضيات في كل مكان</h2>
+  </div>
+
+  <div class="card">
+    <p class="muted">
+      يمكنك استخدام HAMOU MATH للدراسة المدرسية، التحضير للبكالوريا،
+      المراجعة الجامعية أو تطوير مهاراتك في الرياضيات.
+    </p>
+
+    <div class="grid3">
+
+      <div>
+        <strong>🇩🇿 التعليم الثانوي</strong>
+        <p class="muted">
+          1AS · 2AS · 3AS · BAC
+        </p>
+      </div>
+
+      <div>
+        <strong>🎓 الجامعة</strong>
+        <p class="muted">
+          Analyse · Algèbre · Probabilités · Statistiques
+        </p>
+      </div>
+
+      <div>
+        <strong>🌐 اللغات</strong>
+        <p class="muted">
+          العربية · Français · English
+        </p>
+      </div>
+
     </div>
   </div>
-
-  <div class="stats" id="homeStats"></div>
-
-  <div class="section-title">
-    <h2 id="academyPreviewTitle">المسارات التعليمية</h2>
-    <button class="small-btn" type="button" data-go="academy" id="academyAll">
-      عرض الكل
-    </button>
-  </div>
-
-  <div class="grid" id="homeAcademy"></div>
-
-  <div class="section-title">
-    <h2 id="homeLibraryTitle">📚 المكتبة</h2>
-    <span id="homeLibraryText">موارد حقيقية ومتنوعة</span>
-  </div>
-
-  <div class="grid" id="homeResources"></div>
 
 </section>
 
 
 <!-- ACADEMY -->
-<section class="view" id="academy">
-  <div class="section-title">
-    <h2 id="academyTitle">🎓 الأكاديمية</h2>
-    <span id="academyDescription">اختر مسارك</span>
-  </div>
-  <div class="grid" id="academyGrid"></div>
-</section>
 
-
-<!-- LIBRARY -->
-<section class="view" id="library">
+<section id="academy" class="page">
 
   <div class="section-title">
-    <h2 id="libraryTitle">📚 المكتبة</h2>
-    <span id="libraryDescription">كتب ودروس ومراجع وتمارين</span>
+    <h2>🎓 الأكاديمية</h2>
+    <span class="badge">دروس أصلية داخل الموقع</span>
   </div>
 
-  <div class="toolbar">
+  <div class="searchbar">
 
-    <input id="librarySearch"
-           type="search"
-           placeholder="ابحث عن كتاب أو موضوع...">
+    <input
+      id="lessonSearch"
+      placeholder="ابحث عن درس أو موضوع..."
+      oninput="renderLessons()">
 
-    <select id="libType">
-      <option value="all">كل الأنواع</option>
-      <option value="book">كتب</option>
-      <option value="course">دروس</option>
-      <option value="exercise">تمارين</option>
-      <option value="summary">ملخصات</option>
-      <option value="reference">مراجع</option>
+    <select id="lessonLevel" onchange="renderLessons()">
+      <option value="">كل المستويات</option>
+      <option value="1AS">1AS</option>
+      <option value="2AS">2AS</option>
+      <option value="3AS">3AS</option>
+      <option value="BAC">BAC</option>
+      <option value="جامعة">جامعة</option>
     </select>
 
-    <select id="libLevel">
-      <option value="all">كل المستويات</option>
-      <option value="secondary">ثانوي</option>
-      <option value="bac">بكالوريا</option>
-      <option value="university">جامعة</option>
-      <option value="advanced">متقدم</option>
-    </select>
-
-    <select id="libLang">
-      <option value="all">كل اللغات</option>
+    <select id="lessonLanguage" onchange="renderLessons()">
       <option value="ar">العربية</option>
       <option value="fr">Français</option>
       <option value="en">English</option>
     </select>
 
-    <button class="primary-btn" id="searchBtn" type="button">
-      🔎 بحث
-    </button>
-
   </div>
 
-  <div id="libraryStats" class="stat" style="margin-bottom:16px"></div>
+  <div class="grid3" id="lessonGrid"></div>
 
-  <div class="section-title">
-    <h2 id="localLibraryTitle">📘 موارد HAMOU MATH</h2>
-  </div>
-
-  <div class="resource-grid" id="localBooks"></div>
-
-  <div class="section-title">
-    <h2 id="remoteLibraryTitle">🌍 البحث العالمي</h2>
-  </div>
-
-  <div id="remoteStatus" style="color:var(--muted);margin-bottom:12px"></div>
-  <div class="resource-grid" id="remoteBooks"></div>
+  <div id="lessonViewer" class="lesson" style="display:none"></div>
 
 </section>
 
 
-<!-- EXERCISES -->
-<section class="view" id="exercises">
+<!-- LIBRARY -->
+
+<section id="library" class="page">
 
   <div class="section-title">
-    <h2 id="exerciseTitle">📝 التمارين</h2>
-    <button class="primary-btn" id="newExercise" type="button">
-      ➕ تمرين جديد
-    </button>
+    <h2>📚 المكتبة العلمية</h2>
+    <span class="badge">كتب · مراجع · تمارين</span>
   </div>
 
-  <div id="exerciseList"></div>
+  <div class="searchbar">
+
+    <input
+      id="bookSearch"
+      placeholder="ابحث عن كتاب أو موضوع..."
+      oninput="renderLibrary()">
+
+    <select id="bookLevel" onchange="renderLibrary()">
+      <option value="">كل المستويات</option>
+      <option>1AS</option>
+      <option>2AS</option>
+      <option>3AS</option>
+      <option>BAC</option>
+      <option>جامعة</option>
+    </select>
+
+    <select id="bookType" onchange="renderLibrary()">
+      <option value="">كل الأنواع</option>
+      <option>كتاب</option>
+      <option>ملخص</option>
+      <option>تمارين</option>
+      <option>مرجع</option>
+      <option>اختبار</option>
+    </select>
+
+  </div>
+
+  <div class="grid3" id="libraryGrid"></div>
 
 </section>
 
 
-<!-- CHALLENGES -->
-<section class="view" id="challenges">
+<!-- EXAMS -->
+
+<section id="exams" class="page">
 
   <div class="section-title">
-    <h2 id="challengeTitle">⚡ التحديات</h2>
-    <span id="challengeDescription">اختبر سرعتك ومهاراتك</span>
+    <h2>📝 مركز الامتحانات</h2>
+    <span class="badge">اختبارات تجريبية</span>
   </div>
 
-  <div class="challenge-grid" id="challengeGrid"></div>
+  <div class="grid3">
+
+    <div class="card">
+      <div class="emoji">🇩🇿</div>
+      <h3>محاكاة BAC</h3>
+      <p class="muted">
+        امتحان تجريبي متعدد المحاور مع حساب النتيجة.
+      </p>
+      <button class="primary"
+              onclick="startExam('bac')">
+        بدء الامتحان
+      </button>
+    </div>
+
+    <div class="card">
+      <div class="emoji">📐</div>
+      <h3>امتحان الدوال</h3>
+      <p class="muted">
+        دراسة الدوال، الاشتقاق والتغيرات.
+      </p>
+      <button class="primary"
+              onclick="startExam('functions')">
+        بدء الامتحان
+      </button>
+    </div>
+
+    <div class="card">
+      <div class="emoji">🎲</div>
+      <h3>احتمالات وإحصاء</h3>
+      <p class="muted">
+        اختبار تدريبي في الاحتمالات والإحصاء.
+      </p>
+      <button class="primary"
+              onclick="startExam('probability')">
+        بدء الامتحان
+      </button>
+    </div>
+
+  </div>
+
+  <div id="examBox"
+       class="quizbox"
+       style="display:none;margin-top:18px">
+  </div>
+
+</section>
+
+
+<!-- TESTS -->
+
+<section id="tests" class="page">
+
+  <div class="section-title">
+    <h2>🧠 الاختبارات السريعة</h2>
+    <span class="badge">تصحيح فوري</span>
+  </div>
+
+  <div class="grid3">
+
+    <div class="card">
+      <div class="emoji">➕</div>
+      <h3>أساسيات الحساب</h3>
+      <p class="muted">
+        العمليات، الكسور، القوى والجذور.
+      </p>
+      <button class="primary"
+              onclick="startQuiz('basic')">
+        ابدأ
+      </button>
+    </div>
+
+    <div class="card">
+      <div class="emoji">📊</div>
+      <h3>الجبر والدوال</h3>
+      <p class="muted">
+        معادلات ودوال وتمثيلات بيانية.
+      </p>
+      <button class="primary"
+              onclick="startQuiz('algebra')">
+        ابدأ
+      </button>
+    </div>
+
+    <div class="card">
+      <div class="emoji">🎓</div>
+      <h3>مستوى BAC</h3>
+      <p class="muted">
+        أسئلة متنوعة بمستوى متقدم.
+      </p>
+      <button class="primary"
+              onclick="startQuiz('bac')">
+        ابدأ
+      </button>
+    </div>
+
+  </div>
+
+  <div id="testBox"
+       class="quizbox"
+       style="display:none;margin-top:18px">
+  </div>
 
 </section>
 
 
 <!-- GAMES -->
-<section class="view" id="games">
+
+<section id="games" class="page">
 
   <div class="section-title">
-    <h2 id="gamesTitle">🎮 الألعاب</h2>
-    <span id="gamesDescription">تعلم واستمتع</span>
+    <h2>🎮 الألعاب الرياضية</h2>
+    <span class="badge">تعلم + سرعة + متعة</span>
   </div>
 
-  <div class="grid" id="gameGrid"></div>
+  <div class="grid3">
 
-  <div class="game-area" id="gameArea">
-    <h2 id="gameTitle"></h2>
-    <div id="gameContent"></div>
+    <div class="card resource">
+      <div class="resource-icon">🔢</div>
+      <h3>Number Rush</h3>
+      <p class="muted">
+        احسب أكبر عدد من العمليات في 60 ثانية.
+      </p>
+      <button class="primary"
+              onclick="startGame('rush')">
+        لعب
+      </button>
+    </div>
+
+    <div class="card resource">
+      <div class="resource-icon">➗</div>
+      <h3>Equation Master</h3>
+      <p class="muted">
+        حل المعادلات بسرعة.
+      </p>
+      <button class="primary"
+              onclick="startGame('equation')">
+        لعب
+      </button>
+    </div>
+
+    <div class="card resource">
+      <div class="resource-icon">🧩</div>
+      <h3>Math Memory</h3>
+      <p class="muted">
+        اختبر ذاكرتك الرياضية.
+      </p>
+      <button class="primary"
+              onclick="startGame('memory')">
+        لعب
+      </button>
+    </div>
+
+    <div class="card resource">
+      <div class="resource-icon">🎯</div>
+      <h3>Prime Hunter</h3>
+      <p class="muted">
+        اصطد الأعداد الأولية.
+      </p>
+      <button class="primary"
+              onclick="startGame('prime')">
+        لعب
+      </button>
+    </div>
+
+    <div class="card resource">
+      <div class="resource-icon">🍕</div>
+      <h3>Fraction Duel</h3>
+      <p class="muted">
+        قارن الكسور بأسرع وقت.
+      </p>
+      <button class="primary"
+              onclick="startGame('fraction')">
+        لعب
+      </button>
+    </div>
+
+    <div class="card resource">
+      <div class="resource-icon">📐</div>
+      <h3>Geometry Sprint</h3>
+      <p class="muted">
+        تحديات المساحة والمحيط.
+      </p>
+      <button class="primary"
+              onclick="startGame('geometry')">
+        لعب
+      </button>
+    </div>
+
+  </div>
+
+  <div id="gameBox"
+       class="quizbox"
+       style="display:none;margin-top:18px">
+  </div>
+
+</section>
+
+
+<!-- RESOURCES -->
+
+<section id="resources" class="page">
+
+  <div class="section-title">
+    <h2>🌐 مصادر وروابط تعليمية حقيقية</h2>
+    <span class="badge">عربي · Français · English</span>
+  </div>
+
+  <p class="muted">
+    هذه الروابط تقود إلى منصات تعليمية حقيقية. يمكن للطالب استعمالها
+    للتوسع خارج HAMOU MATH.
+  </p>
+
+  <div class="links-grid">
+
+    <a class="external"
+       href="https://www.khanacademy.org/math"
+       target="_blank"
+       rel="noopener">
+      <div class="card resource">
+        <div class="resource-icon">🎓</div>
+        <h3>Khan Academy Math</h3>
+        <p class="muted">
+          Algebra · Geometry · Trigonometry · Calculus · Statistics
+        </p>
+        <span class="badge">English</span>
+      </div>
+    </a>
+
+    <a class="external"
+       href="https://www.geogebra.org/"
+       target="_blank"
+       rel="noopener">
+      <div class="card resource">
+        <div class="resource-icon">📐</div>
+        <h3>GeoGebra</h3>
+        <p class="muted">
+          Geometry · Algebra · Functions · Statistics · 3D
+        </p>
+        <span class="badge">Interactive</span>
+      </div>
+    </a>
+
+    <a class="external"
+       href="https://www.geogebra.org/math"
+       target="_blank"
+       rel="noopener">
+      <div class="card resource">
+        <div class="resource-icon">🧪</div>
+        <h3>GeoGebra Resources</h3>
+        <p class="muted">
+          Activities, simulations, exercises and lessons.
+        </p>
+        <span class="badge">Free resources</span>
+      </div>
+    </a>
+
+    <a class="external"
+       href="https://openstax.org/subjects/math"
+       target="_blank"
+       rel="noopener">
+      <div class="card resource">
+        <div class="resource-icon">📖</div>
+        <h3>OpenStax Mathematics</h3>
+        <p class="muted">
+          Open educational textbooks and university mathematics resources.
+        </p>
+        <span class="badge">Open textbooks</span>
+      </div>
+    </a>
+
+  </div>
+
+
+  <div class="section-title">
+    <h2>🔗 أقسام HAMOU MATH التعليمية</h2>
+  </div>
+
+  <div class="grid3">
+
+    <div class="card">
+      <h3>🇫🇷 Français</h3>
+      <p class="muted">
+        Algèbre, fonctions, géométrie, probabilités,
+        statistiques, analyse et calcul différentiel.
+      </p>
+      <button class="primary"
+              onclick="setLanguage('fr')">
+        Activer le français
+      </button>
+    </div>
+
+    <div class="card">
+      <h3>🇬🇧 English</h3>
+      <p class="muted">
+        Algebra, functions, geometry, probability,
+        statistics, calculus and linear algebra.
+      </p>
+      <button class="primary"
+              onclick="setLanguage('en')">
+        Switch to English
+      </button>
+    </div>
+
+    <div class="card">
+      <h3>🇩🇿 العربية</h3>
+      <p class="muted">
+        شرح عربي واضح مع أمثلة وتمارين وتصحيح.
+      </p>
+      <button class="primary"
+              onclick="setLanguage('ar')">
+        العربية
+      </button>
+    </div>
+
   </div>
 
 </section>
 
 
 <!-- PROGRESS -->
-<section class="view" id="progress">
+
+<section id="progress" class="page">
 
   <div class="section-title">
-    <h2 id="progressTitle">📊 تقدمي</h2>
+    <h2>📈 تقدمي</h2>
+
+    <button class="danger"
+            onclick="resetProgress()">
+      إعادة ضبط
+    </button>
   </div>
 
-  <div class="progress-box">
+  <div class="grid">
 
-    <div class="level" id="levelText"></div>
-
-    <div>
-      <strong id="xpText"></strong>
+    <div class="card stat">
+      المستوى
+      <b id="levelStat">1</b>
     </div>
 
-    <div class="progress-track">
-      <div class="progress-fill" id="xpBar"></div>
+    <div class="card stat">
+      XP
+      <b id="xpBig">0</b>
     </div>
 
-    <div class="stats" id="progressStats"></div>
+    <div class="card stat">
+      الألعاب
+      <b id="gamesBig">0</b>
+    </div>
+
+    <div class="card stat">
+      التحديات
+      <b id="chBig">0</b>
+    </div>
+
+  </div>
+
+  <div class="card" style="margin-top:15px">
+
+    <h3>التقدم إلى المستوى التالي</h3>
+
+    <div class="progress">
+      <i id="progressBar"></i>
+    </div>
+
+    <p id="progressText"
+       class="muted">
+    </p>
 
   </div>
 
   <div class="section-title">
-    <h2 id="achievementsTitle">🏆 الإنجازات</h2>
+    <h2>🏅 الإنجازات</h2>
   </div>
 
-  <div class="achievement-grid" id="achievements"></div>
-
-  <button class="small-btn"
-          style="margin-top:20px"
-          id="resetProgress"
-          type="button">
-    🔄 إعادة التقدم
-  </button>
+  <div class="grid3"
+       id="badges">
+  </div>
 
 </section>
 
 </main>
 
 
-<footer>
-  <strong>HAMOU MATH</strong>
-  <div id="footerText">سلسلة حمو في الرياضيات • تعلم • تدرب • تحدَّ نفسك</div>
-</footer>
-
-
 <!-- MOBILE NAV -->
-<nav class="mobile-nav" id="mobileNav"></nav>
+
+<nav class="bottomnav">
+
+  <button data-page="home">
+    <span>🏠</span>
+    الرئيسية
+  </button>
+
+  <button data-page="academy">
+    <span>🎓</span>
+    الأكاديمية
+  </button>
+
+  <button data-page="library">
+    <span>📚</span>
+    المكتبة
+  </button>
+
+  <button data-page="tests">
+    <span>🧠</span>
+    الاختبارات
+  </button>
+
+  <button data-page="games">
+    <span>🎮</span>
+    الألعاب
+  </button>
+
+  <button data-page="progress">
+    <span>📈</span>
+    تقدمي
+  </button>
+
+</nav>
 
 
-<!-- TOAST -->
-<div class="toast" id="toast"></div>
-
-
-<!-- MODAL -->
-<div class="modal" id="modal">
-  <div class="modal-box">
-
-    <div class="modal-head">
-      <h2 id="modalTitle"></h2>
-      <button class="close" id="closeModal" type="button">×</button>
-    </div>
-
-    <div id="modalBody"></div>
-
-  </div>
-</div>
-
-
-<!-- INSTALL -->
-<div class="install-banner" id="installBanner">
-  <div class="install-content">
-    <strong id="installTitle">📲 ثبّت HAMOU MATH</strong>
-    <div id="installText" style="color:var(--muted);margin-top:4px">
-      أضف الموقع إلى الشاشة الرئيسية.
-    </div>
-  </div>
-
-  <div class="install-actions">
-    <button id="installNow" type="button" class="primary-btn">تثبيت</button>
-    <button id="dismissInstall" type="button">×</button>
-  </div>
+<div id="toast"
+     class="toast">
 </div>
 
 
 <script>
+
 /* =========================================================
-   HAMOU MATH V18.4
-   نظام تنقل + لغات + مكتبة + تمارين + ألعاب + تقدم
+   HAMOU MATH V20
+   LOCAL DATA
 ========================================================= */
 
-const $ = id => document.getElementById(id);
+const state = JSON.parse(
+  localStorage.getItem("hamou_math_v20") ||
+  '{"xp":0,"exercises":0,"challenges":0,"games":0,"language":"ar"}'
+);
 
-const state = {
-  lang: localStorage.getItem("hm_lang") || "ar",
-  theme: localStorage.getItem("hm_theme") || "light",
-  xp: Number(localStorage.getItem("hm_xp") || 0),
-  solved: Number(localStorage.getItem("hm_solved") || 0),
-  games: Number(localStorage.getItem("hm_games") || 0),
-  challenges: Number(localStorage.getItem("hm_challenges") || 0),
-  favorites: JSON.parse(localStorage.getItem("hm_favorites") || "[]"),
-  currentView: "home",
-  installPrompt: null,
-  gameTimer: null
-};
+let activeTimer=null;
 
 
-/* =========================
-   TRANSLATIONS
-========================= */
-
-const T = {
-
-ar:{
-brandSub:"سلسلة حمو في الرياضيات",
-home:"الرئيسية",
-academy:"الأكاديمية",
-library:"المكتبة",
-exercises:"التمارين",
-challenges:"التحديات",
-games:"الألعاب",
-progress:"تقدمي",
-
-heroTitle:"HAMOU MATH",
-heroText:"منصتك التفاعلية لتعلم الرياضيات، التدريب، حل التمارين، التحديات والألعاب.",
-startLearning:"🎓 ابدأ التعلم",
-openLibrary:"📚 افتح المكتبة",
-learningPaths:"المسارات التعليمية",
-viewAll:"عرض الكل",
-libraryHome:"📚 المكتبة",
-realResources:"موارد حقيقية ومتنوعة",
-
-academyTitle:"🎓 الأكاديمية",
-choosePath:"اختر مسارك",
-
-libraryTitle:"📚 المكتبة",
-libraryDescription:"كتب ودروس ومراجع وتمارين",
-searchPlaceholder:"ابحث عن كتاب أو موضوع...",
-allTypes:"كل الأنواع",
-books:"كتب",
-courses:"دروس",
-exercisesType:"تمارين",
-summaries:"ملخصات",
-references:"مراجع",
-allLevels:"كل المستويات",
-secondary:"ثانوي",
-bac:"بكالوريا",
-university:"جامعة",
-advanced:"متقدم",
-allLanguages:"كل اللغات",
-search:"🔎 بحث",
-hamouResources:"📘 موارد HAMOU MATH",
-globalSearch:"🌍 البحث العالمي",
-
-exerciseTitle:"📝 التمارين",
-newExercise:"➕ تمرين جديد",
-answer:"إجابة",
-check:"تحقق",
-correct:"✅ إجابة صحيحة!",
-wrong:"❌ حاول مرة أخرى.",
-challengeTitle:"⚡ التحديات",
-challengeDescription:"اختبر سرعتك ومهاراتك",
-
-gamesTitle:"🎮 الألعاب",
-gamesDescription:"تعلم واستمتع",
-progressTitle:"📊 تقدمي",
-achievementsTitle:"🏆 الإنجازات",
-resetProgress:"🔄 إعادة التقدم",
-
-footer:"سلسلة حمو في الرياضيات • تعلم • تدرب • تحدَّ نفسك",
-
-installTitle:"📲 ثبّت HAMOU MATH",
-installText:"أضف الموقع إلى الشاشة الرئيسية.",
-install:"تثبيت",
-
-level:"المستوى",
-xp:"XP",
-solved:"تمارين محلولة",
-played:"ألعاب",
-challengeCount:"تحديات",
-
-secondary1:"السنة الأولى ثانوي",
-secondary2:"السنة الثانية ثانوي",
-secondary3:"السنة الثالثة ثانوي",
-bacPath:"البكالوريا",
-universityPath:"الجامعة",
-analysis:"التحليل الرياضي",
-algebra:"الجبر",
-probability:"الاحتمالات والإحصاء",
-
-learn:"تعلم",
-open:"فتح",
-details:"التفاصيل",
-favorite:"☆ مفضلة",
-unfavorite:"★ مفضلة",
-
-booksCount:"موارد محلية",
-searching:"جارٍ البحث...",
-noResults:"لا توجد نتائج.",
-remoteError:"تعذر الوصول إلى المصدر الخارجي حاليًا.",
-globalFound:"نتائج البحث العالمي",
-
-speed:"⚡ سرعة الحساب",
-speedText:"أجب عن أكبر عدد من الأسئلة في وقت قصير.",
-equation:"🧠 سيد المعادلات",
-equationText:"اختبر قدرتك على حل المعادلات.",
-bacChallenge:"🎯 تحدي البكالوريا",
-bacChallengeText:"أسئلة بمستوى تحضيري للبكالوريا.",
-
-calcGame:"🧮 تحدي الحساب",
-calcGameText:"اختر الإجابة الصحيحة.",
-equationGame:"➗ لعبة المعادلات",
-equationGameText:"حل المعادلة واختر النتيجة.",
-memoryGame:"🧠 الذاكرة الرياضية",
-memoryGameText:"تذكر الرقم ثم اختره.",
-
-start:"ابدأ",
-next:"التالي",
-finish:"إنهاء",
-score:"النتيجة",
-time:"الوقت",
-loading:"جارٍ التحميل...",
-
-ach1:"🌱 البداية",
-ach2:"📚 قارئ",
-ach3:"🔥 متدرب",
-ach4:"🏆 بطل",
-
-ach1d:"حل أول تمرين",
-ach2d:"حل 5 تمارين",
-ach3d:"حل 20 تمرينًا",
-ach4d:"احصل على 500 XP",
-
-lesson:"درس",
-book:"كتاب",
-exercise:"تمرين",
-summary:"ملخص",
-reference:"مرجع",
-
-openResource:"فتح المورد"
-},
-
-fr:{
-brandSub:"La série Hamou de mathématiques",
-home:"Accueil",
-academy:"Académie",
-library:"Bibliothèque",
-exercises:"Exercices",
-challenges:"Défis",
-games:"Jeux",
-progress:"Progression",
-
-heroTitle:"HAMOU MATH",
-heroText:"Votre plateforme interactive pour apprendre les mathématiques, pratiquer, résoudre des exercices et relever des défis.",
-startLearning:"🎓 Commencer",
-openLibrary:"📚 Ouvrir la bibliothèque",
-learningPaths:"Parcours d'apprentissage",
-viewAll:"Voir tout",
-libraryHome:"📚 Bibliothèque",
-realResources:"Ressources réelles et variées",
-
-academyTitle:"🎓 Académie",
-choosePath:"Choisissez votre parcours",
-
-libraryTitle:"📚 Bibliothèque",
-libraryDescription:"Livres, cours, références et exercices",
-searchPlaceholder:"Rechercher un livre ou un sujet...",
-allTypes:"Tous les types",
-books:"Livres",
-courses:"Cours",
-exercisesType:"Exercices",
-summaries:"Résumés",
-references:"Références",
-allLevels:"Tous les niveaux",
-secondary:"Lycée",
-bac:"Baccalauréat",
-university:"Université",
-advanced:"Avancé",
-allLanguages:"Toutes les langues",
-search:"🔎 Rechercher",
-hamouResources:"📘 Ressources HAMOU MATH",
-globalSearch:"🌍 Recherche mondiale",
-
-exerciseTitle:"📝 Exercices",
-newExercise:"➕ Nouvel exercice",
-answer:"Réponse",
-check:"Vérifier",
-correct:"✅ Bonne réponse !",
-wrong:"❌ Essayez encore.",
-challengeTitle:"⚡ Défis",
-challengeDescription:"Testez votre vitesse et vos compétences",
-
-gamesTitle:"🎮 Jeux",
-gamesDescription:"Apprenez en vous amusant",
-progressTitle:"📊 Progression",
-achievementsTitle:"🏆 Réalisations",
-resetProgress:"🔄 Réinitialiser",
-
-footer:"La série Hamou de mathématiques • Apprendre • Pratiquer • Se dépasser",
-
-installTitle:"📲 Installer HAMOU MATH",
-installText:"Ajoutez le site à votre écran d'accueil.",
-install:"Installer",
-
-level:"Niveau",
-xp:"XP",
-solved:"Exercices résolus",
-played:"Jeux",
-challengeCount:"Défis",
-
-secondary1:"1ère année secondaire",
-secondary2:"2ème année secondaire",
-secondary3:"3ème année secondaire",
-bacPath:"Baccalauréat",
-universityPath:"Université",
-analysis:"Analyse",
-algebra:"Algèbre",
-probability:"Probabilités et statistiques",
-
-learn:"Apprendre",
-open:"Ouvrir",
-details:"Détails",
-favorite:"☆ Favori",
-unfavorite:"★ Favori",
-
-booksCount:"Ressources locales",
-searching:"Recherche...",
-noResults:"Aucun résultat.",
-remoteError:"La source externe est actuellement inaccessible.",
-globalFound:"Résultats de recherche mondiale",
-
-speed:"⚡ Calcul rapide",
-speedText:"Répondez au plus grand nombre de questions possible.",
-equation:"🧠 Maître des équations",
-equationText:"Testez vos compétences en équations.",
-bacChallenge:"🎯 Défi Bac",
-bacChallengeText:"Questions de préparation au baccalauréat.",
-
-calcGame:"🧮 Défi calcul",
-calcGameText:"Choisissez la bonne réponse.",
-equationGame:"➗ Jeu des équations",
-equationGameText:"Résolvez l'équation.",
-memoryGame:"🧠 Mémoire mathématique",
-memoryGameText:"Mémorisez le nombre puis choisissez-le.",
-
-start:"Commencer",
-next:"Suivant",
-finish:"Terminer",
-score:"Score",
-time:"Temps",
-loading:"Chargement...",
-
-ach1:"🌱 Début",
-ach2:"📚 Lecteur",
-ach3:"🔥 Entraîné",
-ach4:"🏆 Champion",
-
-ach1d:"Résoudre le premier exercice",
-ach2d:"Résoudre 5 exercices",
-ach3d:"Résoudre 20 exercices",
-ach4d:"Obtenir 500 XP",
-
-lesson:"Cours",
-book:"Livre",
-exercise:"Exercice",
-summary:"Résumé",
-reference:"Référence",
-
-openResource:"Ouvrir"
-},
-
-en:{
-brandSub:"Hamou Mathematics Series",
-home:"Home",
-academy:"Academy",
-library:"Library",
-exercises:"Exercises",
-challenges:"Challenges",
-games:"Games",
-progress:"Progress",
-
-heroTitle:"HAMOU MATH",
-heroText:"Your interactive platform to learn mathematics, practice, solve exercises, play games and take challenges.",
-startLearning:"🎓 Start learning",
-openLibrary:"📚 Open library",
-learningPaths:"Learning paths",
-viewAll:"View all",
-libraryHome:"📚 Library",
-realResources:"Real and varied resources",
-
-academyTitle:"🎓 Academy",
-choosePath:"Choose your path",
-
-libraryTitle:"📚 Library",
-libraryDescription:"Books, courses, references and exercises",
-searchPlaceholder:"Search for a book or topic...",
-allTypes:"All types",
-books:"Books",
-courses:"Courses",
-exercisesType:"Exercises",
-summaries:"Summaries",
-references:"References",
-allLevels:"All levels",
-secondary:"Secondary school",
-bac:"Baccalaureate",
-university:"University",
-advanced:"Advanced",
-allLanguages:"All languages",
-search:"🔎 Search",
-hamouResources:"📘 HAMOU MATH resources",
-globalSearch:"🌍 Global search",
-
-exerciseTitle:"📝 Exercises",
-newExercise:"➕ New exercise",
-answer:"Answer",
-check:"Check",
-correct:"✅ Correct answer!",
-wrong:"❌ Try again.",
-challengeTitle:"⚡ Challenges",
-challengeDescription:"Test your speed and skills",
-
-gamesTitle:"🎮 Games",
-gamesDescription:"Learn while having fun",
-progressTitle:"📊 Progress",
-achievementsTitle:"🏆 Achievements",
-resetProgress:"🔄 Reset progress",
-
-footer:"Hamou Mathematics Series • Learn • Practice • Challenge yourself",
-
-installTitle:"📲 Install HAMOU MATH",
-installText:"Add the website to your home screen.",
-install:"Install",
-
-level:"Level",
-xp:"XP",
-solved:"Solved exercises",
-played:"Games",
-challengeCount:"Challenges",
-
-secondary1:"First year secondary",
-secondary2:"Second year secondary",
-secondary3:"Third year secondary",
-bacPath:"Baccalaureate",
-universityPath:"University",
-analysis:"Mathematical analysis",
-algebra:"Algebra",
-probability:"Probability & statistics",
-
-learn:"Learn",
-open:"Open",
-details:"Details",
-favorite:"☆ Favorite",
-unfavorite:"★ Favorite",
-
-booksCount:"Local resources",
-searching:"Searching...",
-noResults:"No results.",
-remoteError:"The external source is currently unavailable.",
-globalFound:"Global search results",
-
-speed:"⚡ Speed calculation",
-speedText:"Answer as many questions as possible in a short time.",
-equation:"🧠 Equation master",
-equationText:"Test your equation-solving skills.",
-bacChallenge:"🎯 Baccalaureate challenge",
-bacChallengeText:"Baccalaureate preparation questions.",
-
-calcGame:"🧮 Calculation challenge",
-calcGameText:"Choose the correct answer.",
-equationGame:"➗ Equation game",
-equationGameText:"Solve the equation.",
-memoryGame:"🧠 Math memory",
-memoryGameText:"Remember the number and choose it.",
-
-start:"Start",
-next:"Next",
-finish:"Finish",
-score:"Score",
-time:"Time",
-loading:"Loading...",
-
-ach1:"🌱 Starter",
-ach2:"📚 Reader",
-ach3:"🔥 Trainer",
-ach4:"🏆 Champion",
-
-ach1d:"Solve your first exercise",
-ach2d:"Solve 5 exercises",
-ach3d:"Solve 20 exercises",
-ach4d:"Earn 500 XP",
-
-lesson:"Lesson",
-book:"Book",
-exercise:"Exercise",
-summary:"Summary",
-reference:"Reference",
-
-openResource:"Open resource"
-}
-
-};
-
-function t(key){
- return (T[state.lang] && T[state.lang][key]) || T.ar[key] || key;
-}
-
-
-/* =========================
-   NAVIGATION
-========================= */
-
-const navItems=[
- ["home","🏠"],
- ["academy","🎓"],
- ["library","📚"],
- ["exercises","📝"],
- ["challenges","⚡"],
- ["games","🎮"],
- ["progress","📊"]
-];
-
-function renderNavigation(){
-
- $("navLinks").innerHTML=navItems.map(([id,icon])=>`
-   <button type="button"
-           data-view="${id}"
-           class="${state.currentView===id?"active":""}">
-      ${icon} ${t(id)}
-   </button>
- `).join("");
-
- $("mobileNav").innerHTML=navItems.slice(0,5).map(([id,icon])=>`
-   <button type="button"
-           data-view="${id}"
-           class="${state.currentView===id?"active":""}">
-      <span>${icon}</span>${t(id)}
-   </button>
- `).join("");
-
- document.querySelectorAll("[data-view]").forEach(btn=>{
-   btn.addEventListener("click",()=>{
-      showView(btn.dataset.view);
-   });
- });
-}
-
-function showView(id){
-
- const section=$(id);
- if(!section)return;
-
- document.querySelectorAll(".view").forEach(v=>{
-   v.classList.remove("active");
- });
-
- section.classList.add("active");
- state.currentView=id;
-
- renderNavigation();
-
- window.scrollTo({
-   top:0,
-   behavior:"smooth"
- });
-
- if(id==="progress")renderProgress();
- if(id==="library")renderLocalLibrary();
-}
-
-function go(id){
- showView(id);
-}
-
-
-/* =========================
-   THEME
-========================= */
-
-function applyTheme(){
-
- document.body.classList.toggle("dark",state.theme==="dark");
-
- $("themeBtn").textContent =
-   state.theme==="dark" ? "☀️" : "🌙";
-
- localStorage.setItem("hm_theme",state.theme);
-}
-
-
-/* =========================
-   LANGUAGE
-========================= */
-
-function applyLanguage(){
-
- document.documentElement.lang=state.lang;
- document.documentElement.dir=
-   state.lang==="ar" ? "rtl" : "ltr";
-
- $("langSelect").value=state.lang;
-
- $("brandSub").textContent=t("brandSub");
-
- $("heroTitle").textContent=t("heroTitle");
- $("heroText").textContent=t("heroText");
- $("heroAcademy").textContent=t("startLearning");
- $("heroLibrary").textContent=t("openLibrary");
-
- $("academyPreviewTitle").textContent=t("learningPaths");
- $("academyAll").textContent=t("viewAll");
- $("homeLibraryTitle").textContent=t("libraryHome");
- $("homeLibraryText").textContent=t("realResources");
-
- $("academyTitle").textContent=t("academyTitle");
- $("academyDescription").textContent=t("choosePath");
-
- $("libraryTitle").textContent=t("libraryTitle");
- $("libraryDescription").textContent=t("libraryDescription");
- $("librarySearch").placeholder=t("searchPlaceholder");
- $("searchBtn").textContent=t("search");
- $("localLibraryTitle").textContent=t("hamouResources");
- $("remoteLibraryTitle").textContent=t("globalSearch");
-
- setSelectTexts();
-
- $("exerciseTitle").textContent=t("exerciseTitle");
- $("newExercise").textContent=t("newExercise");
-
- $("challengeTitle").textContent=t("challengeTitle");
- $("challengeDescription").textContent=t("challengeDescription");
-
- $("gamesTitle").textContent=t("gamesTitle");
- $("gamesDescription").textContent=t("gamesDescription");
-
- $("progressTitle").textContent=t("progressTitle");
- $("achievementsTitle").textContent=t("achievementsTitle");
- $("resetProgress").textContent=t("resetProgress");
-
- $("footerText").textContent=t("footer");
-
- $("installTitle").textContent=t("installTitle");
- $("installText").textContent=t("installText");
- $("installNow").textContent=t("install");
-
- renderNavigation();
- renderHome();
- renderAcademy();
- renderLocalLibrary();
- renderExercises();
- renderChallenges();
- renderGames();
- renderProgress();
-}
-
-function setSelectTexts(){
-
- $("libType").innerHTML=`
-  <option value="all">${t("allTypes")}</option>
-  <option value="book">${t("books")}</option>
-  <option value="course">${t("courses")}</option>
-  <option value="exercise">${t("exercisesType")}</option>
-  <option value="summary">${t("summaries")}</option>
-  <option value="reference">${t("references")}</option>
- `;
-
- $("libLevel").innerHTML=`
-  <option value="all">${t("allLevels")}</option>
-  <option value="secondary">${t("secondary")}</option>
-  <option value="bac">${t("bac")}</option>
-  <option value="university">${t("university")}</option>
-  <option value="advanced">${t("advanced")}</option>
- `;
-
- $("libLang").innerHTML=`
-  <option value="all">${t("allLanguages")}</option>
-  <option value="ar">العربية</option>
-  <option value="fr">Français</option>
-  <option value="en">English</option>
- `;
-}
-
-
-/* =========================
-   ACADEMY
-========================= */
-
-const academy=[
- {icon:"📘",key:"secondary1",desc:"1as"},
- {icon:"📗",key:"secondary2",desc:"2as"},
- {icon:"📕",key:"secondary3",desc:"3as"},
- {icon:"🎓",key:"bacPath",desc:"bac"},
- {icon:"🏛️",key:"universityPath",desc:"univ"},
- {icon:"∫",key:"analysis",desc:"analysis"},
- {icon:"🔢",key:"algebra",desc:"algebra"},
- {icon:"🎲",key:"probability",desc:"probability"}
-];
-
-function renderAcademy(){
-
- const html=academy.map(a=>`
-   <article class="card">
-     <div class="card-icon">${a.icon}</div>
-     <h3>${t(a.key)}</h3>
-     <p>${academyDescription(a.desc)}</p>
-     <div class="card-actions">
-       <button type="button"
-               class="small-btn primary"
-               onclick="academyOpen('${a.key}')">
-          ${t("learn")}
-       </button>
-     </div>
-   </article>
- `).join("");
-
- $("academyGrid").innerHTML=html;
- $("homeAcademy").innerHTML=academy.slice(0,4).map(a=>`
-   <article class="card">
-     <div class="card-icon">${a.icon}</div>
-     <h3>${t(a.key)}</h3>
-     <p>${academyDescription(a.desc)}</p>
-     <button type="button"
-             class="small-btn primary"
-             onclick="academyOpen('${a.key}')">
-       ${t("open")}
-     </button>
-   </article>
- `).join("");
-}
-
-function academyDescription(key){
-
- const d={
-   "1as":{
-     ar:"أساسيات الدوال والمجموعات والحساب.",
-     fr:"Bases des fonctions, ensembles et calcul.",
-     en:"Functions, sets and calculation fundamentals."
-   },
-   "2as":{
-     ar:"الدوال، الاشتقاق، الهندسة والاحتمالات.",
-     fr:"Fonctions, dérivation, géométrie et probabilités.",
-     en:"Functions, derivatives, geometry and probability."
-   },
-   "3as":{
-     ar:"برنامج السنة الثالثة والتحضير للبكالوريا.",
-     fr:"Programme de 3ème année et préparation au Bac.",
-     en:"Third-year program and Bac preparation."
-   },
-   "bac":{
-     ar:"مراجعة شاملة وتمارين بكالوريا.",
-     fr:"Révision complète et exercices du Bac.",
-     en:"Complete revision and Bac exercises."
-   },
-   "univ":{
-     ar:"مداخل للتحليل والجبر والاحتمالات.",
-     fr:"Introduction à l'analyse, algèbre et probabilités.",
-     en:"Analysis, algebra and probability."
-   },
-   "analysis":{
-     ar:"النهايات، الاستمرارية، الاشتقاق والتكامل.",
-     fr:"Limites, continuité, dérivation et intégration.",
-     en:"Limits, continuity, derivatives and integration."
-   },
-   "algebra":{
-     ar:"المصفوفات، المتجهات والبنى الجبرية.",
-     fr:"Matrices, vecteurs et structures algébriques.",
-     en:"Matrices, vectors and algebraic structures."
-   },
-   "probability":{
-     ar:"الاحتمالات، المتغيرات العشوائية والإحصاء.",
-     fr:"Probabilités, variables aléatoires et statistiques.",
-     en:"Probability, random variables and statistics."
-   }
- };
-
- return d[key][state.lang]||d[key].ar;
-}
-
-function academyOpen(key){
- showModal(t(key),`
-   <div style="line-height:2">
-     <h3>📚 ${t("learningPaths")}</h3>
-     <p>${academyDescription(key)}</p>
-     <p>
-       ${state.lang==="ar"
-       ?"يمكنك الآن الانتقال إلى المكتبة والتمارين والتحديات المرتبطة بهذا المسار."
-       :state.lang==="fr"
-       ?"Vous pouvez maintenant consulter la bibliothèque, les exercices et les défis liés à ce parcours."
-       :"You can now explore the library, exercises and challenges related to this path."}
-     </p>
-     <div class="card-actions">
-       <button class="primary-btn" type="button" onclick="closeModal();showView('library')">
-         📚 ${t("library")}
-       </button>
-       <button class="secondary-btn" type="button" onclick="closeModal();showView('exercises')">
-         📝 ${t("exercises")}
-       </button>
-     </div>
-   </div>
- `);
-}
-
-
-/* =========================
-   LOCAL LIBRARY
-========================= */
-
-const resources=[
-
- {
-  title:"Algebra and Trigonometry 2e",
-  type:"book",
-  level:"university",
-  lang:"en",
-  source:"OpenStax",
-  url:"https://openstax.org/details/books/algebra-and-trigonometry-2e"
- },
- {
-  title:"Algebra 1 2e",
-  type:"book",
-  level:"secondary",
-  lang:"en",
-  source:"OpenStax",
-  url:"https://openstax.org/details/books/algebra-1-2e"
- },
- {
-  title:"Precalculus 2e",
-  type:"book",
-  level:"university",
-  lang:"en",
-  source:"OpenStax",
-  url:"https://openstax.org/details/books/precalculus-2e"
- },
- {
-  title:"Calculus Volume 1",
-  type:"book",
-  level:"university",
-  lang:"en",
-  source:"OpenStax",
-  url:"https://openstax.org/details/books/calculus-volume-1"
- },
- {
-  title:"Calculus Volume 2",
-  type:"book",
-  level:"university",
-  lang:"en",
-  source:"OpenStax",
-  url:"https://openstax.org/details/books/calculus-volume-2"
- },
- {
-  title:"Calculus Volume 3",
-  type:"book",
-  level:"university",
-  lang:"en",
-  source:"OpenStax",
-  url:"https://openstax.org/details/books/calculus-volume-3"
- },
- {
-  title:"Introductory Statistics 2e",
-  type:"book",
-  level:"university",
-  lang:"en",
-  source:"OpenStax",
-  url:"https://openstax.org/details/books/introductory-statistics-2e"
- },
- {
-  title:"18.05 Introduction to Probability and Statistics",
-  type:"course",
-  level:"advanced",
-  lang:"en",
-  source:"MIT OpenCourseWare",
-  url:"https://ocw.mit.edu/courses/18-05-introduction-to-probability-and-statistics-spring-2014/"
- },
- {
-  title:"18.600 Probability and Random Variables",
-  type:"course",
-  level:"advanced",
-  lang:"en",
-  source:"MIT OpenCourseWare",
-  url:"https://ocw.mit.edu/courses/18-600-probability-and-random-variables-fall-2019/"
- },
- {
-  title:"18.01SC Single Variable Calculus",
-  type:"course",
-  level:"university",
-  lang:"en",
-  source:"MIT OpenCourseWare",
-  url:"https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/"
- },
-
- {
-  title:"ملخص مجموعة الأعداد ℕ ℤ ℚ ℝ",
-  type:"summary",
-  level:"secondary",
-  lang:"ar",
-  source:"HAMOU MATH",
-  url:"#"
- },
- {
-  title:"ملخص الدوال",
-  type:"summary",
-  level:"secondary",
-  lang:"ar",
-  source:"HAMOU MATH",
-  url:"#"
- },
- {
-  title:"ملخص الاشتقاق",
-  type:"summary",
-  level:"bac",
-  lang:"ar",
-  source:"HAMOU MATH",
-  url:"#"
- },
- {
-  title:"تمارين الدوال",
-  type:"exercise",
-  level:"secondary",
-  lang:"ar",
-  source:"HAMOU MATH",
-  url:"#"
- },
- {
-  title:"تمارين الاشتقاق والبكالوريا",
-  type:"exercise",
-  level:"bac",
-  lang:"ar",
-  source:"HAMOU MATH",
-  url:"#"
- },
- {
-  title:"ملخص الاحتمالات والإحصاء",
-  type:"summary",
-  level:"university",
-  lang:"ar",
-  source:"HAMOU MATH",
-  url:"#"
- }
-];
-
-function resourceType(type){
- const map={
-  book:"book",
-  course:"lesson",
-  exercise:"exercise",
-  summary:"summary",
-  reference:"reference"
- };
- return t(map[type]||type);
-}
-
-function renderResource(r,index){
-
- const fav=state.favorites.includes(index);
-
- return `
- <article class="resource">
-
-   <div class="resource-top">
-     <span class="badge">${resourceType(r.type)}</span>
-     <span class="badge">${r.source}</span>
-   </div>
-
-   <h3>${escapeHTML(r.title)}</h3>
-
-   <p>
-     ${r.lang==="ar"?"العربية":r.lang==="fr"?"Français":"English"}
-     • ${levelText(r.level)}
-   </p>
-
-   <div class="resource-actions">
-
-     ${r.url!=="#" ?
-       `<a href="${r.url}" target="_blank" rel="noopener">
-          ${t("openResource")}
-        </a>`
-       :
-       `<button type="button" onclick="showResourceInfo('${escapeAttr(r.title)}')">
-          ${t("details")}
-        </button>`
-     }
-
-     <button type="button"
-             onclick="toggleFavorite(${index})">
-       ${fav?t("unfavorite"):t("favorite")}
-     </button>
-
-   </div>
-
- </article>
- `;
-}
-
-function levelText(level){
- const map={
-  secondary:"secondary",
-  bac:"bac",
-  university:"university",
-  advanced:"advanced"
- };
- return t(map[level]||level);
-}
-
-function renderLocalLibrary(){
-
- const query=$("librarySearch")?.value?.trim().toLowerCase()||"";
- const type=$("libType")?.value||"all";
- const level=$("libLevel")?.value||"all";
- const lang=$("libLang")?.value||"all";
-
- const filtered=resources.filter(r=>{
-
-   const matchesText=!query ||
-      r.title.toLowerCase().includes(query) ||
-      r.source.toLowerCase().includes(query);
-
-   const matchesType=type==="all"||r.type===type;
-   const matchesLevel=level==="all"||r.level===level;
-   const matchesLang=lang==="all"||r.lang===lang;
-
-   return matchesText&&matchesType&&matchesLevel&&matchesLang;
- });
-
- $("libraryStats").innerHTML=
-   `<strong>${filtered.length}</strong><span>${t("booksCount")}</span>`;
-
- $("localBooks").innerHTML=filtered.length
-   ? filtered.map(r=>resourceWithOriginalIndex(r)).join("")
-   : `<div class="empty">${t("noResults")}</div>`;
-
-}
-
-function resourceWithOriginalIndex(r){
- const index=resources.indexOf(r);
- return renderResource(r,index);
-}
-
-function showResourceInfo(title){
-
- showModal(title,`
-   <div style="line-height:2">
-     <p>
-       ${state.lang==="ar"
-       ?"هذا المورد موجود ضمن مكتبة HAMOU MATH. يمكنك استخدام زر فتح المورد أو الانتقال إلى التمارين والتحديات."
-       :state.lang==="fr"
-       ?"Cette ressource fait partie de la bibliothèque HAMOU MATH."
-       :"This resource is part of the HAMOU MATH library."}
-     </p>
-     <button class="primary-btn"
-             type="button"
-             onclick="closeModal();showView('exercises')">
-       📝 ${t("exercises")}
-     </button>
-   </div>
- `);
-}
-
-function toggleFavorite(index){
-
- const pos=state.favorites.indexOf(index);
-
- if(pos>=0)state.favorites.splice(pos,1);
- else state.favorites.push(index);
-
- localStorage.setItem(
-   "hm_favorites",
-   JSON.stringify(state.favorites)
- );
-
- renderLocalLibrary();
- toast(
-   state.lang==="ar"?"تم تحديث المفضلة."
-   :state.lang==="fr"?"Favoris mis à jour."
-   :"Favorites updated."
- );
-}
-
-
-/* =========================
-   HOME
-========================= */
-
-function renderHome(){
-
- $("homeStats").innerHTML=`
-   <div class="stat">
-     <strong>${resources.length}</strong>
-     <span>${t("booksCount")}</span>
-   </div>
-   <div class="stat">
-     <strong>∞</strong>
-     <span>${t("exercises")}</span>
-   </div>
-   <div class="stat">
-     <strong>8</strong>
-     <span>${t("learningPaths")}</span>
-   </div>
-   <div class="stat">
-     <strong>3</strong>
-     <span>${t("games")}</span>
-   </div>
- `;
-
- $("homeResources").innerHTML=resources.slice(0,3)
-   .map(r=>resourceWithOriginalIndex(r))
-   .join("");
-}
-
-
-/* =========================
-   EXERCISES
-========================= */
-
-let exerciseCounter=0;
-
-function randomInt(min,max){
- return Math.floor(Math.random()*(max-min+1))+min;
-}
-
-function makeExercise(){
-
- const type=randomInt(1,5);
-
- let q,answer;
-
- if(type===1){
-   const a=randomInt(5,40);
-   const b=randomInt(5,40);
-   q=`${a} + ${b} = ?`;
-   answer=a+b;
- }
-
- else if(type===2){
-   const a=randomInt(8,30);
-   const b=randomInt(2,7);
-   q=`${a} × ${b} = ?`;
-   answer=a*b;
- }
-
- else if(type===3){
-   const x=randomInt(2,12);
-   const b=randomInt(1,20);
-   const a=randomInt(2,9);
-   q=`${a}x + ${b} = ${a*x+b} → x = ?`;
-   answer=x;
- }
-
- else if(type===4){
-   const a=randomInt(2,12);
-   const b=randomInt(2,12);
-   q=`${a}² + ${b}² = ?`;
-   answer=a*a+b*b;
- }
-
- else{
-   const total=randomInt(10,40);
-   const favorable=randomInt(1,total-1);
-   q=`P(A) = ${favorable}/${total}. اكتب الاحتمال العشري تقريبًا (رقم بين 0 و 1).`;
-   answer=Number((favorable/total).toFixed(2));
- }
-
- return {
-   id:++exerciseCounter,
-   q,
-   answer
- };
-}
-
-let exercises=[];
-
-function renderExercises(){
-
- if(exercises.length===0){
-   exercises=[
-     makeExercise(),
-     makeExercise(),
-     makeExercise(),
-     makeExercise(),
-     makeExercise()
-   ];
- }
-
- $("exerciseList").innerHTML=exercises.map(ex=>`
-   <div class="exercise" id="ex-${ex.id}">
-     <div class="exercise-question">
-       ${ex.q}
-     </div>
-
-     <div class="answer-row">
-       <input
-         id="answer-${ex.id}"
-         type="number"
-         step="any"
-         placeholder="${t("answer")}">
-
-       <button
-         class="primary-btn"
-         type="button"
-         onclick="checkExercise(${ex.id})">
-         ${t("check")}
-       </button>
-     </div>
-
-     <div class="feedback" id="feedback-${ex.id}"></div>
-   </div>
- `).join("");
-}
-
-function checkExercise(id){
-
- const ex=exercises.find(x=>x.id===id);
- if(!ex)return;
-
- const input=$("answer-"+id);
- const feedback=$("feedback-"+id);
-
- const value=Number(input.value);
-
- if(Number.isFinite(value) &&
-    Math.abs(value-ex.answer)<0.01){
-
-   feedback.textContent=t("correct");
-   feedback.style.color="var(--success)";
-
-   if(!ex.done){
-     ex.done=true;
-     state.solved++;
-     addXP(20);
-     saveState();
-   }
-
- }else{
-
-   feedback.textContent=t("wrong");
-   feedback.style.color="var(--danger)";
- }
-}
-
-$("newExercise").addEventListener("click",()=>{
-
- exercises.unshift(makeExercise());
-
- if(exercises.length>8)exercises.pop();
-
- renderExercises();
- toast(
-   state.lang==="ar"?"تم إنشاء تمرين جديد."
-   :state.lang==="fr"?"Nouvel exercice créé."
-   :"New exercise created."
- );
-});
-
-
-/* =========================
-   CHALLENGES
-========================= */
-
-function renderChallenges(){
-
- const challenges=[
-   {
-     icon:"⚡",
-     title:t("speed"),
-     text:t("speedText"),
-     xp:50,
-     time:30
-   },
-   {
-     icon:"🧠",
-     title:t("equation"),
-     text:t("equationText"),
-     xp:70,
-     time:45
-   },
-   {
-     icon:"🎯",
-     title:t("bacChallenge"),
-     text:t("bacChallengeText"),
-     xp:100,
-     time:60
-   }
- ];
-
- $("challengeGrid").innerHTML=challenges.map((c,i)=>`
-   <article class="challenge">
-     <div style="font-size:38px">${c.icon}</div>
-     <h3>${c.title}</h3>
-     <p>${c.text}</p>
-     <p>+${c.xp} XP</p>
-     <button type="button" onclick="startChallenge(${i})">
-       ${t("start")}
-     </button>
-   </article>
- `).join("");
-}
-
-function startChallenge(index){
-
- const data=[
-   {xp:50,time:30},
-   {xp:70,time:45},
-   {xp:100,time:60}
- ][index];
-
- let score=0;
- let remaining=data.time;
- let challengeQuestion=makeExercise();
-
- showModal(
-   t("challengeTitle"),
-   `
-   <div style="text-align:center">
-     <div style="font-size:18px">
-       ${t("time")}: <strong id="challengeTime">${remaining}</strong>
-     </div>
-
-     <div class="game-question" id="challengeQuestion">
-       ${challengeQuestion.q}
-     </div>
-
-     <div class="answer-row">
-       <input id="challengeAnswer" type="number" step="any">
-       <button class="primary-btn"
-               type="button"
-               id="challengeCheck">
-          ${t("check")}
-       </button>
-     </div>
-
-     <p>
-       ${t("score")}: <strong id="challengeScore">0</strong>
-     </p>
-   </div>
-   `
- );
-
- const timer=setInterval(()=>{
-
-   remaining--;
-
-   const timeEl=$("challengeTime");
-   if(timeEl)timeEl.textContent=remaining;
-
-   if(remaining<=0){
-
-     clearInterval(timer);
-
-     state.challenges++;
-     addXP(data.xp+score*5);
-     saveState();
-
-     showModal(
-       t("challengeTitle"),
-       `
-       <div style="text-align:center">
-         <h2>🏆 ${t("finish")}</h2>
-         <p>${t("score")}: <strong>${score}</strong></p>
-         <p>+${data.xp+score*5} XP</p>
-         <button class="primary-btn"
-                 type="button"
-                 onclick="closeModal()">
-           ${t("close")||"OK"}
-         </button>
-       </div>
-       `
-     );
-
-   }
-
- },1000);
-
- $("challengeCheck").onclick=()=>{
-
-   const value=Number($("challengeAnswer").value);
-
-   if(Math.abs(value-challengeQuestion.answer)<0.01){
-
-     score++;
-
-     $("challengeScore").textContent=score;
-
-     challengeQuestion=makeExercise();
-
-     $("challengeQuestion").textContent=challengeQuestion.q;
-     $("challengeAnswer").value="";
-   }
- };
-
-}
-
-
-/* =========================
-   GAMES
-========================= */
-
-function renderGames(){
-
- const games=[
-  {
-   id:"calc",
-   icon:"🧮",
-   title:t("calcGame"),
-   text:t("calcGameText")
-  },
-  {
-   id:"eq",
-   icon:"➗",
-   title:t("equationGame"),
-   text:t("equationGameText")
-  },
-  {
-   id:"memory",
-   icon:"🧠",
-   title:t("memoryGame"),
-   text:t("memoryGameText")
-  }
- ];
-
- $("gameGrid").innerHTML=games.map(g=>`
-   <article class="card">
-     <div class="card-icon">${g.icon}</div>
-     <h3>${g.title}</h3>
-     <p>${g.text}</p>
-     <button class="small-btn primary"
-             type="button"
-             onclick="startGame('${g.id}')">
-       ${t("start")}
-     </button>
-   </article>
- `).join("");
-}
-
-function startGame(type){
-
- clearInterval(state.gameTimer);
-
- $("gameArea").classList.add("show");
-
- if(type==="calc"){
-   startCalcGame();
- }
-
- if(type==="eq"){
-   startEquationGame();
- }
-
- if(type==="memory"){
-   startMemoryGame();
- }
-
- $("gameArea").scrollIntoView({
-   behavior:"smooth",
-   block:"center"
- });
-}
-
-function finishGame(xp=30){
-
- state.games++;
- addXP(xp);
- saveState();
-
- toast(
-  state.lang==="ar"
-   ? `🎉 أحسنت! +${xp} XP`
-   : state.lang==="fr"
-   ? `🎉 Bravo ! +${xp} XP`
-   : `🎉 Great! +${xp} XP`
- );
-}
-
-function startCalcGame(){
-
- let a=randomInt(2,20);
- let b=randomInt(2,20);
- let correct=a+b;
-
- let answers=[
-   correct,
-   correct+randomInt(1,8),
-   correct-randomInt(1,8),
-   correct+randomInt(9,15)
- ];
-
- answers=[...new Set(answers)];
-
- while(answers.length<4)
-   answers.push(correct+randomInt(-10,10));
-
- answers.sort(()=>Math.random()-.5);
-
- $("gameTitle").textContent=t("calcGame");
-
- $("gameContent").innerHTML=`
-   <div class="game-question">${a} + ${b} = ?</div>
-   <div class="game-options">
-     ${answers.map(v=>`
-       <button type="button"
-               onclick="gameAnswer(${v},${correct})">
-         ${v}
-       </button>
-     `).join("")}
-   </div>
- `;
-}
-
-function gameAnswer(value,correct){
-
- if(value===correct){
-
-   finishGame(25);
-
-   $("gameContent").innerHTML=`
-     <h2>✅ ${t("correct")}</h2>
-     <button class="primary-btn"
-             type="button"
-             onclick="startCalcGame()">
-       ${t("next")}
-     </button>
-   `;
-
- }else{
-
-   toast(t("wrong"));
- }
-}
-
-function startEquationGame(){
-
- const x=randomInt(2,12);
- const a=randomInt(2,9);
- const b=randomInt(1,15);
- const result=a*x+b;
-
- let answers=[x,x+1,x-1,x+2];
-
- answers=[...new Set(answers)];
-
- $("gameTitle").textContent=t("equationGame");
-
- $("gameContent").innerHTML=`
-   <div class="game-question">
-     ${a}x + ${b} = ${result}
-   </div>
-
-   <div class="game-options">
-     ${answers.map(v=>`
-       <button type="button"
-               onclick="equationAnswer(${v},${x})">
-         x = ${v}
-       </button>
-     `).join("")}
-   </div>
- `;
-}
-
-function equationAnswer(value,correct){
-
- if(value===correct){
-
-   finishGame(35);
-
-   $("gameContent").innerHTML=`
-     <h2>✅ ${t("correct")}</h2>
-     <button class="primary-btn"
-             type="button"
-             onclick="startEquationGame()">
-       ${t("next")}
-     </button>
-   `;
-
- }else{
-   toast(t("wrong"));
- }
-}
-
-function startMemoryGame(){
-
- const number=randomInt(1000,9999);
-
- $("gameTitle").textContent=t("memoryGame");
-
- $("gameContent").innerHTML=`
-   <div style="font-size:18px">${t("time")}</div>
-   <div class="game-question" id="memoryNumber">${number}</div>
-   <p>5...</p>
- `;
-
- setTimeout(()=>{
-
-   const choices=[
-     number,
-     number+1,
-     number-10,
-     number+100
-   ].sort(()=>Math.random()-.5);
-
-   $("gameContent").innerHTML=`
-     <div class="game-question">?</div>
-     <div class="game-options">
-       ${choices.map(v=>`
-         <button type="button"
-                 onclick="memoryAnswer(${v},${number})">
-           ${v}
-         </button>
-       `).join("")}
-     </div>
-   `;
-
- },1500);
-}
-
-function memoryAnswer(value,correct){
-
- if(value===correct){
-
-   finishGame(40);
-
-   $("gameContent").innerHTML=`
-     <h2>🏆 ${t("correct")}</h2>
-     <button class="primary-btn"
-             type="button"
-             onclick="startMemoryGame()">
-       ${t("next")}
-     </button>
-   `;
-
- }else{
-   toast(t("wrong"));
- }
-}
-
-
-/* =========================
-   PROGRESS
-========================= */
-
-function addXP(amount){
-
- state.xp+=Number(amount)||0;
- saveState();
- renderProgress();
-}
+/* =========================================================
+   STORAGE
+========================================================= */
 
 function saveState(){
+  localStorage.setItem(
+    "hamou_math_v20",
+    JSON.stringify(state)
+  );
 
- localStorage.setItem("hm_xp",state.xp);
- localStorage.setItem("hm_solved",state.solved);
- localStorage.setItem("hm_games",state.games);
- localStorage.setItem("hm_challenges",state.challenges);
+  updateStats();
 }
 
-function getLevel(){
-
- return Math.floor(state.xp/100)+1;
-}
-
-function renderProgress(){
-
- const level=getLevel();
- const current=state.xp%100;
-
- $("levelText").textContent=
-   `${t("level")} ${level}`;
-
- $("xpText").textContent=
-   `${state.xp} ${t("xp")}`;
-
- $("xpBar").style.width=current+"%";
-
- $("progressStats").innerHTML=`
-   <div class="stat">
-     <strong>${state.solved}</strong>
-     <span>${t("solved")}</span>
-   </div>
-
-   <div class="stat">
-     <strong>${state.games}</strong>
-     <span>${t("played")}</span>
-   </div>
-
-   <div class="stat">
-     <strong>${state.challenges}</strong>
-     <span>${t("challengeCount")}</span>
-   </div>
- `;
-
- const achievements=[
-  {
-   title:t("ach1"),
-   desc:t("ach1d"),
-   unlocked:state.solved>=1
-  },
-  {
-   title:t("ach2"),
-   desc:t("ach2d"),
-   unlocked:state.solved>=5
-  },
-  {
-   title:t("ach3"),
-   desc:t("ach3d"),
-   unlocked:state.solved>=20
-  },
-  {
-   title:t("ach4"),
-   desc:t("ach4d"),
-   unlocked:state.xp>=500
-  }
- ];
-
- $("achievements").innerHTML=achievements.map(a=>`
-   <div class="achievement ${a.unlocked?"":"locked"}">
-     <div style="font-size:27px">${a.title}</div>
-     <p>${a.desc}</p>
-     ${a.unlocked?"✅":"🔒"}
-   </div>
- `).join("");
-}
-
-$("resetProgress").addEventListener("click",()=>{
-
- if(confirm(
-   state.lang==="ar"
-   ?"هل تريد حذف تقدمك؟"
-   :state.lang==="fr"
-   ?"Voulez-vous réinitialiser votre progression ?"
-   :"Reset your progress?"
- )){
-
-   state.xp=0;
-   state.solved=0;
-   state.games=0;
-   state.challenges=0;
-
-   saveState();
-   renderProgress();
-
-   toast(
-     state.lang==="ar"
-      ?"تمت إعادة التقدم."
-      :state.lang==="fr"
-      ?"Progression réinitialisée."
-      :"Progress reset."
-   );
- }
-});
-
-
-/* =========================
-   MODAL
-========================= */
-
-function showModal(title,body){
-
- $("modalTitle").textContent=title;
- $("modalBody").innerHTML=body;
- $("modal").classList.add("show");
-}
-
-function closeModal(){
- $("modal").classList.remove("show");
-}
-
-$("closeModal").addEventListener("click",closeModal);
-
-$("modal").addEventListener("click",e=>{
- if(e.target===$("modal"))closeModal();
-});
-
-
-/* =========================
-   TOAST
-========================= */
-
-let toastTimer;
 
 function toast(message){
 
- const el=$("toast");
+  const el=document.getElementById("toast");
 
- el.textContent=message;
- el.classList.add("show");
+  el.textContent=message;
 
- clearTimeout(toastTimer);
+  el.classList.add("show");
 
- toastTimer=setTimeout(()=>{
-   el.classList.remove("show");
- },2200);
+  setTimeout(()=>{
+    el.classList.remove("show");
+  },1800);
 }
 
 
-/* =========================
-   REMOTE BOOK SEARCH
-========================= */
+function addXP(amount){
 
-let remotePage=1;
+  state.xp += amount;
 
-async function searchBooks(){
+  saveState();
 
- const query=$("librarySearch").value.trim();
-
- if(!query){
-   $("remoteBooks").innerHTML="";
-   $("remoteStatus").textContent="";
-   return;
- }
-
- $("remoteStatus").textContent=t("searching");
-
- $("remoteBooks").innerHTML="";
-
- try{
-
-   const url=
-     "https://openlibrary.org/search.json?q="+
-     encodeURIComponent(query)+
-     "&page="+remotePage+
-     "&limit=18&fields=key,title,author_name,first_publish_year,cover_i";
-
-   const response=await fetch(url);
-
-   if(!response.ok)throw new Error("HTTP");
-
-   const data=await response.json();
-
-   $("remoteStatus").textContent=
-     `${t("globalFound")}: ${Number(data.numFound||0).toLocaleString()}`;
-
-   if(!data.docs?.length){
-
-     $("remoteBooks").innerHTML=
-       `<div class="empty">${t("noResults")}</div>`;
-
-     return;
-   }
-
-   $("remoteBooks").innerHTML=data.docs.map(book=>{
-
-     const title=book.title||"Untitled";
-     const author=book.author_name?.slice(0,2).join(", ")||"Unknown";
-     const year=book.first_publish_year||"";
-
-     const key=(book.key||"").replace("/works/","");
-
-     const link=
-       key
-       ? "https://openlibrary.org/works/"+key
-       : "https://openlibrary.org/search?q="+encodeURIComponent(title);
-
-     return `
-       <article class="resource">
-         <span class="badge">${t("book")}</span>
-
-         <h3>${escapeHTML(title)}</h3>
-
-         <p>
-           ${escapeHTML(author)}
-           ${year?" • "+year:""}
-         </p>
-
-         <div class="resource-actions">
-           <a href="${link}"
-              target="_blank"
-              rel="noopener">
-             ${t("openResource")}
-           </a>
-         </div>
-       </article>
-     `;
-
-   }).join("");
-
- }catch(error){
-
-   $("remoteStatus").textContent=t("remoteError");
-
-   $("remoteBooks").innerHTML=`
-     <div class="empty">
-       ${t("remoteError")}
-     </div>
-   `;
- }
+  toast("+"+amount+" XP ⭐");
 }
 
 
-/* =========================
-   HELPERS
-========================= */
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+function go(page){
+
+  document.querySelectorAll(".page")
+    .forEach(p=>p.classList.remove("active"));
+
+  const target=document.getElementById(page);
+
+  if(target){
+    target.classList.add("active");
+  }
+
+  document.querySelectorAll("[data-page]")
+    .forEach(btn=>{
+      btn.classList.toggle(
+        "active",
+        btn.dataset.page===page
+      );
+    });
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+}
+
+
+document.querySelectorAll("[data-page]")
+.forEach(btn=>{
+  btn.addEventListener(
+    "click",
+    ()=>go(btn.dataset.page)
+  );
+});
+
+
+/* =========================================================
+   THEME
+========================================================= */
+
+document.getElementById("themeBtn")
+.addEventListener("click",()=>{
+
+  document.body.classList.toggle("dark");
+
+  localStorage.setItem(
+    "hamou_dark",
+    document.body.classList.contains("dark")
+  );
+});
+
+
+if(
+  localStorage.getItem("hamou_dark")==="true"
+){
+  document.body.classList.add("dark");
+}
+
+
+/* =========================================================
+   LANGUAGE
+========================================================= */
+
+function setLanguage(lang){
+
+  state.language=lang;
+
+  saveState();
+
+  if(lang==="fr"){
+    toast("Français activé 🇫🇷");
+  }
+
+  else if(lang==="en"){
+    toast("English activated 🇬🇧");
+  }
+
+  else{
+    toast("العربية مفعلة 🇩🇿");
+  }
+}
+
+
+document.getElementById("languageBtn")
+.addEventListener("click",()=>{
+
+  const order=["ar","fr","en"];
+
+  const current=order.indexOf(
+    state.language || "ar"
+  );
+
+  const next=order[
+    (current+1)%order.length
+  ];
+
+  setLanguage(next);
+});
+
+
+/* =========================================================
+   STATS
+========================================================= */
+
+function updateStats(){
+
+  const level=
+    Math.floor(state.xp/100)+1;
+
+  const progress=
+    state.xp%100;
+
+  document.getElementById("xpStat")
+    .textContent=state.xp;
+
+  document.getElementById("exerciseStat")
+    .textContent=state.exercises;
+
+  document.getElementById("challengeStat")
+    .textContent=state.challenges;
+
+  document.getElementById("gameStat")
+    .textContent=state.games;
+
+  document.getElementById("levelStat")
+    .textContent=level;
+
+  document.getElementById("xpBig")
+    .textContent=state.xp;
+
+  document.getElementById("gamesBig")
+    .textContent=state.games;
+
+  document.getElementById("chBig")
+    .textContent=state.challenges;
+
+  document.getElementById("progressBar")
+    .style.width=progress+"%";
+
+  document.getElementById("progressText")
+    .textContent=
+      `${progress}/100 XP للوصول إلى المستوى ${level+1}`;
+
+  renderBadges();
+}
+
+
+/* =========================================================
+   LESSON DATABASE
+========================================================= */
+
+const lessons=[
+
+{
+ id:"functions",
+ icon:"📊",
+ title:"الدوال",
+ titleFr:"Fonctions",
+ titleEn:"Functions",
+ level:"1AS",
+ category:"Algebra",
+ text:"دراسة الدوال الأساسية",
+ formula:"f(x) = ax + b",
+ explanation:`
+<h3>1. ما هي الدالة؟</h3>
+
+<p>
+الدالة هي قاعدة تربط كل عنصر x من مجموعة تعريف معينة
+بعنصر واحد فقط f(x).
+</p>
+
+<div class="formula">
+f(x)=ax+b
+</div>
+
+<h3>2. مثال</h3>
+
+<div class="example">
+إذا كانت:
+<div class="formula">f(x)=2x+3</div>
+
+فإن:
+<br>
+f(0)=3
+<br>
+f(1)=5
+<br>
+f(2)=7
+</div>
+
+<h3>3. كيف نحسب صورة عدد؟</h3>
+
+<p>
+نعوض قيمة x داخل التعبير الجبري ثم نحسب.
+</p>
+
+<div class="example">
+لحساب f(4):
+
+f(4)=2×4+3=11
+</div>
+
+<h3>4. التغيرات</h3>
+
+<p>
+إذا كان a>0 فإن الدالة الخطية متزايدة.
+أما إذا كان a<0 فإنها متناقصة.
+</p>
+
+<div class="note">
+💡 الفكرة الأساسية:
+معامل x يحدد اتجاه المستقيم.
+</div>
+`,
+ exercises:[
+  {
+   q:"إذا كانت f(x)=3x+2 فما f(5)؟",
+   a:"f(5)=3×5+2=17"
+  },
+  {
+   q:"إذا كانت f(x)=4x−1 فما f(3)؟",
+   a:"f(3)=12−1=11"
+  }
+ ]
+},
+
+{
+ id:"equations",
+ icon:"🧮",
+ title:"المعادلات",
+ titleFr:"Équations",
+ titleEn:"Equations",
+ level:"1AS",
+ category:"Algebra",
+ text:"حل المعادلات من الدرجة الأولى",
+ formula:"ax+b=0",
+ explanation:`
+<h3>1. المبدأ</h3>
+
+<p>
+لحل المعادلة نحاول عزل المجهول x في طرف واحد.
+</p>
+
+<div class="formula">
+ax+b=0
+</div>
+
+<h3>2. مثال مفصل</h3>
+
+<div class="example">
+
+2x+6=0
+
+<br><br>
+
+2x=-6
+
+<br><br>
+
+x=-3
+
+</div>
+
+<h3>3. التحقق</h3>
+
+<p>
+نعوض x=-3 في المعادلة الأصلية:
+</p>
+
+<div class="example">
+2(-3)+6=-6+6=0
+</div>
+
+<p>
+إذن الحل صحيح.
+</p>
+`,
+ exercises:[
+  {
+   q:"حل: 3x+9=0",
+   a:"3x=-9 وبالتالي x=-3"
+  },
+  {
+   q:"حل: 5x−20=0",
+   a:"5x=20 وبالتالي x=4"
+  }
+ ]
+},
+
+{
+ id:"quadratic",
+ icon:"〽️",
+ title:"المعادلات من الدرجة الثانية",
+ titleFr:"Équations du second degré",
+ titleEn:"Quadratic Equations",
+ level:"3AS",
+ category:"Algebra",
+ text:"حل المعادلات ax²+bx+c=0",
+ formula:"Δ=b²−4ac",
+ explanation:`
+<h3>1. الشكل العام</h3>
+
+<div class="formula">
+ax²+bx+c=0
+</div>
+
+<h3>2. المميز</h3>
+
+<div class="formula">
+Δ=b²−4ac
+</div>
+
+<h3>3. الحالات</h3>
+
+<p>
+إذا كان Δ>0 فلدينا حلان حقيقيان مختلفان.
+</p>
+
+<p>
+إذا كان Δ=0 فلدينا حل حقيقي مزدوج.
+</p>
+
+<p>
+إذا كان Δ<0 فلا توجد حلول حقيقية.
+</p>
+
+<h3>4. مثال</h3>
+
+<div class="example">
+
+x²−5x+6=0
+
+<br><br>
+
+a=1 , b=−5 , c=6
+
+<br><br>
+
+Δ=25−24=1
+
+<br><br>
+
+x₁=(5−1)/2=2
+
+<br>
+x₂=(5+1)/2=3
+
+</div>
+`,
+ exercises:[
+  {
+   q:"حل x²−7x+12=0",
+   a:"نبحث عن عددين حاصل ضربهما 12 ومجموعهما 7، وهما 3 و4. إذن x=3 أو x=4."
+  }
+ ]
+},
+
+{
+ id:"derivative",
+ icon:"📈",
+ title:"الاشتقاق",
+ titleFr:"Dérivation",
+ titleEn:"Derivatives",
+ level:"BAC",
+ category:"Calculus",
+ text:"مفهوم المشتقة وقواعد الاشتقاق",
+ formula:"(xⁿ)' = n xⁿ⁻¹",
+ explanation:`
+<h3>1. معنى المشتقة</h3>
+
+<p>
+المشتقة تصف معدل تغير الدالة، ويمكن تفسيرها هندسيًا
+على أنها ميل المماس للمنحنى عند نقطة.
+</p>
+
+<h3>2. قواعد أساسية</h3>
+
+<div class="formula">
+(xⁿ)' = n xⁿ⁻¹
+</div>
+
+<div class="formula">
+(c)' = 0
+</div>
+
+<div class="formula">
+(ax+b)' = a
+</div>
+
+<h3>3. مثال</h3>
+
+<div class="example">
+
+f(x)=x³+2x²−5x+7
+
+<br><br>
+
+f'(x)=3x²+4x−5
+
+</div>
+
+<h3>4. استعمال المشتقة</h3>
+
+<p>
+نستعمل إشارة f'(x) لدراسة اتجاه تغير الدالة:
+</p>
+
+<p>
+f'(x)>0 → الدالة متزايدة.
+</p>
+
+<p>
+f'(x)<0 → الدالة متناقصة.
+</p>
+`,
+ exercises:[
+  {
+   q:"اشتق f(x)=x²+3x−2",
+   a:"f'(x)=2x+3"
+  },
+  {
+   q:"اشتق f(x)=4x³",
+   a:"f'(x)=12x²"
+  }
+ ]
+},
+
+{
+ id:"integral",
+ icon:"∫",
+ title:"التكامل",
+ titleFr:"Intégration",
+ titleEn:"Integration",
+ level:"جامعة",
+ category:"Calculus",
+ text:"التكامل والتكاملات الأساسية",
+ formula:"∫xⁿdx = xⁿ⁺¹/(n+1)+C",
+ explanation:`
+<h3>1. فكرة التكامل</h3>
+
+<p>
+التكامل هو العملية العكسية للاشتقاق في كثير من الحالات.
+</p>
+
+<div class="formula">
+∫xⁿdx = xⁿ⁺¹/(n+1)+C
+</div>
+
+<p>
+بشرط n≠−1.
+</p>
+
+<h3>2. مثال</h3>
+
+<div class="example">
+∫x²dx = x³/3 + C
+</div>
+
+<h3>3. التكامل المحدد</h3>
+
+<div class="formula">
+∫ₐᵇ f(x)dx = F(b)−F(a)
+</div>
+
+<p>
+حيث F دالة أصلية لـ f.
+</p>
+`,
+ exercises:[
+  {
+   q:"احسب ∫2x dx",
+   a:"x²+C"
+  }
+ ]
+},
+
+{
+ id:"probability",
+ icon:"🎲",
+ title:"الاحتمالات",
+ titleFr:"Probabilités",
+ titleEn:"Probability",
+ level:"BAC",
+ category:"Probability",
+ text:"مبادئ الاحتمالات",
+ formula:"P(A)=عدد الحالات الملائمة/عدد الحالات الممكنة",
+ explanation:`
+<h3>1. التجربة العشوائية</h3>
+
+<p>
+هي تجربة لا يمكن معرفة نتيجتها مسبقًا بشكل مؤكد.
+</p>
+
+<h3>2. احتمال حادثة</h3>
+
+<div class="formula">
+P(A)=N(A)/N(Ω)
+</div>
+
+<h3>3. مثال</h3>
+
+<div class="example">
+عند رمي حجر نرد متوازن:
+
+Ω={1,2,3,4,5,6}
+
+احتمال ظهور عدد زوجي:
+
+A={2,4,6}
+
+إذن:
+
+P(A)=3/6=1/2
+</div>
+
+<h3>4. المتمم</h3>
+
+<div class="formula">
+P(Ā)=1−P(A)
+</div>
+`,
+ exercises:[
+  {
+   q:"ما احتمال ظهور عدد أكبر من 4 عند رمي نرد؟",
+   a:"الحالات {5,6} وعددها 2 من أصل 6، إذن P=2/6=1/3."
+  }
+ ]
+},
+
+{
+ id:"statistics",
+ icon:"📊",
+ title:"الإحصاء",
+ titleFr:"Statistiques",
+ titleEn:"Statistics",
+ level:"BAC",
+ category:"Statistics",
+ text:"المتوسط والتباين والانحراف المعياري",
+ formula:"x̄ = Σxᵢ/n",
+ explanation:`
+<h3>1. المتوسط الحسابي</h3>
+
+<div class="formula">
+x̄=(x₁+x₂+...+xₙ)/n
+</div>
+
+<h3>2. مثال</h3>
+
+<div class="example">
+القيم:
+
+4 ، 6 ، 8 ، 10
+
+المتوسط:
+
+(4+6+8+10)/4=28/4=7
+</div>
+
+<h3>3. التباين</h3>
+
+<div class="formula">
+V=Σ(xᵢ−x̄)²/n
+</div>
+
+<h3>4. الانحراف المعياري</h3>
+
+<div class="formula">
+σ=√V
+</div>
+`,
+ exercises:[
+  {
+   q:"ما متوسط 5 و7 و9؟",
+   a:"(5+7+9)/3=21/3=7"
+  }
+ ]
+},
+
+{
+ id:"complex",
+ icon:"ℂ",
+ title:"الأعداد المركبة",
+ titleFr:"Nombres complexes",
+ titleEn:"Complex Numbers",
+ level:"3AS",
+ category:"Algebra",
+ text:"العدد المركب والتمثيل الهندسي",
+ formula:"z=a+bi",
+ explanation:`
+<h3>1. التعريف</h3>
+
+<div class="formula">
+z=a+bi
+</div>
+
+<p>
+حيث a وb عددان حقيقيان و i²=−1.
+</p>
+
+<h3>2. الجزء الحقيقي والتخيلي</h3>
+
+<div class="example">
+إذا:
+
+z=3+2i
+
+فالجزء الحقيقي هو 3
+والجزء التخيلي هو 2.
+</div>
+
+<h3>3. المرافق</h3>
+
+<div class="formula">
+z̄=a−bi
+</div>
+
+<h3>4. المعيار</h3>
+
+<div class="formula">
+|z|=√(a²+b²)
+</div>
+`,
+ exercises:[
+  {
+   q:"أوجد معيار z=3+4i",
+   a:"|z|=√(3²+4²)=5"
+  }
+ ]
+},
+
+{
+ id:"linear",
+ icon:"📐",
+ title:"المعادلات الخطية والمصفوفات",
+ titleFr:"Algèbre linéaire",
+ titleEn:"Linear Algebra",
+ level:"جامعة",
+ category:"Algebra",
+ text:"المتجهات والمصفوفات والأنظمة",
+ formula:"AX=b",
+ explanation:`
+<h3>1. المتجهات</h3>
+
+<p>
+المتجه يمكن تمثيله بمجموعة مرتبة من المركبات.
+</p>
+
+<div class="formula">
+u=(u₁,u₂,...,uₙ)
+</div>
+
+<h3>2. المصفوفات</h3>
+
+<p>
+المصفوفة جدول مستطيل من الأعداد.
+</p>
+
+<h3>3. الأنظمة الخطية</h3>
+
+<div class="formula">
+AX=b
+</div>
+
+<p>
+وهو تمثيل مصفوفي لنظام من المعادلات الخطية.
+</p>
+`,
+ exercises:[
+  {
+   q:"ما رتبة المصفوفة التي تحتوي على 3 أسطر و2 أعمدة؟",
+   a:"رتبتها 3×2."
+  }
+ ]
+}
+
+];
+
+
+/* =========================================================
+   RENDER LESSONS
+========================================================= */
+
+function lessonTitle(item,lang){
+
+  if(lang==="fr") return item.titleFr;
+  if(lang==="en") return item.titleEn;
+
+  return item.title;
+}
+
+
+function renderLessons(){
+
+  const q=
+    (document.getElementById("lessonSearch").value||"")
+      .toLowerCase();
+
+  const level=
+    document.getElementById("lessonLevel").value;
+
+  const lang=
+    document.getElementById("lessonLanguage").value;
+
+  const list=lessons.filter(item=>{
+
+    const text=
+      (
+        item.title+
+        " "+
+        item.titleFr+
+        " "+
+        item.titleEn+
+        " "+
+        item.text
+      ).toLowerCase();
+
+    return (
+      (!q || text.includes(q)) &&
+      (!level || item.level===level)
+    );
+
+  });
+
+  document.getElementById("lessonGrid")
+    .innerHTML=list.map(item=>`
+
+      <div class="card course">
+
+        <div class="emoji">
+          ${item.icon}
+        </div>
+
+        <span class="badge">
+          ${item.level}
+        </span>
+
+        <h3>
+          ${lessonTitle(item,lang)}
+        </h3>
+
+        <p class="muted">
+          ${item.text}
+        </p>
+
+        <div class="buttons">
+
+          <button class="primary"
+            onclick="openLesson('${item.id}')">
+            📖 فتح الدرس
+          </button>
+
+          <button class="secondary"
+            onclick="openLessonExercises('${item.id}')">
+            📝 تمارين
+          </button>
+
+        </div>
+
+      </div>
+
+  `).join("") || `
+    <div class="card">
+      <h3>لا توجد نتائج</h3>
+      <p class="muted">
+        جرّب كلمة بحث أخرى.
+      </p>
+    </div>
+  `;
+}
+
+
+function openLesson(id){
+
+  const item=
+    lessons.find(x=>x.id===id);
+
+  if(!item)return;
+
+  const lang=
+    document.getElementById("lessonLanguage").value;
+
+  const viewer=
+    document.getElementById("lessonViewer");
+
+  viewer.style.display="block";
+
+  viewer.innerHTML=`
+
+    <div class="section-title">
+
+      <h2>
+        ${item.icon}
+        ${lessonTitle(item,lang)}
+      </h2>
+
+      <button class="secondary"
+        onclick="
+          document.getElementById('lessonViewer').style.display='none'
+        ">
+        إغلاق
+      </button>
+
+    </div>
+
+    <p class="muted">
+      المستوى: ${item.level}
+    </p>
+
+    ${item.explanation}
+
+    <div class="note">
+      🎯 بعد إنهاء الدرس، حل التمارين التالية للحصول على XP.
+    </div>
+
+    <h3>📝 تمارين تطبيقية</h3>
+
+    ${item.exercises.map((ex,i)=>`
+
+      <div class="exercise">
+
+        <strong>
+          تمرين ${i+1}
+        </strong>
+
+        <p>
+          ${ex.q}
+        </p>
+
+        <button class="secondary"
+          onclick="
+            document.getElementById('ans-${item.id}-${i}')
+            .classList.toggle('show')
+          ">
+          👁️ إظهار الحل
+        </button>
+
+        <div
+          id="ans-${item.id}-${i}"
+          class="answer">
+
+          <strong>الحل:</strong>
+          <br>
+          ${ex.a}
+
+        </div>
+
+      </div>
+
+    `).join("")}
+
+    <button class="success"
+      onclick="finishLesson('${item.id}')">
+      ✅ أنهيت الدرس +20 XP
+    </button>
+
+  `;
+
+  viewer.scrollIntoView({
+    behavior:"smooth",
+    block:"start"
+  });
+}
+
+
+function openLessonExercises(id){
+  openLesson(id);
+
+  setTimeout(()=>{
+    document
+      .getElementById("lessonViewer")
+      .scrollIntoView({behavior:"smooth"});
+  },100);
+}
+
+
+function finishLesson(id){
+
+  addXP(20);
+
+  state.exercises++;
+
+  saveState();
+
+  toast("أحسنت! أنهيت الدرس 🎓");
+}
+
+
+/* =========================================================
+   LIBRARY
+========================================================= */
+
+const books=[
+
+{
+ title:"مفتاح الجبر",
+ level:"1AS",
+ type:"كتاب",
+ desc:"مفاهيم الجبر، العبارات، المعادلات والمتراجحات.",
+ lang:"العربية",
+ icon:"🧮"
+},
+
+{
+ title:"الدوال من الأساسيات إلى BAC",
+ level:"3AS",
+ type:"مرجع",
+ desc:"دراسة الدوال، الاشتقاق، التغيرات والتمثيل البياني.",
+ lang:"العربية",
+ icon:"📊"
+},
+
+{
+ title:"ملخص الاحتمالات",
+ level:"BAC",
+ type:"ملخص",
+ desc:"قواعد الاحتمالات، الشجرة، الاستقلال والمتغيرات العشوائية.",
+ lang:"العربية",
+ icon:"🎲"
+},
+
+{
+ title:"سلسلة تمارين الاشتقاق",
+ level:"BAC",
+ type:"تمارين",
+ desc:"تمارين متدرجة في المشتقات ودراسة الدوال.",
+ lang:"العربية",
+ icon:"📈"
+},
+
+{
+ title:"Analyse Mathématique",
+ level:"جامعة",
+ type:"مرجع",
+ desc:"Limites, continuité, dérivation et intégration.",
+ lang:"Français",
+ icon:"∫"
+},
+
+{
+ title:"Algèbre Linéaire",
+ level:"جامعة",
+ type:"كتاب",
+ desc:"Vecteurs, matrices, systèmes linéaires et applications.",
+ lang:"Français",
+ icon:"🔢"
+},
+
+{
+ title:"Probability Essentials",
+ level:"جامعة",
+ type:"مرجع",
+ desc:"Events, conditional probability, random variables.",
+ lang:"English",
+ icon:"🎲"
+},
+
+{
+ title:"Calculus Fundamentals",
+ level:"جامعة",
+ type:"كتاب",
+ desc:"Limits, derivatives, integrals and applications.",
+ lang:"English",
+ icon:"∫"
+},
+
+{
+ title:"Geometry & Trigonometry",
+ level:"2AS",
+ type:"كتاب",
+ desc:"الهندسة، المثلثات، الدائرة والمتجهات.",
+ lang:"العربية",
+ icon:"📐"
+},
+
+{
+ title:"اختبارات رياضيات BAC",
+ level:"BAC",
+ type:"اختبار",
+ desc:"اختبارات تدريبية متنوعة للمراجعة.",
+ lang:"العربية",
+ icon:"📝"
+}
+
+];
+
+
+function renderLibrary(){
+
+  const q=
+    (document.getElementById("bookSearch").value||"")
+      .toLowerCase();
+
+  const level=
+    document.getElementById("bookLevel").value;
+
+  const type=
+    document.getElementById("bookType").value;
+
+  const list=books.filter(book=>{
+
+    const text=
+      (
+        book.title+
+        " "+
+        book.desc+
+        " "+
+        book.lang
+      ).toLowerCase();
+
+    return (
+      (!q || text.includes(q)) &&
+      (!level || book.level===level) &&
+      (!type || book.type===type)
+    );
+  });
+
+  document.getElementById("libraryGrid")
+    .innerHTML=list.map(book=>`
+
+      <div class="card book">
+
+        <div class="cover">
+          <div>
+            <div style="font-size:38px">
+              ${book.icon}
+            </div>
+            HAMOU MATH
+            <br>
+            ${book.level}
+          </div>
+        </div>
+
+        <span class="badge">
+          ${book.type}
+        </span>
+
+        <h3>
+          ${book.title}
+        </h3>
+
+        <p class="muted">
+          ${book.desc}
+        </p>
+
+        <small class="muted">
+          ${book.lang}
+        </small>
+
+        <div class="buttons">
+
+          <button class="primary"
+            onclick="openBook('${book.title}')">
+            📖 فتح
+          </button>
+
+          <button class="secondary"
+            onclick="addXP(3)">
+            ⭐ حفظ
+          </button>
+
+        </div>
+
+      </div>
+
+    `).join("");
+
+}
+
+
+function openBook(title){
+
+  toast(
+    "المورد الداخلي: "+title+
+    " — يمكنك ربط ملف PDF الحقيقي بهذا العنصر لاحقًا."
+  );
+
+  addXP(3);
+}
+
+
+/* =========================================================
+   QUIZ ENGINE
+========================================================= */
+
+const quizData={
+
+basic:[
+ ["√81 = ؟",["7","8","9","10"],"9"],
+ ["3² + 4² = ؟",["7","12","25","49"],"25"],
+ ["15 ÷ 3 = ؟",["3","5","6","8"],"5"],
+ ["2/3 + 1/3 = ؟",["1/3","1","2/3","2"],"1"]
+],
+
+algebra:[
+ ["حل: 2x=10",["2","5","8","10"],"5"],
+ ["إذا f(x)=2x+1 فما f(3)؟",["5","6","7","8"],"7"],
+ ["حل x²−9=0",["3 فقط","−3 فقط","±3","9"],"±3"],
+ ["مشتقة x² هي:",["x","2x","x²","2"],"2x"]
+],
+
+bac:[
+ ["مشتقة x³؟",["x²","2x²","3x²","3x"],"3x²"],
+ ["احتمال ظهور عدد زوجي في النرد؟",["1/6","1/3","1/2","2/3"],"1/2"],
+ ["∫2x dx = ؟",["2x²","x²+C","2+C","x+C"],"x²+C"],
+ ["|3+4i| = ؟",["3","4","5","7"],"5"]
+]
+
+};
+
+
+function startQuiz(type){
+
+  go("tests");
+
+  const box=
+    document.getElementById("testBox");
+
+  box.style.display="block";
+
+  const qs=
+    quizData[type] || quizData.basic;
+
+  let index=0;
+  let score=0;
+
+  function render(){
+
+    const q=qs[index];
+
+    box.innerHTML=`
+
+      <div class="section-title">
+
+        <h2>
+          🧠 اختبار رياضيات
+        </h2>
+
+        <span>
+          ${index+1}/${qs.length}
+        </span>
+
+      </div>
+
+      <div class="question">
+        ${q[0]}
+      </div>
+
+      <div class="choices">
+
+        ${q[1].map(answer=>`
+
+          <button class="choice"
+            onclick="window.__quizAnswer('${escapeHTML(answer)}')">
+            ${answer}
+          </button>
+
+        `).join("")}
+
+      </div>
+
+      <div class="feedback"
+           id="quizFeedback">
+      </div>
+
+    `;
+  }
+
+  window.__quizAnswer=function(answer){
+
+    const correct=
+      qs[index][2];
+
+    if(answer===correct){
+
+      score++;
+
+      state.exercises++;
+
+      addXP(10);
+
+      document.getElementById("quizFeedback")
+        .textContent="✅ إجابة صحيحة!";
+
+    }else{
+
+      document.getElementById("quizFeedback")
+        .textContent=
+          "❌ الإجابة الصحيحة: "+correct;
+    }
+
+    setTimeout(()=>{
+
+      index++;
+
+      if(index<qs.length){
+
+        render();
+
+      }else{
+
+        state.challenges++;
+
+        saveState();
+
+        box.innerHTML=`
+
+          <div class="question">
+
+            🏆 انتهى الاختبار
+
+            <br>
+
+            <small>
+              النتيجة:
+              ${score}/${qs.length}
+            </small>
+
+          </div>
+
+          <div class="buttons"
+               style="justify-content:center">
+
+            <button class="primary"
+              onclick="startQuiz('${type}')">
+              🔄 إعادة
+            </button>
+
+            <button class="secondary"
+              onclick="go('academy')">
+              🎓 التعلم
+            </button>
+
+          </div>
+        `;
+
+      }
+
+    },650);
+  };
+
+  render();
+}
+
 
 function escapeHTML(value){
 
- return String(value)
-   .replace(/&/g,"&amp;")
-   .replace(/</g,"&lt;")
-   .replace(/>/g,"&gt;")
-   .replace(/"/g,"&quot;")
-   .replace(/'/g,"&#039;");
-}
-
-function escapeAttr(value){
- return escapeHTML(value);
+  return String(value)
+    .replaceAll("&","&amp;")
+    .replaceAll("'","&#39;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;");
 }
 
 
-/* =========================
-   EVENTS
-========================= */
+/* =========================================================
+   EXAMS
+========================================================= */
 
-$("brandHome").addEventListener("click",()=>{
- showView("home");
-});
+const examData={
 
-$("themeBtn").addEventListener("click",()=>{
+bac:[
+ ["إذا كانت f(x)=x²−4 فما f(3)؟",["3","5","7","9"],"5"],
+ ["حل x²−5x+6=0",["1 و6","2 و3","−2 و−3","3 و4"],"2 و3"],
+ ["مشتقة x³−2x",["3x²−2","x²−2","3x−2","x³−2"],"3x²−2"],
+ ["احتمال الحصول على عدد أولي عند رمي نرد؟",["1/6","1/3","1/2","2/3"],"1/2"],
+ ["∫₀¹ 2x dx = ؟",["0","1","2","4"],"1"]
+],
 
- state.theme=
-   state.theme==="dark" ? "light" : "dark";
+functions:[
+ ["f(x)=2x+3. f(4)=؟",["7","9","11","12"],"11"],
+ ["معامل x في f(x)=−3x+2 هو:",["2","−3","3","−2"],"−3"],
+ ["إذا f'(x)>0 فإن f:",["متناقصة","ثابتة","متزايدة","غير معرفة"],"متزايدة"],
+ ["مشتقة x²+5x:",["x+5","2x+5","2x","x²"],"2x+5"]
+],
 
- applyTheme();
-});
+probability:[
+ ["P(A)=0.2، فما P(Ā)؟",["0.2","0.5","0.8","1.2"],"0.8"],
+ ["في نرد عادل، P(6)=؟",["1/2","1/3","1/6","1"],"1/6"],
+ ["إذا كان A وB مستقلين فإن:",["P(A∩B)=P(A)P(B)","P(A)=P(B)","P(A)+P(B)=1","P(A∩B)=0"],"P(A∩B)=P(A)P(B)"]
+]
 
-$("langSelect").addEventListener("change",e=>{
-
- state.lang=e.target.value;
-
- localStorage.setItem("hm_lang",state.lang);
-
- applyLanguage();
-
- toast(
-   state.lang==="ar"
-   ?"تم تغيير اللغة."
-   :state.lang==="fr"
-   ?"Langue modifiée."
-   :"Language changed."
- );
-});
-
-document.querySelectorAll("[data-go]").forEach(btn=>{
- btn.addEventListener("click",()=>{
-   showView(btn.dataset.go);
- });
-});
-
-$("searchBtn").addEventListener("click",()=>{
-
- remotePage=1;
- renderLocalLibrary();
- searchBooks();
-});
-
-$("librarySearch").addEventListener("keydown",e=>{
- if(e.key==="Enter"){
-   remotePage=1;
-   renderLocalLibrary();
-   searchBooks();
- }
-});
-
-["libType","libLevel","libLang"].forEach(id=>{
- $(id).addEventListener("change",()=>{
-   renderLocalLibrary();
- });
-});
+};
 
 
-/* =========================
-   PWA INSTALL
-========================= */
+function startExam(type){
 
-window.addEventListener("beforeinstallprompt",e=>{
+  go("exams");
 
- e.preventDefault();
+  const box=
+    document.getElementById("examBox");
 
- state.installPrompt=e;
+  box.style.display="block";
 
- $("installBanner").classList.add("show");
-});
+  const qs=
+    examData[type];
 
-$("installBtn").addEventListener("click",async()=>{
+  let index=0;
+  let score=0;
 
- if(state.installPrompt){
+  function render(){
 
-   state.installPrompt.prompt();
+    const q=qs[index];
 
-   try{
-     await state.installPrompt.userChoice;
-   }catch(e){}
+    box.innerHTML=`
 
-   state.installPrompt=null;
+      <div class="section-title">
 
- }else{
+        <h2>📝 الامتحان التجريبي</h2>
 
-   showModal(
-     t("installTitle"),
-     `
-     <p style="line-height:2">
-       ${state.lang==="ar"
-       ?"إذا لم يظهر زر التثبيت، افتح قائمة المتصفح ثم اختر «إضافة إلى الشاشة الرئيسية»."
-       :state.lang==="fr"
-       ?"Ouvrez le menu du navigateur puis choisissez « Ajouter à l'écran d'accueil »."
-       :"Open your browser menu and choose “Add to Home screen”."}
-     </p>
-     `
-   );
- }
-});
+        <span>
+          السؤال ${index+1}/${qs.length}
+        </span>
 
-$("installNow").addEventListener("click",()=>{
- $("installBtn").click();
-});
+      </div>
 
-$("dismissInstall").addEventListener("click",()=>{
- $("installBanner").classList.remove("show");
-});
+      <div class="question">
+        ${q[0]}
+      </div>
 
+      <div class="choices">
 
-/* =========================
-   SERVICE WORKER
-========================= */
+        ${q[1].map(answer=>`
 
-if("serviceWorker" in navigator){
+          <button class="choice"
+            onclick="window.__examAnswer('${escapeHTML(answer)}')">
+            ${answer}
+          </button>
 
- window.addEventListener("load",()=>{
-   navigator.serviceWorker
-     .register("/service-worker.js")
-     .catch(()=>{});
- });
+        `).join("")}
+
+      </div>
+
+      <div class="feedback"
+           id="examFeedback">
+      </div>
+
+    `;
+  }
+
+  window.__examAnswer=function(answer){
+
+    const correct=qs[index][2];
+
+    if(answer===correct){
+
+      score++;
+
+      addXP(20);
+
+      document.getElementById("examFeedback")
+        .textContent="✅ صحيح";
+
+    }else{
+
+      document.getElementById("examFeedback")
+        .textContent=
+          "❌ الصحيح: "+correct;
+    }
+
+    setTimeout(()=>{
+
+      index++;
+
+      if(index<qs.length){
+
+        render();
+
+      }else{
+
+        state.challenges++;
+
+        saveState();
+
+        const percentage=
+          Math.round(score/qs.length*100);
+
+        box.innerHTML=`
+
+          <div class="question">
+
+            🎓 نتيجة الامتحان
+
+            <br><br>
+
+            ${score}/${qs.length}
+
+            <br>
+
+            <small>
+              ${percentage}%
+            </small>
+
+          </div>
+
+          <div class="buttons"
+               style="justify-content:center">
+
+            <button class="primary"
+              onclick="startExam('${type}')">
+              🔄 إعادة الامتحان
+            </button>
+
+            <button class="secondary"
+              onclick="go('progress')">
+              📈 تقدمي
+            </button>
+
+          </div>
+        `;
+
+      }
+
+    },700);
+  };
+
+  render();
 }
 
 
-/* =========================
+/* =========================================================
+   GAMES
+========================================================= */
+
+function startGame(type){
+
+  go("games");
+
+  const box=
+    document.getElementById("gameBox");
+
+  box.style.display="block";
+
+  if(activeTimer){
+
+    clearInterval(activeTimer);
+
+    activeTimer=null;
+  }
+
+  if(type==="rush")
+    gameRush(box);
+
+  else if(type==="equation")
+    gameEquation(box);
+
+  else if(type==="memory")
+    gameMemory(box);
+
+  else if(type==="prime")
+    gamePrime(box);
+
+  else if(type==="fraction")
+    gameFraction(box);
+
+  else
+    gameGeometry(box);
+}
+
+
+function rand(min,max){
+
+  return Math.floor(
+    Math.random()*(max-min+1)
+  )+min;
+}
+
+
+/* NUMBER RUSH */
+
+function gameRush(box){
+
+  let time=60;
+  let score=0;
+
+  let a,b,op,correct;
+
+  function newQuestion(){
+
+    a=rand(2,20);
+    b=rand(2,20);
+
+    const ops=["+","−","×"];
+
+    op=
+      ops[rand(0,ops.length-1)];
+
+    if(op==="+")
+      correct=a+b;
+
+    else if(op==="−")
+      correct=a-b;
+
+    else
+      correct=a*b;
+
+    document.getElementById("rushQuestion")
+      .textContent=
+        `${a} ${op} ${b} = ؟`;
+
+    document.getElementById("rushAnswer")
+      .value="";
+
+    document.getElementById("rushFeedback")
+      .textContent="";
+  }
+
+
+  box.innerHTML=`
+
+    <div class="section-title">
+
+      <h2>🔢 Number Rush</h2>
+
+      <div class="timer">
+        ⏱ <span id="rushTimer">60</span>
+      </div>
+
+    </div>
+
+    <div class="question"
+         id="rushQuestion">
+    </div>
+
+    <div class="answerrow"
+         style="display:flex;max-width:600px;margin:auto;gap:8px">
+
+      <input
+        id="rushAnswer"
+        inputmode="numeric"
+        style="
+          flex:1;
+          padding:13px;
+          border:1px solid var(--line);
+          border-radius:12px;
+          text-align:center;
+          font-size:20px;
+        "
+        placeholder="النتيجة">
+
+      <button class="primary"
+        onclick="checkRush()">
+        تحقق
+      </button>
+
+    </div>
+
+    <div class="feedback"
+         id="rushFeedback">
+    </div>
+
+    <p class="muted"
+       style="text-align:center">
+      كل إجابة صحيحة = 5 XP
+    </p>
+
+  `;
+
+
+  window.checkRush=function(){
+
+    const value=
+      Number(
+        document.getElementById("rushAnswer").value
+      );
+
+    if(value===correct){
+
+      score++;
+
+      addXP(5);
+
+      document.getElementById("rushFeedback")
+        .textContent="✅ صحيح!";
+
+    }else{
+
+      document.getElementById("rushFeedback")
+        .textContent=
+          "❌ حاول مرة أخرى";
+    }
+
+    newQuestion();
+  };
+
+
+  newQuestion();
+
+
+  activeTimer=setInterval(()=>{
+
+    time--;
+
+    const timer=
+      document.getElementById("rushTimer");
+
+    if(timer)
+      timer.textContent=time;
+
+    if(time<=0){
+
+      clearInterval(activeTimer);
+
+      activeTimer=null;
+
+      state.games++;
+
+      saveState();
+
+      box.innerHTML=`
+
+        <div class="question">
+
+          🏁 انتهى الوقت
+
+          <br>
+
+          نتيجتك:
+          ${score}
+
+        </div>
+
+        <div style="text-align:center">
+
+          <button class="primary"
+            onclick="startGame('rush')">
+            🔄 إعادة
+          </button>
+
+        </div>
+      `;
+    }
+
+  },1000);
+}
+
+
+/* EQUATION MASTER */
+
+function gameEquation(box){
+
+  const x=rand(2,12);
+  const c=rand(1,12);
+  const result=x+c;
+
+  const options=[
+    result,
+    result+2,
+    result-2,
+    result+5
+  ].sort(()=>Math.random()-.5);
+
+  box.innerHTML=`
+
+    <div class="section-title">
+      <h2>➗ Equation Master</h2>
+    </div>
+
+    <div class="question">
+      x − ${c} = ${x}
+    </div>
+
+    <div class="choices">
+
+      ${options.map(v=>`
+
+        <button class="choice"
+          onclick="equationAnswer(${v},${result})">
+          x = ${v}
+        </button>
+
+      `).join("")}
+
+    </div>
+
+    <div class="feedback"
+         id="eqFeedback">
+    </div>
+
+  `;
+}
+
+
+window.equationAnswer=function(value,correct){
+
+  if(value===correct){
+
+    addXP(15);
+
+    document.getElementById("eqFeedback")
+      .textContent="🎉 ممتاز! الإجابة صحيحة.";
+
+  }else{
+
+    document.getElementById("eqFeedback")
+      .textContent=
+        "❌ حاول من جديد.";
+  }
+
+  state.games++;
+
+  saveState();
+};
+
+
+/* MEMORY */
+
+function gameMemory(box){
+
+  const values=[
+    "+","−","×","÷",
+    "√","π","x²","%"
+  ];
+
+  const cards=
+    [...values,...values]
+      .sort(()=>Math.random()-.5);
+
+  let first=null;
+  let locked=false;
+  let matched=0;
+  let moves=0;
+
+  box.innerHTML=`
+
+    <div class="section-title">
+
+      <h2>🧩 Math Memory</h2>
+
+      <span>
+        الحركات:
+        <b id="memoryMoves">0</b>
+      </span>
+
+    </div>
+
+    <div class="memory">
+
+      ${cards.map((value,index)=>`
+
+        <button
+          class="mem"
+          data-index="${index}"
+          data-value="${value}"
+          onclick="memoryClick(this)">
+          ?
+        </button>
+
+      `).join("")}
+
+    </div>
+
+    <div class="feedback"
+         id="memoryFeedback">
+    </div>
+
+  `;
+
+
+  window.memoryClick=function(card){
+
+    if(
+      locked ||
+      card.classList.contains("open")
+    )return;
+
+    card.classList.add("open");
+
+    card.textContent=
+      card.dataset.value;
+
+    if(!first){
+
+      first=card;
+
+      return;
+    }
+
+    moves++;
+
+    document.getElementById("memoryMoves")
+      .textContent=moves;
+
+    if(
+      first.dataset.value===
+      card.dataset.value
+    ){
+
+      matched++;
+
+      addXP(8);
+
+      first=null;
+
+      if(matched===values.length){
+
+        state.games++;
+
+        saveState();
+
+        document.getElementById("memoryFeedback")
+          .textContent=
+            "🏆 رائع! أكملت اللعبة.";
+      }
+
+    }else{
+
+      locked=true;
+
+      const previous=first;
+
+      first=null;
+
+      setTimeout(()=>{
+
+        previous.classList.remove("open");
+        previous.textContent="?";
+
+        card.classList.remove("open");
+        card.textContent="?";
+
+        locked=false;
+
+      },700);
+    }
+  };
+}
+
+
+/* PRIME HUNTER */
+
+function isPrime(n){
+
+  if(n<2)return false;
+
+  for(
+    let i=2;
+    i*i<=n;
+    i++
+  ){
+
+    if(n%i===0)
+      return false;
+  }
+
+  return true;
+}
+
+
+function gamePrime(box){
+
+  const numbers=
+    Array.from(
+      {length:20},
+      ()=>rand(2,80)
+    );
+
+  box.innerHTML=`
+
+    <div class="section-title">
+      <h2>🎯 Prime Hunter</h2>
+      <span>
+        اختر الأعداد الأولية فقط
+      </span>
+    </div>
+
+    <div class="choices">
+
+      ${numbers.map(n=>`
+
+        <button class="choice"
+          onclick="primePick(this,${n})">
+          ${n}
+        </button>
+
+      `).join("")}
+
+    </div>
+
+    <div class="feedback"
+         id="primeFeedback">
+    </div>
+
+  `;
+}
+
+
+window.primePick=function(button,n){
+
+  if(isPrime(n)){
+
+    addXP(7);
+
+    button.disabled=true;
+    button.style.opacity=".35";
+
+    document.getElementById("primeFeedback")
+      .textContent=
+        "⭐ صحيح، "+n+" عدد أولي!";
+
+  }else{
+
+    button.disabled=true;
+
+    document.getElementById("primeFeedback")
+      .textContent=
+        "❌ "+n+" ليس عددًا أوليًا.";
+  }
+};
+
+
+/* FRACTION */
+
+function gcd(a,b){
+
+  while(b){
+
+    [a,b]=[b,a%b];
+  }
+
+  return Math.abs(a);
+}
+
+
+function gameFraction(box){
+
+  const a=rand(1,9);
+  const b=rand(2,12);
+  const c=rand(1,9);
+  const d=rand(2,12);
+
+  const left=a/b;
+  const right=c/d;
+
+  let correct;
+
+  if(
+    Math.abs(left-right)<0.000001
+  )
+    correct="equal";
+
+  else if(left>right)
+    correct="left";
+
+  else
+    correct="right";
+
+
+  box.innerHTML=`
+
+    <div class="section-title">
+      <h2>🍕 Fraction Duel</h2>
+    </div>
+
+    <div class="question"
+         dir="ltr">
+      ${a}/${b}
+      &nbsp; ? &nbsp;
+      ${c}/${d}
+    </div>
+
+    <div class="choices">
+
+      <button class="choice"
+        onclick="fractionAnswer('left','${correct}')">
+        الكسر الأيسر أكبر
+      </button>
+
+      <button class="choice"
+        onclick="fractionAnswer('right','${correct}')">
+        الكسر الأيمن أكبر
+      </button>
+
+      <button class="choice"
+        onclick="fractionAnswer('equal','${correct}')">
+        متساويان
+      </button>
+
+    </div>
+
+    <div class="feedback"
+         id="fractionFeedback">
+    </div>
+
+  `;
+}
+
+
+window.fractionAnswer=function(value,correct){
+
+  if(value===correct){
+
+    addXP(15);
+
+    document.getElementById("fractionFeedback")
+      .textContent="🎉 صحيح!";
+
+  }else{
+
+    document.getElementById("fractionFeedback")
+      .textContent=
+        "❌ قارن البسط والمقام أو حوّل إلى قيمة عشرية.";
+  }
+
+  state.games++;
+
+  saveState();
+};
+
+
+/* GEOMETRY */
+
+function gameGeometry(box){
+
+  const width=rand(2,12);
+  const height=rand(2,12);
+
+  const area=width*height;
+
+  const options=[
+    area,
+    area+width,
+    area+height,
+    area*2
+  ].sort(()=>Math.random()-.5);
+
+  box.innerHTML=`
+
+    <div class="section-title">
+      <h2>📐 Geometry Sprint</h2>
+    </div>
+
+    <div class="question">
+
+      مستطيل طوله
+      ${width}
+      وعرضه
+      ${height}
+
+      <br><br>
+
+      ما مساحته؟
+
+    </div>
+
+    <div class="choices">
+
+      ${options.map(v=>`
+
+        <button class="choice"
+          onclick="geometryAnswer(${v},${area})">
+          ${v}
+        </button>
+
+      `).join("")}
+
+    </div>
+
+    <div class="feedback"
+         id="geometryFeedback">
+    </div>
+
+  `;
+}
+
+
+window.geometryAnswer=function(value,correct){
+
+  if(value===correct){
+
+    addXP(15);
+
+    document.getElementById("geometryFeedback")
+      .textContent="🎉 صحيح!";
+
+  }else{
+
+    document.getElementById("geometryFeedback")
+      .textContent=
+        "❌ المساحة = الطول × العرض.";
+  }
+
+  state.games++;
+
+  saveState();
+};
+
+
+/* =========================================================
+   BADGES
+========================================================= */
+
+function renderBadges(){
+
+  const level=
+    Math.floor(state.xp/100)+1;
+
+  const badges=[
+
+    ["🌱","البداية",state.xp>=1],
+
+    ["⭐","100 XP",state.xp>=100],
+
+    ["🔥","500 XP",state.xp>=500],
+
+    ["🎮","لاعب رياضي",state.games>=5],
+
+    ["🏆","بطل التحديات",state.challenges>=5],
+
+    ["🎓","متعلم نشيط",state.exercises>=10],
+
+    ["🚀","المستوى 5",level>=5],
+
+    ["💎","1000 XP",state.xp>=1000]
+
+  ];
+
+  document.getElementById("badges")
+    .innerHTML=badges.map(b=>`
+
+      <div class="card"
+           style="opacity:${b[2]?1:.45}">
+
+        <div style="font-size:35px">
+          ${b[0]}
+        </div>
+
+        <h3>
+          ${b[1]}
+        </h3>
+
+        <p class="muted">
+          ${b[2]?"مفتوح ✅":"مغلق 🔒"}
+        </p>
+
+      </div>
+
+    `).join("");
+}
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+function resetProgress(){
+
+  if(
+    !confirm(
+      "هل تريد حذف كل تقدمك؟"
+    )
+  )return;
+
+  state.xp=0;
+  state.exercises=0;
+  state.challenges=0;
+  state.games=0;
+
+  saveState();
+
+  toast("تمت إعادة ضبط التقدم");
+}
+
+
+/* =========================================================
    INIT
-========================= */
+========================================================= */
 
-function init(){
+renderLessons();
 
- applyTheme();
- applyLanguage();
+renderLibrary();
 
- showView("home");
-}
-
-init();
+updateStats();
 
 </script>
 
