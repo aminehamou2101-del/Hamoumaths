@@ -1,130 +1,102 @@
+import fs from "node:fs";
+import path from "node:path";
 import { createClient } from "@supabase/supabase-js";
-
-export default async function handler(req, res) {
+function json(res, b, s = 200) {
+  return res
+    .status(s)
+    .setHeader("Content-Type", "application/json; charset=utf-8")
+    .json(b);
+}
+function local() {
   try {
-    if (req.method !== "GET") {
-      return res.status(405).json({
-        ok: false,
-        error: "Method not allowed"
-      });
-    }
-
-    const url = String(process.env.SUPABASE_URL || "").trim();
-    const key = String(process.env.SUPABASE_PUBLISHABLE_KEY || "").trim();
-
-    // تحقق من URL
-    if (!/^https:\/\/[A-Za-z0-9.-]+\.supabase\.co\/?$/.test(url)) {
-      return res.status(500).json({
-        ok: false,
-        error: "Invalid SUPABASE_URL format"
-      });
-    }
-
-    // تحقق صارم من المفتاح
-    if (!/^sb_publishable_[A-Za-z0-9_-]+$/.test(key)) {
-      return res.status(500).json({
-        ok: false,
-        error: "Invalid SUPABASE_PUBLISHABLE_KEY format",
-        hint: "The Vercel variable contains extra characters, spaces, Arabic text, quotes, or the wrong key."
-      });
-    }
-
-    const supabase = createClient(url, key, {
-      auth: {
-        persistSession: false,
-        autoRefreshToken: false
-      }
-    });
-
-    const page = Math.max(
-      parseInt(req.query?.page || "1", 10) || 1,
-      1
+    return JSON.parse(
+      fs.readFileSync(
+        path.join(process.cwd(), "data", "resources.generated.json"),
+        "utf8"
+      )
     );
-
-    const limit = Math.min(
-      Math.max(
-        parseInt(req.query?.limit || "20", 10) || 20,
-        1
-      ),
+  } catch {
+    return [];
+  }
+}
+function norm(v) {
+  return String(v || "")
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+}
+export default async function handler(req, res) {
+  if (req.method !== "GET")
+    return json(res, { ok: false, error: "Method not allowed" }, 405);
+  const q = String(req.query?.q || "").trim(),
+    language = String(req.query?.language || "").trim(),
+    level = String(req.query?.level || "").trim(),
+    type = String(req.query?.type || "").trim();
+  const page = Math.max(parseInt(req.query?.page || "1", 10) || 1, 1),
+    limit = Math.min(
+      Math.max(parseInt(req.query?.limit || "24", 10) || 24, 1),
       100
-    );
-
-    const language =
-      typeof req.query?.language === "string"
-        ? req.query.language.trim()
-        : "";
-
-    const level =
-      typeof req.query?.level === "string"
-        ? req.query.level.trim()
-        : "";
-
-    const type =
-      typeof req.query?.type === "string"
-        ? req.query.type.trim()
-        : "";
-
-    const q =
-      typeof req.query?.q === "string"
-        ? req.query.q.trim()
-        : "";
-
-    const from = (page - 1) * limit;
-    const to = from + limit - 1;
-
-    let query = supabase
-      .from("resources")
-      .select("*", { count: "exact" });
-
-    if (language) query = query.eq("language", language);
-    if (level) query = query.eq("level", level);
-    if (type) query = query.eq("resource_type", type);
-    if (q) query = query.ilike("title", `%${q}%`);
-
-    query = query.range(from, to);
-
-    const { data, error, count } = await query;
-
-    if (error) {
-      console.error("SUPABASE_RESOURCES_ERROR:", error);
-
-      return res.status(500).json({
-        ok: false,
-        error: "Database query failed",
-        details: error.message
+    ),
+    from = (page - 1) * limit;
+  try {
+    const url = String(process.env.SUPABASE_URL || "").trim(),
+      key = String(process.env.SUPABASE_SERVICE_ROLE_KEY || "").trim();
+    if (url && key) {
+      const sb = createClient(url, key, {
+        auth: { persistSession: false, autoRefreshToken: false },
       });
+      let query = sb.from("resources").select("*", { count: "exact" });
+      if (language) query = query.eq("language", language);
+      if (level && level !== "all") query = query.eq("level", level);
+      if (type) query = query.eq("resource_type", type);
+      if (q) {
+        const safe = q.replace(/[%_,()]/g, " ");
+        query = query.or(`title.ilike.%${safe}%,description.ilike.%${safe}%`);
+      }
+      const { data, error, count } = await query
+        .range(from, from + limit - 1)
+        .order("created_at", { ascending: false });
+      if (!error && Number(count || 0) > 0)
+        return json(res, {
+          ok: true,
+          total: Number(count || 0),
+          pages: Math.ceil(Number(count || 0) / limit),
+          pagination: { page, limit, total: Number(count || 0) },
+          resources: data || [],
+          data: data || [],
+        });
     }
-
-    const total = count || 0;
-
-    return res.status(200).json({
+    const nq = norm(q);
+    let all = local().filter(
+      (r) =>
+        (!language || r.language === language) &&
+        (!level || level === "all" || r.level === level) &&
+        (!type || r.type === type || r.resource_type === type) &&
+        (!nq ||
+          norm(
+            [
+              r.title,
+              r.title_ar,
+              r.title_fr,
+              r.title_en,
+              r.description,
+              r.field,
+              ...(r.keywords || []),
+            ].join(" ")
+          ).includes(nq))
+    );
+    const data = all.slice(from, from + limit);
+    return json(res, {
       ok: true,
-      success: true,
-      total,
-      pages: Math.ceil(total / limit),
-      pagination: {
-        page,
-        limit,
-        total,
-        pages: Math.ceil(total / limit)
-      },
-      filters: {
-        language,
-        level,
-        type,
-        q
-      },
-      data: data || [],
-      resources: data || []
+      total: all.length,
+      pages: Math.max(1, Math.ceil(all.length / limit)),
+      pagination: { page, limit, total: all.length },
+      resources: data,
+      data,
+      source: "generated-library",
     });
-
-  } catch (error) {
-    console.error("RESOURCES_API_CRASH:", error);
-
-    return res.status(500).json({
-      ok: false,
-      error: "Internal server error",
-      details: error?.message || "Unknown error"
-    });
+  } catch (e) {
+    console.error("RESOURCES_API_ERROR", e);
+    return json(res, { ok: false, error: "تعذر تحميل المكتبة" }, 500);
   }
 }
