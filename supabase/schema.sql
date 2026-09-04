@@ -1,297 +1,257 @@
+-- =========================================================
+-- HAMOU MATH GLOBAL
+-- Supabase database schema
+-- =========================================================
+
 create extension if not exists pgcrypto;
 
-create table if not exists profiles (
+-- =========================================================
+-- PROFILES
+-- =========================================================
+
+create table if not exists public.profiles (
     id uuid primary key references auth.users(id) on delete cascade,
-    email text,
+    email text unique,
     full_name text,
-    role text not null default 'user'
-        check (role in ('user','premium','admin','owner')),
-    plan text not null default 'free',
-    created_at timestamptz not null default now()
-);
-
-create table if not exists resources (
-    id uuid primary key default gen_random_uuid(),
-
-    title text not null,
-
-    description text,
-
-    content text,
-
-    resource_type text,
-
-    language text,
-
-    level text,
-
-    subject text,
-
-    author text,
-
-    year integer,
-
-    file_url text,
-
-    cover_url text,
-
-    is_public boolean not null default true,
-
-    is_premium boolean not null default false,
-
-    search_vector tsvector generated always as (
-        to_tsvector(
-            'simple',
-            coalesce(title,'') || ' ' ||
-            coalesce(description,'') || ' ' ||
-            coalesce(content,'') || ' ' ||
-            coalesce(subject,'') || ' ' ||
-            coalesce(author,'')
-        )
-    ) stored,
-
+    avatar_url text,
+    role text not null default 'student'
+        check (role in ('student','teacher','researcher','admin','owner')),
+    xp integer not null default 0,
+    level integer not null default 1,
     created_at timestamptz not null default now(),
-
     updated_at timestamptz not null default now()
 );
 
-create index if not exists resources_search_idx
-on resources
-using gin(search_vector);
+-- =========================================================
+-- USER PROGRESS
+-- =========================================================
 
-create index if not exists resources_language_idx
-on resources(language);
-
-create index if not exists resources_type_idx
-on resources(resource_type);
-
-create index if not exists resources_level_idx
-on resources(level);
-
-create index if not exists resources_created_idx
-on resources(created_at desc);
-
-
-create table if not exists prices (
-
-    id uuid primary key default gen_random_uuid(),
-
-    product_code text not null,
-
-    currency text not null,
-
-    amount numeric(14,2) not null,
-
-    active boolean not null default true,
-
-    created_at timestamptz not null default now()
-
+create table if not exists public.user_progress (
+    user_id uuid primary key references auth.users(id) on delete cascade,
+    xp integer not null default 0,
+    level integer not null default 1,
+    games_played integer not null default 0,
+    challenges_completed integer not null default 0,
+    updated_at timestamptz not null default now()
 );
 
+-- =========================================================
+-- FAVORITES
+-- =========================================================
 
-create table if not exists payments (
-
+create table if not exists public.favorites (
     id uuid primary key default gen_random_uuid(),
-
-    user_id uuid references auth.users(id),
-
-    product_code text not null,
-
-    currency text not null,
-
-    amount numeric(14,2) not null,
-
-    exchange_rate_to_dzd numeric(18,8),
-
-    amount_dzd numeric(18,2),
-
-    fee numeric(18,2) default 0,
-
-    net_dzd numeric(18,2),
-
-    gateway text,
-
-    transaction_id text,
-
-    status text not null default 'pending',
-
-    created_at timestamptz not null default now()
-
-);
-
-
-create table if not exists subscriptions (
-
-    id uuid primary key default gen_random_uuid(),
-
-    user_id uuid references auth.users(id) on delete cascade,
-
-    plan text not null,
-
-    status text not null default 'pending',
-
-    gateway text,
-
-    gateway_subscription_id text,
-
-    starts_at timestamptz,
-
-    ends_at timestamptz,
-
-    created_at timestamptz not null default now()
-
-);
-
-
-create table if not exists ai_usage (
-
-    id uuid primary key default gen_random_uuid(),
-
-    user_id uuid references auth.users(id) on delete cascade,
-
-    request_type text,
-
-    tokens integer default 0,
-
-    created_at timestamptz not null default now()
-);
-
-
-create table if not exists favorites (
-
-    id uuid primary key default gen_random_uuid(),
-
-    user_id uuid references auth.users(id) on delete cascade,
-
-    resource_id uuid references resources(id) on delete cascade,
-
+    user_id uuid not null references auth.users(id) on delete cascade,
+    resource_id text not null,
     created_at timestamptz not null default now(),
-
-    unique(user_id,resource_id)
+    unique(user_id, resource_id)
 );
 
+-- =========================================================
+-- RESOURCE VIEWS
+-- =========================================================
 
-create table if not exists challenge_results (
-
+create table if not exists public.resource_views (
     id uuid primary key default gen_random_uuid(),
-
-    user_id uuid references auth.users(id) on delete cascade,
-
-    challenge_type text,
-
-    score integer default 0,
-
-    xp integer default 0,
-
+    user_id uuid references auth.users(id) on delete set null,
+    resource_id text not null,
     created_at timestamptz not null default now()
 );
 
+-- =========================================================
+-- RLS
+-- =========================================================
 
-create or replace function is_owner()
-returns boolean
-language sql
+alter table public.profiles enable row level security;
+alter table public.user_progress enable row level security;
+alter table public.favorites enable row level security;
+alter table public.resource_views enable row level security;
+
+-- =========================================================
+-- PROFILES POLICIES
+-- =========================================================
+
+drop policy if exists "profiles_select_own" on public.profiles;
+
+create policy "profiles_select_own"
+on public.profiles
+for select
+using (
+    auth.uid() = id
+);
+
+drop policy if exists "profiles_update_own" on public.profiles;
+
+create policy "profiles_update_own"
+on public.profiles
+for update
+using (
+    auth.uid() = id
+)
+with check (
+    auth.uid() = id
+);
+
+-- =========================================================
+-- PROGRESS POLICIES
+-- =========================================================
+
+drop policy if exists "progress_select_own"
+on public.user_progress;
+
+create policy "progress_select_own"
+on public.user_progress
+for select
+using (
+    auth.uid() = user_id
+);
+
+drop policy if exists "progress_insert_own"
+on public.user_progress;
+
+create policy "progress_insert_own"
+on public.user_progress
+for insert
+with check (
+    auth.uid() = user_id
+);
+
+drop policy if exists "progress_update_own"
+on public.user_progress;
+
+create policy "progress_update_own"
+on public.user_progress
+for update
+using (
+    auth.uid() = user_id
+)
+with check (
+    auth.uid() = user_id
+);
+
+-- =========================================================
+-- FAVORITES POLICIES
+-- =========================================================
+
+drop policy if exists "favorites_select_own"
+on public.favorites;
+
+create policy "favorites_select_own"
+on public.favorites
+for select
+using (
+    auth.uid() = user_id
+);
+
+drop policy if exists "favorites_insert_own"
+on public.favorites;
+
+create policy "favorites_insert_own"
+on public.favorites
+for insert
+with check (
+    auth.uid() = user_id
+);
+
+drop policy if exists "favorites_delete_own"
+on public.favorites;
+
+create policy "favorites_delete_own"
+on public.favorites
+for delete
+using (
+    auth.uid() = user_id
+);
+
+-- =========================================================
+-- RESOURCE VIEWS
+-- =========================================================
+
+drop policy if exists "resource_views_insert"
+on public.resource_views;
+
+create policy "resource_views_insert"
+on public.resource_views
+for insert
+with check (
+    auth.uid() = user_id
+    or user_id is null
+);
+
+-- =========================================================
+-- NEW USER TRIGGER
+-- =========================================================
+
+create or replace function public.handle_new_user()
+returns trigger
+language plpgsql
 security definer
-stable
+set search_path = public
 as $$
+begin
 
-    select exists(
+    insert into public.profiles (
+        id,
+        email,
+        full_name
+    )
+    values (
+        new.id,
+        new.email,
+        coalesce(
+            new.raw_user_meta_data ->> 'full_name',
+            ''
+        )
+    )
+    on conflict (id) do nothing;
 
-        select 1
+    insert into public.user_progress (
+        user_id
+    )
+    values (
+        new.id
+    )
+    on conflict (user_id) do nothing;
 
-        from auth.users
+    return new;
 
-        where id = auth.uid()
-
-        and lower(email) =
-            lower('aminehamou2101@gmail.com')
-
-    );
-
+end;
 $$;
 
+drop trigger if exists on_auth_user_created
+on auth.users;
 
-alter table profiles enable row level security;
-alter table resources enable row level security;
-alter table prices enable row level security;
-alter table payments enable row level security;
-alter table subscriptions enable row level security;
-alter table ai_usage enable row level security;
-alter table favorites enable row level security;
-alter table challenge_results enable row level security;
+create trigger on_auth_user_created
+after insert on auth.users
+for each row
+execute procedure public.handle_new_user();
 
+-- =========================================================
+-- UPDATED_AT
+-- =========================================================
 
-create policy "public resources readable"
-on resources
-for select
-using (
-    is_public = true
-);
+create or replace function public.set_updated_at()
+returns trigger
+language plpgsql
+as $$
+begin
+    new.updated_at = now();
+    return new;
+end;
+$$;
 
+drop trigger if exists profiles_updated_at
+on public.profiles;
 
-create policy "owner manages resources"
-on resources
-for all
-using (
-    is_owner()
-)
-with check (
-    is_owner()
-);
+create trigger profiles_updated_at
+before update on public.profiles
+for each row
+execute procedure public.set_updated_at();
 
+drop trigger if exists progress_updated_at
+on public.user_progress;
 
-create policy "owner manages prices"
-on prices
-for all
-using (
-    is_owner()
-)
-with check (
-    is_owner()
-);
-
-
-create policy "users read own favorites"
-on favorites
-for select
-using (
-    auth.uid() = user_id
-    or is_owner()
-);
-
-
-create policy "users manage own favorites"
-on favorites
-for all
-using (
-    auth.uid() = user_id
-    or is_owner()
-)
-with check (
-    auth.uid() = user_id
-    or is_owner()
-);
-
-
-create policy "owner sees payments"
-on payments
-for select
-using (
-    is_owner()
-);
-
-
-create policy "owner sees subscriptions"
-on subscriptions
-for select
-using (
-    is_owner()
-);
-
-
-create policy "users see own subscription"
-on subscriptions
-for select
-using (
-    auth.uid() = user_id
-    or is_owner()
-);
+create trigger progress_updated_at
+before update on public.user_progress
+for each row
+execute procedure public.set_updated_at();
