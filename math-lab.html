@@ -1,0 +1,1490 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width,initial-scale=1"
+>
+
+<meta
+name="theme-color"
+content="#2563eb"
+>
+
+<title>
+HAMOU MATH LAB V27 | المختبر الرياضي
+</title>
+
+<link
+rel="manifest"
+href="/manifest.webmanifest?v=27"
+>
+
+<link
+rel="icon"
+href="/favicon.svg"
+>
+
+<style>
+
+:root{
+
+ --primary:#2563eb;
+ --secondary:#7c3aed;
+
+ --bg:#f5f7fb;
+ --card:#fff;
+
+ --text:#0f172a;
+ --muted:#64748b;
+
+ --border:#e2e8f0;
+
+}
+
+*{
+ box-sizing:border-box;
+}
+
+body{
+
+ margin:0;
+
+ background:var(--bg);
+
+ color:var(--text);
+
+ font-family:
+ Tahoma,
+ Arial,
+ sans-serif;
+
+}
+
+body.dark{
+
+ --bg:#07111f;
+ --card:#0f1c2e;
+
+ --text:#f8fafc;
+ --muted:#94a3b8;
+
+ --border:#1e334d;
+
+}
+
+.container{
+
+ width:min(1250px,94%);
+
+ margin:auto;
+
+}
+
+.top{
+
+ display:flex;
+
+ justify-content:space-between;
+
+ align-items:center;
+
+ gap:10px;
+
+ padding:18px 0;
+
+}
+
+.btn{
+
+ border:1px solid var(--border);
+
+ background:var(--card);
+
+ color:var(--text);
+
+ border-radius:11px;
+
+ padding:10px 14px;
+
+ font-weight:800;
+
+ cursor:pointer;
+
+}
+
+.primary{
+
+ color:#fff;
+
+ border:0;
+
+ background:
+ linear-gradient(
+ 135deg,
+ var(--primary),
+ var(--secondary)
+ );
+
+}
+
+.panel{
+
+ background:var(--card);
+
+ border:1px solid var(--border);
+
+ border-radius:18px;
+
+ padding:16px;
+
+ margin-bottom:15px;
+
+}
+
+.controls{
+
+ display:grid;
+
+ gap:10px;
+
+}
+
+.tools{
+
+ display:grid;
+
+ grid-template-columns:
+ repeat(4,1fr);
+
+ gap:9px;
+
+}
+
+.field{
+
+ width:100%;
+
+ padding:10px;
+
+ border:1px solid var(--border);
+
+ border-radius:10px;
+
+ background:var(--bg);
+
+ color:var(--text);
+
+}
+
+.lab{
+
+ display:grid;
+
+ grid-template-columns:330px 1fr;
+
+ gap:15px;
+
+}
+
+.canvasWrap{
+
+ background:white;
+
+ border-radius:16px;
+
+ border:1px solid var(--border);
+
+ overflow:hidden;
+
+}
+
+canvas{
+
+ display:block;
+
+ width:100%;
+
+ height:600px;
+
+ touch-action:none;
+
+}
+
+.row{
+
+ display:flex;
+
+ gap:8px;
+
+ flex-wrap:wrap;
+
+}
+
+.result{
+
+ padding:12px;
+
+ background:var(--bg);
+
+ border-radius:12px;
+
+ white-space:pre-wrap;
+
+}
+
+.hint{
+
+ color:var(--muted);
+
+ font-size:13px;
+
+}
+
+@media(max-width:850px){
+
+ .lab{
+  grid-template-columns:1fr;
+ }
+
+ .tools{
+  grid-template-columns:1fr 1fr;
+ }
+
+ canvas{
+  height:500px;
+ }
+
+}
+
+@media(max-width:520px){
+
+ .tools{
+  grid-template-columns:1fr;
+ }
+
+ canvas{
+  height:430px;
+ }
+
+}
+
+@media print{
+
+ body{
+  background:#fff;
+ }
+
+ .noPrint{
+  display:none!important;
+ }
+
+ .panel{
+  border:0;
+  box-shadow:none;
+ }
+
+ .canvasWrap{
+  border:0;
+ }
+
+ canvas{
+  height:650px;
+ }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="top">
+
+<div>
+
+<h1>
+📐 HAMOU MATH LAB
+<span style="color:#2563eb">
+V27
+</span>
+</h1>
+
+<div class="hint">
+الهندسة والمنحنيات والإحداثيات
+</div>
+
+</div>
+
+<div class="row noPrint">
+
+<a
+class="btn"
+href="/"
+>
+← الرئيسية
+</a>
+
+<button
+class="btn"
+id="theme"
+>
+🌙
+</button>
+
+</div>
+
+</div>
+
+
+<div class="panel controls noPrint">
+
+<div class="tools">
+
+<select
+class="field"
+id="mode"
+>
+
+<option value="function">
+📈 منحنى دالة
+</option>
+
+<option value="line">
+📏 مستقيم AB
+</option>
+
+<option value="circle">
+⭕ دائرة
+</option>
+
+<option value="triangle">
+🔺 مثلث
+</option>
+
+</select>
+
+
+<input
+class="field"
+id="expr"
+value="sin(x)"
+placeholder="f(x)"
+>
+
+
+<input
+class="field"
+id="xmin"
+value="-10"
+type="number"
+>
+
+
+<input
+class="field"
+id="xmax"
+value="10"
+type="number"
+>
+
+</div>
+
+
+<div
+class="tools"
+id="geoInputs"
+style="display:none"
+>
+
+<input
+class="field"
+id="ax"
+value="-3"
+type="number"
+step=".1"
+placeholder="Ax"
+>
+
+<input
+class="field"
+id="ay"
+value="-2"
+type="number"
+step=".1"
+placeholder="Ay"
+>
+
+<input
+class="field"
+id="bx"
+value="4"
+type="number"
+step=".1"
+placeholder="Bx"
+>
+
+<input
+class="field"
+id="by"
+value="3"
+type="number"
+step=".1"
+placeholder="By"
+>
+
+<input
+class="field"
+id="cx"
+value="0"
+type="number"
+step=".1"
+placeholder="Cx"
+>
+
+<input
+class="field"
+id="cy"
+value="0"
+type="number"
+step=".1"
+placeholder="Cy"
+>
+
+<input
+class="field"
+id="radius"
+value="3"
+type="number"
+step=".1"
+placeholder="r"
+>
+
+</div>
+
+
+<div class="row">
+
+<button
+class="btn primary"
+id="draw"
+>
+رسم
+</button>
+
+<button
+class="btn"
+id="reset"
+>
+إعادة ضبط
+</button>
+
+<button
+class="btn"
+id="png"
+>
+🖼️ PNG
+</button>
+
+<button
+class="btn"
+onclick="window.print()"
+>
+🖨️ PDF / طباعة
+</button>
+
+</div>
+
+</div>
+
+
+<div class="lab">
+
+<div>
+
+<div class="panel">
+
+<b>
+🛠️ أدوات
+</b>
+
+<p class="hint">
+
+اسحب الرسم للتحريك.
+
+استخدم عجلة الفأرة للتكبير والتصغير.
+
+على الهاتف استخدم اللمس.
+
+</p>
+
+<div class="row">
+
+<button
+class="btn"
+id="zin"
+>
+Zoom +
+</button>
+
+<button
+class="btn"
+id="zout"
+>
+Zoom −
+</button>
+
+</div>
+
+</div>
+
+
+<div class="panel">
+
+<b>
+🧮 النتائج
+</b>
+
+<div
+class="result"
+id="result"
+>
+—
+</div>
+
+</div>
+
+
+<div class="panel">
+
+<b>
+📚 أمثلة
+</b>
+
+<p class="hint">
+sin(x)
+</p>
+
+<p class="hint">
+x^2 - 4*x + 3
+</p>
+
+<p class="hint">
+sqrt(abs(x))
+</p>
+
+<p class="hint">
+exp(-x^2)
+</p>
+
+</div>
+
+</div>
+
+
+<div class="canvasWrap">
+
+<canvas
+id="canvas"
+></canvas>
+
+</div>
+
+</div>
+
+</div>
+
+
+<script>
+
+const canvas=
+ document.getElementById("canvas");
+
+const ctx=
+ canvas.getContext("2d");
+
+let W=0;
+let H=0;
+
+let dpr=1;
+
+let scale=45;
+
+let offsetX=0;
+let offsetY=0;
+
+let dragging=false;
+
+let lastX=0;
+let lastY=0;
+
+
+function $(selector){
+
+ return document.querySelector(
+  selector
+ );
+
+}
+
+
+function resize(){
+
+ dpr=
+  window.devicePixelRatio ||
+  1;
+
+ const rect=
+  canvas.getBoundingClientRect();
+
+ W=rect.width;
+ H=rect.height;
+
+ canvas.width=
+  W*dpr;
+
+ canvas.height=
+  H*dpr;
+
+ ctx.setTransform(
+  dpr,
+  0,
+  0,
+  dpr,
+  0,
+  0
+ );
+
+ draw();
+
+}
+
+
+function screenPoint(x,y){
+
+ return [
+
+  W/2+
+  offsetX+
+  x*scale,
+
+  H/2+
+  offsetY-
+  y*scale
+
+ ];
+
+}
+
+
+function worldPoint(x,y){
+
+ return [
+
+  (x-W/2-offsetX)/scale,
+
+  (H/2+offsetY-y)/scale
+
+ ];
+
+}
+
+
+function drawGrid(){
+
+ ctx.clearRect(
+  0,
+  0,
+  W,
+  H
+ );
+
+ ctx.fillStyle="#ffffff";
+
+ ctx.fillRect(
+  0,
+  0,
+  W,
+  H
+ );
+
+
+ const step=
+  scale>=30
+  ? scale
+  : scale*2;
+
+
+ ctx.strokeStyle="#e5e7eb";
+
+ ctx.lineWidth=1;
+
+
+ for(
+  let x=
+   (W/2+offsetX)%step;
+
+  x<W;
+
+  x+=step
+ ){
+
+  ctx.beginPath();
+
+  ctx.moveTo(
+   x,
+   0
+  );
+
+  ctx.lineTo(
+   x,
+   H
+  );
+
+  ctx.stroke();
+
+ }
+
+
+ for(
+  let y=
+   (H/2+offsetY)%step;
+
+  y<H;
+
+  y+=step
+ ){
+
+  ctx.beginPath();
+
+  ctx.moveTo(
+   0,
+   y
+  );
+
+  ctx.lineTo(
+   W,
+   y
+  );
+
+  ctx.stroke();
+
+ }
+
+
+ ctx.strokeStyle="#111827";
+
+ ctx.lineWidth=2;
+
+ ctx.beginPath();
+
+ ctx.moveTo(
+  0,
+  H/2+offsetY
+ );
+
+ ctx.lineTo(
+  W,
+  H/2+offsetY
+ );
+
+ ctx.moveTo(
+  W/2+offsetX,
+  0
+ );
+
+ ctx.lineTo(
+  W/2+offsetX,
+  H
+ );
+
+ ctx.stroke();
+
+}
+
+
+function evaluate(expression,x){
+
+ let formula=
+  expression
+   .toLowerCase()
+   .replaceAll("π","pi")
+   .replaceAll("^","**")
+
+   .replace(/\bln\b/g,"Math.log")
+   .replace(/\blog\b/g,"Math.log10")
+
+   .replace(/\bsin\b/g,"Math.sin")
+   .replace(/\bcos\b/g,"Math.cos")
+   .replace(/\btan\b/g,"Math.tan")
+
+   .replace(/\bsqrt\b/g,"Math.sqrt")
+   .replace(/\babs\b/g,"Math.abs")
+
+   .replace(/\bexp\b/g,"Math.exp")
+
+   .replace(/\bpi\b/g,"Math.PI")
+   .replace(/\be\b/g,"Math.E");
+
+
+ const allowed=
+  /^[0-9xemathpi+\-*/().,\s]*$/i.test(
+   formula
+  );
+
+
+ if(!allowed){
+
+  throw new Error(
+   "صيغة غير مسموحة"
+  );
+
+ }
+
+
+ return Function(
+  "x",
+  "Math",
+  "return "+formula
+ )(
+  x,
+  Math
+ );
+
+}
+
+
+function drawFunction(expression){
+
+ ctx.strokeStyle="#2563eb";
+
+ ctx.lineWidth=2.5;
+
+ ctx.beginPath();
+
+ let started=false;
+
+ const xmin=
+  Number(
+   $("#xmin").value
+  );
+
+ const xmax=
+  Number(
+   $("#xmax").value
+  );
+
+
+ for(
+  let px=0;
+
+  px<=W;
+
+  px+=1
+ ){
+
+  const x=
+   (px-W/2-offsetX)
+   /
+   scale;
+
+
+  if(
+   x<xmin ||
+   x>xmax
+  )
+   continue;
+
+
+  try{
+
+   const y=
+    evaluate(
+     expression,
+     x
+    );
+
+
+   if(
+    !Number.isFinite(y) ||
+    Math.abs(y)>100000
+   ){
+
+    started=false;
+
+    continue;
+
+   }
+
+
+   const py=
+    H/2+
+    offsetY-
+    y*scale;
+
+
+   if(
+    !started
+   ){
+
+    ctx.moveTo(
+     px,
+     py
+    );
+
+    started=true;
+
+   }else{
+
+    ctx.lineTo(
+     px,
+     py
+    );
+
+   }
+
+  }catch{
+
+   started=false;
+
+  }
+
+ }
+
+ ctx.stroke();
+
+}
+
+
+function point(x,y,label){
+
+ const [
+  sx,
+  sy
+ ]=
+  screenPoint(
+   x,
+   y
+  );
+
+
+ ctx.fillStyle="#7c3aed";
+
+ ctx.beginPath();
+
+ ctx.arc(
+  sx,
+  sy,
+  5,
+  0,
+  Math.PI*2
+ );
+
+ ctx.fill();
+
+
+ ctx.fillStyle="#111827";
+
+ ctx.font="12px Arial";
+
+ ctx.fillText(
+  `${label}(${x},${y})`,
+  sx+7,
+  sy-7
+ );
+
+}
+
+
+function draw(){
+
+ drawGrid();
+
+ const mode=
+  $("#mode").value;
+
+
+ try{
+
+  if(
+   mode==="function"
+  ){
+
+   drawFunction(
+    $("#expr").value
+   );
+
+   $("#result").textContent=
+    "f(x) = "
+    +
+    $("#expr").value;
+
+  }
+
+
+  else if(
+   mode==="line"
+  ){
+
+   const A=[
+    Number($("#ax").value),
+    Number($("#ay").value)
+   ];
+
+   const B=[
+    Number($("#bx").value),
+    Number($("#by").value)
+   ];
+
+
+   const a=
+    screenPoint(
+     ...A
+    );
+
+   const b=
+    screenPoint(
+     ...B
+    );
+
+
+   ctx.strokeStyle=
+    "#2563eb";
+
+   ctx.lineWidth=3;
+
+   ctx.beginPath();
+
+   ctx.moveTo(
+    ...a
+   );
+
+   ctx.lineTo(
+    ...b
+   );
+
+   ctx.stroke();
+
+
+   point(
+    ...A,
+    "A"
+   );
+
+   point(
+    ...B,
+    "B"
+   );
+
+
+   const dx=
+    B[0]-A[0];
+
+   const dy=
+    B[1]-A[1];
+
+
+   const distance=
+    Math.hypot(
+     dx,
+     dy
+    );
+
+
+   const slope=
+    dx===0
+    ? "غير معرف"
+    : dy/dx;
+
+
+   $("#result").textContent=
+
+    `المسافة AB = ${
+     distance.toFixed(4)
+    }\n`+
+
+    `الميل = ${
+     slope==="غير معرف"
+     ? slope
+     : slope.toFixed(4)
+    }`;
+
+  }
+
+
+  else if(
+   mode==="circle"
+  ){
+
+   const x=
+    Number($("#cx").value);
+
+   const y=
+    Number($("#cy").value);
+
+   const radius=
+    Number($("#radius").value);
+
+
+   const center=
+    screenPoint(
+     x,
+     y
+    );
+
+
+   ctx.strokeStyle=
+    "#10b981";
+
+   ctx.lineWidth=3;
+
+   ctx.beginPath();
+
+   ctx.arc(
+    center[0],
+    center[1],
+    Math.abs(radius)*scale,
+    0,
+    Math.PI*2
+   );
+
+   ctx.stroke();
+
+
+   point(
+    x,
+    y,
+    "O"
+   );
+
+
+   $("#result").textContent=
+
+    `المركز O(${x},${y})\n`+
+
+    `نصف القطر = ${radius}\n`+
+
+    `المحيط ≈ ${
+     (
+      2*
+      Math.PI*
+      Math.abs(radius)
+     ).toFixed(4)
+    }\n`+
+
+    `المساحة ≈ ${
+     (
+      Math.PI*
+      radius*
+      radius
+     ).toFixed(4)
+    }`;
+
+  }
+
+
+  else{
+
+   const A=[
+    Number($("#ax").value),
+    Number($("#ay").value)
+   ];
+
+   const B=[
+    Number($("#bx").value),
+    Number($("#by").value)
+   ];
+
+   const C=[
+    Number($("#cx").value),
+    Number($("#cy").value)
+   ];
+
+
+   const pairs=[
+    [A,B],
+    [B,C],
+    [C,A]
+   ];
+
+
+   ctx.strokeStyle=
+    "#7c3aed";
+
+   ctx.lineWidth=3;
+
+
+   pairs.forEach(
+    pair=>{
+
+     const p=
+      screenPoint(
+       ...pair[0]
+      );
+
+     const q=
+      screenPoint(
+       ...pair[1]
+      );
+
+     ctx.beginPath();
+
+     ctx.moveTo(
+      ...p
+     );
+
+     ctx.lineTo(
+      ...q
+     );
+
+     ctx.stroke();
+
+    }
+   );
+
+
+   point(
+    ...A,
+    "A"
+   );
+
+   point(
+    ...B,
+    "B"
+   );
+
+   point(
+    ...C,
+    "C"
+   );
+
+
+   const area=
+    Math.abs(
+
+     (
+      A[0]*
+      (B[1]-C[1])
+
+      +
+
+      B[0]*
+      (C[1]-A[1])
+
+      +
+
+      C[0]*
+      (A[1]-B[1])
+     )
+
+     /2
+
+    );
+
+
+   $("#result").textContent=
+    `مساحة المثلث ABC = ${
+     area.toFixed(4)
+    }`;
+
+  }
+
+
+ }catch(error){
+
+  $("#result").textContent=
+   "خطأ: "
+   +
+   error.message;
+
+ }
+
+}
+
+
+/* EVENTS */
+
+$("#mode").onchange=()=>{
+
+ $("#geoInputs").style.display=
+  $("#mode").value==="function"
+  ? "none"
+  : "grid";
+
+ draw();
+
+};
+
+
+$("#draw").onclick=draw;
+
+
+$("#reset").onclick=()=>{
+
+ scale=45;
+
+ offsetX=0;
+ offsetY=0;
+
+ draw();
+
+};
+
+
+$("#zin").onclick=()=>{
+
+ scale=
+  Math.min(
+   300,
+   scale*1.2
+  );
+
+ draw();
+
+};
+
+
+$("#zout").onclick=()=>{
+
+ scale=
+  Math.max(
+   8,
+   scale/1.2
+  );
+
+ draw();
+
+};
+
+
+$("#png").onclick=()=>{
+
+ const link=
+  document.createElement("a");
+
+ link.download=
+  "hamou-math-lab-v27.png";
+
+ link.href=
+  canvas.toDataURL(
+   "image/png"
+  );
+
+ link.click();
+
+};
+
+
+canvas.addEventListener(
+ "wheel",
+ event=>{
+
+  event.preventDefault();
+
+  scale*=
+   event.deltaY<0
+   ? 1.1
+   : .9;
+
+  scale=
+   Math.max(
+    8,
+    Math.min(
+     300,
+     scale
+    )
+   );
+
+  draw();
+
+ },
+ {
+  passive:false
+ }
+);
+
+
+canvas.addEventListener(
+ "pointerdown",
+ event=>{
+
+  dragging=true;
+
+  lastX=
+   event.clientX;
+
+  lastY=
+   event.clientY;
+
+  canvas.setPointerCapture(
+   event.pointerId
+  );
+
+ }
+);
+
+
+canvas.addEventListener(
+ "pointermove",
+ event=>{
+
+  if(!dragging)
+   return;
+
+  offsetX+=
+   event.clientX-lastX;
+
+  offsetY+=
+   event.clientY-lastY;
+
+  lastX=
+   event.clientX;
+
+  lastY=
+   event.clientY;
+
+  draw();
+
+ }
+);
+
+
+canvas.addEventListener(
+ "pointerup",
+ ()=>{
+
+  dragging=false;
+
+ }
+);
+
+
+$("#theme").onclick=()=>{
+
+ document.body.classList.toggle(
+  "dark"
+ );
+
+ draw();
+
+};
+
+
+window.addEventListener(
+ "resize",
+ resize
+);
+
+
+resize();
+
+</script>
+
+</body>
+</html>
