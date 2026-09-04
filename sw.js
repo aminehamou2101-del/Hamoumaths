@@ -1,4 +1,5 @@
 const CACHE_NAME = "hamou-math-v29";
+const OFFLINE_URL = "/404.html";
 
 const APP_SHELL = [
   "/",
@@ -13,7 +14,9 @@ self.addEventListener("install", event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then(cache => cache.addAll(APP_SHELL))
-      .catch(() => {})
+      .catch(error => {
+        console.warn("HAMOU MATH cache install:", error);
+      })
   );
 
   self.skipWaiting();
@@ -34,125 +37,110 @@ self.addEventListener("activate", event => {
 });
 
 self.addEventListener("fetch", event => {
-
   const request = event.request;
 
   if (request.method !== "GET") return;
 
   const url = new URL(request.url);
 
-  if (url.origin !== self.location.origin) {
-    return;
-  }
+  if (url.origin !== self.location.origin) return;
 
+  // لا نتدخل في API
   if (url.pathname.startsWith("/api/")) {
     return;
   }
 
-  /*
-   * resources.json:
-   * network first + no-store
-   */
+  // المكتبة: الشبكة أولًا، ثم نسخة الكاش عند انقطاع الشبكة
   if (url.pathname === "/data/resources.json") {
-
     event.respondWith(
-
       fetch(request, {
-        cache:"no-store"
+        cache: "no-store"
       })
+        .then(response => {
+          if (response && response.ok) {
+            const copy = response.clone();
 
-      .then(response => {
+            caches.open(CACHE_NAME)
+              .then(cache => cache.put(request, copy))
+              .catch(() => {});
+          }
 
-        if(response.ok){
+          return response;
+        })
+        .catch(() =>
+          caches.match(request).then(cached => {
+            if (cached) return cached;
 
-          const copy =
-            response.clone();
-
-          caches.open(CACHE_NAME)
-            .then(cache =>
-              cache.put(request,copy)
-            )
-            .catch(()=>{});
-        }
-
-        return response;
-      })
-
-      .catch(() =>
-        caches.match(request)
-      )
-
+            return new Response(
+              JSON.stringify([]),
+              {
+                status: 503,
+                headers: {
+                  "Content-Type":
+                    "application/json; charset=utf-8"
+                }
+              }
+            );
+          })
+        )
     );
 
     return;
   }
 
-  /*
-   * HTML:
-   * network first
-   */
-  if(
+  // صفحات الموقع
+  if (
     request.mode === "navigate" ||
     request.destination === "document"
-  ){
-
+  ) {
     event.respondWith(
-
       fetch(request)
+        .then(response => {
+          if (response && response.ok) {
+            const copy = response.clone();
 
-      .then(response => {
+            caches.open(CACHE_NAME)
+              .then(cache => cache.put(request, copy))
+              .catch(() => {});
+          }
 
-        if(response.ok){
+          return response;
+        })
+        .catch(() =>
+          caches.match(request).then(cached => {
+            if (cached) return cached;
 
-          const copy =
-            response.clone();
-
-          caches.open(CACHE_NAME)
-            .then(cache =>
-              cache.put(request,copy)
-            )
-            .catch(()=>{});
-        }
-
-        return response;
-      })
-
-      .catch(() =>
-        caches.match(request)
-      )
-
+            return caches.match(OFFLINE_URL);
+          })
+        )
     );
 
     return;
   }
 
-  /*
-   * Other static assets
-   */
+  // الملفات الثابتة
   event.respondWith(
-
     fetch(request)
-
       .then(response => {
-
-        if(response.ok){
-
-          const copy =
-            response.clone();
+        if (response && response.ok) {
+          const copy = response.clone();
 
           caches.open(CACHE_NAME)
-            .then(cache =>
-              cache.put(request,copy)
-            )
-            .catch(()=>{});
+            .then(cache => cache.put(request, copy))
+            .catch(() => {});
         }
 
         return response;
       })
-
       .catch(() =>
-        caches.match(request)
-      )
+        caches.match(request).then(cached => {
+          if (cached) return cached;
 
+          return new Response("", {
+            status: 503,
+            statusText: "Service Unavailable"
+          });
+        })
+      )
   );
 });
