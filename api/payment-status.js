@@ -1,116 +1,168 @@
-import { createClient } from "@supabase/supabase-js";
+import {
+  requireUser
+} from "./_lib/auth.js";
 
-export default async function handler(req, res) {
+export default async function handler(
+  req,
+  res
+) {
   if (req.method !== "GET") {
+    res.setHeader(
+      "Allow",
+      "GET"
+    );
+
     return res.status(405).json({
-      error: "Method not allowed"
+      error:"Method not allowed"
     });
   }
 
   try {
-    const authHeader = req.headers.authorization || "";
 
-    if (!authHeader.startsWith("Bearer ")) {
-      return res.status(401).json({
-        error: "يجب تسجيل الدخول أولاً"
+    const auth =
+      await requireUser(req);
+
+    if (!auth.ok) {
+      return res.status(
+        auth.status
+      ).json({
+        paid:false,
+        error:auth.error
       });
     }
 
-    const accessToken = authHeader.replace("Bearer ", "").trim();
 
-    const supabaseAdmin = createClient(
-      process.env.SUPABASE_URL,
-      process.env.SUPABASE_SERVICE_ROLE_KEY,
-      {
-        auth: {
-          autoRefreshToken: false,
-          persistSession: false
-        }
-      }
-    );
+    const checkoutId =
+      typeof req.query.checkoutId ===
+      "string"
+        ? req.query.checkoutId.trim()
+        : "";
 
-    /* التحقق من المستخدم */
-    const {
-      data: { user },
-      error: userError
-    } = await supabaseAdmin.auth.getUser(accessToken);
 
-    if (userError || !user) {
-      return res.status(401).json({
-        error: "جلسة المستخدم غير صالحة"
-      });
-    }
+    const paymentId =
+      typeof req.query.paymentId ===
+      "string"
+        ? req.query.paymentId.trim()
+        : "";
 
-    const resourceId = req.query.resourceId;
 
-    if (!resourceId) {
+    if(
+      !checkoutId &&
+      !paymentId
+    ){
       return res.status(400).json({
-        error: "resourceId مطلوب"
+        paid:false,
+        error:
+          "checkoutId أو paymentId مطلوب"
       });
     }
 
-    /* البحث عن عملية الدفع الخاصة بهذا المستخدم */
-    const {
-      data: payment,
-      error: paymentError
-    } = await supabaseAdmin
-      .from("payments")
-      .select(`
-        id,
-        checkout_id,
-        resource_id,
-        amount,
-        currency,
-        status,
-        payment_method,
-        paid_at,
-        created_at
-      `)
-      .eq("user_id", user.id)
-      .eq("resource_id", resourceId)
-      .order("created_at", {
-        ascending: false
-      })
-      .limit(1)
-      .maybeSingle();
 
-    if (paymentError) {
+    let query =
+      auth.supabase
+        .from("payments")
+        .select(`
+          id,
+          user_id,
+          resource_id,
+          checkout_id,
+          amount,
+          currency,
+          status,
+          paid_at,
+          updated_at
+        `)
+        .eq(
+          "user_id",
+          auth.user.id
+        );
+
+
+    if(checkoutId){
+      query =
+        query.eq(
+          "checkout_id",
+          checkoutId
+        );
+    }else{
+      query =
+        query.eq(
+          "id",
+          paymentId
+        );
+    }
+
+
+    const {
+      data:payment,
+      error
+    } =
+      await query
+        .maybeSingle();
+
+
+    if(error){
+
       console.error(
-        "Payment status error:",
-        paymentError
+        "payment-status:",
+        error
       );
 
       return res.status(500).json({
-        error: "تعذر التحقق من حالة الدفع"
+        paid:false,
+        error:
+          "تعذر قراءة حالة الدفع"
       });
     }
 
-    if (!payment) {
-      return res.status(200).json({
-        paid: false,
-        status: "not_found"
+
+    if(!payment){
+
+      return res.status(404).json({
+        paid:false,
+        status:"not_found"
       });
     }
+
 
     return res.status(200).json({
-      paid: payment.status === "paid",
-      status: payment.status,
-      checkoutId: payment.checkout_id,
-      resourceId: payment.resource_id,
-      amount: payment.amount,
-      currency: payment.currency,
-      paidAt: payment.paid_at
+
+      paid:
+        payment.status === "paid",
+
+      status:
+        payment.status,
+
+      paymentId:
+        payment.id,
+
+      checkoutId:
+        payment.checkout_id,
+
+      resourceId:
+        payment.resource_id,
+
+      amount:
+        payment.amount,
+
+      currency:
+        payment.currency,
+
+      paidAt:
+        payment.paid_at
+
     });
 
-  } catch (error) {
+  }catch(error){
 
     console.error(
-      "payment-status error:",
       error
     );
 
     return res.status(500).json({
-      error: "حدث خطأ داخلي في الخادم"
+      paid:false,
+      error:
+        "حدث خطأ داخلي"
     });
   }
 }
