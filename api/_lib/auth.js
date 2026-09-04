@@ -1,9 +1,9 @@
 import { createClient } from "@supabase/supabase-js";
 
-function getEnv(name) {
+function env(name) {
   const value = process.env[name];
 
-  if (!value || typeof value !== "string") {
+  if (!value) {
     throw new Error(`Missing environment variable: ${name}`);
   }
 
@@ -12,8 +12,8 @@ function getEnv(name) {
 
 export function getAdminClient() {
   return createClient(
-    getEnv("SUPABASE_URL"),
-    getEnv("SUPABASE_SERVICE_ROLE_KEY"),
+    env("SUPABASE_URL"),
+    env("SUPABASE_SERVICE_ROLE_KEY"),
     {
       auth: {
         autoRefreshToken: false,
@@ -24,18 +24,13 @@ export function getAdminClient() {
 }
 
 export function getBearerToken(req) {
-  const header =
-    req.headers.authorization || "";
+  const header = req.headers.authorization || "";
 
-  if (
-    typeof header !== "string" ||
-    !header.startsWith("Bearer ")
-  ) {
+  if (!header.startsWith("Bearer ")) {
     return null;
   }
 
-  const token =
-    header.slice("Bearer ".length).trim();
+  const token = header.slice(7).trim();
 
   return token || null;
 }
@@ -68,8 +63,7 @@ export async function requireUser(req) {
   const {
     data: { user },
     error
-  } =
-    await supabase.auth.getUser(token);
+  } = await supabase.auth.getUser(token);
 
   if (error || !user) {
     return {
@@ -87,62 +81,38 @@ export async function requireUser(req) {
   };
 }
 
-export async function requireRole(
-  req,
-  allowedRoles
-) {
-  const auth =
-    await requireUser(req);
+export async function requireRole(req, roles) {
+  const auth = await requireUser(req);
 
   if (!auth.ok) {
     return auth;
   }
 
-  const {
-    data: profile,
-    error
-  } =
-    await auth.supabase
-      .from("profiles")
-      .select(`
-        id,
-        email,
-        full_name,
-        avatar_url,
-        role,
-        xp,
-        level
-      `)
-      .eq("id", auth.user.id)
-      .maybeSingle();
+  const { data: profile, error } = await auth.supabase
+    .from("profiles")
+    .select(`
+      id,
+      email,
+      full_name,
+      avatar_url,
+      role,
+      xp,
+      level
+    `)
+    .eq("id", auth.user.id)
+    .maybeSingle();
 
-  if (error) {
-    console.error(
-      "Profile lookup:",
-      error
-    );
-
+  if (error || !profile) {
     return {
       ok: false,
-      status: 500,
+      status: 403,
       error: "تعذر التحقق من صلاحيات الحساب"
     };
   }
 
-  if (!profile) {
-    return {
-      ok: false,
-      status: 403,
-      error: "ملف المستخدم غير موجود"
-    };
-  }
+  const role = String(profile.role || "student").toLowerCase();
 
-  const role =
-    String(
-      profile.role || "student"
-    ).toLowerCase();
-
-  if (!allowedRoles.includes(role)) {
+  if (!roles.includes(role)) {
     return {
       ok: false,
       status: 403,
@@ -155,16 +125,4 @@ export async function requireRole(
     profile,
     role
   };
-}
-
-export function jsonError(
-  res,
-  status,
-  error
-) {
-  return res
-    .status(status)
-    .json({
-      error
-    });
 }
