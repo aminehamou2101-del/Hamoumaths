@@ -1,17 +1,22 @@
-const CACHE_NAME = "hamou-math-v1";
+const CACHE_NAME = "hamou-math-v27";
+const OFFLINE_URL = "/404.html";
 
 const APP_SHELL = [
   "/",
   "/index.html",
+  "/manifest.webmanifest",
+  "/favicon.svg",
   "/robots.txt",
   "/sitemap.xml",
-  "/manifest.webmanifest",
-  "/favicon.svg"
+  "/404.html",
+  "/data/resources.json"
 ];
 
 self.addEventListener("install", event => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => cache.addAll(APP_SHELL))
+    caches.open(CACHE_NAME)
+      .then(cache => cache.addAll(APP_SHELL))
+      .catch(() => {})
   );
 
   self.skipWaiting();
@@ -32,19 +37,40 @@ self.addEventListener("activate", event => {
 });
 
 self.addEventListener("fetch", event => {
-  if (event.request.method !== "GET") return;
+  const request = event.request;
+
+  if (request.method !== "GET") return;
+
+  const url = new URL(request.url);
+
+  if (url.origin !== self.location.origin) return;
 
   event.respondWith(
-    fetch(event.request)
+    fetch(request)
       .then(response => {
-        const copy = response.clone();
+        if (response && response.status === 200) {
+          const copy = response.clone();
 
-        caches.open(CACHE_NAME).then(cache => {
-          cache.put(event.request, copy);
-        });
+          caches.open(CACHE_NAME).then(cache => {
+            cache.put(request, copy).catch(() => {});
+          });
+        }
 
         return response;
       })
-      .catch(() => caches.match(event.request))
+      .catch(() =>
+        caches.match(request).then(cached => {
+          if (cached) return cached;
+
+          if (request.mode === "navigate") {
+            return caches.match(OFFLINE_URL);
+          }
+
+          return new Response("", {
+            status: 503,
+            statusText: "Offline"
+          });
+        })
+      )
   );
 });
