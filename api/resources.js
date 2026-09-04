@@ -9,67 +9,64 @@ export default async function handler(req, res) {
       });
     }
 
-    const SUPABASE_URL =
-      process.env.SUPABASE_URL ||
-      process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const url = String(process.env.SUPABASE_URL || "").trim();
+    const key = String(process.env.SUPABASE_PUBLISHABLE_KEY || "").trim();
 
-    const SUPABASE_KEY =
-      process.env.SUPABASE_SERVICE_ROLE_KEY ||
-      process.env.SUPABASE_ANON_KEY ||
-      process.env.SUPABASE_PUBLISHABLE_KEY ||
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
-    if (!SUPABASE_URL || !SUPABASE_KEY) {
+    // تحقق من URL
+    if (!/^https:\/\/[A-Za-z0-9.-]+\.supabase\.co\/?$/.test(url)) {
       return res.status(500).json({
         ok: false,
-        error: "Supabase environment variables are missing"
+        error: "Invalid SUPABASE_URL format"
       });
     }
 
-    const supabase = createClient(
-      SUPABASE_URL,
-      SUPABASE_KEY,
-      {
-        auth: {
-          persistSession: false,
-          autoRefreshToken: false
-        }
-      }
-    );
+    // تحقق صارم من المفتاح
+    if (!/^sb_publishable_[A-Za-z0-9_-]+$/.test(key)) {
+      return res.status(500).json({
+        ok: false,
+        error: "Invalid SUPABASE_PUBLISHABLE_KEY format",
+        hint: "The Vercel variable contains extra characters, spaces, Arabic text, quotes, or the wrong key."
+      });
+    }
 
-    const queryParams = req.query || {};
+    const supabase = createClient(url, key, {
+      auth: {
+        persistSession: false,
+        autoRefreshToken: false
+      }
+    });
 
     const page = Math.max(
-      parseInt(queryParams.page || "1", 10) || 1,
+      parseInt(req.query?.page || "1", 10) || 1,
       1
     );
 
     const limit = Math.min(
       Math.max(
-        parseInt(queryParams.limit || "20", 10) || 20,
+        parseInt(req.query?.limit || "20", 10) || 20,
         1
       ),
       100
     );
 
     const language =
-      typeof queryParams.language === "string"
-        ? queryParams.language.trim()
+      typeof req.query?.language === "string"
+        ? req.query.language.trim()
         : "";
 
     const level =
-      typeof queryParams.level === "string"
-        ? queryParams.level.trim()
+      typeof req.query?.level === "string"
+        ? req.query.level.trim()
         : "";
 
     const type =
-      typeof queryParams.type === "string"
-        ? queryParams.type.trim()
+      typeof req.query?.type === "string"
+        ? req.query.type.trim()
         : "";
 
     const q =
-      typeof queryParams.q === "string"
-        ? queryParams.q.trim()
+      typeof req.query?.q === "string"
+        ? req.query.q.trim()
         : "";
 
     const from = (page - 1) * limit;
@@ -79,33 +76,14 @@ export default async function handler(req, res) {
       .from("resources")
       .select("*", { count: "exact" });
 
-    if (language) {
-      query = query.eq("language", language);
-    }
-
-    if (level) {
-      query = query.eq("level", level);
-    }
-
-    if (type) {
-      query = query.eq("resource_type", type);
-    }
-
-    /*
-      نستخدم title فقط للبحث النصي حتى لا نفترض
-      وجود أعمدة إضافية في قاعدة البيانات.
-    */
-    if (q) {
-      query = query.ilike("title", `%${q}%`);
-    }
+    if (language) query = query.eq("language", language);
+    if (level) query = query.eq("level", level);
+    if (type) query = query.eq("resource_type", type);
+    if (q) query = query.ilike("title", `%${q}%`);
 
     query = query.range(from, to);
 
-    const {
-      data,
-      error,
-      count
-    } = await query;
+    const { data, error, count } = await query;
 
     if (error) {
       console.error("SUPABASE_RESOURCES_ERROR:", error);
@@ -122,28 +100,22 @@ export default async function handler(req, res) {
     return res.status(200).json({
       ok: true,
       success: true,
-
-      filters: {
-        language,
-        type,
-        level,
-        q
-      },
-
+      total,
+      pages: Math.ceil(total / limit),
       pagination: {
         page,
         limit,
         total,
         pages: Math.ceil(total / limit)
       },
-
-      total,
-      pages: Math.ceil(total / limit),
-
+      filters: {
+        language,
+        level,
+        type,
+        q
+      },
       data: data || [],
-      resources: data || [],
-
-      architecture: "Supabase database-backed pagination"
+      resources: data || []
     });
 
   } catch (error) {
