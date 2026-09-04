@@ -1,159 +1,105 @@
-```javascript
 import { createClient } from "@supabase/supabase-js";
 
-/*
-  HAMOU MATH GLOBAL
-  Real Database Resources API
-
-  - Reads real resources from Supabase
-  - Pagination
-  - Search
-  - Language filter
-  - Type filter
-  - Level filter
-  - Keeps compatibility with the old API response
-*/
-
-function getSupabase() {
-  const url = process.env.SUPABASE_URL;
-
-  const key =
-    process.env.SUPABASE_PUBLISHABLE_KEY ||
-    process.env.SUPABASE_ANON_KEY;
-
-  if (!url || !key) {
-    throw new Error("Supabase environment variables are missing");
-  }
-
-  return createClient(url, key, {
-    auth: {
-      persistSession: false,
-      autoRefreshToken: false
-    }
-  });
-}
-
-function clean(value) {
-  if (value === undefined || value === null) return "";
-  return String(value).trim();
-}
-
-function safeNumber(value, fallback, min, max) {
-  const n = Number.parseInt(value, 10);
-
-  if (!Number.isFinite(n)) return fallback;
-
-  return Math.min(Math.max(n, min), max);
-}
-
 export default async function handler(req, res) {
-  res.setHeader(
-    "Cache-Control",
-    "public, s-maxage=60, stale-while-revalidate=300"
-  );
-
-  if (req.method !== "GET") {
-    return res.status(405).json({
-      ok: false,
-      success: false,
-      error: "Method not allowed"
-    });
-  }
-
   try {
-    const supabase = getSupabase();
+    if (req.method !== "GET") {
+      return res.status(405).json({
+        ok: false,
+        error: "Method not allowed"
+      });
+    }
 
-    const q = clean(req.query?.q);
-    const language = clean(req.query?.language);
-    const type = clean(
-      req.query?.type || req.query?.resource_type
+    const SUPABASE_URL =
+      process.env.SUPABASE_URL ||
+      process.env.NEXT_PUBLIC_SUPABASE_URL;
+
+    const SUPABASE_KEY =
+      process.env.SUPABASE_SERVICE_ROLE_KEY ||
+      process.env.SUPABASE_ANON_KEY ||
+      process.env.SUPABASE_PUBLISHABLE_KEY ||
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+    if (!SUPABASE_URL || !SUPABASE_KEY) {
+      return res.status(500).json({
+        ok: false,
+        error: "Supabase environment variables are missing"
+      });
+    }
+
+    const supabase = createClient(
+      SUPABASE_URL,
+      SUPABASE_KEY,
+      {
+        auth: {
+          persistSession: false,
+          autoRefreshToken: false
+        }
+      }
     );
-    const level = clean(req.query?.level);
 
-    const page = safeNumber(
-      req.query?.page,
-      1,
-      1,
-      1000000
+    const queryParams = req.query || {};
+
+    const page = Math.max(
+      parseInt(queryParams.page || "1", 10) || 1,
+      1
     );
 
-    const limit = safeNumber(
-      req.query?.limit,
-      24,
-      1,
+    const limit = Math.min(
+      Math.max(
+        parseInt(queryParams.limit || "20", 10) || 20,
+        1
+      ),
       100
     );
+
+    const language =
+      typeof queryParams.language === "string"
+        ? queryParams.language.trim()
+        : "";
+
+    const level =
+      typeof queryParams.level === "string"
+        ? queryParams.level.trim()
+        : "";
+
+    const type =
+      typeof queryParams.type === "string"
+        ? queryParams.type.trim()
+        : "";
+
+    const q =
+      typeof queryParams.q === "string"
+        ? queryParams.q.trim()
+        : "";
 
     const from = (page - 1) * limit;
     const to = from + limit - 1;
 
-    /*
-      IMPORTANT:
-      We deliberately select only columns known to exist
-      in the original HAMOU MATH resources table.
-    */
-
     let query = supabase
       .from("resources")
-      .select(
-        `
-        id,
-        title,
-        description,
-        content,
-        resource_type,
-        language,
-        level,
-        subject,
-        file_url,
-        cover_url
-        `,
-        { count: "exact" }
-      )
-      .range(from, to);
+      .select("*", { count: "exact" });
 
-    /*
-      Language
-    */
     if (language) {
       query = query.eq("language", language);
     }
 
-    /*
-      Level
-    */
     if (level) {
       query = query.eq("level", level);
     }
 
-    /*
-      Resource type
-    */
     if (type) {
       query = query.eq("resource_type", type);
     }
 
     /*
-      Search
+      نستخدم title فقط للبحث النصي حتى لا نفترض
+      وجود أعمدة إضافية في قاعدة البيانات.
     */
     if (q) {
-      const safeQuery = q
-        .replace(/[%_]/g, "")
-        .replace(/,/g, " ")
-        .trim()
-        .slice(0, 120);
-
-      if (safeQuery) {
-        query = query.or(
-          [
-            `title.ilike.%${safeQuery}%`,
-            `description.ilike.%${safeQuery}%`,
-            `subject.ilike.%${safeQuery}%`,
-            `content.ilike.%${safeQuery}%`
-          ].join(",")
-        );
-      }
+      query = query.ilike("title", `%${q}%`);
     }
+
+    query = query.range(from, to);
 
     const {
       data,
@@ -162,82 +108,51 @@ export default async function handler(req, res) {
     } = await query;
 
     if (error) {
-      console.error(
-        "HAMOU MATH resources error:",
-        error
-      );
+      console.error("SUPABASE_RESOURCES_ERROR:", error);
 
       return res.status(500).json({
         ok: false,
-        success: false,
         error: "Database query failed",
-        details:
-          process.env.NODE_ENV === "development"
-            ? error.message
-            : undefined
+        details: error.message
       });
     }
 
-    const resources = Array.isArray(data)
-      ? data
-      : [];
-
-    const total =
-      typeof count === "number"
-        ? count
-        : resources.length;
-
-    /*
-      Compatible response.
-
-      The old frontend can continue using:
-      response.data
-
-      New code can use:
-      response.resources
-    */
+    const total = count || 0;
 
     return res.status(200).json({
       ok: true,
       success: true,
 
       filters: {
-        q,
         language,
         type,
-        level
+        level,
+        q
       },
 
       pagination: {
         page,
         limit,
         total,
-        pages: Math.ceil(total / limit),
-        has_next: page * limit < total,
-        has_previous: page > 1
+        pages: Math.ceil(total / limit)
       },
 
       total,
+      pages: Math.ceil(total / limit),
 
-      data: resources,
+      data: data || [],
+      resources: data || [],
 
-      resources,
-
-      architecture:
-        "HAMOU MATH GLOBAL — Supabase Database-backed Library"
+      architecture: "Supabase database-backed pagination"
     });
 
   } catch (error) {
-    console.error(
-      "HAMOU MATH API error:",
-      error
-    );
+    console.error("RESOURCES_API_CRASH:", error);
 
     return res.status(500).json({
       ok: false,
-      success: false,
-      error: "Server configuration or API error"
+      error: "Internal server error",
+      details: error?.message || "Unknown error"
     });
   }
 }
-```
