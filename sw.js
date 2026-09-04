@@ -1,76 +1,190 @@
 const CACHE_NAME = "hamou-math-v27";
-const OFFLINE_URL = "/404.html";
 
-const APP_SHELL = [
+const APP_FILES = [
   "/",
   "/index.html",
+  "/math-lab.html",
   "/manifest.webmanifest",
   "/favicon.svg",
-  "/robots.txt",
-  "/sitemap.xml",
   "/404.html",
   "/data/resources.json"
 ];
 
 self.addEventListener("install", event => {
+
   event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => cache.addAll(APP_SHELL))
-      .catch(() => {})
+
+    caches
+      .open(CACHE_NAME)
+      .then(cache =>
+        cache
+          .addAll(APP_FILES)
+          .catch(() => {})
+      )
+
   );
 
   self.skipWaiting();
+
 });
 
+
 self.addEventListener("activate", event => {
+
   event.waitUntil(
-    caches.keys().then(keys =>
-      Promise.all(
-        keys
-          .filter(key => key !== CACHE_NAME)
-          .map(key => caches.delete(key))
+
+    caches
+      .keys()
+      .then(keys =>
+        Promise.all(
+
+          keys
+            .filter(
+              key =>
+                key !== CACHE_NAME
+            )
+
+            .map(
+              key =>
+                caches.delete(key)
+            )
+
+        )
       )
-    )
+
   );
 
   self.clients.claim();
+
 });
 
+
 self.addEventListener("fetch", event => {
-  const request = event.request;
 
-  if (request.method !== "GET") return;
+  const request =
+    event.request;
 
-  const url = new URL(request.url);
+  if(
+    request.method !== "GET"
+  )
+    return;
 
-  if (url.origin !== self.location.origin) return;
+
+  const url =
+    new URL(request.url);
+
+
+  if(
+    url.origin !==
+    self.location.origin
+  )
+    return;
+
+
+  /*
+   لا نخزن API
+  */
+
+  if(
+    url.pathname.startsWith("/api/")
+  )
+    return;
+
+
+  /*
+   الصفحات:
+   الشبكة أولًا
+   ثم الكاش
+  */
+
+  if(
+    request.mode === "navigate"
+  ){
+
+    event.respondWith(
+
+      fetch(request)
+
+        .then(response => {
+
+          if(
+            response &&
+            response.ok
+          ){
+
+            const copy =
+              response.clone();
+
+            caches
+              .open(CACHE_NAME)
+              .then(cache =>
+                cache.put(
+                  request,
+                  copy
+                )
+              )
+              .catch(() => {});
+
+          }
+
+          return response;
+
+        })
+
+        .catch(() =>
+          caches
+            .match(request)
+            .then(
+              cached =>
+                cached ||
+                caches.match(
+                  "/404.html"
+                )
+            )
+        )
+
+    );
+
+    return;
+
+  }
+
+
+  /*
+   الموارد الأخرى
+  */
 
   event.respondWith(
-    fetch(request)
-      .then(response => {
-        if (response && response.status === 200) {
-          const copy = response.clone();
 
-          caches.open(CACHE_NAME).then(cache => {
-            cache.put(request, copy).catch(() => {});
-          });
+    fetch(request)
+
+      .then(response => {
+
+        if(response.ok){
+
+          const copy =
+            response.clone();
+
+          caches
+            .open(CACHE_NAME)
+            .then(cache =>
+              cache.put(
+                request,
+                copy
+              )
+            )
+            .catch(() => {});
+
         }
 
         return response;
+
       })
+
       .catch(() =>
-        caches.match(request).then(cached => {
-          if (cached) return cached;
-
-          if (request.mode === "navigate") {
-            return caches.match(OFFLINE_URL);
-          }
-
-          return new Response("", {
-            status: 503,
-            statusText: "Offline"
-          });
-        })
+        caches.match(request)
       )
+
   );
+
 });
