@@ -3,13 +3,17 @@ import { createClient } from "@supabase/supabase-js";
 function env(name) {
   const value = process.env[name];
 
-  if (!value) {
+  if (!value || !String(value).trim()) {
     throw new Error(`Missing environment variable: ${name}`);
   }
 
-  return value.trim();
+  return String(value).trim();
 }
 
+/**
+ * Server-only Supabase client.
+ * NEVER expose this client or its key to the browser.
+ */
 export function getAdminClient() {
   return createClient(
     env("SUPABASE_URL"),
@@ -23,8 +27,11 @@ export function getAdminClient() {
   );
 }
 
+/**
+ * Extract Bearer access token.
+ */
 export function getBearerToken(req) {
-  const header = req.headers.authorization || "";
+  const header = req.headers?.authorization || "";
 
   if (!header.startsWith("Bearer ")) {
     return null;
@@ -35,6 +42,9 @@ export function getBearerToken(req) {
   return token || null;
 }
 
+/**
+ * Authenticate current user.
+ */
 export async function requireUser(req) {
   const token = getBearerToken(req);
 
@@ -51,7 +61,7 @@ export async function requireUser(req) {
   try {
     supabase = getAdminClient();
   } catch (error) {
-    console.error(error);
+    console.error("Supabase configuration error:", error);
 
     return {
       ok: false,
@@ -60,28 +70,41 @@ export async function requireUser(req) {
     };
   }
 
-  const {
-    data: { user },
-    error
-  } = await supabase.auth.getUser(token);
+  try {
+    const {
+      data: { user },
+      error
+    } = await supabase.auth.getUser(token);
 
-  if (error || !user) {
+    if (error || !user) {
+      return {
+        ok: false,
+        status: 401,
+        error: "جلسة المستخدم غير صالحة"
+      };
+    }
+
+    return {
+      ok: true,
+      user,
+      token,
+      supabase
+    };
+  } catch (error) {
+    console.error("Authentication error:", error);
+
     return {
       ok: false,
       status: 401,
-      error: "جلسة المستخدم غير صالحة"
+      error: "تعذر التحقق من الجلسة"
     };
   }
-
-  return {
-    ok: true,
-    user,
-    token,
-    supabase
-  };
 }
 
-export async function requireRole(req, roles) {
+/**
+ * Get authenticated user's profile.
+ */
+export async function getProfile(req) {
   const auth = await requireUser(req);
 
   if (!auth.ok) {
@@ -102,27 +125,67 @@ export async function requireRole(req, roles) {
     .eq("id", auth.user.id)
     .maybeSingle();
 
-  if (error || !profile) {
+  if (error) {
+    console.error("Profile query error:", error);
+
     return {
       ok: false,
-      status: 403,
-      error: "تعذر التحقق من صلاحيات الحساب"
+      status: 500,
+      error: "تعذر تحميل صلاحيات الحساب"
     };
   }
 
-  const role = String(profile.role || "student").toLowerCase();
-
-  if (!roles.includes(role)) {
+  if (!profile) {
     return {
       ok: false,
       status: 403,
-      error: "ليس لديك صلاحية للوصول"
+      error: "لا يوجد ملف صلاحيات لهذا الحساب"
     };
   }
 
   return {
     ...auth,
-    profile,
+    profile
+  };
+}
+
+/**
+ * Require one of the specified roles.
+ *
+ * Example:
+ * await requireRole(req, ["owner"])
+ */
+export async function requireRole(req, roles = []) {
+  const result = await getProfile(req);
+
+  if (!result.ok) {
+    return result;
+  }
+
+  const allowedRoles = Array.isArray(roles)
+    ? roles.map(x => String(x).toLowerCase())
+    : [];
+
+  const role = String(result.profile.role || "")
+    .toLowerCase();
+
+  if (!allowedRoles.includes(role)) {
+    return {
+      ok: false,
+      status: 403,
+      error: "ليس لديك صلاحية للوصول إلى هذا القسم"
+    };
+  }
+
+  return {
+    ...result,
     role
   };
+}
+
+/**
+ * Require Owner specifically.
+ */
+export async function requireOwner(req) {
+  return requireRole(req, ["owner"]);
 }
