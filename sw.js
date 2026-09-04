@@ -4,19 +4,15 @@ const OFFLINE_URL = "/404.html";
 const APP_SHELL = [
   "/",
   "/index.html",
-  "/math-lab.html",
   "/manifest.webmanifest",
-  "/favicon.svg",
-  "/404.html"
+  "/favicon.svg"
 ];
 
 self.addEventListener("install", event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then(cache => cache.addAll(APP_SHELL))
-      .catch(error => {
-        console.warn("HAMOU MATH cache install:", error);
-      })
+      .catch(() => {})
   );
 
   self.skipWaiting();
@@ -45,83 +41,21 @@ self.addEventListener("fetch", event => {
 
   if (url.origin !== self.location.origin) return;
 
-  // لا نتدخل في API
+  /* API: لا نخزن طلبات API */
   if (url.pathname.startsWith("/api/")) {
     return;
   }
 
-  // المكتبة: الشبكة أولًا، ثم نسخة الكاش عند انقطاع الشبكة
+  /* resources.json:
+     الشبكة أولاً دائمًا */
   if (url.pathname === "/data/resources.json") {
+
     event.respondWith(
       fetch(request, {
         cache: "no-store"
       })
-        .then(response => {
-          if (response && response.ok) {
-            const copy = response.clone();
-
-            caches.open(CACHE_NAME)
-              .then(cache => cache.put(request, copy))
-              .catch(() => {});
-          }
-
-          return response;
-        })
-        .catch(() =>
-          caches.match(request).then(cached => {
-            if (cached) return cached;
-
-            return new Response(
-              JSON.stringify([]),
-              {
-                status: 503,
-                headers: {
-                  "Content-Type":
-                    "application/json; charset=utf-8"
-                }
-              }
-            );
-          })
-        )
-    );
-
-    return;
-  }
-
-  // صفحات الموقع
-  if (
-    request.mode === "navigate" ||
-    request.destination === "document"
-  ) {
-    event.respondWith(
-      fetch(request)
-        .then(response => {
-          if (response && response.ok) {
-            const copy = response.clone();
-
-            caches.open(CACHE_NAME)
-              .then(cache => cache.put(request, copy))
-              .catch(() => {});
-          }
-
-          return response;
-        })
-        .catch(() =>
-          caches.match(request).then(cached => {
-            if (cached) return cached;
-
-            return caches.match(OFFLINE_URL);
-          })
-        )
-    );
-
-    return;
-  }
-
-  // الملفات الثابتة
-  event.respondWith(
-    fetch(request)
       .then(response => {
+
         if (response && response.ok) {
           const copy = response.clone();
 
@@ -134,6 +68,86 @@ self.addEventListener("fetch", event => {
       })
       .catch(() =>
         caches.match(request).then(cached => {
+
+          if (cached) return cached;
+
+          return new Response(
+            JSON.stringify({
+              resources: []
+            }),
+            {
+              status: 503,
+              headers: {
+                "Content-Type":
+                  "application/json; charset=utf-8"
+              }
+            }
+          );
+        })
+      )
+    );
+
+    return;
+  }
+
+  /* صفحات HTML:
+     Network First */
+  if (
+    request.mode === "navigate" ||
+    request.destination === "document"
+  ) {
+
+    event.respondWith(
+      fetch(request)
+        .then(response => {
+
+          if (response && response.ok) {
+
+            const copy = response.clone();
+
+            caches.open(CACHE_NAME)
+              .then(cache =>
+                cache.put(request, copy)
+              )
+              .catch(() => {});
+          }
+
+          return response;
+        })
+        .catch(() =>
+          caches.match(request).then(cached => {
+
+            if (cached) return cached;
+
+            return caches.match(OFFLINE_URL);
+          })
+        )
+    );
+
+    return;
+  }
+
+  /* الملفات الثابتة */
+  event.respondWith(
+    fetch(request)
+      .then(response => {
+
+        if (response && response.ok) {
+
+          const copy = response.clone();
+
+          caches.open(CACHE_NAME)
+            .then(cache =>
+              cache.put(request, copy)
+            )
+            .catch(() => {});
+        }
+
+        return response;
+      })
+      .catch(() =>
+        caches.match(request).then(cached => {
+
           if (cached) return cached;
 
           return new Response("", {
