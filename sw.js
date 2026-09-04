@@ -1,5 +1,4 @@
 const CACHE_NAME = "hamou-math-v29";
-const OFFLINE_URL = "/404.html";
 
 const APP_SHELL = [
   "/",
@@ -35,109 +34,125 @@ self.addEventListener("activate", event => {
 });
 
 self.addEventListener("fetch", event => {
+
   const request = event.request;
 
   if (request.method !== "GET") return;
 
   const url = new URL(request.url);
 
-  if (url.origin !== self.location.origin) return;
+  if (url.origin !== self.location.origin) {
+    return;
+  }
 
-  /* API: always network */
   if (url.pathname.startsWith("/api/")) {
     return;
   }
 
-  /* Resources: network first */
+  /*
+   * resources.json:
+   * network first + no-store
+   */
   if (url.pathname === "/data/resources.json") {
+
     event.respondWith(
-      fetch(request, { cache: "no-store" })
-        .then(response => {
-          if (response && response.ok) {
-            const copy = response.clone();
 
-            caches.open(CACHE_NAME)
-              .then(cache => cache.put(request, copy))
-              .catch(() => {});
-          }
+      fetch(request, {
+        cache:"no-store"
+      })
 
-          return response;
-        })
-        .catch(() =>
-          caches.match(request).then(cached => {
-            if (cached) return cached;
-
-            return new Response(
-              JSON.stringify({
-                resources: [],
-                error: "RESOURCE_UNAVAILABLE"
-              }),
-              {
-                status: 503,
-                headers: {
-                  "Content-Type":
-                    "application/json; charset=utf-8"
-                }
-              }
-            );
-          })
-        )
-    );
-
-    return;
-  }
-
-  /* HTML: network first */
-  if (
-    request.mode === "navigate" ||
-    request.destination === "document"
-  ) {
-    event.respondWith(
-      fetch(request)
-        .then(response => {
-          if (response && response.ok) {
-            const copy = response.clone();
-
-            caches.open(CACHE_NAME)
-              .then(cache => cache.put(request, copy))
-              .catch(() => {});
-          }
-
-          return response;
-        })
-        .catch(() =>
-          caches.match(request).then(cached => {
-            return cached || caches.match(OFFLINE_URL);
-          })
-        )
-    );
-
-    return;
-  }
-
-  /* Static files */
-  event.respondWith(
-    fetch(request)
       .then(response => {
-        if (response && response.ok) {
-          const copy = response.clone();
+
+        if(response.ok){
+
+          const copy =
+            response.clone();
 
           caches.open(CACHE_NAME)
-            .then(cache => cache.put(request, copy))
-            .catch(() => {});
+            .then(cache =>
+              cache.put(request,copy)
+            )
+            .catch(()=>{});
         }
 
         return response;
       })
-      .catch(() =>
-        caches.match(request).then(cached => {
-          if (cached) return cached;
 
-          return new Response("", {
-            status: 503,
-            statusText: "Service Unavailable"
-          });
-        })
+      .catch(() =>
+        caches.match(request)
       )
+
+    );
+
+    return;
+  }
+
+  /*
+   * HTML:
+   * network first
+   */
+  if(
+    request.mode === "navigate" ||
+    request.destination === "document"
+  ){
+
+    event.respondWith(
+
+      fetch(request)
+
+      .then(response => {
+
+        if(response.ok){
+
+          const copy =
+            response.clone();
+
+          caches.open(CACHE_NAME)
+            .then(cache =>
+              cache.put(request,copy)
+            )
+            .catch(()=>{});
+        }
+
+        return response;
+      })
+
+      .catch(() =>
+        caches.match(request)
+      )
+
+    );
+
+    return;
+  }
+
+  /*
+   * Other static assets
+   */
+  event.respondWith(
+
+    fetch(request)
+
+      .then(response => {
+
+        if(response.ok){
+
+          const copy =
+            response.clone();
+
+          caches.open(CACHE_NAME)
+            .then(cache =>
+              cache.put(request,copy)
+            )
+            .catch(()=>{});
+        }
+
+        return response;
+      })
+
+      .catch(() =>
+        caches.match(request)
+      )
+
   );
 });
