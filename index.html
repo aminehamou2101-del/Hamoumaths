@@ -1258,24 +1258,17 @@ function applyLanguage(){
     }
   });
 
-  $("#langBtn").textContent =
-    currentLang === "ar"
-      ? "FR"
-      : currentLang === "fr"
-        ? "EN"
-        : "AR";
+  const languageCodes = ["ar","fr","en","es","de","it","pt","tr","ru","zh","ja","ko","nl","pl","uk","id","ms","hi","fa","ur"];
+  const nextCode = languageCodes[(languageCodes.indexOf(currentLang) + 1) % languageCodes.length];
+  $("#langBtn").textContent = nextCode.toUpperCase();
 }
 
 applyLanguage();
 
 $("#langBtn").addEventListener("click",()=>{
 
-  currentLang =
-    currentLang === "ar"
-      ? "fr"
-      : currentLang === "fr"
-        ? "en"
-        : "ar";
+  const languageCodes = ["ar","fr","en","es","de","it","pt","tr","ru","zh","ja","ko","nl","pl","uk","id","ms","hi","fa","ur"];
+  currentLang = languageCodes[(languageCodes.indexOf(currentLang) + 1) % languageCodes.length];
 
   localStorage.setItem("hm_lang",currentLang);
 
@@ -1299,199 +1292,105 @@ $$("[data-scroll]").forEach(btn=>{
    LIBRARY
 ========================================================= */
 
-const resources = [
-
-  {
-    id:1,
-    title:"مجموعة الأعداد ℕ ℤ ℚ ℝ",
-    titleFr:"Ensembles de nombres ℕ ℤ ℚ ℝ",
-    titleEn:"Number sets ℕ ℤ ℚ ℝ",
-    level:"secondary",
-    category:"Algebra",
-    type:"درس",
-    description:"درس شامل حول مجموعات الأعداد والاحتواء والعمليات الأساسية."
-  },
-
-  {
-    id:2,
-    title:"المعادلات من الدرجة الثانية",
-    titleFr:"Équations du second degré",
-    titleEn:"Quadratic equations",
-    level:"secondary",
-    category:"Algebra",
-    type:"درس",
-    description:"تمييز الحالات وحساب المميز Δ وإيجاد الحلول."
-  },
-
-  {
-    id:3,
-    title:"الدوال العددية",
-    titleFr:"Fonctions numériques",
-    titleEn:"Numerical functions",
-    level:"secondary",
-    category:"Analysis",
-    type:"درس",
-    description:"مجال التعريف، التغيرات، التمثيل البياني والنهايات."
-  },
-
-  {
-    id:4,
-    title:"الاحتمالات",
-    titleFr:"Probabilités",
-    titleEn:"Probability",
-    level:"university",
-    category:"Probability",
-    type:"مرجع",
-    description:"المفاهيم الأساسية للاحتمالات والأحداث والمتغيرات."
-  },
-
-  {
-    id:5,
-    title:"الإحصاء الوصفي",
-    titleFr:"Statistique descriptive",
-    titleEn:"Descriptive statistics",
-    level:"university",
-    category:"Statistics",
-    type:"درس",
-    description:"المتوسط، الوسيط، التباين، الانحراف المعياري."
-  },
-
-  {
-    id:6,
-    title:"تمارين الحساب السريع",
-    titleFr:"Exercices de calcul rapide",
-    titleEn:"Fast calculation exercises",
-    level:"middle",
-    category:"Training",
-    type:"تمارين",
-    description:"مجموعة تمارين لتطوير سرعة الحساب الذهني."
-  },
-
-  {
-    id:7,
-    title:"الهندسة المستوية",
-    titleFr:"Géométrie plane",
-    titleEn:"Plane geometry",
-    level:"middle",
-    category:"Geometry",
-    type:"درس",
-    description:"المثلثات والزوايا والتوازي والتعامد."
-  },
-
-  {
-    id:8,
-    title:"المتتاليات العددية",
-    titleFr:"Suites numériques",
-    titleEn:"Sequences",
-    level:"secondary",
-    category:"Analysis",
-    type:"درس",
-    description:"المتتاليات الحسابية والهندسية والتقارب."
-  },
-
-  {
-    id:9,
-    title:"التكامل",
-    titleFr:"Intégration",
-    titleEn:"Integration",
-    level:"university",
-    category:"Analysis",
-    type:"مرجع",
-    description:"المكاملات البدائية والتكامل المحدد."
-  }
-
-];
-
+let resources = [];
+let resourceTotal = 0;
+let resourcePage = 1;
+let resourcePages = 1;
+const RESOURCE_LIMIT = 24;
+let resourceLoading = false;
 
 function getResourceTitle(resource){
-
-  if(currentLang === "fr") return resource.titleFr;
-  if(currentLang === "en") return resource.titleEn;
-
-  return resource.title;
+  if(currentLang === "ar") return resource.title_ar || resource.title || "";
+  if(currentLang === "fr") return resource.title_fr || resource.title || "";
+  if(currentLang === "en") return resource.title_en || resource.title || "";
+  return resource[`title_${currentLang}`] || resource.title || "";
 }
 
+function resourceDescription(resource){
+  return resource.description || resource.description_ar || "";
+}
+
+function renderResourcesLoading(){
+  const grid = $("#resourcesGrid");
+  if(!grid) return;
+  grid.innerHTML = `<div class="card center" style="grid-column:1/-1">⏳ جاري تحميل موارد المكتبة...</div>`;
+}
+
+function resourceQuery(){
+  const params = new URLSearchParams();
+  const q = $("#resourceSearch")?.value?.trim() || "";
+  const level = $("#levelFilter")?.value || "all";
+  if(q) params.set("q", q);
+  if(level && level !== "all") params.set("level", level);
+  params.set("page", String(resourcePage));
+  params.set("limit", String(RESOURCE_LIMIT));
+  params.set("_", String(Date.now()));
+  return params.toString();
+}
+
+async function loadResources({reset=true}={}){
+  if(resourceLoading) return;
+  resourceLoading = true;
+  if(reset) resourcePage = 1;
+  renderResourcesLoading();
+  try{
+    const response = await fetch(`/api/resources?${resourceQuery()}`, {headers:{Accept:"application/json"}, cache:"no-store"});
+    const data = await response.json().catch(()=>({}));
+    if(!response.ok || !data.ok) throw new Error(data.error || "Library API unavailable");
+    resources = Array.isArray(data.resources || data.data) ? (data.resources || data.data) : [];
+    resourceTotal = Number(data.total || resources.length || 0);
+    resourcePages = Math.max(1, Number(data.pages || Math.ceil(resourceTotal/RESOURCE_LIMIT) || 1));
+    renderResources();
+  }catch(error){
+    console.error("HAMOU_LIBRARY_ERROR", error);
+    const grid = $("#resourcesGrid");
+    if(grid) grid.innerHTML = `<div class="card center" style="grid-column:1/-1"><strong>⚠️ تعذر تحميل المكتبة</strong><p style="margin-top:8px">${escapeHTML(error.message || "خطأ غير معروف")}</p><button class="btn primary" type="button" id="retryLibrary">إعادة المحاولة</button></div>`;
+    resourceTotal = 0;
+  }finally{
+    resourceLoading = false;
+  }
+}
 
 function renderResources(){
-
   const grid = $("#resourcesGrid");
-
-  const search =
-    $("#resourceSearch").value
-      .trim()
-      .toLowerCase();
-
-  const level =
-    $("#levelFilter").value;
-
-  const filtered = resources.filter(resource=>{
-
-    const text = [
-      resource.title,
-      resource.titleFr,
-      resource.titleEn,
-      resource.description,
-      resource.category,
-      resource.type
-    ].join(" ").toLowerCase();
-
-    const matchSearch =
-      !search || text.includes(search);
-
-    const matchLevel =
-      level === "all" ||
-      resource.level === level;
-
-    return matchSearch && matchLevel;
-  });
-
-  if(filtered.length === 0){
-
-    grid.innerHTML = `
-      <div class="card center" style="grid-column:1/-1">
-        لا توجد نتائج مطابقة.
-      </div>
-    `;
-
+  if(!grid) return;
+  if(!resources.length){
+    grid.innerHTML = `<div class="card center" style="grid-column:1/-1">لا توجد نتائج مطابقة.</div>`;
     return;
   }
-
-  grid.innerHTML = filtered.map(resource=>{
-
-    return `
-      <article class="card resource">
-
-        <div class="resource-top">
-          <span class="tag">${escapeHTML(resource.type)}</span>
-          <span class="muted">${escapeHTML(resource.category)}</span>
-        </div>
-
-        <h3>${escapeHTML(getResourceTitle(resource))}</h3>
-
-        <p>
-          ${escapeHTML(resource.description)}
-        </p>
-
-        <button
-          class="btn primary resource-open"
-          type="button"
-          data-id="${resource.id}"
-        >
-          فتح المورد
-        </button>
-
-      </article>
-    `;
-
+  grid.innerHTML = resources.map(resource=>{
+    const id = String(resource.id ?? resource.slug ?? "");
+    const type = resource.type || resource.resource_type || "resource";
+    const category = resource.field || resource.category || "Mathematics";
+    return `<article class="card resource">
+      <div class="resource-top"><span class="tag">${escapeHTML(type)}</span><span class="muted">${escapeHTML(category)}</span></div>
+      <h3>${escapeHTML(getResourceTitle(resource))}</h3>
+      <p>${escapeHTML(resourceDescription(resource))}</p>
+      <button class="btn primary resource-open" type="button" data-id="${escapeHTML(id)}">فتح المورد</button>
+    </article>`;
   }).join("");
-
+  const oldPager = document.getElementById("libraryPager");
+  if(oldPager) oldPager.remove();
+  const pager = document.createElement("div");
+  pager.id = "libraryPager";
+  pager.className = "card center";
+  pager.style.cssText = "grid-column:1/-1;display:flex;gap:10px;align-items:center;justify-content:center;flex-wrap:wrap";
+  pager.innerHTML = `<button class="btn" id="libraryPrev" type="button" ${resourcePage<=1?"disabled":""}>‹</button><span>صفحة ${resourcePage} / ${resourcePages} — ${resourceTotal.toLocaleString()} مورد</span><button class="btn" id="libraryNext" type="button" ${resourcePage>=resourcePages?"disabled":""}>›</button>`;
+  grid.appendChild(pager);
 }
 
+$("#resourceSearch")?.addEventListener("input",()=>{clearTimeout(window.__hmSearchTimer);window.__hmSearchTimer=setTimeout(()=>loadResources(),250);});
+$("#levelFilter")?.addEventListener("change",()=>loadResources());
+$("#resourcesGrid")?.addEventListener("click",async event=>{
+  const retry=event.target.closest("#retryLibrary");
+  if(retry){ loadResources(); return; }
+  const prev=event.target.closest("#libraryPrev");
+  if(prev){resourcePage=Math.max(1,resourcePage-1);loadResources({reset:false});return;}
+  const next=event.target.closest("#libraryNext");
+  if(next){resourcePage=Math.min(resourcePages,resourcePage+1);loadResources({reset:false});return;}
+});
 
-$("#resourceSearch").addEventListener("input",renderResources);
-$("#levelFilter").addEventListener("change",renderResources);
-
-renderResources();
+loadResources();
 
 
 /* -----------------------------
@@ -1499,40 +1398,22 @@ renderResources();
 ----------------------------- */
 
 $("#resourcesGrid").addEventListener("click",event=>{
-
-  const button =
-    event.target.closest(".resource-open");
-
+  const button = event.target.closest(".resource-open");
   if(!button) return;
-
-  const id = Number(button.dataset.id);
-
-  const resource =
-    resources.find(item=>item.id === id);
-
+  const id = String(button.dataset.id || "");
+  const resource = resources.find(item=>String(item.id ?? item.slug) === id);
   if(!resource) return;
-
-  $("#resourceModalTitle").textContent =
-    getResourceTitle(resource);
-
+  $("#resourceModalTitle").textContent = getResourceTitle(resource);
+  const url = resource.url || resource.file_url || resource.web_url || "";
+  const safeUrl = /^https?:\/\//i.test(url) ? url : "";
   $("#resourceModalBody").innerHTML = `
-    <span class="tag">${escapeHTML(resource.type)}</span>
-
-    <p style="margin-top:15px">
-      ${escapeHTML(resource.description)}
-    </p>
-
-    <div class="result">
-      هذا المورد معرف داخل مكتبة HAMOU MATH.
-      يمكن ربطه لاحقًا بملف PDF أو Google Drive
-      أو قاعدة بيانات دون تعديل واجهة المكتبة.
-    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap"><span class="tag">${escapeHTML(resource.type || resource.resource_type || "resource")}</span><span class="tag">${escapeHTML(resource.level || "all")}</span></div>
+    <p style="margin-top:15px">${escapeHTML(resourceDescription(resource))}</p>
+    ${escapeHTML(resource.author || resource.source || "") ? `<p class="muted">${escapeHTML(resource.author || resource.source || "")}</p>` : ""}
+    ${safeUrl ? `<a class="btn primary" href="${escapeHTML(safeUrl)}" target="_blank" rel="noopener noreferrer">فتح المصدر ↗</a>` : `<div class="result">هذا المورد موجود في فهرس HAMOU MATH. سيتم ربط الملف عندما يصبح عنوان التخزين متاحًا.</div>`}
   `;
-
   $("#resourceModal").classList.add("open");
-
 });
-
 
 /* =========================================================
    MODALS
