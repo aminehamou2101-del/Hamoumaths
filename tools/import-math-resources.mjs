@@ -3,23 +3,18 @@ import { createClient } from "@supabase/supabase-js";
 /*
 ========================================================
  HAMOU MATH GLOBAL
- Massive Math Resource Importer
+ Dynamic Resource Importer
  Node 24 + ES Modules + Supabase
-========================================================
 
-الوظائف:
-- استيراد موارد حقيقية من مصادر موثوقة
-- إزالة التكرار حسب URL
-- تصنيف تلقائي
-- اكتشاف اللغة
-- اكتشاف المستوى
-- اكتشاف المجال
-- الإدخال على دفعات
-- عدم حذف الموارد الموجودة
-- قابل للتوسع إلى مئات الآلاف والملايين
+ المصادر لا تُكتب داخل الكود.
+ يتم قراءتها تلقائيًا من:
 
-تشغيل:
-SUPABASE_URL="..." SUPABASE_SERVICE_ROLE_KEY="..." node tools/import-math-resources.mjs
+ public.resource_sources
+
+ فقط المصادر:
+ is_active = true
+
+ يتم استخدامها.
 ========================================================
 */
 
@@ -59,24 +54,10 @@ const supabase = createClient(
 ====================================================== */
 
 const BATCH_SIZE = 250;
-
-const SOURCES = [
-  {
-    name: "OpenStax",
-    url: "https://openstax.org/subjects/math"
-  },
-  {
-    name: "MIT OpenCourseWare",
-    url: "https://ocw.mit.edu/search/?d=Mathematics"
-  },
-  {
-    name: "LibreTexts Mathematics",
-    url: "https://math.libretexts.org/"
-  }
-];
+const MAX_LINKS_PER_SOURCE = 5000;
 
 /* ======================================================
-   أدوات مساعدة
+   أدوات عامة
 ====================================================== */
 
 function clean(value, max = 1000) {
@@ -93,23 +74,60 @@ function normalize(value) {
     .replace(/[\u0300-\u036f]/g, "");
 }
 
+function normalizeUrl(url) {
+  try {
+    const parsed = new URL(url);
+
+    parsed.hash = "";
+
+    const trackingParameters = [
+      "utm_source",
+      "utm_medium",
+      "utm_campaign",
+      "utm_term",
+      "utm_content",
+      "fbclid",
+      "gclid"
+    ];
+
+    for (const parameter of trackingParameters) {
+      parsed.searchParams.delete(parameter);
+    }
+
+    return parsed
+      .toString()
+      .replace(/\/$/, "");
+  } catch {
+    return "";
+  }
+}
+
+/* ======================================================
+   اكتشاف اللغة
+====================================================== */
+
 function detectLanguage(text) {
-  const value = normalize(text);
+  const original = String(text ?? "");
+  const value = normalize(original);
 
-  const arabic =
-    /[\u0600-\u06ff]/.test(text);
-
-  if (arabic) return "ar";
+  if (/[\u0600-\u06ff]/.test(original)) {
+    return "ar";
+  }
 
   const frenchWords = [
     "mathematiques",
+    "mathematique",
     "cours",
     "exercices",
     "algebre",
     "geometrie",
+    "probabilite",
     "probabilites",
+    "statistique",
     "statistiques",
-    "analyse"
+    "analyse",
+    "equations",
+    "fonctions"
   ];
 
   if (
@@ -123,13 +141,18 @@ function detectLanguage(text) {
   return "en";
 }
 
+/* ======================================================
+   اكتشاف المستوى
+====================================================== */
+
 function detectLevel(text) {
   const value = normalize(text);
 
   if (
     value.includes("phd") ||
     value.includes("doctoral") ||
-    value.includes("doctorate")
+    value.includes("doctorate") ||
+    value.includes("research")
   ) {
     return "phd";
   }
@@ -151,6 +174,7 @@ function detectLevel(text) {
 
   if (
     value.includes("baccalaureate") ||
+    value.includes("baccalaureat") ||
     value.includes("bac")
   ) {
     return "baccalaureate";
@@ -158,27 +182,34 @@ function detectLevel(text) {
 
   if (
     value.includes("secondary") ||
-    value.includes("high school")
+    value.includes("high school") ||
+    value.includes("lycee")
   ) {
     return "secondary";
   }
 
   if (
     value.includes("middle school") ||
-    value.includes("junior high")
+    value.includes("junior high") ||
+    value.includes("college")
   ) {
     return "middle";
   }
 
   if (
     value.includes("elementary") ||
-    value.includes("primary")
+    value.includes("primary") ||
+    value.includes("primaire")
   ) {
     return "primary";
   }
 
   return "university";
 }
+
+/* ======================================================
+   اكتشاف المجال
+====================================================== */
 
 function detectField(text) {
   const value = normalize(text);
@@ -192,6 +223,7 @@ function detectField(text) {
         "probabilites"
       ]
     ],
+
     [
       "statistics",
       [
@@ -200,6 +232,7 @@ function detectField(text) {
         "statistiques"
       ]
     ],
+
     [
       "algebra",
       [
@@ -207,6 +240,7 @@ function detectField(text) {
         "algebre"
       ]
     ],
+
     [
       "geometry",
       [
@@ -214,14 +248,16 @@ function detectField(text) {
         "geometrie"
       ]
     ],
+
     [
       "calculus",
       [
         "calculus",
-        "calcule",
+        "calculation",
         "calcul differentiel"
       ]
     ],
+
     [
       "analysis",
       [
@@ -229,6 +265,7 @@ function detectField(text) {
         "analyse"
       ]
     ],
+
     [
       "linear_algebra",
       [
@@ -236,6 +273,7 @@ function detectField(text) {
         "algebre lineaire"
       ]
     ],
+
     [
       "number_theory",
       [
@@ -243,6 +281,7 @@ function detectField(text) {
         "theorie des nombres"
       ]
     ],
+
     [
       "differential_equations",
       [
@@ -250,6 +289,7 @@ function detectField(text) {
         "equations differentielles"
       ]
     ],
+
     [
       "optimization",
       [
@@ -257,11 +297,20 @@ function detectField(text) {
         "optimisation"
       ]
     ],
+
     [
       "logic",
       [
         "logic",
         "logique"
+      ]
+    ],
+
+    [
+      "discrete_mathematics",
+      [
+        "discrete mathematics",
+        "mathematiques discretes"
       ]
     ]
   ];
@@ -279,6 +328,10 @@ function detectField(text) {
   return "mathematics";
 }
 
+/* ======================================================
+   اكتشاف نوع المورد
+====================================================== */
+
 function detectType(text) {
   const value = normalize(text);
 
@@ -286,6 +339,7 @@ function detectType(text) {
     value.includes("exercise") ||
     value.includes("exercises") ||
     value.includes("problem set") ||
+    value.includes("problem sets") ||
     value.includes("problems")
   ) {
     return "تمرين";
@@ -294,7 +348,8 @@ function detectType(text) {
   if (
     value.includes("exam") ||
     value.includes("examination") ||
-    value.includes("test")
+    value.includes("test") ||
+    value.includes("quiz")
   ) {
     return "امتحان";
   }
@@ -309,6 +364,7 @@ function detectType(text) {
 
   if (
     value.includes("summary") ||
+    value.includes("summaries") ||
     value.includes("review")
   ) {
     return "ملخص";
@@ -316,7 +372,8 @@ function detectType(text) {
 
   if (
     value.includes("book") ||
-    value.includes("textbook")
+    value.includes("textbook") ||
+    value.includes("text book")
   ) {
     return "كتاب";
   }
@@ -332,135 +389,157 @@ function detectType(text) {
 }
 
 /* ======================================================
-   إزالة التكرار
+   جلب المصادر من Supabase
 ====================================================== */
 
-function normalizeUrl(url) {
-  try {
-    const parsed = new URL(url);
+async function getSources() {
+  console.log(
+    "📚 قراءة المصادر من resource_sources..."
+  );
 
-    parsed.hash = "";
-
-    [
-      "utm_source",
-      "utm_medium",
-      "utm_campaign",
-      "utm_term",
-      "utm_content"
-    ].forEach((key) => {
-      parsed.searchParams.delete(key);
+  const {
+    data,
+    error
+  } = await supabase
+    .from("resource_sources")
+    .select(`
+      id,
+      name,
+      base_url,
+      source_type,
+      language,
+      description,
+      license,
+      license_url,
+      is_active,
+      last_indexed_at,
+      total_discovered,
+      total_imported
+    `)
+    .eq("is_active", true)
+    .order("id", {
+      ascending: true
     });
 
-    return parsed.toString().replace(/\/$/, "");
-  } catch {
-    return "";
+  if (error) {
+    throw new Error(
+      `تعذر قراءة resource_sources: ${error.message}`
+    );
+  }
+
+  return data || [];
+}
+
+/* ======================================================
+   تسجيل بداية عملية الفهرسة
+====================================================== */
+
+async function createImportRun(sourceId) {
+  const {
+    data,
+    error
+  } = await supabase
+    .from("resource_import_runs")
+    .insert({
+      source_id: sourceId,
+      status: "running",
+      started_at: new Date().toISOString()
+    })
+    .select("id")
+    .single();
+
+  if (error) {
+    throw new Error(
+      `تعذر إنشاء سجل الاستيراد: ${error.message}`
+    );
+  }
+
+  return data.id;
+}
+
+/* ======================================================
+   تحديث عملية الفهرسة
+====================================================== */
+
+async function finishImportRun(
+  runId,
+  stats,
+  status = "completed",
+  errorMessage = null
+) {
+  const {
+    error
+  } = await supabase
+    .from("resource_import_runs")
+    .update({
+      status,
+
+      finished_at:
+        new Date().toISOString(),
+
+      discovered_count:
+        stats.discovered,
+
+      inserted_count:
+        stats.inserted,
+
+      skipped_count:
+        stats.skipped,
+
+      failed_count:
+        stats.failed,
+
+      error_message:
+        errorMessage
+    })
+    .eq("id", runId);
+
+  if (error) {
+    console.warn(
+      "⚠️ تعذر تحديث سجل الاستيراد:",
+      error.message
+    );
   }
 }
 
 /* ======================================================
-   تحويل المورد إلى شكل قاعدة البيانات
+   تحديث إحصائيات المصدر
 ====================================================== */
 
-function makeResource({
-  title,
-  description,
-  url,
-  source
-}) {
-  const cleanUrl = normalizeUrl(url);
+async function updateSourceStats(
+  sourceId,
+  discovered,
+  imported
+) {
+  const {
+    error
+  } = await supabase
+    .from("resource_sources")
+    .update({
+      last_indexed_at:
+        new Date().toISOString(),
 
-  if (!cleanUrl) return null;
+      total_discovered:
+        discovered,
 
-  const fullText = [
-    title,
-    description,
-    source,
-    cleanUrl
-  ].join(" ");
+      total_imported:
+        imported,
 
-  const language =
-    detectLanguage(fullText);
+      updated_at:
+        new Date().toISOString()
+    })
+    .eq("id", sourceId);
 
-  const level =
-    detectLevel(fullText);
-
-  const field =
-    detectField(fullText);
-
-  const resourceType =
-    detectType(fullText);
-
-  return {
-    title: clean(title, 500),
-
-    title_ar:
-      language === "ar"
-        ? clean(title, 500)
-        : null,
-
-    title_fr:
-      language === "fr"
-        ? clean(title, 500)
-        : null,
-
-    title_en:
-      language === "en"
-        ? clean(title, 500)
-        : null,
-
-    description:
-      clean(description, 2000),
-
-    resource_type:
-      resourceType,
-
-    level,
-
-    subject: "mathematics",
-
-    field,
-
-    language,
-
-    author: null,
-
-    publisher: source,
-
-    source_name: source,
-
-    source_url: cleanUrl,
-
-    resource_url: cleanUrl,
-
-    thumbnail_url: null,
-
-    license: null,
-
-    license_url: null,
-
-    year: null,
-
-    keywords: [
-      "mathematics",
-      field,
-      level,
-      language
-    ],
-
-    is_free: true,
-
-    is_featured: false,
-
-    is_verified: false,
-
-    is_active: true,
-
-    views: 0
-  };
+  if (error) {
+    console.warn(
+      "⚠️ تعذر تحديث إحصائيات المصدر:",
+      error.message
+    );
+  }
 }
 
 /* ======================================================
-   جلب HTML
+   جلب صفحة المصدر
 ====================================================== */
 
 async function fetchPage(url) {
@@ -468,15 +547,18 @@ async function fetchPage(url) {
     const response = await fetch(url, {
       headers: {
         "User-Agent":
-          "HAMOU-MATH-RESOURCE-INDEXER/1.0"
+          "HAMOU-MATH-GLOBAL-RESOURCE-INDEXER/1.0",
+        "Accept":
+          "text/html,application/xhtml+xml"
       },
+
       signal:
         AbortSignal.timeout(20000)
     });
 
     if (!response.ok) {
       console.warn(
-        `⚠️ ${response.status}: ${url}`
+        `⚠️ HTTP ${response.status}: ${url}`
       );
 
       return "";
@@ -485,8 +567,7 @@ async function fetchPage(url) {
     return await response.text();
   } catch (error) {
     console.warn(
-      `⚠️ تعذر جلب ${url}:`,
-      error.message
+      `⚠️ فشل جلب ${url}: ${error.message}`
     );
 
     return "";
@@ -497,10 +578,15 @@ async function fetchPage(url) {
    استخراج الروابط
 ====================================================== */
 
-function extractLinks(html, baseUrl) {
+function extractLinks(
+  html,
+  baseUrl
+) {
   const results = [];
 
-  if (!html) return results;
+  if (!html) {
+    return results;
+  }
 
   const regex =
     /<a\b[^>]*href=["']([^"']+)["'][^>]*>([\s\S]*?)<\/a>/gi;
@@ -510,14 +596,23 @@ function extractLinks(html, baseUrl) {
   while (
     (match = regex.exec(html))
   ) {
-    const href = match[1];
-    const rawTitle = match[2];
+    const href =
+      match[1];
 
-    const title = clean(
-      rawTitle.replace(/<[^>]+>/g, " ")
-    );
+    const rawTitle =
+      match[2];
 
-    if (!title || title.length < 3) {
+    const title =
+      clean(
+        rawTitle
+          .replace(/<[^>]+>/g, " ")
+          .replace(/&nbsp;/gi, " ")
+      );
+
+    if (
+      !title ||
+      title.length < 3
+    ) {
       continue;
     }
 
@@ -537,11 +632,17 @@ function extractLinks(html, baseUrl) {
       results.push({
         title,
         description: title,
-        url,
-        source: new URL(baseUrl).hostname
+        url
       });
     } catch {
-      // تجاهل الرابط غير الصحيح
+      // رابط غير صالح
+    }
+
+    if (
+      results.length >=
+      MAX_LINKS_PER_SOURCE
+    ) {
+      break;
     }
   }
 
@@ -549,47 +650,141 @@ function extractLinks(html, baseUrl) {
 }
 
 /* ======================================================
-   فحص المصادر
+   تحويل الرابط إلى مورد
 ====================================================== */
 
-async function discoverResources() {
-  const discovered = [];
+function makeResource(
+  item,
+  source
+) {
+  const cleanUrl =
+    normalizeUrl(item.url);
 
-  for (const source of SOURCES) {
-    console.log(
-      `🔎 فحص: ${source.name}`
-    );
-
-    const html =
-      await fetchPage(source.url);
-
-    const links =
-      extractLinks(
-        html,
-        source.url
-      );
-
-    for (const item of links) {
-      discovered.push({
-        ...item,
-        source: source.name
-      });
-    }
-
-    console.log(
-      `   → ${links.length} رابط`
-    );
+  if (!cleanUrl) {
+    return null;
   }
 
-  return discovered;
+  const text = [
+    item.title,
+    item.description,
+    source.name,
+    source.description,
+    cleanUrl
+  ].join(" ");
+
+  const language =
+    source.language ||
+    detectLanguage(text);
+
+  const level =
+    detectLevel(text);
+
+  const field =
+    detectField(text);
+
+  const resourceType =
+    detectType(text);
+
+  return {
+    title:
+      clean(item.title, 500),
+
+    title_ar:
+      language === "ar"
+        ? clean(item.title, 500)
+        : null,
+
+    title_fr:
+      language === "fr"
+        ? clean(item.title, 500)
+        : null,
+
+    title_en:
+      language === "en"
+        ? clean(item.title, 500)
+        : null,
+
+    description:
+      clean(
+        item.description ||
+        source.description ||
+        item.title,
+        2000
+      ),
+
+    resource_type:
+      resourceType,
+
+    level,
+
+    subject:
+      "mathematics",
+
+    field,
+
+    language,
+
+    author:
+      null,
+
+    publisher:
+      source.name,
+
+    source_name:
+      source.name,
+
+    source_url:
+      normalizeUrl(source.base_url),
+
+    resource_url:
+      cleanUrl,
+
+    thumbnail_url:
+      null,
+
+    license:
+      source.license ||
+      null,
+
+    license_url:
+      source.license_url ||
+      null,
+
+    year:
+      null,
+
+    keywords: [
+      "mathematics",
+      field,
+      level,
+      language,
+      source.name
+    ],
+
+    is_free:
+      true,
+
+    is_featured:
+      false,
+
+    is_verified:
+      false,
+
+    is_active:
+      true,
+
+    views:
+      0
+  };
 }
 
 /* ======================================================
-   إزالة التكرار محليًا
+   إزالة التكرار
 ====================================================== */
 
 function deduplicate(resources) {
-  const map = new Map();
+  const map =
+    new Map();
 
   for (const resource of resources) {
     const url =
@@ -597,7 +792,9 @@ function deduplicate(resources) {
         resource.resource_url
       );
 
-    if (!url) continue;
+    if (!url) {
+      continue;
+    }
 
     if (!map.has(url)) {
       map.set(
@@ -607,47 +804,50 @@ function deduplicate(resources) {
     }
   }
 
-  return [...map.values()];
+  return [
+    ...map.values()
+  ];
 }
 
 /* ======================================================
-   معرفة الروابط الموجودة
+   معرفة الموارد الموجودة
 ====================================================== */
 
-async function getExistingUrls(urls) {
+async function getExistingUrls(
+  urls
+) {
   const existing =
     new Set();
-
-  const chunks = [];
 
   for (
     let i = 0;
     i < urls.length;
     i += 100
   ) {
-    chunks.push(
+    const chunk =
       urls.slice(
         i,
         i + 100
-      )
-    );
-  }
+      );
 
-  for (const chunk of chunks) {
-    const { data, error } =
-      await supabase
-        .from("resources")
-        .select("resource_url")
-        .in(
-          "resource_url",
-          chunk
-        );
+    const {
+      data,
+      error
+    } = await supabase
+      .from("resources")
+      .select("resource_url")
+      .in(
+        "resource_url",
+        chunk
+      );
 
     if (error) {
       throw error;
     }
 
-    for (const row of data || []) {
+    for (
+      const row of data || []
+    ) {
       if (
         row.resource_url
       ) {
@@ -664,10 +864,12 @@ async function getExistingUrls(urls) {
 }
 
 /* ======================================================
-   الإدخال على دفعات
+   إدخال الموارد
 ====================================================== */
 
-async function insertInBatches(resources) {
+async function insertInBatches(
+  resources
+) {
   let inserted = 0;
   let failed = 0;
 
@@ -684,25 +886,27 @@ async function insertInBatches(resources) {
 
     const {
       error
-    } =
-      await supabase
-        .from("resources")
-        .insert(batch);
+    } = await supabase
+      .from("resources")
+      .insert(batch);
 
     if (error) {
       console.error(
-        "❌ خطأ في الدفعة:",
+        `❌ فشل إدخال دفعة ${i} - ${i + batch.length}:`,
         error.message
       );
 
-      failed += batch.length;
+      failed +=
+        batch.length;
+
       continue;
     }
 
-    inserted += batch.length;
+    inserted +=
+      batch.length;
 
     console.log(
-      `✅ ${inserted}/${resources.length}`
+      `   ✅ ${inserted}/${resources.length}`
     );
   }
 
@@ -710,6 +914,192 @@ async function insertInBatches(resources) {
     inserted,
     failed
   };
+}
+
+/* ======================================================
+   فهرسة مصدر واحد
+====================================================== */
+
+async function indexSource(
+  source
+) {
+  console.log("");
+  console.log(
+    "------------------------------------------------"
+  );
+
+  console.log(
+    `🌐 المصدر: ${source.name}`
+  );
+
+  console.log(
+    `🔗 ${source.base_url}`
+  );
+
+  console.log(
+    "------------------------------------------------"
+  );
+
+  const stats = {
+    discovered: 0,
+    inserted: 0,
+    skipped: 0,
+    failed: 0
+  };
+
+  let runId = null;
+
+  try {
+    runId =
+      await createImportRun(
+        source.id
+      );
+
+    const html =
+      await fetchPage(
+        source.base_url
+      );
+
+    const links =
+      extractLinks(
+        html,
+        source.base_url
+      );
+
+    stats.discovered =
+      links.length;
+
+    console.log(
+      `🔎 الروابط المكتشفة: ${links.length}`
+    );
+
+    const prepared =
+      links
+        .map((item) =>
+          makeResource(
+            item,
+            source
+          )
+        )
+        .filter(Boolean);
+
+    const unique =
+      deduplicate(
+        prepared
+      );
+
+    stats.skipped =
+      Math.max(
+        0,
+        prepared.length -
+          unique.length
+      );
+
+    console.log(
+      `🧹 بعد إزالة التكرار: ${unique.length}`
+    );
+
+    if (!unique.length) {
+      await finishImportRun(
+        runId,
+        stats
+      );
+
+      return stats;
+    }
+
+    const urls =
+      unique.map(
+        (resource) =>
+          resource.resource_url
+      );
+
+    const existing =
+      await getExistingUrls(
+        urls
+      );
+
+    const newResources =
+      unique.filter(
+        (resource) =>
+          !existing.has(
+            normalizeUrl(
+              resource.resource_url
+            )
+          )
+      );
+
+    stats.skipped +=
+      unique.length -
+      newResources.length;
+
+    console.log(
+      `🆕 موارد جديدة: ${newResources.length}`
+    );
+
+    if (
+      !newResources.length
+    ) {
+      await updateSourceStats(
+        source.id,
+        stats.discovered,
+        0
+      );
+
+      await finishImportRun(
+        runId,
+        stats
+      );
+
+      return stats;
+    }
+
+    const result =
+      await insertInBatches(
+        newResources
+      );
+
+    stats.inserted =
+      result.inserted;
+
+    stats.failed =
+      result.failed;
+
+    await updateSourceStats(
+      source.id,
+      stats.discovered,
+      stats.inserted
+    );
+
+    await finishImportRun(
+      runId,
+      stats
+    );
+
+    return stats;
+  } catch (error) {
+    console.error(
+      `❌ خطأ في المصدر ${source.name}:`,
+      error.message
+    );
+
+    stats.failed =
+      Math.max(
+        stats.failed,
+        1
+      );
+
+    if (runId) {
+      await finishImportRun(
+        runId,
+        stats,
+        "failed",
+        error.message
+      );
+    }
+
+    return stats;
+  }
 }
 
 /* ======================================================
@@ -722,120 +1112,113 @@ async function main() {
     "================================================"
   );
   console.log(
-    " HAMOU MATH GLOBAL RESOURCE INDEXER"
+    " HAMOU MATH GLOBAL"
+  );
+  console.log(
+    " Dynamic Resource Indexer"
   );
   console.log(
     "================================================"
   );
   console.log("");
 
-  console.log(
-    "📚 بدء اكتشاف الموارد..."
-  );
+  const sources =
+    await getSources();
 
-  const discovered =
-    await discoverResources();
-
-  console.log(
-    `📦 تم اكتشاف ${discovered.length} رابط`
-  );
-
-  const prepared =
-    discovered
-      .map((item) =>
-        makeResource(item)
-      )
-      .filter(Boolean);
-
-  const unique =
-    deduplicate(prepared);
-
-  console.log(
-    `🧹 بعد إزالة التكرار: ${unique.length}`
-  );
-
-  if (!unique.length) {
+  if (!sources.length) {
     console.log(
-      "ℹ️ لا توجد موارد جديدة."
-    );
-
-    return;
-  }
-
-  const urls =
-    unique.map(
-      (resource) =>
-        resource.resource_url
-    );
-
-  console.log(
-    "🔍 فحص الموارد الموجودة..."
-  );
-
-  const existing =
-    await getExistingUrls(urls);
-
-  const newResources =
-    unique.filter(
-      (resource) =>
-        !existing.has(
-          normalizeUrl(
-            resource.resource_url
-          )
-        )
-    );
-
-  console.log(
-    `🆕 موارد جديدة: ${newResources.length}`
-  );
-
-  if (!newResources.length) {
-    console.log(
-      "✅ لا توجد موارد جديدة للإضافة."
+      "⚠️ لا توجد مصادر نشطة في resource_sources."
     );
 
     return;
   }
 
   console.log(
-    "🚀 بدء الإدخال إلى Supabase..."
+    `📚 عدد المصادر النشطة: ${sources.length}`
   );
 
-  const result =
-    await insertInBatches(
-      newResources
-    );
+  console.log("");
+
+  const total = {
+    sources: 0,
+    discovered: 0,
+    inserted: 0,
+    skipped: 0,
+    failed: 0
+  };
+
+  for (
+    const source of sources
+  ) {
+    total.sources++;
+
+    const stats =
+      await indexSource(
+        source
+      );
+
+    total.discovered +=
+      stats.discovered;
+
+    total.inserted +=
+      stats.inserted;
+
+    total.skipped +=
+      stats.skipped;
+
+    total.failed +=
+      stats.failed;
+  }
 
   console.log("");
   console.log(
     "================================================"
   );
+
   console.log(
-    " النتيجة"
+    "📊 النتيجة النهائية"
   );
+
   console.log(
     "================================================"
   );
 
   console.log(
-    `✅ تمت إضافة: ${result.inserted}`
+    `🌐 المصادر: ${total.sources}`
   );
 
   console.log(
-    `❌ فشل: ${result.failed}`
+    `🔎 المكتشف: ${total.discovered}`
+  );
+
+  console.log(
+    `✅ المضاف: ${total.inserted}`
+  );
+
+  console.log(
+    `⏭️ المتجاوز/المكرر: ${total.skipped}`
+  );
+
+  console.log(
+    `❌ الفاشل: ${total.failed}`
   );
 
   console.log("");
+  console.log(
+    "🏁 انتهت عملية الفهرسة."
+  );
 }
 
-main().catch((error) => {
-  console.error("");
-  console.error(
-    "❌ IMPORTER ERROR:"
-  );
-  console.error(
-    error
-  );
+main().catch(
+  (error) => {
+    console.error("");
+    console.error(
+      "❌ FATAL ERROR:"
+    );
+    console.error(
+      error
+    );
 
-  process.exit(1);
-});
+    process.exit(1);
+  }
+);
