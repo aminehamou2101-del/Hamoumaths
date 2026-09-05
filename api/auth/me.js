@@ -1,45 +1,50 @@
-import { getProfile } from "../_lib/auth.js";
+export async function onRequestGet(context) {
+  const { request, env } = context;
 
-export default async function handler(req, res) {
-  if (req.method !== "GET") {
-    res.setHeader("Allow", "GET");
+  const auth = request.headers.get("Authorization");
 
-    return res.status(405).json({
-      ok: false,
-      error: "Method Not Allowed"
-    });
+  if (!auth || !auth.startsWith("Bearer ")) {
+    return Response.json(
+      { success: false, error: "غير مسجل الدخول" },
+      { status: 401 }
+    );
   }
 
-  const result = await getProfile(req);
+  const token = auth.slice(7);
 
-  if (!result.ok) {
-    return res.status(result.status).json({
-      ok: false,
-      error: result.error
-    });
+  if (!env.SUPABASE_URL || !env.SUPABASE_ANON_KEY) {
+    return Response.json(
+      { success: false, error: "Supabase غير مهيأ" },
+      { status: 500 }
+    );
   }
 
-  const { user, profile } = result;
+  const response = await fetch(
+    `${env.SUPABASE_URL}/auth/v1/user`,
+    {
+      headers: {
+        apikey: env.SUPABASE_ANON_KEY,
+        Authorization: `Bearer ${token}`
+      }
+    }
+  );
 
-  return res.status(200).json({
-    ok: true,
+  if (!response.ok) {
+    return Response.json(
+      { success: false, error: "جلسة الدخول غير صالحة" },
+      { status: 401 }
+    );
+  }
 
+  const user = await response.json();
+
+  return Response.json({
+    success: true,
     user: {
       id: user.id,
       email: user.email,
-      name:
-        profile.full_name ||
-        user.user_metadata?.full_name ||
-        user.email,
-
-      avatar_url:
-        profile.avatar_url ||
-        user.user_metadata?.avatar_url ||
-        null,
-
-      role: profile.role,
-      xp: Number(profile.xp || 0),
-      level: Number(profile.level || 1)
+      full_name: user.user_metadata?.full_name || "",
+      role: user.user_metadata?.role || "student"
     }
   });
 }
