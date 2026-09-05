@@ -2,7 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { createClient } from "@supabase/supabase-js";
 
-function send(res, body, status = 200) {
+function json(res, body, status = 200) {
   return res
     .status(status)
     .setHeader("Content-Type", "application/json; charset=utf-8")
@@ -17,7 +17,15 @@ function normalize(value) {
     .trim();
 }
 
-function loadLocalResources() {
+function cleanQuery(value) {
+  return String(value ?? "")
+    .trim()
+    .replace(/[%,()]/g, " ")
+    .replace(/\s+/g, " ")
+    .slice(0, 120);
+}
+
+function localResources() {
   try {
     const file = path.join(
       process.cwd(),
@@ -25,81 +33,45 @@ function loadLocalResources() {
       "resources.generated.json"
     );
 
-    if (!fs.existsSync(file)) return [];
-
-    const content = fs.readFileSync(file, "utf8");
-    const parsed = JSON.parse(content);
-
-    if (Array.isArray(parsed)) return parsed;
-    if (Array.isArray(parsed.resources)) return parsed.resources;
-    if (Array.isArray(parsed.data)) return parsed.data;
-
-    return [];
-  } catch (error) {
-    console.error("LOCAL_RESOURCES_ERROR:", error);
+    return JSON.parse(fs.readFileSync(file, "utf8"));
+  } catch {
     return [];
   }
 }
 
-function resourceType(resource) {
-  return (
-    resource.resource_type ??
-    resource.type ??
-    resource.category ??
-    "resource"
-  );
-}
-
-function resourceLanguage(resource) {
-  return (
-    resource.language ??
-    resource.lang ??
-    "ar"
-  );
-}
-
-function resourceLevel(resource) {
-  return (
-    resource.level ??
-    resource.grade ??
-    "all"
-  );
-}
-
-function matchesSearch(resource, search) {
-  if (!search) return true;
-
-  const values = [
-    resource.title,
-    resource.title_ar,
-    resource.title_fr,
-    resource.title_en,
-    resource.description,
-    resource.field,
-    resource.category,
-    resource.subject,
-    resource.keywords,
-  ];
-
-  return normalize(values.flat().join(" ")).includes(normalize(search));
-}
-
 export default async function handler(req, res) {
   if (req.method !== "GET") {
-    return send(
+    return json(
       res,
       {
         ok: false,
-        error: "Method not allowed",
+        error: "Method not allowed"
       },
       405
     );
   }
 
-  const q = String(req.query?.q ?? "").trim();
-  const language = String(req.query?.language ?? "").trim();
-  const level = String(req.query?.level ?? "").trim();
-  const type = String(req.query?.type ?? "").trim();
+  const q = cleanQuery(req.query?.q);
+
+  const language = String(
+    req.query?.language ?? ""
+  ).trim();
+
+  const level = String(
+    req.query?.level ?? ""
+  ).trim();
+
+  const type = String(
+    req.query?.type ?? ""
+  ).trim();
+
+  const field = String(
+    req.query?.field ?? ""
+  ).trim();
+
+  const subject = String(
+    req.query?.subject ?? ""
+  ).trim();
 
   const page = Math.max(
     Number.parseInt(req.query?.page ?? "1", 10) || 1,
@@ -117,172 +89,323 @@ export default async function handler(req, res) {
   const from = (page - 1) * limit;
   const to = from + limit - 1;
 
-  /*
-   * =========================================================
-   * SUPABASE
-   * =========================================================
-   */
+  try {
+    const supabaseUrl =
+      String(process.env.SUPABASE_URL || "").trim();
 
-  const supabaseUrl = String(
-    process.env.SUPABASE_URL ?? ""
-  ).trim();
+    const serviceRoleKey =
+      String(
+        process.env.SUPABASE_SERVICE_ROLE_KEY || ""
+      ).trim();
 
-  const serviceRoleKey = String(
-    process.env.SUPABASE_SERVICE_ROLE_KEY ?? ""
-  ).trim();
+    /*
+     * =====================================================
+     * SUPABASE — المصدر الرئيسي للمكتبة
+     * =====================================================
+     */
 
-  if (supabaseUrl && serviceRoleKey) {
-    try {
+    if (supabaseUrl && serviceRoleKey) {
       const supabase = createClient(
         supabaseUrl,
         serviceRoleKey,
         {
           auth: {
             persistSession: false,
-            autoRefreshToken: false,
-          },
+            autoRefreshToken: false
+          }
         }
       );
 
-      /*
-       * مهم:
-       * نستعمل select("*") ولا نفترض وجود field/category
-       * حتى لا تتوقف المكتبة إذا كانت بنية الجدول مختلفة.
-       */
       let query = supabase
         .from("resources")
-        .select("*", { count: "exact" });
+        .select("*", {
+          count: "exact"
+        });
 
-      if (language && language !== "all") {
-        query = query.eq("language", language);
+      /*
+       * إظهار الموارد النشطة فقط إذا كان العمود موجودًا.
+       * إذا كانت قاعدة البيانات قديمة فلن نكسر API.
+       */
+
+      query = query.eq("is_active", true);
+
+      if (language) {
+        query = query.eq(
+          "language",
+          language
+        );
       }
 
       if (level && level !== "all") {
-        query = query.eq("level", level);
+        query = query.eq(
+          "level",
+          level
+        );
       }
 
       if (type && type !== "all") {
-        /*
-         * resource_type هو الاسم المتوقع في schema الحالي.
-         */
-        query = query.eq("resource_type", type);
+        query = query.eq(
+          "resource_type",
+          type
+        );
       }
 
+      if (field && field !== "all") {
+        query = query.eq(
+          "field",
+          field
+        );
+      }
+
+      if (subject && subject !== "all") {
+        query = query.eq(
+          "subject",
+          subject
+        );
+      }
+
+      /*
+       * بحث واسع في الحقول الأساسية.
+       */
+
       if (q) {
-        /*
-         * البحث فقط في الأعمدة الموجودة فعليًا في البنية الحالية.
-         * لا نستخدم field هنا.
-         */
         const safe = q
-          .replace(/[,%()]/g, " ")
-          .replace(/\s+/g, " ")
+          .replace(/[%_,]/g, " ")
           .trim();
 
         if (safe) {
           query = query.or(
-            `title.ilike.%${safe}%,description.ilike.%${safe}%`
+            [
+              `title.ilike.%${safe}%`,
+              `title_ar.ilike.%${safe}%`,
+              `title_fr.ilike.%${safe}%`,
+              `title_en.ilike.%${safe}%`,
+              `description.ilike.%${safe}%`,
+              `field.ilike.%${safe}%`,
+              `subject.ilike.%${safe}%`,
+              `author.ilike.%${safe}%`,
+              `publisher.ilike.%${safe}%`,
+              `source_name.ilike.%${safe}%`
+            ].join(",")
           );
         }
       }
 
-      const result = await query
+      const {
+        data,
+        error,
+        count
+      } = await query
         .range(from, to)
-        .order("created_at", {
-          ascending: false,
-        });
+        .order(
+          "is_featured",
+          {
+            ascending: false,
+            nullsFirst: false
+          }
+        )
+        .order(
+          "created_at",
+          {
+            ascending: false,
+            nullsFirst: false
+          }
+        );
 
-      if (!result.error) {
-        const resources = Array.isArray(result.data)
-          ? result.data
-          : [];
+      if (!error) {
+        const total = Number(count || 0);
 
-        const total = Number(result.count ?? 0);
-
-        return send(res, {
+        return json(res, {
           ok: true,
+
           source: "supabase",
-          resources,
-          data: resources,
+
           total,
-          pages: Math.max(1, Math.ceil(total / limit)),
+
+          pages: Math.max(
+            1,
+            Math.ceil(total / limit)
+          ),
+
           pagination: {
             page,
             limit,
             total,
+            from,
+            to
           },
+
+          filters: {
+            q,
+            language,
+            level,
+            type,
+            field,
+            subject
+          },
+
+          resources: data || [],
+
+          data: data || []
         });
       }
 
       console.error(
         "SUPABASE_RESOURCES_ERROR:",
-        result.error
-      );
-    } catch (error) {
-      console.error(
-        "SUPABASE_RESOURCES_EXCEPTION:",
         error
       );
     }
-  }
 
-  /*
-   * =========================================================
-   * FALLBACK LOCAL LIBRARY
-   * =========================================================
-   */
+    /*
+     * =====================================================
+     * FALLBACK — المكتبة المحلية
+     * =====================================================
+     */
 
-  let resources = loadLocalResources();
+    const local = localResources();
 
-  resources = resources.filter((resource) => {
-    if (
-      language &&
-      language !== "all" &&
-      resourceLanguage(resource) !== language
-    ) {
-      return false;
-    }
+    const nq = normalize(q);
 
-    if (
-      level &&
-      level !== "all" &&
-      resourceLevel(resource) !== level
-    ) {
-      return false;
-    }
+    const filtered = local.filter((resource) => {
+      const resourceLanguage =
+        String(
+          resource.language ?? ""
+        ).trim();
 
-    if (
-      type &&
-      type !== "all" &&
-      resourceType(resource) !== type
-    ) {
-      return false;
-    }
+      const resourceLevel =
+        String(
+          resource.level ?? ""
+        ).trim();
 
-    if (!matchesSearch(resource, q)) {
-      return false;
-    }
+      const resourceType =
+        String(
+          resource.resource_type ??
+          resource.type ??
+          ""
+        ).trim();
 
-    return true;
-  });
+      const resourceField =
+        String(
+          resource.field ?? ""
+        ).trim();
 
-  const total = resources.length;
+      const resourceSubject =
+        String(
+          resource.subject ?? ""
+        ).trim();
 
-  const pageResources = resources.slice(
-    from,
-    from + limit
-  );
+      const searchable = normalize(
+        [
+          resource.title,
+          resource.title_ar,
+          resource.title_fr,
+          resource.title_en,
+          resource.description,
+          resource.field,
+          resource.fieldAr,
+          resource.subject,
+          resource.author,
+          resource.publisher,
+          resource.source_name,
+          ...(Array.isArray(resource.keywords)
+            ? resource.keywords
+            : [])
+        ]
+          .filter(Boolean)
+          .join(" ")
+      );
 
-  return send(res, {
-    ok: true,
-    source: "generated-library",
-    resources: pageResources,
-    data: pageResources,
-    total,
-    pages: Math.max(1, Math.ceil(total / limit)),
-    pagination: {
-      page,
-      limit,
+      const matchesSearch =
+        !nq ||
+        searchable.includes(nq);
+
+      const matchesLanguage =
+        !language ||
+        resourceLanguage === language;
+
+      const matchesLevel =
+        !level ||
+        level === "all" ||
+        resourceLevel === level;
+
+      const matchesType =
+        !type ||
+        type === "all" ||
+        resourceType === type;
+
+      const matchesField =
+        !field ||
+        field === "all" ||
+        resourceField === field;
+
+      const matchesSubject =
+        !subject ||
+        subject === "all" ||
+        resourceSubject === subject;
+
+      return (
+        matchesSearch &&
+        matchesLanguage &&
+        matchesLevel &&
+        matchesType &&
+        matchesField &&
+        matchesSubject
+      );
+    });
+
+    const total = filtered.length;
+
+    const data = filtered.slice(
+      from,
+      to + 1
+    );
+
+    return json(res, {
+      ok: true,
+
+      source: "local",
+
       total,
-    },
-  });
+
+      pages: Math.max(
+        1,
+        Math.ceil(total / limit)
+      ),
+
+      pagination: {
+        page,
+        limit,
+        total,
+        from,
+        to
+      },
+
+      filters: {
+        q,
+        language,
+        level,
+        type,
+        field,
+        subject
+      },
+
+      resources: data,
+
+      data
+    });
+  } catch (error) {
+    console.error(
+      "RESOURCES_API_ERROR:",
+      error
+    );
+
+    return json(
+      res,
+      {
+        ok: false,
+        error: "تعذر تحميل مكتبة HAMOU MATH"
+      },
+      500
+    );
+  }
 }
