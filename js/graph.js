@@ -130,7 +130,118 @@
       );
     }
   );
+let chart;
 
+
+
+function drawFunction(){
+
+
+let func =
+document.getElementById(
+"functionInput"
+).value;
+
+
+
+let xValues=[];
+
+let yValues=[];
+
+
+
+for(
+let x=-10;
+x<=10;
+x+=0.2
+){
+
+
+xValues.push(x);
+
+
+
+try{
+
+
+let y =
+Function(
+"x",
+"return "+func
+)(x);
+
+
+
+yValues.push(y);
+
+
+}
+
+catch{
+
+yValues.push(null);
+
+}
+
+
+}
+
+
+
+if(chart)
+chart.destroy();
+
+
+
+chart =
+new Chart(
+
+document
+.getElementById("graph"),
+
+{
+
+
+type:"line",
+
+
+data:{
+
+
+labels:xValues,
+
+
+datasets:[{
+
+label:
+"f(x)="+func,
+
+
+data:yValues,
+
+
+}]
+
+
+},
+
+
+
+options:{
+
+
+responsive:true
+
+
+}
+
+
+}
+
+);
+
+
+}
   document.addEventListener(
     "DOMContentLoaded",
     () => draw()
