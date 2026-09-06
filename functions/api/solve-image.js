@@ -1,89 +1,74 @@
-import { json } from "../_lib/supabase.js";
-import { requireUser } from "../_lib/auth.js";
+import { getUser, json } from "../_lib/auth.js";
 
-export async function onRequestPost(context) {
-  const { request, env } = context;
+export async function onRequestPost({ request, env }) {
+  const auth = await getUser(request, env);
 
-  const auth=await requireUser(request,env);
-  if(!auth.ok)return auth.response;
+  if (!auth.ok) return auth.response;
 
-  if(!env.OPENAI_API_KEY){
+  if (!env.OPENAI_API_KEY) {
     return json({
-      success:false,
-      error:"خدمة حل الصور غير مهيأة"
-    },503);
+      success: false,
+      error: "خدمة حل الصور غير مهيأة"
+    }, 500);
   }
 
-  let body;
+  try {
+    const body = await request.json();
 
-  try{
-    body=await request.json();
-  }catch{
-    return json({success:false,error:"JSON غير صالح"},400);
-  }
+    const image = String(body.image || "").trim();
 
-  const image=String(body.image||"");
-  const language=String(body.language||"ar");
+    if (!image) {
+      return json({
+        success: false,
+        error: "لم يتم إرسال الصورة"
+      }, 400);
+    }
 
-  if(!image.startsWith("data:image/")){
-    return json({
-      success:false,
-      error:"صورة غير صالحة"
-    },400);
-  }
-
-  if(image.length>12_000_000){
-    return json({
-      success:false,
-      error:"الصورة كبيرة جدًا"
-    },413);
-  }
-
-  const model=env.OPENAI_VISION_MODEL || env.OPENAI_MODEL || "gpt-5";
-
-  const response=await fetch(
-    "https://api.openai.com/v1/responses",
-    {
-      method:"POST",
-      headers:{
-        Authorization:`Bearer ${env.OPENAI_API_KEY}`,
-        "Content-Type":"application/json"
-      },
-      body:JSON.stringify({
-        model,
-        input:[
-          {
-            role:"user",
-            content:[
+    const response = await fetch(
+      "https://api.openai.com/v1/responses",
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${env.OPENAI_API_KEY}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          model: env.OPENAI_MODEL || "gpt-5.6-luna",
+          input: [{
+            role: "user",
+            content: [
               {
-                type:"input_text",
+                type: "input_text",
                 text:
-                  `Solve the mathematics problem in the image accurately. Explain every step. Answer in language ${language}. If the image is unclear, explicitly say what cannot be read.`
+                  "اقرأ التمرين الرياضي الموجود في الصورة وحله خطوة بخطوة، مع شرح واضح."
               },
               {
-                type:"input_image",
-                image_url:image
+                type: "input_image",
+                image_url: image
               }
             ]
-          }
-        ]
-      })
+          }]
+        })
+      }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      return json({
+        success: false,
+        error: "تعذر تحليل الصورة"
+      }, 502);
     }
-  );
 
-  const data=await response.json();
-
-  if(!response.ok){
     return json({
-      success:false,
-      error:data.error?.message || "فشل تحليل الصورة"
-    },500);
+      success: true,
+      answer: data.output_text || ""
+    });
+  } catch {
+    return json({
+      success: false,
+      error: "خطأ أثناء معالجة الصورة"
+    }, 500);
   }
-
-  const solution=data.output_text||"لم يتم استخراج حل.";
-
-  return json({
-    success:true,
-    solution
-  });
 }
