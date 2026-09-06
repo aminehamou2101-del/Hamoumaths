@@ -423,3 +423,178 @@ loadResources();
     init
   );
 })();
+
+let resources=[];
+
+
+
+async function loadLibrary(){
+
+
+const {
+
+data,
+
+error
+
+}= await supabaseClient
+
+.from("resources")
+
+.select("*")
+
+.order(
+"created_at",
+{
+ascending:false
+}
+);
+
+
+
+if(error){
+
+console.log(error);
+
+return;
+
+}
+
+
+
+resources=data;
+
+
+displayResources(resources);
+
+
+}
+
+
+
+
+
+function displayResources(list){
+
+
+const box =
+document.getElementById("resources");
+
+
+box.innerHTML="";
+
+
+
+if(list.length===0){
+
+box.innerHTML=
+"<p>لا توجد موارد حاليا</p>";
+
+return;
+
+}
+
+
+
+list.forEach(item=>{
+
+
+box.innerHTML += `
+
+
+<div class="resource-card">
+
+
+<h3>
+${item.title}
+</h3>
+
+
+<p>
+${item.description || ""}
+</p>
+
+
+
+<p>
+📁 ${item.type}
+</p>
+
+
+
+<a target="_blank"
+href="${item.file_url}">
+
+فتح الملف
+
+</a>
+
+
+
+</div>
+
+
+`;
+
+
+});
+
+
+}
+
+
+
+
+
+function filterResources(){
+
+
+let text =
+document
+.getElementById("search")
+.value
+.toLowerCase();
+
+
+
+let type =
+document
+.getElementById("type")
+.value;
+
+
+
+let result =
+resources.filter(item=>{
+
+
+let matchText =
+item.title
+.toLowerCase()
+.includes(text);
+
+
+
+let matchType =
+!type ||
+item.type===type;
+
+
+
+return matchText && matchType;
+
+
+});
+
+
+
+displayResources(result);
+
+
+}
+
+
+
+
+
+loadLibrary();
