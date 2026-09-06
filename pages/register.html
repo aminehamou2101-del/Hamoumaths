@@ -5,7 +5,11 @@
 
 <meta charset="UTF-8">
 
-<title>إنشاء حساب</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>
+إنشاء حساب - HAMOU MATH
+</title>
 
 <link rel="stylesheet" href="../css/style.css">
 
@@ -19,39 +23,67 @@
 
 
 <h1>
-إنشاء حساب جديد
+🚀 إنشاء حساب جديد
 </h1>
 
 
-<input id="name"
-placeholder="الاسم الكامل">
+
+<input
+id="name"
+type="text"
+placeholder="الاسم الكامل"
+>
 
 
-<input id="email"
-placeholder="البريد الإلكتروني">
+
+<input
+id="email"
+type="email"
+placeholder="البريد الإلكتروني"
+>
 
 
-<input id="password"
+
+<input
+id="password"
 type="password"
-placeholder="كلمة المرور">
+placeholder="كلمة المرور"
+>
+
 
 
 <button onclick="register()">
 
-تسجيل
+إنشاء الحساب
 
 </button>
+
+
+
+<p id="message"></p>
+
+
+
+<p>
+
+لديك حساب؟
+
+<a href="login.html">
+تسجيل الدخول
+</a>
+
+</p>
 
 
 </div>
 
 
 
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-<script src="../js/supabase-config.js"></script>
+<script src="../js/supabase.js"></script>
 
-<script src="../js/auth.js"></script>
 
 
 <script>
@@ -60,30 +92,92 @@ placeholder="كلمة المرور">
 async function register(){
 
 
-let result =
-await registerUser(
-
-email.value,
-
-password.value,
-
-name.value
-
-);
+const name =
+document.getElementById("name").value;
 
 
-
-if(result){
-
-alert(
-"تم التسجيل بنجاح"
-);
+const email =
+document.getElementById("email").value;
 
 
-location.href=
-"login.html";
+const password =
+document.getElementById("password").value;
+
+
+
+if(!name || !email || !password){
+
+document.getElementById("message")
+.innerHTML =
+"⚠️ املأ جميع الحقول";
+
+return;
 
 }
+
+
+
+
+const {data,error}=
+
+await supabaseClient
+.auth
+.signUp({
+
+email,
+
+password,
+
+
+options:{
+
+
+data:{
+
+
+full_name:name
+
+
+}
+
+
+}
+
+
+});
+
+
+
+
+if(error){
+
+
+document.getElementById("message")
+.innerHTML =
+"❌ "+error.message;
+
+
+return;
+
+}
+
+
+
+
+document.getElementById("message")
+.innerHTML =
+"✅ تم إنشاء الحساب بنجاح";
+
+
+
+setTimeout(()=>{
+
+
+location.href="login.html";
+
+
+},1500);
+
 
 
 }
