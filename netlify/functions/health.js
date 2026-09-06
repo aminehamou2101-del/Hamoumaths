@@ -21,6 +21,7 @@ export async function handler(event) {
       process.env.SUPABASE_ANON_KEY ||
       ""
   ).trim();
+  // Netlify deployment refresh
 
   const result = {
     ok: true,
