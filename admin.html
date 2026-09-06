@@ -1,1 +1,1896 @@
+```html
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#6d28d9">
 
+  <title>HAMOU MATH — Owner Dashboard</title>
+
+  <style>
+    :root {
+      --primary: #6d28d9;
+      --primary2: #8b5cf6;
+      --secondary: #4f46e5;
+      --bg: #f6f7fb;
+      --surface: #ffffff;
+      --text: #171724;
+      --muted: #6b7280;
+      --border: #e5e7eb;
+      --success: #16a34a;
+      --danger: #dc2626;
+      --warning: #d97706;
+      --shadow: 0 10px 30px rgba(0,0,0,.08);
+      --radius: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, "Tahoma", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255,255,255,.96);
+      backdrop-filter: blur(15px);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-logo {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      color: white;
+      font-size: 22px;
+      font-weight: 900;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      box-shadow: 0 8px 20px rgba(109,40,217,.25);
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: 18px;
+    }
+
+    .brand small {
+      color: var(--muted);
+    }
+
+    .top-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      border: 0;
+      border-radius: 11px;
+      padding: 10px 15px;
+      font-weight: 700;
+      transition: .2s;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .btn-primary {
+      color: white;
+      background: linear-gradient(135deg, var(--primary), var(--primary2));
+    }
+
+    .btn-danger {
+      color: white;
+      background: var(--danger);
+    }
+
+    .btn-light {
+      background: #f3f4f6;
+      color: var(--text);
+    }
+
+    .btn-success {
+      background: var(--success);
+      color: white;
+    }
+
+    .btn-warning {
+      background: var(--warning);
+      color: white;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      min-height: calc(100vh - 77px);
+    }
+
+    .sidebar {
+      background: #fff;
+      border-left: 1px solid var(--border);
+      padding: 20px 14px;
+    }
+
+    .sidebar-title {
+      font-size: 12px;
+      color: var(--muted);
+      margin: 10px 12px;
+    }
+
+    .nav-btn {
+      width: 100%;
+      border: 0;
+      background: transparent;
+      text-align: right;
+      padding: 13px 14px;
+      border-radius: 12px;
+      margin-bottom: 5px;
+      font-weight: 700;
+      color: #374151;
+    }
+
+    .nav-btn:hover,
+    .nav-btn.active {
+      background: #f1eafe;
+      color: var(--primary);
+    }
+
+    .main {
+      padding: 25px;
+      max-width: 1600px;
+      width: 100%;
+      margin: auto;
+    }
+
+    .page-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .page-title h2 {
+      margin: 0 0 5px;
+      font-size: 27px;
+    }
+
+    .page-title p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+
+    .stat {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px;
+      box-shadow: var(--shadow);
+    }
+
+    .stat-icon {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+
+    .stat-number {
+      font-size: 27px;
+      font-weight: 900;
+      margin-bottom: 4px;
+    }
+
+    .stat-label {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .panel {
+      display: none;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .panel.active {
+      display: block;
+    }
+
+    .panel-head {
+      padding: 18px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .panel-head h3 {
+      margin: 0;
+    }
+
+    .tools {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .search {
+      min-width: 250px;
+      padding: 11px 13px;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      outline: none;
+    }
+
+    .search:focus {
+      border-color: var(--primary);
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 850px;
+    }
+
+    th,
+    td {
+      padding: 13px 15px;
+      border-bottom: 1px solid var(--border);
+      text-align: right;
+      vertical-align: middle;
+    }
+
+    th {
+      background: #fafafa;
+      color: #4b5563;
+      font-size: 13px;
+    }
+
+    td {
+      font-size: 14px;
+    }
+
+    tr:hover td {
+      background: #fafafa;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      border-radius: 999px;
+      padding: 5px 9px;
+      font-size: 12px;
+      font-weight: 800;
+      background: #f3f4f6;
+    }
+
+    .badge-owner {
+      background: #ede9fe;
+      color: #6d28d9;
+    }
+
+    .badge-admin {
+      background: #dbeafe;
+      color: #1d4ed8;
+    }
+
+    .badge-teacher {
+      background: #dcfce7;
+      color: #15803d;
+    }
+
+    .badge-student {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .badge-active {
+      background: #dcfce7;
+      color: #15803d;
+    }
+
+    .badge-off {
+      background: #fee2e2;
+      color: #b91c1c;
+    }
+
+    .actions {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .actions .btn {
+      padding: 7px 9px;
+      font-size: 12px;
+    }
+
+    .empty {
+      padding: 50px 20px;
+      text-align: center;
+      color: var(--muted);
+    }
+
+    .loading {
+      padding: 45px;
+      text-align: center;
+      color: var(--muted);
+    }
+
+    .error {
+      margin: 20px;
+      padding: 15px;
+      border-radius: 12px;
+      background: #fee2e2;
+      color: #991b1b;
+      font-weight: 700;
+    }
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      background: rgba(0,0,0,.55);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal.show {
+      display: flex;
+    }
+
+    .modal-box {
+      background: white;
+      border-radius: 20px;
+      width: min(650px, 100%);
+      max-height: 90vh;
+      overflow: auto;
+      box-shadow: 0 25px 70px rgba(0,0,0,.25);
+    }
+
+    .modal-head {
+      padding: 18px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-head h3 {
+      margin: 0;
+    }
+
+    .modal-body {
+      padding: 20px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .field.full {
+      grid-column: 1 / -1;
+    }
+
+    .field label {
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .field input,
+    .field select,
+    .field textarea {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 11px;
+      outline: none;
+    }
+
+    .field textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    .modal-foot {
+      padding: 15px 20px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: flex-start;
+      gap: 8px;
+    }
+
+    .toast {
+      position: fixed;
+      left: 20px;
+      bottom: 20px;
+      z-index: 2000;
+      background: #111827;
+      color: white;
+      border-radius: 12px;
+      padding: 13px 17px;
+      box-shadow: var(--shadow);
+      display: none;
+      max-width: 380px;
+    }
+
+    .toast.show {
+      display: block;
+    }
+
+    @media (max-width: 1200px) {
+      .stats {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (max-width: 850px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        border-left: 0;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .nav {
+        display: flex;
+        overflow-x: auto;
+        gap: 5px;
+      }
+
+      .nav-btn {
+        min-width: 150px;
+        margin: 0;
+      }
+
+      .main {
+        padding: 15px;
+      }
+
+      .stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .field.full {
+        grid-column: auto;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .stats {
+        grid-template-columns: 1fr;
+      }
+
+      .topbar {
+        padding: 10px;
+      }
+
+      .brand h1 {
+        font-size: 15px;
+      }
+
+      .search {
+        min-width: 100%;
+      }
+
+      .page-title {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <div class="brand-logo">👑</div>
+    <div>
+      <h1>HAMOU MATH</h1>
+      <small>Owner / Super Admin</small>
+    </div>
+  </div>
+
+  <div class="top-actions">
+    <button class="btn btn-light" onclick="goHome()">🏠 الموقع</button>
+    <button class="btn btn-primary" onclick="loadAll()">🔄 تحديث</button>
+    <button class="btn btn-danger" onclick="logout()">🚪 تسجيل الخروج</button>
+  </div>
+</header>
+
+<div class="layout">
+
+  <aside class="sidebar">
+    <div class="sidebar-title">لوحة التحكم</div>
+
+    <div class="nav">
+      <button class="nav-btn active" data-panel="overview" onclick="showPanel('overview', this)">
+        📊 الرئيسية
+      </button>
+
+      <button class="nav-btn" data-panel="users" onclick="showPanel('users', this)">
+        👥 المستخدمون
+      </button>
+
+      <button class="nav-btn" data-panel="resources" onclick="showPanel('resources', this)">
+        📚 المكتبة
+      </button>
+    </div>
+
+    <div class="sidebar-title">الإدارة</div>
+
+    <div class="nav">
+      <button class="nav-btn" onclick="filterUsers('teacher')">
+        👨‍🏫 الأساتذة
+      </button>
+
+      <button class="nav-btn" onclick="filterUsers('student')">
+        🎓 الطلاب
+      </button>
+
+      <button class="nav-btn" onclick="filterUsers('admin')">
+        🛡️ المدراء
+      </button>
+    </div>
+  </aside>
+
+  <main class="main">
+
+    <section id="overviewPanel" class="panel active">
+      <div class="page-title">
+        <div>
+          <h2>👑 لوحة Owner</h2>
+          <p>الإدارة المركزية لمنصة HAMOU MATH</p>
+        </div>
+      </div>
+
+      <div class="stats">
+        <div class="stat">
+          <div class="stat-icon">👥</div>
+          <div id="statUsers" class="stat-number">—</div>
+          <div class="stat-label">إجمالي المستخدمين</div>
+        </div>
+
+        <div class="stat">
+          <div class="stat-icon">📚</div>
+          <div id="statResources" class="stat-number">—</div>
+          <div class="stat-label">إجمالي الموارد</div>
+        </div>
+
+        <div class="stat">
+          <div class="stat-icon">🌐</div>
+          <div id="statPublished" class="stat-number">—</div>
+          <div class="stat-label">موارد منشورة</div>
+        </div>
+
+        <div class="stat">
+          <div class="stat-icon">👨‍🏫</div>
+          <div id="statTeachers" class="stat-number">—</div>
+          <div class="stat-label">الأساتذة</div>
+        </div>
+
+        <div class="stat">
+          <div class="stat-icon">🎓</div>
+          <div id="statStudents" class="stat-number">—</div>
+          <div class="stat-label">الطلاب</div>
+        </div>
+
+        <div class="stat">
+          <div class="stat-icon">🛡️</div>
+          <div id="statAdmins" class="stat-number">—</div>
+          <div class="stat-label">المدراء</div>
+        </div>
+      </div>
+
+      <div class="panel active">
+        <div class="panel-head">
+          <h3>حالة المنصة</h3>
+        </div>
+
+        <div style="padding:20px">
+          <p>
+            <strong>🔐 الحماية:</strong>
+            Owner يتم التحقق منه من الخادم، وليس من JavaScript فقط.
+          </p>
+
+          <p>
+            <strong>🗄️ قاعدة البيانات:</strong>
+            Supabase
+          </p>
+
+          <p>
+            <strong>☁️ الاستضافة:</strong>
+            Cloudflare Workers
+          </p>
+
+          <p>
+            <strong>📦 المكتبة:</strong>
+            مرتبطة بواجهة API الخاصة بالمنصة.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="usersPanel" class="panel">
+      <div class="panel-head">
+        <h3>👥 إدارة المستخدمين</h3>
+
+        <div class="tools">
+          <input
+            id="userSearch"
+            class="search"
+            placeholder="ابحث بالاسم أو البريد..."
+            oninput="renderUsers()"
+          >
+
+          <select id="userRoleFilter" onchange="renderUsers()">
+            <option value="">كل الأدوار</option>
+            <option value="owner">Owner</option>
+            <option value="admin">Admin</option>
+            <option value="teacher">أستاذ</option>
+            <option value="student">طالب</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="usersContent">
+        <div class="loading">جاري تحميل المستخدمين...</div>
+      </div>
+    </section>
+
+    <section id="resourcesPanel" class="panel">
+      <div class="panel-head">
+        <h3>📚 إدارة المكتبة</h3>
+
+        <div class="tools">
+          <input
+            id="resourceSearch"
+            class="search"
+            placeholder="ابحث عن كتاب أو درس..."
+            oninput="renderResources()"
+          >
+        </div>
+      </div>
+
+      <div id="resourcesContent">
+        <div class="loading">جاري تحميل الموارد...</div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- User Modal -->
+<div id="userModal" class="modal">
+  <div class="modal-box">
+
+    <div class="modal-head">
+      <h3>✏️ تعديل المستخدم</h3>
+      <button class="btn btn-light" onclick="closeModal('userModal')">✕</button>
+    </div>
+
+    <div class="modal-body">
+      <div class="form-grid">
+
+        <div class="field">
+          <label>البريد الإلكتروني</label>
+          <input id="editUserEmail" disabled>
+        </div>
+
+        <div class="field">
+          <label>الاسم</label>
+          <input id="editUserName" disabled>
+        </div>
+
+        <div class="field">
+          <label>الدور</label>
+          <select id="editUserRole">
+            <option value="student">طالب</option>
+            <option value="teacher">أستاذ</option>
+            <option value="admin">Admin</option>
+            <option value="owner">Owner</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>الخطة</label>
+          <select id="editUserPlan">
+            <option value="free">مجانية</option>
+            <option value="monthly">شهرية</option>
+            <option value="quarterly">3 أشهر</option>
+            <option value="yearly">سنوية</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>XP</label>
+          <input id="editUserXP" type="number" min="0">
+        </div>
+
+        <div class="field">
+          <label>الحساب</label>
+          <select id="editUserActive">
+            <option value="true">نشط</option>
+            <option value="false">معطل</option>
+          </select>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="modal-foot">
+      <button class="btn btn-primary" onclick="saveUser()">💾 حفظ</button>
+      <button class="btn btn-light" onclick="closeModal('userModal')">إلغاء</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- Resource Modal -->
+<div id="resourceModal" class="modal">
+  <div class="modal-box">
+
+    <div class="modal-head">
+      <h3>✏️ تعديل المورد</h3>
+      <button class="btn btn-light" onclick="closeModal('resourceModal')">✕</button>
+    </div>
+
+    <div class="modal-body">
+      <div class="form-grid">
+
+        <div class="field full">
+          <label>العنوان</label>
+          <input id="editResourceTitle">
+        </div>
+
+        <div class="field full">
+          <label>الوصف</label>
+          <textarea id="editResourceDescription"></textarea>
+        </div>
+
+        <div class="field">
+          <label>النوع</label>
+          <input id="editResourceType">
+        </div>
+
+        <div class="field">
+          <label>التصنيف</label>
+          <input id="editResourceCategory">
+        </div>
+
+        <div class="field">
+          <label>المستوى</label>
+          <input id="editResourceLevel">
+        </div>
+
+        <div class="field">
+          <label>اللغة</label>
+          <select id="editResourceLanguage">
+            <option value="ar">العربية</option>
+            <option value="fr">Français</option>
+            <option value="en">English</option>
+          </select>
+        </div>
+
+        <div class="field full">
+          <label>رابط الملف</label>
+          <input id="editResourceFileUrl">
+        </div>
+
+        <div class="field full">
+          <label>رابط الصورة</label>
+          <input id="editResourceThumbnail">
+        </div>
+
+        <div class="field">
+          <label>حالة النشر</label>
+          <select id="editResourcePublished">
+            <option value="true">منشور</option>
+            <option value="false">غير منشور</option>
+          </select>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="modal-foot">
+      <button class="btn btn-primary" onclick="saveResource()">💾 حفظ</button>
+      <button class="btn btn-light" onclick="closeModal('resourceModal')">إلغاء</button>
+    </div>
+
+  </div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+"use strict";
+
+/* =========================================================
+   HAMOU MATH OWNER DASHBOARD
+   ========================================================= */
+
+const API_BASE = "";
+
+let users = [];
+let resources = [];
+let currentUserId = null;
+let currentResourceId = null;
+let userFilterForced = "";
+
+/* ---------------------------------------------------------
+   Helpers
+--------------------------------------------------------- */
+
+function $(id) {
+  return document.getElementById(id);
+}
+
+function getToken() {
+  return (
+    localStorage.getItem("hamou_access_token") ||
+    localStorage.getItem("access_token") ||
+    localStorage.getItem("supabase_access_token") ||
+    ""
+  );
+}
+
+function showToast(message, success = true) {
+  const el = $("toast");
+
+  el.textContent = message;
+  el.style.background = success ? "#111827" : "#991b1b";
+  el.classList.add("show");
+
+  clearTimeout(window.__toastTimer);
+
+  window.__toastTimer = setTimeout(() => {
+    el.classList.remove("show");
+  }, 3500);
+}
+
+async function api(url, options = {}) {
+  const token = getToken();
+
+  const headers = {
+    "Content-Type": "application/json",
+    ...(options.headers || {})
+  };
+
+  if (token) {
+    headers.Authorization = "Bearer " + token;
+  }
+
+  const response = await fetch(API_BASE + url, {
+    ...options,
+    headers
+  });
+
+  let data = null;
+
+  try {
+    data = await response.json();
+  } catch {
+    data = {};
+  }
+
+  if (!response.ok) {
+    throw new Error(
+      data?.error ||
+      data?.message ||
+      `HTTP ${response.status}`
+    );
+  }
+
+  return data;
+}
+
+/* ---------------------------------------------------------
+   Authentication / Owner protection
+--------------------------------------------------------- */
+
+async function verifyOwner() {
+  const token = getToken();
+
+  if (!token) {
+    showToast("يجب تسجيل الدخول أولاً.", false);
+
+    setTimeout(() => {
+      location.href = "/";
+    }, 1200);
+
+    return false;
+  }
+
+  try {
+    const data = await api("/api/auth/me");
+
+    const profile =
+      data?.profile ||
+      data?.data?.profile ||
+      null;
+
+    const user =
+      data?.user ||
+      data?.data?.user ||
+      null;
+
+    const role =
+      profile?.role ||
+      user?.role ||
+      user?.user_metadata?.role ||
+      user?.app_metadata?.role ||
+      "";
+
+    if (role !== "owner") {
+      document.body.innerHTML = `
+        <div style="
+          min-height:100vh;
+          display:grid;
+          place-items:center;
+          background:#f6f7fb;
+          padding:20px;
+          font-family:Arial,Tahoma,sans-serif;
+        ">
+          <div style="
+            max-width:500px;
+            background:white;
+            border-radius:22px;
+            padding:35px;
+            text-align:center;
+            box-shadow:0 20px 60px rgba(0,0,0,.12);
+          ">
+            <div style="font-size:55px">🔒</div>
+            <h1>الوصول مرفوض</h1>
+            <p style="color:#6b7280">
+              هذه الصفحة مخصصة لحساب Owner فقط.
+            </p>
+            <button
+              onclick="location.href='/'"
+              style="
+                border:0;
+                padding:12px 20px;
+                border-radius:10px;
+                background:#6d28d9;
+                color:white;
+                font-weight:bold;
+                cursor:pointer;
+              "
+            >
+              العودة إلى الموقع
+            </button>
+          </div>
+        </div>
+      `;
+
+      return false;
+    }
+
+    return true;
+
+  } catch (error) {
+    console.error(error);
+
+    showToast(
+      "تعذر التحقق من صلاحية Owner: " + error.message,
+      false
+    );
+
+    return false;
+  }
+}
+
+/* ---------------------------------------------------------
+   Navigation
+--------------------------------------------------------- */
+
+function showPanel(name, button = null) {
+  document.querySelectorAll(".panel[id$='Panel']").forEach(panel => {
+    panel.classList.remove("active");
+  });
+
+  const target = $(name + "Panel");
+
+  if (target) {
+    target.classList.add("active");
+  }
+
+  document.querySelectorAll(".nav-btn").forEach(btn => {
+    btn.classList.remove("active");
+  });
+
+  if (button) {
+    button.classList.add("active");
+  }
+
+  if (name === "users") {
+    loadUsers();
+  }
+
+  if (name === "resources") {
+    loadResources();
+  }
+}
+
+function filterUsers(role) {
+  userFilterForced = role || "";
+
+  showPanel("users");
+
+  $("userRoleFilter").value = role || "";
+
+  renderUsers();
+}
+
+/* ---------------------------------------------------------
+   Stats
+--------------------------------------------------------- */
+
+async function loadStats() {
+  try {
+    const data = await api("/api/admin/stats");
+
+    const stats = data?.stats || data?.data || data || {};
+
+    $("statUsers").textContent =
+      stats.users ??
+      stats.total_users ??
+      0;
+
+    $("statResources").textContent =
+      stats.resources ??
+      stats.total_resources ??
+      0;
+
+    $("statPublished").textContent =
+      stats.published_resources ??
+      stats.published ??
+      0;
+
+    $("statTeachers").textContent =
+      stats.teachers ??
+      0;
+
+    $("statStudents").textContent =
+      stats.students ??
+      0;
+
+    $("statAdmins").textContent =
+      stats.admins ??
+      0;
+
+  } catch (error) {
+    console.error("Stats:", error);
+
+    $("statUsers").textContent = "!";
+    $("statResources").textContent = "!";
+    $("statPublished").textContent = "!";
+    $("statTeachers").textContent = "!";
+    $("statStudents").textContent = "!";
+    $("statAdmins").textContent = "!";
+  }
+}
+
+/* ---------------------------------------------------------
+   Users
+--------------------------------------------------------- */
+
+async function loadUsers() {
+  $("usersContent").innerHTML =
+    `<div class="loading">جاري تحميل المستخدمين...</div>`;
+
+  try {
+    const data = await api("/api/admin/users");
+
+    users =
+      Array.isArray(data)
+        ? data
+        : data?.users ||
+          data?.data ||
+          [];
+
+    renderUsers();
+
+  } catch (error) {
+    $("usersContent").innerHTML =
+      `<div class="error">
+        ❌ فشل تحميل المستخدمين: ${escapeHtml(error.message)}
+      </div>`;
+  }
+}
+
+function renderUsers() {
+  const search =
+    ($("userSearch")?.value || "")
+      .trim()
+      .toLowerCase();
+
+  const role =
+    userFilterForced ||
+    $("userRoleFilter")?.value ||
+    "";
+
+  const filtered = users.filter(user => {
+
+    const text = [
+      user.email,
+      user.full_name,
+      user.name,
+      user.id
+    ]
+      .filter(Boolean)
+      .join(" ")
+      .toLowerCase();
+
+    const matchesSearch =
+      !search ||
+      text.includes(search);
+
+    const matchesRole =
+      !role ||
+      user.role === role;
+
+    return matchesSearch && matchesRole;
+  });
+
+  if (!filtered.length) {
+    $("usersContent").innerHTML =
+      `<div class="empty">
+        لا توجد نتائج.
+      </div>`;
+    return;
+  }
+
+  let html = `
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>المستخدم</th>
+            <th>الدور</th>
+            <th>الخطة</th>
+            <th>XP</th>
+            <th>الحالة</th>
+            <th>الإجراءات</th>
+          </tr>
+        </thead>
+        <tbody>
+  `;
+
+  for (const user of filtered) {
+    const roleClass =
+      user.role === "owner"
+        ? "badge-owner"
+        : user.role === "admin"
+        ? "badge-admin"
+        : user.role === "teacher"
+        ? "badge-teacher"
+        : "badge-student";
+
+    const roleLabel =
+      user.role === "owner"
+        ? "👑 Owner"
+        : user.role === "admin"
+        ? "🛡️ Admin"
+        : user.role === "teacher"
+        ? "👨‍🏫 أستاذ"
+        : "🎓 طالب";
+
+    const active =
+      user.is_active !== false;
+
+    html += `
+      <tr>
+
+        <td>
+          <strong>
+            ${escapeHtml(
+              user.full_name ||
+              user.name ||
+              "بدون اسم"
+            )}
+          </strong>
+
+          <br>
+
+          <small style="color:#6b7280">
+            ${escapeHtml(user.email || "")}
+          </small>
+        </td>
+
+        <td>
+          <span class="badge ${roleClass}">
+            ${roleLabel}
+          </span>
+        </td>
+
+        <td>
+          ${escapeHtml(
+            user.plan || "free"
+          )}
+        </td>
+
+        <td>
+          ${Number(user.xp || 0).toLocaleString()}
+        </td>
+
+        <td>
+          <span class="badge ${
+            active
+              ? "badge-active"
+              : "badge-off"
+          }">
+            ${active ? "✓ نشط" : "✕ معطل"}
+          </span>
+        </td>
+
+        <td>
+          <div class="actions">
+
+            <button
+              class="btn btn-primary"
+              onclick="openUserEdit('${escapeAttr(user.id)}')"
+            >
+              ✏️ تعديل
+            </button>
+
+            <button
+              class="btn ${active ? "btn-warning" : "btn-success"}"
+              onclick="toggleUser('${escapeAttr(user.id)}', ${active})"
+            >
+              ${active ? "⛔ تعطيل" : "✓ تفعيل"}
+            </button>
+
+          </div>
+        </td>
+
+      </tr>
+    `;
+  }
+
+  html += `
+        </tbody>
+      </table>
+    </div>
+  `;
+
+  $("usersContent").innerHTML = html;
+}
+
+function openUserEdit(id) {
+  const user = users.find(
+    item => String(item.id) === String(id)
+  );
+
+  if (!user) {
+    showToast("المستخدم غير موجود.", false);
+    return;
+  }
+
+  currentUserId = user.id;
+
+  $("editUserEmail").value =
+    user.email || "";
+
+  $("editUserName").value =
+    user.full_name ||
+    user.name ||
+    "";
+
+  $("editUserRole").value =
+    user.role || "student";
+
+  $("editUserPlan").value =
+    user.plan || "free";
+
+  $("editUserXP").value =
+    Number(user.xp || 0);
+
+  $("editUserActive").value =
+    user.is_active === false
+      ? "false"
+      : "true";
+
+  $("userModal").classList.add("show");
+}
+
+async function saveUser() {
+  if (!currentUserId) {
+    return;
+  }
+
+  const payload = {
+    role: $("editUserRole").value,
+    plan: $("editUserPlan").value,
+    xp: Number($("editUserXP").value || 0),
+    is_active:
+      $("editUserActive").value === "true"
+  };
+
+  try {
+    await api(
+      `/api/admin/users/${encodeURIComponent(currentUserId)}`,
+      {
+        method: "PATCH",
+        body: JSON.stringify(payload)
+      }
+    );
+
+    closeModal("userModal");
+
+    showToast("تم تحديث المستخدم بنجاح.");
+
+    await loadUsers();
+    await loadStats();
+
+  } catch (error) {
+    showToast(
+      "فشل تحديث المستخدم: " +
+      error.message,
+      false
+    );
+  }
+}
+
+async function toggleUser(id, currentActive) {
+  const user = users.find(
+    item => String(item.id) === String(id)
+  );
+
+  if (!user) {
+    return;
+  }
+
+  if (
+    user.role === "owner" &&
+    currentActive
+  ) {
+    showToast(
+      "لا يمكن تعطيل حساب Owner من هذه اللوحة.",
+      false
+    );
+    return;
+  }
+
+  const action =
+    currentActive
+      ? "تعطيل"
+      : "تفعيل";
+
+  if (!confirm(`هل تريد ${action} هذا الحساب؟`)) {
+    return;
+  }
+
+  try {
+    await api(
+      `/api/admin/users/${encodeURIComponent(id)}`,
+      {
+        method: "PATCH",
+        body: JSON.stringify({
+          is_active: !currentActive
+        })
+      }
+    );
+
+    showToast(
+      currentActive
+        ? "تم تعطيل الحساب."
+        : "تم تفعيل الحساب."
+    );
+
+    await loadUsers();
+    await loadStats();
+
+  } catch (error) {
+    showToast(
+      "فشل تغيير حالة الحساب: " +
+      error.message,
+      false
+    );
+  }
+}
+
+/* ---------------------------------------------------------
+   Resources
+--------------------------------------------------------- */
+
+async function loadResources() {
+  $("resourcesContent").innerHTML =
+    `<div class="loading">جاري تحميل الموارد...</div>`;
+
+  try {
+    const data = await api("/api/admin/resources");
+
+    resources =
+      Array.isArray(data)
+        ? data
+        : data?.resources ||
+          data?.data ||
+          [];
+
+    renderResources();
+
+  } catch (error) {
+    $("resourcesContent").innerHTML =
+      `<div class="error">
+        ❌ فشل تحميل الموارد: ${escapeHtml(error.message)}
+      </div>`;
+  }
+}
+
+function renderResources() {
+  const search =
+    ($("resourceSearch")?.value || "")
+      .trim()
+      .toLowerCase();
+
+  const filtered =
+    resources.filter(resource => {
+
+      const text = [
+        resource.title,
+        resource.description,
+        resource.type,
+        resource.category,
+        resource.level,
+        resource.language
+      ]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase();
+
+      return !search || text.includes(search);
+    });
+
+  if (!filtered.length) {
+    $("resourcesContent").innerHTML =
+      `<div class="empty">
+        لا توجد موارد.
+      </div>`;
+    return;
+  }
+
+  let html = `
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>العنوان</th>
+            <th>النوع</th>
+            <th>المستوى</th>
+            <th>اللغة</th>
+            <th>النشر</th>
+            <th>الإجراءات</th>
+          </tr>
+        </thead>
+
+        <tbody>
+  `;
+
+  for (const resource of filtered) {
+
+    const published =
+      resource.is_published === true;
+
+    html += `
+      <tr>
+
+        <td>
+          <strong>
+            ${escapeHtml(
+              resource.title ||
+              "بدون عنوان"
+            )}
+          </strong>
+
+          ${
+            resource.description
+              ? `<br>
+                 <small style="color:#6b7280">
+                   ${escapeHtml(
+                     String(resource.description)
+                       .slice(0, 120)
+                   )}
+                 </small>`
+              : ""
+          }
+        </td>
+
+        <td>
+          ${escapeHtml(
+            resource.type || "—"
+          )}
+        </td>
+
+        <td>
+          ${escapeHtml(
+            resource.level || "—"
+          )}
+        </td>
+
+        <td>
+          ${escapeHtml(
+            resource.language || "—"
+          )}
+        </td>
+
+        <td>
+          <span class="badge ${
+            published
+              ? "badge-active"
+              : "badge-off"
+          }">
+            ${published ? "✓ منشور" : "✕ مخفي"}
+          </span>
+        </td>
+
+        <td>
+          <div class="actions">
+
+            <button
+              class="btn btn-primary"
+              onclick="openResourceEdit('${escapeAttr(resource.id)}')"
+            >
+              ✏️ تعديل
+            </button>
+
+            <button
+              class="btn ${published ? "btn-warning" : "btn-success"}"
+              onclick="toggleResource('${escapeAttr(resource.id)}', ${published})"
+            >
+              ${published ? "🙈 إخفاء" : "🌐 نشر"}
+            </button>
+
+            <button
+              class="btn btn-danger"
+              onclick="deleteResource('${escapeAttr(resource.id)}')"
+            >
+              🗑️ حذف
+            </button>
+
+          </div>
+        </td>
+
+      </tr>
+    `;
+  }
+
+  html += `
+        </tbody>
+      </table>
+    </div>
+  `;
+
+  $("resourcesContent").innerHTML = html;
+}
+
+function openResourceEdit(id) {
+  const resource = resources.find(
+    item => String(item.id) === String(id)
+  );
+
+  if (!resource) {
+    showToast("المورد غير موجود.", false);
+    return;
+  }
+
+  currentResourceId = resource.id;
+
+  $("editResourceTitle").value =
+    resource.title || "";
+
+  $("editResourceDescription").value =
+    resource.description || "";
+
+  $("editResourceType").value =
+    resource.type || "";
+
+  $("editResourceCategory").value =
+    resource.category || "";
+
+  $("editResourceLevel").value =
+    resource.level || "";
+
+  $("editResourceLanguage").value =
+    resource.language || "ar";
+
+  $("editResourceFileUrl").value =
+    resource.file_url || "";
+
+  $("editResourceThumbnail").value =
+    resource.thumbnail_url || "";
+
+  $("editResourcePublished").value =
+    resource.is_published === true
+      ? "true"
+      : "false";
+
+  $("resourceModal").classList.add("show");
+}
+
+async function saveResource() {
+  if (!currentResourceId) {
+    return;
+  }
+
+  const payload = {
+    title: $("editResourceTitle").value.trim(),
+    description: $("editResourceDescription").value.trim(),
+    type: $("editResourceType").value.trim(),
+    category: $("editResourceCategory").value.trim(),
+    level: $("editResourceLevel").value.trim(),
+    language: $("editResourceLanguage").value,
+    file_url: $("editResourceFileUrl").value.trim(),
+    thumbnail_url: $("editResourceThumbnail").value.trim(),
+    is_published:
+      $("editResourcePublished").value === "true"
+  };
+
+  try {
+    await api(
+      `/api/admin/resources/${encodeURIComponent(currentResourceId)}`,
+      {
+        method: "PATCH",
+        body: JSON.stringify(payload)
+      }
+    );
+
+    closeModal("resourceModal");
+
+    showToast("تم تحديث المورد.");
+
+    await loadResources();
+    await loadStats();
+
+  } catch (error) {
+    showToast(
+      "فشل تحديث المورد: " +
+      error.message,
+      false
+    );
+  }
+}
+
+async function toggleResource(id, currentPublished) {
+  const action =
+    currentPublished
+      ? "إخفاء"
+      : "نشر";
+
+  if (!confirm(`هل تريد ${action} هذا المورد؟`)) {
+    return;
+  }
+
+  try {
+    await api(
+      `/api/admin/resources/${encodeURIComponent(id)}`,
+      {
+        method: "PATCH",
+        body: JSON.stringify({
+          is_published: !currentPublished
+        })
+      }
+    );
+
+    showToast(
+      currentPublished
+        ? "تم إخفاء المورد."
+        : "تم نشر المورد."
+    );
+
+    await loadResources();
+    await loadStats();
+
+  } catch (error) {
+    showToast(
+      "فشل تغيير حالة المورد: " +
+      error.message,
+      false
+    );
+  }
+}
+
+async function deleteResource(id) {
+  if (
+    !confirm(
+      "⚠️ هل أنت متأكد من حذف هذا المورد نهائياً؟"
+    )
+  ) {
+    return;
+  }
+
+  if (
+    !confirm(
+      "هذا الإجراء لا يمكن التراجع عنه. هل تريد المتابعة؟"
+    )
+  ) {
+    return;
+  }
+
+  try {
+    await api(
+      `/api/admin/resources/${encodeURIComponent(id)}`,
+      {
+        method: "DELETE"
+      }
+    );
+
+    showToast("تم حذف المورد.");
+
+    await loadResources();
+    await loadStats();
+
+  } catch (error) {
+    showToast(
+      "فشل حذف المورد: " +
+      error.message,
+      false
+    );
+  }
+}
+
+/* ---------------------------------------------------------
+   Modal
+--------------------------------------------------------- */
+
+function closeModal(id) {
+  const modal = $(id);
+
+  if (modal) {
+    modal.classList.remove("show");
+  }
+}
+
+document.querySelectorAll(".modal").forEach(modal => {
+  modal.addEventListener("click", event => {
+    if (event.target === modal) {
+      modal.classList.remove("show");
+    }
+  });
+});
+
+/* ---------------------------------------------------------
+   Logout
+--------------------------------------------------------- */
+
+async function logout() {
+  try {
+    await api("/api/auth/logout", {
+      method: "POST"
+    });
+  } catch (error) {
+    console.warn("Logout API:", error);
+  }
+
+  localStorage.removeItem("hamou_access_token");
+  localStorage.removeItem("access_token");
+  localStorage.removeItem("supabase_access_token");
+
+  location.href = "/";
+}
+
+function goHome() {
+  location.href = "/";
+}
+
+/* ---------------------------------------------------------
+   Security / escaping
+--------------------------------------------------------- */
+
+function escapeHtml(value) {
+  return String(value ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+function escapeAttr(value) {
+  return String(value ?? "")
+    .replaceAll("\\", "\\\\")
+    .replaceAll("'", "\\'");
+}
+
+/* ---------------------------------------------------------
+   Load everything
+--------------------------------------------------------- */
+
+async function loadAll() {
+  await Promise.all([
+    loadStats(),
+    loadUsers(),
+    loadResources()
+  ]);
+
+  showToast("تم تحديث لوحة Owner.");
+}
+
+/* ---------------------------------------------------------
+   Startup
+--------------------------------------------------------- */
+
+async function init() {
+  const allowed = await verifyOwner();
+
+  if (!allowed) {
+    return;
+  }
+
+  await loadStats();
+
+  await loadUsers();
+
+  await loadResources();
+}
+
+init();
+</script>
+
+</body>
+</html>
+```
