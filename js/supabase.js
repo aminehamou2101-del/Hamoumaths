@@ -5,11 +5,11 @@
 
 
 // رابط مشروع Supabase
-const SUPABASE_URL = "ضع_رابط_مشروعك_هنا";
+const SUPABASE_URL = "https://ifurlsucekmaynuhsfva.supabase.co";
 
 
 // المفتاح العام فقط (anon public key)
-const SUPABASE_ANON_KEY = "ضع_anon_key_هنا";
+const SUPABASE_ANON_KEY = "sb_publishable_WRvn0kt8kJ3SSy2WG1ca4w_dzZQBrBUنا";
 
 
 // إنشاء الاتصال
