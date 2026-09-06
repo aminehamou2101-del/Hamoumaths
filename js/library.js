@@ -290,6 +290,136 @@ ${item.description || ""}
 
   document.addEventListener(
     "DOMContentLoaded",
+    let allResources=[];
+
+
+
+async function loadResources(){
+
+
+const {data,error}=
+
+await supabaseClient
+
+.from("resources")
+
+.select("*")
+
+.order(
+"created_at",
+{
+ascending:false
+}
+);
+
+
+
+if(error){
+
+console.log(error);
+
+return;
+
+}
+
+
+allResources=data;
+
+
+displayResources(data);
+
+
+}
+
+
+
+function displayResources(resources){
+
+
+const box=
+document.getElementById("resources");
+
+
+box.innerHTML="";
+
+
+
+resources.forEach(item=>{
+
+
+box.innerHTML += `
+
+<div class="resource-card">
+
+
+<h3>
+${item.title}
+</h3>
+
+
+<p>
+${item.description || ""}
+</p>
+
+
+
+<span>
+${item.type}
+</span>
+
+
+
+<br>
+
+
+<a target="_blank"
+href="${item.file_url}">
+📄 فتح الملف
+</a>
+
+
+
+</div>
+
+`;
+
+});
+
+
+}
+
+
+
+function searchResources(){
+
+
+let value=
+document
+.getElementById("search")
+.value
+.toLowerCase();
+
+
+
+let result=
+allResources.filter(item=>
+
+item.title
+.toLowerCase()
+.includes(value)
+
+);
+
+
+
+displayResources(result);
+
+
+}
+
+
+
+loadResources();
     init
   );
 })();
