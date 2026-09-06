@@ -1,8 +1,8 @@
-import { json } from "../../_lib/supabase.js";
+import { json } from "../../_lib/auth.js";
 
 export async function onRequestPost() {
   return json({
-    success:true,
-    message:"تم تسجيل الخروج"
+    success: true,
+    message: "تم تسجيل الخروج"
   });
 }
