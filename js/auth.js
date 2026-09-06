@@ -150,7 +150,31 @@
     "DOMContentLoaded",
     async () => {
       const client = supabase();
+async function signUp(email,password,name){
 
+    const {data,error}=await supabaseClient.auth.signUp({
+
+        email,
+        password,
+
+        options:{
+            data:{
+                full_name:name
+            }
+        }
+
+    });
+
+
+    if(error){
+        alert(error.message);
+        return;
+    }
+
+
+    alert("تم إنشاء الحساب بنجاح");
+
+}
       if (client) {
         client.auth.onAuthStateChange(() => {
           setTimeout(refresh, 0);
