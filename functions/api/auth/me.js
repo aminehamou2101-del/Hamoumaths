@@ -1,13 +1,12 @@
-import { json } from "../../_lib/supabase.js";
-import { requireUser } from "../../_lib/auth.js";
+import { getUser, json } from "../../_lib/auth.js";
 
-export async function onRequestGet(context) {
-  const result = await requireUser(context.request,context.env);
+export async function onRequestGet({ request, env }) {
+  const auth = await getUser(request, env);
 
-  if(!result.ok)return result.response;
+  if (!auth.ok) return auth.response;
 
   return json({
-    success:true,
-    user:result.user
+    success: true,
+    user: auth.user
   });
 }
