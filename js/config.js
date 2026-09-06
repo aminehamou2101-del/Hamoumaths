@@ -1,14 +1,25 @@
-export const CONFIG = Object.freeze({
-  SUPABASE_URL:
-    window.HAMOU_CONFIG?.SUPABASE_URL || "",
+window.HAMOU_CONFIG = Object.freeze({
+  appName: "HAMOU MATH",
+  version: "31.0.0",
 
-  SUPABASE_ANON_KEY:
-    window.HAMOU_CONFIG?.SUPABASE_ANON_KEY || "",
+  apiBase: "/api",
 
-  OWNER_EMAIL:
+  supabaseUrl:
+    window.__SUPABASE_URL__ || "",
+
+  supabasePublishableKey:
+    window.__SUPABASE_PUBLISHABLE_KEY__ || "",
+
+  ownerEmail:
     "aminehamou2101@gmail.com",
 
-  RESOURCE_PAGE_SIZE: 24,
+  defaultLanguage: "ar",
 
-  DEFAULT_LANGUAGE: "ar"
+  supportedLanguages: [
+    "ar",
+    "fr",
+    "en",
+    "es",
+    "de"
+  ]
 });
