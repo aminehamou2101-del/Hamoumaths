@@ -120,7 +120,37 @@
 
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+async function checkAdmin(){
 
+const profile = await getProfile();
+
+
+if(!profile){
+
+location.href="login.html";
+
+return;
+
+}
+
+
+
+if(
+profile.role !== "admin" &&
+profile.role !== "owner"
+){
+
+alert("غير مصرح لك");
+
+location.href="dashboard.html";
+
+}
+
+
+}
+
+
+checkAdmin();
 <script src="../js/supabase-config.js"></script>
 
 <script src="../js/auth.js"></script>
