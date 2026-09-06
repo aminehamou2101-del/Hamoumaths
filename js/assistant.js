@@ -1,24 +1,20 @@
-function solveMath(){
+async function askAI(){
 
 
-let question =
-document.getElementById(
-"question"
-).value;
+const question =
+document.getElementById("question").value;
 
 
 
-let answer =
-document.getElementById(
-"answer"
-);
+const answerBox =
+document.getElementById("answer");
 
 
 
 if(!question){
 
-answer.innerHTML=
-"⚠️ اكتب السؤال أولا";
+answerBox.innerHTML =
+"⚠️ اكتب السؤال";
 
 return;
 
@@ -26,27 +22,95 @@ return;
 
 
 
-answer.innerHTML =
+answerBox.innerHTML =
+"⏳ جاري التفكير...";
+
+
+
+try{
+
+
+const response =
+await fetch("/api/ai",{
+
+method:"POST",
+
+headers:{
+
+"Content-Type":"application/json"
+
+},
+
+body:JSON.stringify({
+
+question
+
+})
+
+});
+
+
+
+const data =
+await response.json();
+
+
+
+answerBox.innerHTML =
 
 `
-<h3>شرح مبدئي:</h3>
+
+<h3>
+الحل:
+</h3>
 
 <p>
-لقد استلمت السؤال:
-</p>
-
-<p>
-${question}
-</p>
-
-
-<p>
-سيتم تطوير هذا المساعد لاحقا ليقدم
-حلولا مفصلة وخطوات رياضية كاملة.
+${data.answer}
 </p>
 
 `;
 
+
+
+// حفظ المحادثة
+
+
+const user =
+await getCurrentUser();
+
+
+
+if(user){
+
+
+await supabaseClient
+
+.from("ai_chats")
+
+.insert({
+
+user_id:user.id,
+
+question:question,
+
+answer:data.answer
+
+});
+
+
+}
+
+
+
+}
+
+catch(error){
+
+
+answerBox.innerHTML =
+"حدث خطأ في الاتصال";
+
+}
 
 
 }
