@@ -224,3 +224,160 @@ checkTeacherAccess();
     loadDashboard
   );
 })();
+
+async function uploadResource(){
+
+
+const profile =
+await getProfile();
+
+
+if(!profile){
+
+alert("يجب تسجيل الدخول");
+
+return;
+
+}
+
+
+
+const file =
+document
+.getElementById("pdfFile")
+.files[0];
+
+
+
+if(!file){
+
+alert("اختر ملف PDF");
+
+return;
+
+}
+
+
+
+
+// اسم الملف
+
+const fileName =
+
+Date.now()
++
+"-"
++
+file.name;
+
+
+
+// رفع إلى Storage
+
+const {
+
+data,
+
+error
+
+}= await supabaseClient
+
+.storage
+
+.from("hamou-files")
+
+.upload(
+fileName,
+file
+);
+
+
+
+if(error){
+
+alert(error.message);
+
+return;
+
+}
+
+
+
+// الحصول على الرابط
+
+const {
+
+data:urlData
+
+}=
+
+supabaseClient
+
+.storage
+
+.from("hamou-files")
+
+.getPublicUrl(
+fileName
+);
+
+
+
+const fileUrl =
+urlData.publicUrl;
+
+
+
+
+// حفظ البيانات في جدول resources
+
+
+const {
+
+error:dbError
+
+}= await supabaseClient
+
+.from("resources")
+
+.insert({
+
+title:
+document.getElementById("title").value,
+
+
+description:
+document.getElementById("description").value,
+
+
+type:
+document.getElementById("type").value,
+
+
+file_url:fileUrl,
+
+
+uploaded_by:profile.id
+
+});
+
+
+
+
+if(dbError){
+
+alert(dbError.message);
+
+return;
+
+}
+
+
+
+alert("✅ تم رفع الملف بنجاح");
+
+
+location.reload();
+
+
+}
