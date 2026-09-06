@@ -1,15 +1,22 @@
 <!DOCTYPE html>
+
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
 <title>HAMOU MATH | سلسلة حمو في الرياضيات</title>
 
 <meta name="description"
-      content="HAMOU MATH منصة رياضيات تفاعلية للتعلم، التمارين، الكتب، الاختبارات، التحديات والألعاب.">
+   content="HAMOU MATH منصة رياضيات تفاعلية للتعلم، التمارين، الكتب، الاختبارات، التحديات والألعاب.">
 
 <meta name="theme-color" content="#2563eb">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="HAMOU MATH">
+
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
 
 <style>
 :root{
@@ -33,6 +40,16 @@
   --radius:20px;
 }
 
+html.dark{
+  --bg:#020617;
+  --card:#0f172a;
+  --border:#1e293b;
+  --text:#e5e7eb;
+  --muted:#94a3b8;
+  --dark:#020617;
+  --dark2:#0f172a;
+}
+
 *{
   box-sizing:border-box;
   margin:0;
@@ -52,6 +69,7 @@ body{
   background:var(--bg);
   color:var(--text);
   line-height:1.7;
+  transition:background .2s,color .2s;
 }
 
 button,
@@ -70,9 +88,13 @@ a{
   text-decoration:none;
 }
 
-/* =========================
-   HEADER
-========================= */
+button:disabled{
+  opacity:.6;
+  cursor:not-allowed;
+  transform:none!important;
+}
+
+/* ================= HEADER ================= */
 
 header{
   position:sticky;
@@ -81,6 +103,10 @@ header{
   background:rgba(255,255,255,.94);
   backdrop-filter:blur(15px);
   border-bottom:1px solid var(--border);
+}
+
+html.dark header{
+  background:rgba(2,6,23,.94);
 }
 
 .navbar{
@@ -144,26 +170,60 @@ header{
   color:var(--primary);
 }
 
+html.dark .nav-links button:hover,
+html.dark .nav-links button.active{
+  background:#172554;
+}
+
 .header-actions{
   display:flex;
   align-items:center;
   gap:8px;
 }
 
-.lang-select{
+.lang-select,
+.theme-select{
   border:1px solid var(--border);
-  background:white;
+  background:var(--card);
+  color:var(--text);
   border-radius:10px;
   padding:8px;
 }
 
 .mobile-menu{
   display:none;
+  border:0;
+  background:#eff6ff;
+  color:var(--primary);
+  width:43px;
+  height:43px;
+  border-radius:12px;
+  font-size:22px;
 }
 
-/* =========================
-   BUTTONS
-========================= */
+.mobile-nav{
+  display:none;
+  max-width:1250px;
+  margin:auto;
+  padding:0 14px 14px;
+}
+
+.mobile-nav.show{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+}
+
+.mobile-nav button{
+  border:1px solid var(--border);
+  background:var(--card);
+  color:var(--text);
+  padding:10px;
+  border-radius:12px;
+  font-weight:700;
+}
+
+/* ================= BUTTONS ================= */
 
 .btn{
   border:0;
@@ -201,9 +261,14 @@ header{
   background:var(--danger);
 }
 
+.btn-warning{
+  color:white;
+  background:var(--warning);
+}
+
 .btn-outline{
   color:var(--primary);
-  background:white;
+  background:var(--card);
   border:1px solid #bfdbfe;
 }
 
@@ -212,9 +277,11 @@ header{
   color:var(--text);
 }
 
-/* =========================
-   LAYOUT
-========================= */
+html.dark .btn-light{
+  background:#1e293b;
+}
+
+/* ================= LAYOUT ================= */
 
 .container{
   max-width:1250px;
@@ -248,9 +315,7 @@ header{
   display:block;
 }
 
-/* =========================
-   HERO
-========================= */
+/* ================= HERO ================= */
 
 .hero{
   min-height:620px;
@@ -260,6 +325,13 @@ header{
     radial-gradient(circle at 10% 20%,rgba(37,99,235,.14),transparent 30%),
     radial-gradient(circle at 90% 10%,rgba(124,58,237,.13),transparent 30%),
     linear-gradient(180deg,#ffffff,#f8fafc);
+}
+
+html.dark .hero{
+  background:
+    radial-gradient(circle at 10% 20%,rgba(37,99,235,.18),transparent 30%),
+    radial-gradient(circle at 90% 10%,rgba(124,58,237,.18),transparent 30%),
+    linear-gradient(180deg,#020617,#0f172a);
 }
 
 .hero-grid{
@@ -293,7 +365,7 @@ header{
 }
 
 .hero-card{
-  background:white;
+  background:var(--card);
   border:1px solid var(--border);
   border-radius:30px;
   padding:35px;
@@ -309,9 +381,7 @@ header{
   color:var(--primary);
 }
 
-/* =========================
-   CARDS
-========================= */
+/* ================= CARDS ================= */
 
 .grid{
   display:grid;
@@ -357,9 +427,7 @@ header{
   margin-bottom:15px;
 }
 
-/* =========================
-   STATS
-========================= */
+/* ================= STATS ================= */
 
 .stats{
   display:grid;
@@ -369,7 +437,7 @@ header{
 }
 
 .stat{
-  background:white;
+  background:var(--card);
   border:1px solid var(--border);
   border-radius:18px;
   padding:20px;
@@ -386,9 +454,7 @@ header{
   color:var(--muted);
 }
 
-/* =========================
-   LIBRARY
-========================= */
+/* ================= LIBRARY ================= */
 
 .toolbar{
   display:flex;
@@ -402,7 +468,8 @@ header{
 .textarea{
   width:100%;
   border:1px solid var(--border);
-  background:white;
+  background:var(--card);
+  color:var(--text);
   border-radius:12px;
   padding:12px 14px;
   outline:none;
@@ -444,9 +511,12 @@ header{
   font-size:13px;
 }
 
-/* =========================
-   CHALLENGES
-========================= */
+.status-bar{
+  margin-bottom:20px;
+  color:var(--muted);
+}
+
+/* ================= CHALLENGES ================= */
 
 .challenge-grid{
   display:grid;
@@ -484,7 +554,8 @@ header{
 
 .answer{
   border:1px solid var(--border);
-  background:white;
+  background:var(--card);
+  color:var(--text);
   border-radius:12px;
   padding:12px;
   font-weight:800;
@@ -513,9 +584,7 @@ header{
   margin:10px;
 }
 
-/* =========================
-   GAMES
-========================= */
+/* ================= GAMES ================= */
 
 .game-board{
   min-height:300px;
@@ -539,9 +608,7 @@ header{
   font-size:25px;
 }
 
-/* =========================
-   CALCULATOR
-========================= */
+/* ================= CALCULATOR ================= */
 
 .calc{
   max-width:430px;
@@ -590,9 +657,7 @@ header{
   background:var(--primary);
 }
 
-/* =========================
-   AI
-========================= */
+/* ================= AI ================= */
 
 .ai-box{
   max-width:850px;
@@ -602,19 +667,17 @@ header{
 .ai-result{
   min-height:180px;
   white-space:pre-wrap;
-  background:#f8fafc;
+  background:var(--bg);
   border:1px solid var(--border);
   border-radius:15px;
   padding:20px;
   margin-top:15px;
 }
 
-/* =========================
-   ACCOUNT
-========================= */
+/* ================= ACCOUNT ================= */
 
 .account-panel{
-  max-width:600px;
+  max-width:700px;
   margin:auto;
 }
 
@@ -644,9 +707,7 @@ header{
   border-bottom:0;
 }
 
-/* =========================
-   PREMIUM
-========================= */
+/* ================= PREMIUM ================= */
 
 .price-card{
   text-align:center;
@@ -670,9 +731,7 @@ header{
   color:var(--muted);
 }
 
-/* =========================
-   MODAL
-========================= */
+/* ================= MODAL ================= */
 
 .modal{
   position:fixed;
@@ -693,7 +752,8 @@ header{
   width:min(500px,100%);
   max-height:90vh;
   overflow:auto;
-  background:white;
+  background:var(--card);
+  color:var(--text);
   border-radius:25px;
   padding:25px;
   position:relative;
@@ -705,14 +765,13 @@ header{
   top:18px;
   border:0;
   background:#f1f5f9;
+  color:#111827;
   width:35px;
   height:35px;
   border-radius:50%;
 }
 
-/* =========================
-   TOAST
-========================= */
+/* ================= TOAST ================= */
 
 .toast-container{
   position:fixed;
@@ -743,6 +802,10 @@ header{
   background:#991b1b;
 }
 
+.toast.warning{
+  background:#92400e;
+}
+
 @keyframes toastIn{
   from{
     transform:translateY(20px);
@@ -754,9 +817,7 @@ header{
   }
 }
 
-/* =========================
-   LOADING
-========================= */
+/* ================= LOADING ================= */
 
 .loading{
   padding:40px;
@@ -780,9 +841,7 @@ header{
   }
 }
 
-/* =========================
-   FOOTER
-========================= */
+/* ================= FOOTER ================= */
 
 footer{
   background:#0f172a;
@@ -814,11 +873,9 @@ footer p{
   color:#94a3b8;
 }
 
-/* =========================
-   RESPONSIVE
-========================= */
+/* ================= RESPONSIVE ================= */
 
-@media(max-width:1000px){
+@media(max-width:1100px){
 
   .nav-links{
     display:none;
@@ -890,74 +947,107 @@ footer p{
     display:none;
   }
 
+  .header-actions{
+    margin-right:auto;
+  }
+
   .footer-grid{
     grid-template-columns:1fr;
   }
+
+  .navbar{
+    padding:10px 14px;
+  }
+
+  .logo{
+    font-size:18px;
+  }
+
+  .logo-mark{
+    width:40px;
+    height:40px;
+  }
+
+  .profile-row{
+    flex-direction:column;
+    gap:3px;
+  }
+
+  .price-card.featured{
+    transform:none;
+  }
 }
 </style>
+
 </head>
 
 <body>
-
-<!-- =========================
-     HEADER
-========================= -->
 
 <header>
 
 <nav class="navbar">
 
-<a href="#" class="logo" onclick="showPage('home');return false;">
-  <span class="logo-mark">∑</span>
+<a href="#"
+class="logo"
+onclick="showPage('home');return false;"
+aria-label="HAMOU MATH">
+
+<span class="logo-mark">∑</span>
+
   <span>
     HAMOU MATH
-    <small>سلسلة حمو في الرياضيات</small>
+    <small data-i18n="brandSubtitle">سلسلة حمو في الرياضيات</small>
   </span>
+
 </a>
 
 <div class="nav-links" id="navLinks">
 
-<button onclick="showPage('home')" class="active">
-🏠 الرئيسية
+<button onclick="showPage('home')" class="active" data-nav="home">
+🏠 <span data-i18n="home">الرئيسية</span>
 </button>
 
-<button onclick="showPage('library')">
-📚 المكتبة
+<button onclick="showPage('library')" data-nav="library">
+📚 <span data-i18n="library">المكتبة</span>
 </button>
 
-<button onclick="showPage('challenges')">
-🏆 التحديات
+<button onclick="showPage('challenges')" data-nav="challenges">
+🏆 <span data-i18n="challenges">التحديات</span>
 </button>
 
-<button onclick="showPage('games')">
-🎮 الألعاب
+<button onclick="showPage('games')" data-nav="games">
+🎮 <span data-i18n="games">الألعاب</span>
 </button>
 
-<button onclick="showPage('calculator')">
-🧮 الحاسبة
+<button onclick="showPage('calculator')" data-nav="calculator">
+🧮 <span data-i18n="calculator">الحاسبة</span>
 </button>
 
-<button onclick="showPage('lab')">
+<button onclick="showPage('lab')" data-nav="lab">
 🔬 Math Lab
 </button>
 
-<button onclick="showPage('ai')">
+<button onclick="showPage('ai')" data-nav="ai">
 🤖 HAMOU AI
 </button>
 
-<button onclick="showPage('premium')">
-⭐ الاشتراك
+<button onclick="showPage('premium')" data-nav="premium">
+⭐ <span data-i18n="subscription">الاشتراك</span>
 </button>
 
-<button onclick="showPage('account')">
-👤 حسابي
+<button onclick="showPage('account')" data-nav="account">
+👤 <span data-i18n="account">حسابي</span>
 </button>
 
 </div>
 
 <div class="header-actions">
 
-<select class="lang-select" id="languageSelect" onchange="changeLanguage(this.value)">
+<select class="lang-select"
+     id="languageSelect"
+     onchange="changeLanguage(this.value)"
+     aria-label="Language">
+
 <option value="ar">العربية</option>
 <option value="fr">Français</option>
 <option value="en">English</option>
@@ -970,26 +1060,41 @@ footer p{
 <option value="ja">日本語</option>
 <option value="ko">한국어</option>
 <option value="ru">Русский</option>
+
 </select>
 
-<button class="btn btn-primary" onclick="openAuthModal()">
-تسجيل الدخول
-</button>
+<button class="btn btn-light"
+     id="themeButton"
+     onclick="toggleTheme()"
+     title="الوضع الليلي">
+🌙 </button>
+
+<button class="btn btn-primary"
+     id="headerAuthButton"
+     onclick="openAuthModal()">
+تسجيل الدخول </button>
+
+<button class="mobile-menu"
+     id="mobileMenuButton"
+     onclick="toggleMobileNav()"
+     aria-label="Menu">
+☰ </button>
 
 </div>
 
 </nav>
 
+<div class="mobile-nav" id="mobileNav">
+
+<button onclick="mobileGo('home')">🏠 الرئيسية</button> <button onclick="mobileGo('library')">📚 المكتبة</button> <button onclick="mobileGo('challenges')">🏆 التحديات</button> <button onclick="mobileGo('games')">🎮 الألعاب</button> <button onclick="mobileGo('calculator')">🧮 الحاسبة</button> <button onclick="mobileGo('lab')">🔬 Math Lab</button> <button onclick="mobileGo('ai')">🤖 HAMOU AI</button> <button onclick="mobileGo('premium')">⭐ الاشتراك</button> <button onclick="mobileGo('account')">👤 حسابي</button>
+
+</div>
+
 </header>
-
-
-<!-- =========================
-     MAIN
-========================= -->
 
 <main>
 
-<!-- HOME -->
+<!-- ================= HOME ================= -->
 
 <section id="home" class="page active">
 
@@ -1001,13 +1106,13 @@ footer p{
 
 <div>
 
-<h1>
+<h1 data-i18n="heroTitle">
 تعلم الرياضيات
 <br>
 <span>بطريقة أذكى</span>
 </h1>
 
-<p>
+<p data-i18n="heroText">
 HAMOU MATH منصة تعليمية متكاملة للرياضيات،
 تجمع بين الكتب والدروس والتمارين والاختبارات
 والتحديات والألعاب والأدوات الرياضية والذكاء الاصطناعي.
@@ -1016,19 +1121,16 @@ HAMOU MATH منصة تعليمية متكاملة للرياضيات،
 <div class="hero-actions">
 
 <button class="btn btn-primary"
-        onclick="showPage('library')">
-📚 ابدأ التعلم
-</button>
+     onclick="showPage('library')">
+📚 <span data-i18n="startLearning">ابدأ التعلم</span> </button>
 
 <button class="btn btn-secondary"
-        onclick="showPage('challenges')">
-🏆 ابدأ التحدي
-</button>
+     onclick="showPage('challenges')">
+🏆 <span data-i18n="startChallenge">ابدأ التحدي</span> </button>
 
 <button class="btn btn-outline"
-        onclick="showPage('games')">
-🎮 العب وتعلم
-</button>
+     onclick="showPage('games')">
+🎮 <span data-i18n="playLearn">العب وتعلم</span> </button>
 
 </div>
 
@@ -1036,22 +1138,22 @@ HAMOU MATH منصة تعليمية متكاملة للرياضيات،
 
 <div class="stat">
 <strong id="statResources">0</strong>
-<span>مورد تعليمي</span>
+<span data-i18n="resources">مورد تعليمي</span>
 </div>
 
 <div class="stat">
 <strong>12+</strong>
-<span>لغة</span>
+<span data-i18n="languages">لغة</span>
 </div>
 
 <div class="stat">
 <strong>24/7</strong>
-<span>تعلم</span>
+<span data-i18n="learning24">تعلم</span>
 </div>
 
 <div class="stat">
 <strong>∞</strong>
-<span>إمكانيات</span>
+<span data-i18n="possibilities">إمكانيات</span>
 </div>
 
 </div>
@@ -1064,9 +1166,10 @@ HAMOU MATH منصة تعليمية متكاملة للرياضيات،
 √(x² + y²)
 </div>
 
-<div style="text-align:center;color:var(--muted)">
+<div style="text-align:center;color:var(--muted)"
+     data-i18n="heroQuote">
+
 الرياضيات تصبح أسهل عندما تتعلمها بالتفاعل والتطبيق.
-</div>
 
 </div>
 
@@ -1076,6 +1179,7 @@ HAMOU MATH منصة تعليمية متكاملة للرياضيات،
 
 </div>
 
+</div>
 
 <div class="section">
 
@@ -1083,9 +1187,11 @@ HAMOU MATH منصة تعليمية متكاملة للرياضيات،
 
 <div class="section-title">
 
-<h2>كل ما تحتاجه في مكان واحد</h2>
+<h2 data-i18n="everythingOnePlace">
+كل ما تحتاجه في مكان واحد
+</h2>
 
-<p>
+<p data-i18n="platformFor">
 منصة HAMOU MATH مصممة للطالب والأستاذ
 </p>
 
@@ -1095,24 +1201,24 @@ HAMOU MATH منصة تعليمية متكاملة للرياضيات،
 
 <div class="card">
 <div class="feature-icon">📚</div>
-<h3>المكتبة</h3>
-<p>
+<h3 data-i18n="library">المكتبة</h3>
+<p data-i18n="libraryDesc">
 كتب ودروس ومذكرات وتمارين وموارد تعليمية قابلة للبحث.
 </p>
 </div>
 
 <div class="card">
 <div class="feature-icon">🏆</div>
-<h3>التحديات</h3>
-<p>
+<h3 data-i18n="challenges">التحديات</h3>
+<p data-i18n="challengeDesc">
 اختبر مستواك واحصل على XP وطور ترتيبك.
 </p>
 </div>
 
 <div class="card">
 <div class="feature-icon">🎮</div>
-<h3>ألعاب رياضية</h3>
-<p>
+<h3 data-i18n="games">ألعاب رياضية</h3>
+<p data-i18n="gamesDesc">
 تعلم الرياضيات من خلال ألعاب وتحديات تفاعلية.
 </p>
 </div>
@@ -1120,7 +1226,7 @@ HAMOU MATH منصة تعليمية متكاملة للرياضيات،
 <div class="card">
 <div class="feature-icon">🤖</div>
 <h3>HAMOU AI</h3>
-<p>
+<p data-i18n="aiDesc">
 مساعد رياضيات لمساعدتك على الفهم والحل والتدريب.
 </p>
 </div>
@@ -1133,8 +1239,7 @@ HAMOU MATH منصة تعليمية متكاملة للرياضيات،
 
 </section>
 
-
-<!-- LIBRARY -->
+<!-- ================= LIBRARY ================= -->
 
 <section id="library" class="page section">
 
@@ -1142,9 +1247,9 @@ HAMOU MATH منصة تعليمية متكاملة للرياضيات،
 
 <div class="section-title">
 
-<h2>📚 المكتبة التعليمية</h2>
+<h2>📚 <span data-i18n="educationalLibrary">المكتبة التعليمية</span></h2>
 
-<p>
+<p data-i18n="searchResources">
 ابحث في موارد HAMOU MATH
 </p>
 
@@ -1158,17 +1263,19 @@ HAMOU MATH منصة تعليمية متكاملة للرياضيات،
 id="resourceSearch"
 class="input"
 placeholder="🔎 ابحث عن كتاب، درس، تمرين..."
+data-i18n-placeholder="searchPlaceholder"
 oninput="filterResources()"
+
 >
 
 </div>
 
 <select id="resourceLanguage"
-        class="select"
-        style="max-width:180px"
-        onchange="filterResources()">
+     class="select"
+     style="max-width:180px"
+     onchange="filterResources()">
 
-<option value="">كل اللغات</option>
+<option value="" data-i18n="allLanguages">كل اللغات</option>
 <option value="ar">العربية</option>
 <option value="fr">Français</option>
 <option value="en">English</option>
@@ -1176,25 +1283,25 @@ oninput="filterResources()"
 </select>
 
 <select id="resourceLimit"
-        class="select"
-        style="max-width:160px"
-        onchange="loadResources()">
+     class="select"
+     style="max-width:160px"
+     onchange="loadResources()">
 
-<option value="24">24 مورد</option>
-<option value="48">48 مورد</option>
-<option value="100">100 مورد</option>
-<option value="240" selected>240 مورد</option>
+<option value="24">24</option>
+<option value="48">48</option>
+<option value="100">100</option>
+<option value="240" selected>240</option>
 
 </select>
 
 <button class="btn btn-primary"
-        onclick="loadResources()">
-🔄 تحديث
-</button>
+     onclick="loadResources()">
+🔄 <span data-i18n="refresh">تحديث</span> </button>
 
 </div>
 
-<div id="libraryStatus"></div>
+<div id="libraryStatus"
+     class="status-bar"></div>
 
 <div id="resourcesGrid"
      class="grid grid-3">
@@ -1203,7 +1310,9 @@ oninput="filterResources()"
 
 <div class="spinner"></div>
 
+<span data-i18n="loadingLibrary">
 جاري تحميل المكتبة...
+</span>
 
 </div>
 
@@ -1213,8 +1322,7 @@ oninput="filterResources()"
 
 </section>
 
-
-<!-- CHALLENGES -->
+<!-- ================= CHALLENGES ================= -->
 
 <section id="challenges" class="page section">
 
@@ -1222,9 +1330,9 @@ oninput="filterResources()"
 
 <div class="section-title">
 
-<h2>🏆 التحديات الرياضية</h2>
+<h2>🏆 <span data-i18n="mathChallenges">التحديات الرياضية</span></h2>
 
-<p>
+<p data-i18n="challengeSubtitle">
 اختبر سرعتك ودقتك واربح XP
 </p>
 
@@ -1240,12 +1348,12 @@ oninput="filterResources()"
 </div>
 
 <div>
-<strong>🔥 السلسلة</strong>
+<strong>🔥 <span data-i18n="streak">السلسلة</span></strong>
 <div id="streakValue">0</div>
 </div>
 
 <div>
-<strong>✅ الإجابات الصحيحة</strong>
+<strong>✅ <span data-i18n="correctAnswers">الإجابات الصحيحة</span></strong>
 <div id="correctValue">0</div>
 </div>
 
@@ -1255,15 +1363,13 @@ oninput="filterResources()"
 
 <div id="challengeContainer"
      class="challenge-grid">
-
 </div>
 
 </div>
 
 </section>
 
-
-<!-- GAMES -->
+<!-- ================= GAMES ================= -->
 
 <section id="games" class="page section">
 
@@ -1271,9 +1377,9 @@ oninput="filterResources()"
 
 <div class="section-title">
 
-<h2>🎮 ألعاب الرياضيات</h2>
+<h2>🎮 <span data-i18n="mathGames">ألعاب الرياضيات</span></h2>
 
-<p>
+<p data-i18n="gameSubtitle">
 تعلم، العب، وارفع مستواك
 </p>
 
@@ -1283,49 +1389,46 @@ oninput="filterResources()"
 
 <div class="card">
 
-<h3>⚡ أسرع إجابة</h3>
+<h3>⚡ <span data-i18n="speedGame">أسرع إجابة</span></h3>
 
-<p>
+<p data-i18n="speedDesc">
 حل أكبر عدد من العمليات خلال الوقت المحدد.
 </p>
 
 <button class="btn btn-primary"
-        style="margin-top:15px"
-        onclick="startSpeedGame()">
-ابدأ اللعبة
-</button>
+     style="margin-top:15px"
+     onclick="startSpeedGame()">
+ابدأ اللعبة </button>
 
 </div>
 
 <div class="card">
 
-<h3>🎯 خمن الرقم</h3>
+<h3>🎯 <span data-i18n="guessGame">خمن الرقم</span></h3>
 
-<p>
+<p data-i18n="guessDesc">
 حاول معرفة الرقم الصحيح بأقل عدد من المحاولات.
 </p>
 
 <button class="btn btn-secondary"
-        style="margin-top:15px"
-        onclick="startGuessGame()">
-ابدأ اللعبة
-</button>
+     style="margin-top:15px"
+     onclick="startGuessGame()">
+ابدأ اللعبة </button>
 
 </div>
 
 <div class="card">
 
-<h3>🧠 تحدي الذاكرة</h3>
+<h3>🧠 <span data-i18n="memoryGame">تحدي الذاكرة</span></h3>
 
-<p>
+<p data-i18n="memoryDesc">
 اختبر ذاكرتك مع المتتاليات الرياضية.
 </p>
 
 <button class="btn btn-success"
-        style="margin-top:15px"
-        onclick="startMemoryGame()">
-ابدأ اللعبة
-</button>
+     style="margin-top:15px"
+     onclick="startMemoryGame()">
+ابدأ اللعبة </button>
 
 </div>
 
@@ -1349,8 +1452,7 @@ oninput="filterResources()"
 
 </section>
 
-
-<!-- CALCULATOR -->
+<!-- ================= CALCULATOR ================= -->
 
 <section id="calculator" class="page section">
 
@@ -1358,9 +1460,9 @@ oninput="filterResources()"
 
 <div class="section-title">
 
-<h2>🧮 الحاسبة الرياضية</h2>
+<h2>🧮 <span data-i18n="mathCalculator">الحاسبة الرياضية</span></h2>
 
-<p>
+<p data-i18n="calculatorDesc">
 حاسبة سريعة للعمليات الأساسية
 </p>
 
@@ -1373,6 +1475,8 @@ id="calcDisplay"
 class="calc-display"
 readonly
 value="0"
+aria-label="Calculator"
+
 >
 
 <div class="calc-grid">
@@ -1389,53 +1493,13 @@ onclick="calcInput('(')">(</button>
 <button class="calc-btn operator"
 onclick="calcInput(')')">)</button>
 
-<button class="calc-btn"
-onclick="calcInput('7')">7</button>
+<button class="calc-btn" onclick="calcInput('7')">7</button> <button class="calc-btn" onclick="calcInput('8')">8</button> <button class="calc-btn" onclick="calcInput('9')">9</button> <button class="calc-btn operator" onclick="calcInput('/')">÷</button>
 
-<button class="calc-btn"
-onclick="calcInput('8')">8</button>
+<button class="calc-btn" onclick="calcInput('4')">4</button> <button class="calc-btn" onclick="calcInput('5')">5</button> <button class="calc-btn" onclick="calcInput('6')">6</button> <button class="calc-btn operator" onclick="calcInput('*')">×</button>
 
-<button class="calc-btn"
-onclick="calcInput('9')">9</button>
+<button class="calc-btn" onclick="calcInput('1')">1</button> <button class="calc-btn" onclick="calcInput('2')">2</button> <button class="calc-btn" onclick="calcInput('3')">3</button> <button class="calc-btn operator" onclick="calcInput('-')">−</button>
 
-<button class="calc-btn operator"
-onclick="calcInput('/')">÷</button>
-
-<button class="calc-btn"
-onclick="calcInput('4')">4</button>
-
-<button class="calc-btn"
-onclick="calcInput('5')">5</button>
-
-<button class="calc-btn"
-onclick="calcInput('6')">6</button>
-
-<button class="calc-btn operator"
-onclick="calcInput('*')">×</button>
-
-<button class="calc-btn"
-onclick="calcInput('1')">1</button>
-
-<button class="calc-btn"
-onclick="calcInput('2')">2</button>
-
-<button class="calc-btn"
-onclick="calcInput('3')">3</button>
-
-<button class="calc-btn operator"
-onclick="calcInput('-')">−</button>
-
-<button class="calc-btn"
-onclick="calcInput('0')">0</button>
-
-<button class="calc-btn"
-onclick="calcInput('.')">.</button>
-
-<button class="calc-btn operator"
-onclick="calcCalculate()">=</button>
-
-<button class="calc-btn operator"
-onclick="calcInput('+')">+</button>
+<button class="calc-btn" onclick="calcInput('0')">0</button> <button class="calc-btn" onclick="calcInput('.')">.</button> <button class="calc-btn operator" onclick="calcCalculate()">=</button> <button class="calc-btn operator" onclick="calcInput('+')">+</button>
 
 </div>
 
@@ -1445,8 +1509,7 @@ onclick="calcInput('+')">+</button>
 
 </section>
 
-
-<!-- MATH LAB -->
+<!-- ================= MATH LAB ================= -->
 
 <section id="lab" class="page section">
 
@@ -1456,7 +1519,7 @@ onclick="calcInput('+')">+</button>
 
 <h2>🔬 Math Lab</h2>
 
-<p>
+<p data-i18n="interactiveTools">
 أدوات رياضية تفاعلية
 </p>
 
@@ -1466,9 +1529,10 @@ onclick="calcInput('+')">+</button>
 
 <div class="card">
 
-<h3>📈 مولد نقاط الدالة</h3>
+<h3>📈 <span data-i18n="functionTableTitle">مولد نقاط الدالة</span></h3>
 
-<p style="margin-bottom:15px">
+<p style="margin-bottom:15px"
+   data-i18n="functionTableDesc">
 أدخل قيم x واظهر قيم y للدالة الخطية.
 </p>
 
@@ -1479,6 +1543,7 @@ type="number"
 value="2"
 placeholder="a"
 style="margin-bottom:10px"
+
 >
 
 <input
@@ -1488,12 +1553,12 @@ type="number"
 value="1"
 placeholder="b"
 style="margin-bottom:10px"
+
 >
 
 <button class="btn btn-primary"
-        onclick="generateFunctionTable()">
-إنشاء الجدول
-</button>
+     onclick="generateFunctionTable()">
+إنشاء الجدول </button>
 
 <div id="functionTable"
      style="margin-top:20px">
@@ -1501,27 +1566,23 @@ style="margin-bottom:10px"
 
 </div>
 
-
 <div class="card">
 
-<h3>📐 أدوات هندسية</h3>
+<h3>📐 <span data-i18n="geometryTools">أدوات هندسية</span></h3>
 
 <div class="grid">
 
 <button class="btn btn-outline"
 onclick="geometryCircle()">
-دائرة
-</button>
+دائرة </button>
 
 <button class="btn btn-outline"
 onclick="geometryTriangle()">
-مثلث
-</button>
+مثلث </button>
 
 <button class="btn btn-outline"
 onclick="geometryRectangle()">
-مستطيل
-</button>
+مستطيل </button>
 
 </div>
 
@@ -1537,8 +1598,7 @@ onclick="geometryRectangle()">
 
 </section>
 
-
-<!-- AI -->
+<!-- ================= AI ================= -->
 
 <section id="ai" class="page section">
 
@@ -1548,7 +1608,7 @@ onclick="geometryRectangle()">
 
 <h2>🤖 HAMOU AI</h2>
 
-<p>
+<p data-i18n="aiSubtitle">
 مساعدك في الرياضيات
 </p>
 
@@ -1561,6 +1621,7 @@ id="aiQuestion"
 class="textarea"
 rows="6"
 placeholder="اكتب السؤال الرياضي هنا..."
+data-i18n-placeholder="aiPlaceholder"
 ></textarea>
 
 <button
@@ -1568,14 +1629,16 @@ class="btn btn-primary"
 style="margin-top:12px"
 onclick="askAI()">
 
-🤖 اسأل HAMOU AI
+🤖 <span data-i18n="askAI">اسأل HAMOU AI</span>
 
 </button>
 
 <div id="aiResult"
      class="ai-result">
 
+<span data-i18n="noQuestion">
 لم يتم إرسال أي سؤال بعد.
+</span>
 
 </div>
 
@@ -1585,8 +1648,7 @@ onclick="askAI()">
 
 </section>
 
-
-<!-- PREMIUM -->
+<!-- ================= PREMIUM ================= -->
 
 <section id="premium" class="page section">
 
@@ -1594,9 +1656,9 @@ onclick="askAI()">
 
 <div class="section-title">
 
-<h2>⭐ اشتراكات HAMOU MATH</h2>
+<h2>⭐ <span data-i18n="subscriptions">اشتراكات HAMOU MATH</span></h2>
 
-<p>
+<p data-i18n="choosePlan">
 اختر الخطة المناسبة لك
 </p>
 
@@ -1606,60 +1668,61 @@ onclick="askAI()">
 
 <div class="card price-card">
 
-<h3>شهر واحد</h3>
+<h3 data-i18n="oneMonth">شهر واحد</h3>
 
 <div class="price">
 1,500
 <small>DZD</small>
 </div>
 
-<p>وصول مميز لمدة شهر</p>
+<p data-i18n="monthAccess">
+وصول مميز لمدة شهر
+</p>
 
 <button class="btn btn-primary"
-        style="margin-top:20px"
-        onclick="createPayment('monthly',1500)">
-اشترك الآن
-</button>
+     style="margin-top:20px"
+     onclick="createPayment('monthly',1500)">
+اشترك الآن </button>
 
 </div>
 
-
 <div class="card price-card featured">
 
-<h3>🔥 3 أشهر</h3>
+<h3>🔥 <span data-i18n="threeMonths">3 أشهر</span></h3>
 
 <div class="price">
 4,000
 <small>DZD</small>
 </div>
 
-<p>خيار اقتصادي لمدة 3 أشهر</p>
+<p data-i18n="threeMonthAccess">
+خيار اقتصادي لمدة 3 أشهر
+</p>
 
 <button class="btn btn-primary"
-        style="margin-top:20px"
-        onclick="createPayment('quarterly',4000)">
-اشترك الآن
-</button>
+     style="margin-top:20px"
+     onclick="createPayment('quarterly',4000)">
+اشترك الآن </button>
 
 </div>
 
-
 <div class="card price-card">
 
-<h3>👑 سنة كاملة</h3>
+<h3>👑 <span data-i18n="oneYear">سنة كاملة</span></h3>
 
 <div class="price">
 9,000
 <small>DZD</small>
 </div>
 
-<p>أفضل قيمة للاستخدام الطويل</p>
+<p data-i18n="yearAccess">
+أفضل قيمة للاستخدام الطويل
+</p>
 
 <button class="btn btn-secondary"
-        style="margin-top:20px"
-        onclick="createPayment('yearly',9000)">
-اشترك الآن
-</button>
+     style="margin-top:20px"
+     onclick="createPayment('yearly',9000)">
+اشترك الآن </button>
 
 </div>
 
@@ -1668,9 +1731,10 @@ onclick="askAI()">
 <div class="card"
      style="margin-top:25px;text-align:center">
 
-<strong>💳 الدفع</strong>
+<strong>💳 <span data-i18n="payment">الدفع</span></strong>
 
-<p style="margin-top:8px">
+<p style="margin-top:8px"
+   data-i18n="paymentNotice">
 الدفع الإلكتروني يحتاج إلى إعداد حساب التاجر
 وربط API الخاص بمزود الدفع في الخادم.
 </p>
@@ -1681,8 +1745,7 @@ onclick="askAI()">
 
 </section>
 
-
-<!-- ACCOUNT -->
+<!-- ================= ACCOUNT ================= -->
 
 <section id="account" class="page section">
 
@@ -1690,9 +1753,9 @@ onclick="askAI()">
 
 <div class="section-title">
 
-<h2>👤 حسابي</h2>
+<h2>👤 <span data-i18n="myAccount">حسابي</span></h2>
 
-<p>
+<p data-i18n="accountDesc">
 إدارة حسابك في HAMOU MATH
 </p>
 
@@ -1704,15 +1767,14 @@ onclick="askAI()">
 <div class="card"
      style="text-align:center">
 
-<p>
+<p data-i18n="notLogged">
 لم يتم تسجيل الدخول.
 </p>
 
 <button class="btn btn-primary"
-        style="margin-top:15px"
-        onclick="openAuthModal()">
-تسجيل الدخول
-</button>
+     style="margin-top:15px"
+     onclick="openAuthModal()">
+تسجيل الدخول </button>
 
 </div>
 
@@ -1724,11 +1786,6 @@ onclick="askAI()">
 
 </main>
 
-
-<!-- =========================
-     FOOTER
-========================= -->
-
 <footer>
 
 <div class="container">
@@ -1739,7 +1796,7 @@ onclick="askAI()">
 
 <h3>HAMOU MATH</h3>
 
-<p>
+<p data-i18n="footerDescription">
 سلسلة حمو في الرياضيات — منصة تعليمية
 للطلبة والأساتذة ومحبي الرياضيات.
 </p>
@@ -1748,7 +1805,7 @@ onclick="askAI()">
 
 <div>
 
-<h3>روابط</h3>
+<h3 data-i18n="links">روابط</h3>
 
 <p>
 <button class="btn btn-light"
@@ -1768,7 +1825,7 @@ onclick="showPage('challenges')">
 
 <div>
 
-<h3>الأدوات</h3>
+<h3 data-i18n="tools">الأدوات</h3>
 
 <p>🧮 الحاسبة</p>
 <p>🤖 HAMOU AI</p>
@@ -1781,7 +1838,7 @@ onclick="showPage('challenges')">
 <div class="copyright">
 
 © <span id="year"></span>
-HAMOU MATH — جميع الحقوق محفوظة
+HAMOU MATH — <span data-i18n="rights">جميع الحقوق محفوظة</span>
 
 </div>
 
@@ -1789,95 +1846,85 @@ HAMOU MATH — جميع الحقوق محفوظة
 
 </footer>
 
-
-<!-- =========================
-     AUTH MODAL
-========================= -->
+<!-- ================= AUTH MODAL ================= -->
 
 <div id="authModal"
-     class="modal">
+     class="modal"
+     role="dialog"
+     aria-modal="true">
 
 <div class="modal-box">
 
 <button class="close"
-        onclick="closeAuthModal()">
-×
-</button>
+     onclick="closeAuthModal()"
+     aria-label="Close">
+× </button>
 
 <div id="authContent">
 
 <h2 style="margin-bottom:20px">
-🔐 تسجيل الدخول
+🔐 <span data-i18n="loginTitle">تسجيل الدخول</span>
 </h2>
 
 <input
 id="loginEmail"
 class="input"
 type="email"
+autocomplete="email"
 placeholder="البريد الإلكتروني"
+data-i18n-placeholder="emailPlaceholder"
 style="margin-bottom:10px"
+
 >
 
 <input
 id="loginPassword"
 class="input"
 type="password"
+autocomplete="current-password"
 placeholder="كلمة المرور"
+data-i18n-placeholder="passwordPlaceholder"
 style="margin-bottom:15px"
+
 >
 
 <button class="btn btn-primary"
-        style="width:100%"
-        onclick="login()">
-تسجيل الدخول
-</button>
+     style="width:100%"
+     onclick="login()">
+تسجيل الدخول </button>
 
 <hr style="margin:20px 0;border:0;border-top:1px solid var(--border)">
 
-<p style="text-align:center;color:var(--muted)">
+<p style="text-align:center;color:var(--muted)"
+   data-i18n="noAccount">
 ليس لديك حساب؟
 </p>
 
 <button class="btn btn-outline"
-        style="width:100%;margin-top:10px"
-        onclick="showRegisterForm()">
-إنشاء حساب
-</button>
+     style="width:100%;margin-top:10px"
+     onclick="showRegisterForm()">
+إنشاء حساب </button>
 
 </div>
 
 </div>
 
 </div>
-
-
-<!-- TOAST -->
 
 <div id="toastContainer"
      class="toast-container">
 </div>
 
-
 <script>
-
-/* =========================================================
-   HAMOU MATH
-   FRONTEND V1
-========================================================= */
-
 "use strict";
 
-
 /* =========================================================
-   CONFIG
+   HAMOU MATH — FRONTEND
+   API backend remains responsible for authentication,
+   roles, payments and protected operations.
 ========================================================= */
 
 const API_BASE = "";
-
-
-/* =========================================================
-   STATE
-========================================================= */
 
 const state = {
 
@@ -1895,11 +1942,298 @@ const state = {
 
   language:localStorage.getItem("hamou_language") || "ar",
 
-  challenge:null,
+  theme:localStorage.getItem("hamou_theme") || "light",
 
-  challengeTimer:null,
+  challengeLocked:false,
 
-  game:null
+  game:null,
+
+  loadingResources:false
+
+};
+
+
+/* =========================================================
+   TRANSLATIONS
+========================================================= */
+
+const translations = {
+
+  ar:{
+    brandSubtitle:"سلسلة حمو في الرياضيات",
+    home:"الرئيسية",
+    library:"المكتبة",
+    challenges:"التحديات",
+    games:"الألعاب",
+    calculator:"الحاسبة",
+    subscription:"الاشتراك",
+    account:"حسابي",
+
+    heroTitle:"تعلم الرياضيات|بطريقة أذكى",
+    heroText:"HAMOU MATH منصة تعليمية متكاملة للرياضيات، تجمع بين الكتب والدروس والتمارين والاختبارات والتحديات والألعاب والأدوات الرياضية والذكاء الاصطناعي.",
+    startLearning:"ابدأ التعلم",
+    startChallenge:"ابدأ التحدي",
+    playLearn:"العب وتعلم",
+    resources:"مورد تعليمي",
+    languages:"لغة",
+    learning24:"تعلم",
+    possibilities:"إمكانيات",
+    heroQuote:"الرياضيات تصبح أسهل عندما تتعلمها بالتفاعل والتطبيق.",
+
+    everythingOnePlace:"كل ما تحتاجه في مكان واحد",
+    platformFor:"منصة HAMOU MATH مصممة للطالب والأستاذ",
+    libraryDesc:"كتب ودروس ومذكرات وتمارين وموارد تعليمية قابلة للبحث.",
+    challengeDesc:"اختبر مستواك واحصل على XP وطور ترتيبك.",
+    gamesDesc:"تعلم الرياضيات من خلال ألعاب وتحديات تفاعلية.",
+    aiDesc:"مساعد رياضيات لمساعدتك على الفهم والحل والتدريب.",
+
+    educationalLibrary:"المكتبة التعليمية",
+    searchResources:"ابحث في موارد HAMOU MATH",
+    searchPlaceholder:"🔎 ابحث عن كتاب، درس، تمرين...",
+    allLanguages:"كل اللغات",
+    refresh:"تحديث",
+    loadingLibrary:"جاري تحميل المكتبة...",
+    noResults:"لا توجد نتائج",
+    trySearch:"جرّب تغيير كلمات البحث أو اللغة.",
+    openResource:"📖 فتح المورد",
+    details:"ℹ️ التفاصيل",
+    noFile:"رابط الملف غير متوفر حالياً",
+
+    mathChallenges:"التحديات الرياضية",
+    challengeSubtitle:"اختبر سرعتك ودقتك واربح XP",
+    streak:"السلسلة",
+    correctAnswers:"الإجابات الصحيحة",
+
+    mathGames:"ألعاب الرياضيات",
+    gameSubtitle:"تعلم، العب، وارفع مستواك",
+    speedGame:"أسرع إجابة",
+    speedDesc:"حل أكبر عدد من العمليات خلال الوقت المحدد.",
+    guessGame:"خمن الرقم",
+    guessDesc:"حاول معرفة الرقم الصحيح بأقل عدد من المحاولات.",
+    memoryGame:"تحدي الذاكرة",
+    memoryDesc:"اختبر ذاكرتك مع المتتاليات الرياضية.",
+
+    mathCalculator:"الحاسبة الرياضية",
+    calculatorDesc:"حاسبة سريعة للعمليات الأساسية",
+
+    interactiveTools:"أدوات رياضية تفاعلية",
+    functionTableTitle:"مولد نقاط الدالة",
+    functionTableDesc:"أدخل قيم a و b لإظهار قيم y للدالة الخطية.",
+    geometryTools:"أدوات هندسية",
+
+    aiSubtitle:"مساعدك في الرياضيات",
+    aiPlaceholder:"اكتب السؤال الرياضي هنا...",
+    askAI:"اسأل HAMOU AI",
+    noQuestion:"لم يتم إرسال أي سؤال بعد.",
+
+    subscriptions:"اشتراكات HAMOU MATH",
+    choosePlan:"اختر الخطة المناسبة لك",
+    oneMonth:"شهر واحد",
+    threeMonths:"3 أشهر",
+    oneYear:"سنة كاملة",
+    monthAccess:"وصول مميز لمدة شهر",
+    threeMonthAccess:"خيار اقتصادي لمدة 3 أشهر",
+    yearAccess:"أفضل قيمة للاستخدام الطويل",
+    payment:"الدفع",
+    paymentNotice:"الدفع الإلكتروني يحتاج إلى إعداد حساب التاجر وربط API الخاص بمزود الدفع في الخادم.",
+
+    myAccount:"حسابي",
+    accountDesc:"إدارة حسابك في HAMOU MATH",
+    notLogged:"لم يتم تسجيل الدخول.",
+    loginTitle:"تسجيل الدخول",
+    emailPlaceholder:"البريد الإلكتروني",
+    passwordPlaceholder:"كلمة المرور",
+    noAccount:"ليس لديك حساب؟",
+
+    footerDescription:"سلسلة حمو في الرياضيات — منصة تعليمية للطلبة والأساتذة ومحبي الرياضيات.",
+    links:"روابط",
+    tools:"الأدوات",
+    rights:"جميع الحقوق محفوظة"
+  },
+
+  fr:{
+    brandSubtitle:"Série Hamou de mathématiques",
+    home:"Accueil",
+    library:"Bibliothèque",
+    challenges:"Défis",
+    games:"Jeux",
+    calculator:"Calculatrice",
+    subscription:"Abonnement",
+    account:"Mon compte",
+
+    heroTitle:"Apprenez les mathématiques|plus intelligemment",
+    heroText:"HAMOU MATH est une plateforme éducative de mathématiques réunissant livres, cours, exercices, contrôles, défis, jeux, outils mathématiques et intelligence artificielle.",
+    startLearning:"Commencer",
+    startChallenge:"Commencer le défi",
+    playLearn:"Jouer et apprendre",
+    resources:"Ressources",
+    languages:"Langues",
+    learning24:"Apprentissage",
+    possibilities:"Possibilités",
+    heroQuote:"Les mathématiques deviennent plus faciles avec l'interaction et la pratique.",
+
+    everythingOnePlace:"Tout ce dont vous avez besoin au même endroit",
+    platformFor:"Une plateforme conçue pour les élèves et les enseignants",
+    libraryDesc:"Livres, cours, fiches, exercices et ressources recherchables.",
+    challengeDesc:"Testez votre niveau et gagnez de l'XP.",
+    gamesDesc:"Apprenez les mathématiques avec des jeux interactifs.",
+    aiDesc:"Assistant mathématique pour comprendre, résoudre et s'entraîner.",
+
+    educationalLibrary:"Bibliothèque éducative",
+    searchResources:"Recherchez dans les ressources HAMOU MATH",
+    searchPlaceholder:"🔎 Rechercher un livre, cours, exercice...",
+    allLanguages:"Toutes les langues",
+    refresh:"Actualiser",
+    loadingLibrary:"Chargement de la bibliothèque...",
+    noResults:"Aucun résultat",
+    trySearch:"Essayez de modifier la recherche ou la langue.",
+    openResource:"📖 Ouvrir",
+    details:"ℹ️ Détails",
+    noFile:"Lien du fichier indisponible",
+
+    mathChallenges:"Défis mathématiques",
+    challengeSubtitle:"Testez votre rapidité et gagnez de l'XP",
+    streak:"Série",
+    correctAnswers:"Bonnes réponses",
+
+    mathGames:"Jeux mathématiques",
+    gameSubtitle:"Apprenez, jouez et progressez",
+    speedGame:"Réponse rapide",
+    speedDesc:"Résolvez le maximum d'opérations dans le temps.",
+    guessGame:"Devinez le nombre",
+    guessDesc:"Trouvez le bon nombre en utilisant le moins d'essais.",
+    memoryGame:"Défi mémoire",
+    memoryDesc:"Testez votre mémoire avec des suites mathématiques.",
+
+    mathCalculator:"Calculatrice mathématique",
+    calculatorDesc:"Calculatrice rapide pour les opérations de base",
+
+    interactiveTools:"Outils mathématiques interactifs",
+    functionTableTitle:"Table de fonction",
+    functionTableDesc:"Entrez a et b pour afficher les valeurs de la fonction linéaire.",
+    geometryTools:"Outils géométriques",
+
+    aiSubtitle:"Votre assistant en mathématiques",
+    aiPlaceholder:"Écrivez votre question mathématique...",
+    askAI:"Demander à HAMOU AI",
+    noQuestion:"Aucune question envoyée.",
+
+    subscriptions:"Abonnements HAMOU MATH",
+    choosePlan:"Choisissez votre formule",
+    oneMonth:"1 mois",
+    threeMonths:"3 mois",
+    oneYear:"1 année",
+    monthAccess:"Accès premium pendant un mois",
+    threeMonthAccess:"Formule économique pendant 3 mois",
+    yearAccess:"Meilleure valeur pour une utilisation longue",
+    payment:"Paiement",
+    paymentNotice:"Le paiement électronique nécessite la configuration du compte marchand et de l'API côté serveur.",
+
+    myAccount:"Mon compte",
+    accountDesc:"Gérez votre compte HAMOU MATH",
+    notLogged:"Vous n'êtes pas connecté.",
+    loginTitle:"Connexion",
+    emailPlaceholder:"Adresse e-mail",
+    passwordPlaceholder:"Mot de passe",
+    noAccount:"Vous n'avez pas de compte ?",
+
+    footerDescription:"Série Hamou de mathématiques — plateforme éducative pour élèves et enseignants.",
+    links:"Liens",
+    tools:"Outils",
+    rights:"Tous droits réservés"
+  },
+
+  en:{
+    brandSubtitle:"Hamou Mathematics Series",
+    home:"Home",
+    library:"Library",
+    challenges:"Challenges",
+    games:"Games",
+    calculator:"Calculator",
+    subscription:"Subscription",
+    account:"Account",
+
+    heroTitle:"Learn mathematics|the smarter way",
+    heroText:"HAMOU MATH is an integrated mathematics learning platform combining books, lessons, exercises, tests, challenges, games, mathematical tools and artificial intelligence.",
+    startLearning:"Start learning",
+    startChallenge:"Start challenge",
+    playLearn:"Play and learn",
+    resources:"Resources",
+    languages:"Languages",
+    learning24:"Learning",
+    possibilities:"Possibilities",
+    heroQuote:"Mathematics becomes easier when you learn through interaction and practice.",
+
+    everythingOnePlace:"Everything you need in one place",
+    platformFor:"HAMOU MATH is designed for students and teachers",
+    libraryDesc:"Books, lessons, notes, exercises and searchable resources.",
+    challengeDesc:"Test your level, earn XP and improve your ranking.",
+    gamesDesc:"Learn mathematics through interactive games and challenges.",
+    aiDesc:"A mathematics assistant for understanding, solving and practicing.",
+
+    educationalLibrary:"Educational Library",
+    searchResources:"Search HAMOU MATH resources",
+    searchPlaceholder:"🔎 Search for a book, lesson, exercise...",
+    allLanguages:"All languages",
+    refresh:"Refresh",
+    loadingLibrary:"Loading library...",
+    noResults:"No results",
+    trySearch:"Try changing the search terms or language.",
+    openResource:"📖 Open resource",
+    details:"ℹ️ Details",
+    noFile:"File link is currently unavailable",
+
+    mathChallenges:"Mathematics Challenges",
+    challengeSubtitle:"Test your speed and accuracy and earn XP",
+    streak:"Streak",
+    correctAnswers:"Correct answers",
+
+    mathGames:"Math Games",
+    gameSubtitle:"Learn, play and improve",
+    speedGame:"Speed Answer",
+    speedDesc:"Solve as many operations as possible before time runs out.",
+    guessGame:"Guess the Number",
+    guessDesc:"Find the correct number with as few attempts as possible.",
+    memoryGame:"Memory Challenge",
+    memoryDesc:"Test your memory with mathematical sequences.",
+
+    mathCalculator:"Math Calculator",
+    calculatorDesc:"Fast calculator for basic operations",
+
+    interactiveTools:"Interactive Math Tools",
+    functionTableTitle:"Function Table",
+    functionTableDesc:"Enter a and b to display values of a linear function.",
+    geometryTools:"Geometry Tools",
+
+    aiSubtitle:"Your mathematics assistant",
+    aiPlaceholder:"Write your mathematics question...",
+    askAI:"Ask HAMOU AI",
+    noQuestion:"No question has been sent yet.",
+
+    subscriptions:"HAMOU MATH Subscriptions",
+    choosePlan:"Choose the plan that suits you",
+    oneMonth:"1 Month",
+    threeMonths:"3 Months",
+    oneYear:"1 Year",
+    monthAccess:"Premium access for one month",
+    threeMonthAccess:"Economical option for 3 months",
+    yearAccess:"Best value for long-term use",
+    payment:"Payment",
+    paymentNotice:"Electronic payment requires merchant account configuration and server-side payment API setup.",
+
+    myAccount:"My Account",
+    accountDesc:"Manage your HAMOU MATH account",
+    notLogged:"You are not logged in.",
+    loginTitle:"Login",
+    emailPlaceholder:"Email address",
+    passwordPlaceholder:"Password",
+    noAccount:"Don't have an account?",
+
+    footerDescription:"Hamou Mathematics Series — an educational platform for students and teachers.",
+    links:"Links",
+    tools:"Tools",
+    rights:"All rights reserved"
+  }
 
 };
 
@@ -1908,23 +2242,38 @@ const state = {
    INIT
 ========================================================= */
 
-document.addEventListener("DOMContentLoaded",async()=>{
+document.addEventListener("DOMContentLoaded", async()=>{
 
-  document.getElementById("year").textContent =
-    new Date().getFullYear();
+  const year = document.getElementById("year");
 
-  updateStats();
+  if(year){
+    year.textContent = new Date().getFullYear();
+  }
+
+  loadTheme();
+
+  document.getElementById("languageSelect").value =
+    state.language;
+
+  applyLanguage();
 
   updateGameStats();
+
+  renderAccount();
+
+  updateHeaderAuth();
+
+  generateChallenges();
 
   await loadCurrentUser();
 
   await loadResources();
 
-  generateChallenges();
+  setupKeyboard();
 
-  document.getElementById("languageSelect").value =
-    state.language;
+  setupModal();
+
+  registerServiceWorker();
 
 });
 
@@ -1943,13 +2292,18 @@ function showPage(id){
   const target =
     document.getElementById(id);
 
-  if(target){
-    target.classList.add("active");
+  if(!target){
+    return;
   }
+
+  target.classList.add("active");
 
   document.querySelectorAll(".nav-links button")
     .forEach(btn=>{
-      btn.classList.remove("active");
+      btn.classList.toggle(
+        "active",
+        btn.dataset.nav === id
+      );
     });
 
   window.scrollTo({
@@ -1963,11 +2317,47 @@ function showPage(id){
 
   if(id==="challenges"){
     generateChallenges();
+    updateGameStats();
   }
 
   if(id==="account"){
     renderAccount();
   }
+
+  closeMobileNav();
+}
+
+
+/* =========================================================
+   MOBILE NAV
+========================================================= */
+
+function toggleMobileNav(){
+
+  const nav =
+    document.getElementById("mobileNav");
+
+  nav.classList.toggle("show");
+
+}
+
+
+function closeMobileNav(){
+
+  const nav =
+    document.getElementById("mobileNav");
+
+  if(nav){
+    nav.classList.remove("show");
+  }
+
+}
+
+
+function mobileGo(id){
+
+  showPage(id);
+
 }
 
 
@@ -1980,19 +2370,23 @@ function toast(message,type=""){
   const container =
     document.getElementById("toastContainer");
 
+  if(!container) return;
+
   const item =
     document.createElement("div");
 
   item.className =
     "toast " + type;
 
-  item.textContent = message;
+  item.textContent =
+    String(message);
 
   container.appendChild(item);
 
   setTimeout(()=>{
     item.remove();
   },4000);
+
 }
 
 
@@ -2005,12 +2399,17 @@ async function responseJSON(response){
   const text =
     await response.text();
 
+  if(!text){
+    return {};
+  }
+
   try{
     return JSON.parse(text);
   }catch{
     return {
       success:false,
-      error:text || "استجابة غير صالحة من الخادم"
+      error:text.slice(0,500) ||
+        "استجابة غير صالحة من الخادم"
     };
   }
 
@@ -2026,33 +2425,35 @@ async function loadCurrentUser(){
   try{
 
     const response =
-      await fetch(API_BASE + "/api/auth/me",{
-        method:"GET",
-        credentials:"include",
-        headers:{
-          "Accept":"application/json"
+      await fetch(
+        API_BASE + "/api/auth/me",
+        {
+          method:"GET",
+          credentials:"include",
+          headers:{
+            "Accept":"application/json"
+          }
         }
-      });
+      );
 
     const data =
       await responseJSON(response);
 
-    if(!data?.authenticated){
+    if(
+      response.status===401 ||
+      response.status===403 ||
+      !data?.authenticated
+    ){
 
       state.user = null;
 
       renderAccount();
 
-      return;
+      updateHeaderAuth();
+
+      return null;
     }
 
-
-    /*
-      مهم جداً:
-
-      Worker يعيد user و profile بشكل منفصل.
-      لذلك يجب دمجهما حتى يظهر owner.
-    */
 
     const authUser =
       data?.user ||
@@ -2071,9 +2472,20 @@ async function loadCurrentUser(){
 
       renderAccount();
 
-      return;
+      updateHeaderAuth();
+
+      return null;
     }
 
+
+    /*
+      IMPORTANT:
+      Supabase user data and profiles data are returned
+      separately by the Worker.
+
+      The profile role MUST be merged here so that
+      owner/admin/teacher/student is available to UI.
+    */
 
     const user = {
 
@@ -2099,7 +2511,15 @@ async function loadCurrentUser(){
       is_active:
         profile?.is_active ??
         authUser?.is_active ??
-        true
+        true,
+
+      full_name:
+        profile?.full_name ||
+        authUser?.full_name ||
+        authUser?.user_metadata?.full_name ||
+        authUser?.user_metadata?.name ||
+        authUser?.email ||
+        ""
 
     };
 
@@ -2110,14 +2530,22 @@ async function loadCurrentUser(){
 
     updateHeaderAuth();
 
+    return user;
+
   }catch(error){
 
-    console.error(error);
+    console.error(
+      "loadCurrentUser:",
+      error
+    );
 
     state.user = null;
 
     renderAccount();
 
+    updateHeaderAuth();
+
+    return null;
   }
 
 }
@@ -2129,13 +2557,17 @@ async function loadCurrentUser(){
 
 function getUserRole(user){
 
-  if(!user) return "";
+  if(!user){
+    return "";
+  }
 
-  return (
+  return String(
 
     user.role ||
 
     user.user_role ||
+
+    user.profile?.role ||
 
     user.user_metadata?.role ||
 
@@ -2145,7 +2577,7 @@ function getUserRole(user){
 
     ""
 
-  );
+  ).toLowerCase();
 
 }
 
@@ -2166,7 +2598,23 @@ function roleLabel(role){
 
   };
 
-  return labels[role] || role || "";
+  return labels[role] ||
+         role ||
+         "مستخدم";
+
+}
+
+
+function isAdminRole(){
+
+  const role =
+    getUserRole(state.user);
+
+  return [
+    "owner",
+    "super_admin",
+    "admin"
+  ].includes(role);
 
 }
 
@@ -2177,19 +2625,20 @@ function roleLabel(role){
 
 function updateHeaderAuth(){
 
-  const buttons =
-    document.querySelectorAll(".header-actions .btn");
+  const button =
+    document.getElementById(
+      "headerAuthButton"
+    );
 
-  if(!buttons.length) return;
+  if(!button) return;
 
-  const loginButton = buttons[0];
 
   if(!state.user){
 
-    loginButton.textContent =
+    button.textContent =
       "تسجيل الدخول";
 
-    loginButton.onclick =
+    button.onclick =
       openAuthModal;
 
     return;
@@ -2199,21 +2648,33 @@ function updateHeaderAuth(){
   const role =
     getUserRole(state.user);
 
-  if(role==="owner" ||
-     role==="super_admin" ||
-     role==="admin"){
 
-    loginButton.textContent =
-      "👑 " + (state.user.full_name || "الحساب");
+  if(
+    role==="owner" ||
+    role==="super_admin" ||
+    role==="admin"
+  ){
+
+    button.textContent =
+      "👑 " +
+      (
+        state.user.full_name ||
+        "Owner"
+      );
 
   }else{
 
-    loginButton.textContent =
-      "👤 " + (state.user.full_name || "حسابي");
+    button.textContent =
+      "👤 " +
+      (
+        state.user.full_name ||
+        "حسابي"
+      );
 
   }
 
-  loginButton.onclick =
+
+  button.onclick =
     ()=>showPage("account");
 
 }
@@ -2226,7 +2687,9 @@ function updateHeaderAuth(){
 function renderAccount(){
 
   const container =
-    document.getElementById("accountContent");
+    document.getElementById(
+      "accountContent"
+    );
 
   if(!container) return;
 
@@ -2235,7 +2698,8 @@ function renderAccount(){
 
     container.innerHTML = `
 
-      <div class="card" style="text-align:center">
+      <div class="card"
+           style="text-align:center">
 
         <h3>👤 مرحباً بك</h3>
 
@@ -2248,7 +2712,7 @@ function renderAccount(){
           style="margin-top:15px"
           onclick="openAuthModal()">
 
-          تسجيل الدخول
+          🔐 تسجيل الدخول
 
         </button>
 
@@ -2264,16 +2728,10 @@ function renderAccount(){
     getUserRole(state.user);
 
 
-  let ownerPanel = "";
-
-
-  if(
-    role==="owner" ||
-    role==="super_admin" ||
-    role==="admin"
-  ){
-
-    ownerPanel = `
+  const ownerPanel =
+    isAdminRole()
+    ?
+    `
 
       <div class="card owner-panel"
            style="margin-top:20px">
@@ -2282,7 +2740,17 @@ function renderAccount(){
 
         <p>
           تم التعرف على صلاحيات:
-          <strong>${escapeHTML(roleLabel(role))}</strong>
+          <strong>
+            ${escapeHTML(
+              roleLabel(role)
+            )}
+          </strong>
+        </p>
+
+        <p style="margin-top:8px">
+          ${escapeHTML(
+            state.user.email || ""
+          )}
         </p>
 
         <div class="grid grid-2"
@@ -2290,21 +2758,29 @@ function renderAccount(){
 
           <button class="btn btn-primary"
                   onclick="showPage('library')">
+
             📚 إدارة الموارد
+
           </button>
 
           <button class="btn btn-secondary"
-                  onclick="showPage('challenges')">
-            🏆 التحديات
+                  onclick="showAdminNotice()">
+
+            👑 لوحة Owner
+
           </button>
 
         </div>
 
       </div>
 
-    `;
+    `
+    :
+    "";
 
-  }
+
+  const xp =
+    Number(state.user.xp ?? state.xp);
 
 
   container.innerHTML = `
@@ -2316,34 +2792,56 @@ function renderAccount(){
       <div class="profile-row">
         <span>الاسم</span>
         <strong>
-          ${escapeHTML(state.user.full_name || "غير محدد")}
+          ${escapeHTML(
+            state.user.full_name ||
+            "غير محدد"
+          )}
         </strong>
       </div>
 
       <div class="profile-row">
         <span>البريد الإلكتروني</span>
         <strong dir="ltr">
-          ${escapeHTML(state.user.email || "")}
+          ${escapeHTML(
+            state.user.email || ""
+          )}
         </strong>
       </div>
 
       <div class="profile-row">
         <span>الدور</span>
         <span class="role-badge">
-          ${escapeHTML(roleLabel(role) || "مستخدم")}
+          ${escapeHTML(
+            roleLabel(role)
+          )}
         </span>
       </div>
 
       <div class="profile-row">
         <span>الخطة</span>
         <strong>
-          ${escapeHTML(state.user.plan || "free")}
+          ${escapeHTML(
+            state.user.plan || "free"
+          )}
         </strong>
       </div>
 
       <div class="profile-row">
         <span>XP</span>
-        <strong>${state.xp}</strong>
+        <strong>
+          ${Number.isFinite(xp) ? xp : 0}
+        </strong>
+      </div>
+
+      <div class="profile-row">
+        <span>الحالة</span>
+        <strong>
+          ${
+            state.user.is_active
+            ? "🟢 نشط"
+            : "🔴 غير نشط"
+          }
+        </strong>
       </div>
 
       <button
@@ -2351,7 +2849,7 @@ function renderAccount(){
         style="margin-top:20px"
         onclick="logout()">
 
-        تسجيل الخروج
+        🚪 تسجيل الخروج
 
       </button>
 
@@ -2364,6 +2862,26 @@ function renderAccount(){
 }
 
 
+function showAdminNotice(){
+
+  if(!isAdminRole()){
+
+    toast(
+      "ليس لديك صلاحية الإدارة.",
+      "error"
+    );
+
+    return;
+  }
+
+  toast(
+    "صلاحية الإدارة مؤكدة من الحساب. لوحة Owner المتقدمة ستستخدم API محميًا من الخادم.",
+    "success"
+  );
+
+}
+
+
 /* =========================================================
    AUTH MODAL
 ========================================================= */
@@ -2372,7 +2890,7 @@ function openAuthModal(){
 
   document
     .getElementById("authModal")
-    .classList.add("show");
+    ?.classList.add("show");
 
 }
 
@@ -2381,14 +2899,16 @@ function closeAuthModal(){
 
   document
     .getElementById("authModal")
-    .classList.remove("show");
+    ?.classList.remove("show");
 
 }
 
 
 function showRegisterForm(){
 
-  document.getElementById("authContent").innerHTML = `
+  document.getElementById(
+    "authContent"
+  ).innerHTML = `
 
     <h2 style="margin-bottom:20px">
       📝 إنشاء حساب
@@ -2397,6 +2917,7 @@ function showRegisterForm(){
     <input
       id="registerName"
       class="input"
+      autocomplete="name"
       placeholder="الاسم الكامل"
       style="margin-bottom:10px"
     >
@@ -2405,6 +2926,7 @@ function showRegisterForm(){
       id="registerEmail"
       class="input"
       type="email"
+      autocomplete="email"
       placeholder="البريد الإلكتروني"
       style="margin-bottom:10px"
     >
@@ -2413,6 +2935,7 @@ function showRegisterForm(){
       id="registerPassword"
       class="input"
       type="password"
+      autocomplete="new-password"
       placeholder="كلمة المرور"
       style="margin-bottom:15px"
     >
@@ -2429,9 +2952,64 @@ function showRegisterForm(){
     <button
       class="btn btn-light"
       style="width:100%;margin-top:10px"
-      onclick="openAuthModal()">
+      onclick="restoreLoginForm()">
 
       العودة لتسجيل الدخول
+
+    </button>
+
+  `;
+
+}
+
+
+function restoreLoginForm(){
+
+  document.getElementById(
+    "authContent"
+  ).innerHTML = `
+
+    <h2 style="margin-bottom:20px">
+      🔐 تسجيل الدخول
+    </h2>
+
+    <input
+      id="loginEmail"
+      class="input"
+      type="email"
+      autocomplete="email"
+      placeholder="البريد الإلكتروني"
+      style="margin-bottom:10px"
+    >
+
+    <input
+      id="loginPassword"
+      class="input"
+      type="password"
+      autocomplete="current-password"
+      placeholder="كلمة المرور"
+      style="margin-bottom:15px"
+    >
+
+    <button class="btn btn-primary"
+            style="width:100%"
+            onclick="login()">
+
+      تسجيل الدخول
+
+    </button>
+
+    <hr style="margin:20px 0;border:0;border-top:1px solid var(--border)">
+
+    <p style="text-align:center;color:var(--muted)">
+      ليس لديك حساب؟
+    </p>
+
+    <button class="btn btn-outline"
+            style="width:100%;margin-top:10px"
+            onclick="showRegisterForm()">
+
+      إنشاء حساب
 
     </button>
 
@@ -2443,10 +3021,15 @@ function showRegisterForm(){
 async function login(){
 
   const email =
-    document.getElementById("loginEmail")?.value.trim();
+    document
+      .getElementById("loginEmail")
+      ?.value
+      .trim();
 
   const password =
-    document.getElementById("loginPassword")?.value;
+    document
+      .getElementById("loginPassword")
+      ?.value;
 
 
   if(!email || !password){
@@ -2469,7 +3052,8 @@ async function login(){
           method:"POST",
           credentials:"include",
           headers:{
-            "Content-Type":"application/json"
+            "Content-Type":"application/json",
+            "Accept":"application/json"
           },
           body:JSON.stringify({
             email,
@@ -2483,7 +3067,10 @@ async function login(){
       await responseJSON(response);
 
 
-    if(!response.ok || data.success===false){
+    if(
+      !response.ok ||
+      data.success===false
+    ){
 
       throw new Error(
         data.error ||
@@ -2509,6 +3096,8 @@ async function login(){
 
   }catch(error){
 
+    console.error(error);
+
     toast(
       error.message ||
       "حدث خطأ أثناء تسجيل الدخول",
@@ -2525,12 +3114,14 @@ async function register(){
   const name =
     document
       .getElementById("registerName")
-      ?.value.trim();
+      ?.value
+      .trim();
 
   const email =
     document
       .getElementById("registerEmail")
-      ?.value.trim();
+      ?.value
+      .trim();
 
   const password =
     document
@@ -2542,6 +3133,17 @@ async function register(){
 
     toast(
       "أكمل جميع البيانات",
+      "error"
+    );
+
+    return;
+  }
+
+
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+
+    toast(
+      "أدخل بريداً إلكترونياً صحيحاً",
       "error"
     );
 
@@ -2569,7 +3171,8 @@ async function register(){
           method:"POST",
           credentials:"include",
           headers:{
-            "Content-Type":"application/json"
+            "Content-Type":"application/json",
+            "Accept":"application/json"
           },
           body:JSON.stringify({
             email,
@@ -2584,7 +3187,10 @@ async function register(){
       await responseJSON(response);
 
 
-    if(!response.ok || data.success===false){
+    if(
+      !response.ok ||
+      data.success===false
+    ){
 
       throw new Error(
         data.error ||
@@ -2610,6 +3216,8 @@ async function register(){
 
   }catch(error){
 
+    console.error(error);
+
     toast(
       error.message ||
       "حدث خطأ أثناء التسجيل",
@@ -2629,13 +3237,19 @@ async function logout(){
       API_BASE + "/api/auth/logout",
       {
         method:"POST",
-        credentials:"include"
+        credentials:"include",
+        headers:{
+          "Accept":"application/json"
+        }
       }
     );
 
   }catch(error){
 
-    console.warn(error);
+    console.warn(
+      "logout:",
+      error
+    );
 
   }
 
@@ -2662,10 +3276,21 @@ async function logout(){
 
 async function loadResources(){
 
-  const grid =
-    document.getElementById("resourcesGrid");
+  if(state.loadingResources){
+    return;
+  }
 
-  if(!grid) return;
+  const grid =
+    document.getElementById(
+      "resourcesGrid"
+    );
+
+  if(!grid){
+    return;
+  }
+
+
+  state.loadingResources = true;
 
 
   grid.innerHTML = `
@@ -2675,7 +3300,9 @@ async function loadResources(){
 
       <div class="spinner"></div>
 
-      جاري تحميل المكتبة...
+      ${escapeHTML(
+        t("loadingLibrary")
+      )}
 
     </div>
 
@@ -2685,9 +3312,17 @@ async function loadResources(){
   try{
 
     const limit =
-      Number(
-        document.getElementById("resourceLimit")?.value ||
-        240
+      Math.min(
+        500,
+        Math.max(
+          1,
+          Number(
+            document
+              .getElementById("resourceLimit")
+              ?.value ||
+            240
+          )
+        )
       );
 
 
@@ -2698,7 +3333,10 @@ async function loadResources(){
         encodeURIComponent(limit),
         {
           method:"GET",
-          credentials:"include"
+          credentials:"include",
+          headers:{
+            "Accept":"application/json"
+          }
         }
       );
 
@@ -2711,6 +3349,7 @@ async function loadResources(){
 
       throw new Error(
         data.error ||
+        data.message ||
         "فشل تحميل المكتبة"
       );
 
@@ -2729,8 +3368,13 @@ async function loadResources(){
     else if(Array.isArray(data.data)){
       resources = data.data;
     }
-    else if(Array.isArray(data.data?.resources)){
-      resources = data.data.resources;
+    else if(
+      Array.isArray(
+        data.data?.resources
+      )
+    ){
+      resources =
+        data.data.resources;
     }
 
 
@@ -2746,9 +3390,26 @@ async function loadResources(){
     updateStats();
 
 
+    const status =
+      document.getElementById(
+        "libraryStatus"
+      );
+
+    if(status){
+
+      status.textContent =
+        `${resources.length} ${t("resources")}`;
+
+    }
+
+
   }catch(error){
 
-    console.error(error);
+    console.error(
+      "loadResources:",
+      error
+    );
+
 
     grid.innerHTML = `
 
@@ -2758,20 +3419,30 @@ async function loadResources(){
         <h3>⚠️ تعذر تحميل المكتبة</h3>
 
         <p style="margin:10px 0">
-          ${escapeHTML(error.message)}
+          ${escapeHTML(
+            error.message ||
+            "خطأ غير معروف"
+          )}
         </p>
 
         <button
           class="btn btn-primary"
           onclick="loadResources()">
 
-          إعادة المحاولة
+          🔄 ${escapeHTML(
+            t("refresh")
+          )}
 
         </button>
 
       </div>
 
     `;
+
+
+  }finally{
+
+    state.loadingResources = false;
 
   }
 
@@ -2799,36 +3470,60 @@ function filterResources(){
 
 
   state.filteredResources =
-    state.resources.filter(resource=>{
+    state.resources.filter(
+      resource=>{
 
-      const title =
-        String(resource.title || "")
-          .toLowerCase();
+        const title =
+          String(
+            resource.title ||
+            ""
+          ).toLowerCase();
 
-      const description =
-        String(resource.description || "")
-          .toLowerCase();
+        const description =
+          String(
+            resource.description ||
+            ""
+          ).toLowerCase();
 
-      const lang =
-        String(resource.language || "")
-          .toLowerCase();
+        const lang =
+          String(
+            resource.language ||
+            ""
+          ).toLowerCase();
+
+        const type =
+          String(
+            resource.type ||
+            ""
+          ).toLowerCase();
+
+        const level =
+          String(
+            resource.level ||
+            ""
+          ).toLowerCase();
 
 
-      const matchesSearch =
-        !search ||
-        title.includes(search) ||
-        description.includes(search);
+        const matchesSearch =
+          !search ||
+          title.includes(search) ||
+          description.includes(search) ||
+          type.includes(search) ||
+          level.includes(search);
 
 
-      const matchesLanguage =
-        !language ||
-        lang===language;
+        const matchesLanguage =
+          !language ||
+          lang===language;
 
 
-      return matchesSearch &&
-             matchesLanguage;
+        return (
+          matchesSearch &&
+          matchesLanguage
+        );
 
-    });
+      }
+    );
 
 
   renderResources();
@@ -2839,9 +3534,13 @@ function filterResources(){
 function renderResources(){
 
   const grid =
-    document.getElementById("resourcesGrid");
+    document.getElementById(
+      "resourcesGrid"
+    );
 
-  if(!grid) return;
+  if(!grid){
+    return;
+  }
 
 
   const resources =
@@ -2855,10 +3554,14 @@ function renderResources(){
       <div class="card"
            style="grid-column:1/-1;text-align:center">
 
-        <h3>📭 لا توجد نتائج</h3>
+        <h3>📭 ${escapeHTML(
+          t("noResults")
+        )}</h3>
 
         <p>
-          جرّب تغيير كلمات البحث أو اللغة.
+          ${escapeHTML(
+            t("trySearch")
+          )}
         </p>
 
       </div>
@@ -2866,104 +3569,125 @@ function renderResources(){
     `;
 
     return;
-
   }
 
 
   grid.innerHTML =
-    resources.map(resource=>{
+    resources
+      .map(
+        resource=>{
 
-      const title =
-        resource.title ||
-        "مورد رياضي";
-
-
-      const description =
-        resource.description ||
-        "مورد تعليمي في الرياضيات";
+          const title =
+            resource.title ||
+            "مورد رياضي";
 
 
-      const language =
-        resource.language ||
-        "ar";
+          const description =
+            resource.description ||
+            "مورد تعليمي في الرياضيات";
 
 
-      const type =
-        resource.type ||
-        "مورد";
+          const language =
+            resource.language ||
+            "ar";
 
 
-      const level =
-        resource.level ||
-        "جميع المستويات";
+          const type =
+            resource.type ||
+            "مورد";
 
 
-      const url =
-        resource.file_url ||
-        resource.url ||
-        resource.download_url ||
-        "";
+          const level =
+            resource.level ||
+            "جميع المستويات";
 
 
-      return `
+          const url =
+            resource.file_url ||
+            resource.url ||
+            resource.download_url ||
+            "";
 
-        <article class="card resource-card">
 
-          <div>
+          return `
 
-            <span class="resource-type">
-              ${escapeHTML(type)}
-            </span>
+            <article class="card resource-card">
 
-          </div>
+              <div>
 
-          <h3>
-            ${escapeHTML(title)}
-          </h3>
+                <span class="resource-type">
+                  ${escapeHTML(type)}
+                </span>
 
-          <p>
-            ${escapeHTML(description)}
-          </p>
+              </div>
 
-          <div class="resource-meta">
+              <h3>
+                ${escapeHTML(title)}
+              </h3>
 
-            <span>🌐 ${escapeHTML(language)}</span>
+              <p>
+                ${escapeHTML(description)}
+              </p>
 
-            <span>📚 ${escapeHTML(level)}</span>
+              <div class="resource-meta">
 
-          </div>
+                <span>
+                  🌐 ${escapeHTML(
+                    language
+                  )}
+                </span>
 
-          ${
-            url
-            ?
-            `
-            <a
-              href="${safeUrl(url)}"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="btn btn-primary">
+                <span>
+                  📚 ${escapeHTML(
+                    level
+                  )}
+                </span>
 
-              📖 فتح المورد
+              </div>
 
-            </a>
-            `
-            :
-            `
-            <button
-              class="btn btn-light"
-              onclick="toast('رابط الملف غير متوفر حالياً')">
+              ${
+                url
+                ?
+                `
 
-              ℹ️ التفاصيل
+                  <a
+                    href="${safeUrl(url)}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="btn btn-primary">
 
-            </button>
-            `
-          }
+                    ${escapeHTML(
+                      t("openResource")
+                    )}
 
-        </article>
+                  </a>
 
-      `;
+                `
+                :
+                `
 
-    }).join("");
+                  <button
+                    class="btn btn-light"
+                    onclick="toast('${escapeJS(
+                      t("noFile")
+                    )}','warning')">
+
+                    ${escapeHTML(
+                      t("details")
+                    )}
+
+                  </button>
+
+                `
+              }
+
+            </article>
+
+          `;
+
+        }
+      )
+      .join("");
 
 }
 
@@ -2975,12 +3699,16 @@ function renderResources(){
 function updateStats(){
 
   const element =
-    document.getElementById("statResources");
+    document.getElementById(
+      "statResources"
+    );
 
   if(element){
 
     element.textContent =
-      state.resources.length || "0";
+      String(
+        state.resources.length
+      );
 
   }
 
@@ -2990,20 +3718,35 @@ function updateStats(){
 function updateGameStats(){
 
   const xp =
-    document.getElementById("xpValue");
+    document.getElementById(
+      "xpValue"
+    );
 
   const streak =
-    document.getElementById("streakValue");
+    document.getElementById(
+      "streakValue"
+    );
 
   const correct =
-    document.getElementById("correctValue");
+    document.getElementById(
+      "correctValue"
+    );
 
 
-  if(xp) xp.textContent = state.xp;
+  if(xp){
+    xp.textContent =
+      String(state.xp);
+  }
 
-  if(streak) streak.textContent = state.streak;
+  if(streak){
+    streak.textContent =
+      String(state.streak);
+  }
 
-  if(correct) correct.textContent = state.correct;
+  if(correct){
+    correct.textContent =
+      String(state.correct);
+  }
 
 }
 
@@ -3012,20 +3755,22 @@ function saveGameStats(){
 
   localStorage.setItem(
     "hamou_xp",
-    state.xp
+    String(state.xp)
   );
 
   localStorage.setItem(
     "hamou_streak",
-    state.streak
+    String(state.streak)
   );
 
   localStorage.setItem(
     "hamou_correct",
-    state.correct
+    String(state.correct)
   );
 
   updateGameStats();
+
+  renderAccount();
 
 }
 
@@ -3037,9 +3782,16 @@ function saveGameStats(){
 function generateChallenges(){
 
   const container =
-    document.getElementById("challengeContainer");
+    document.getElementById(
+      "challengeContainer"
+    );
 
-  if(!container) return;
+  if(!container){
+    return;
+  }
+
+
+  state.challengeLocked = false;
 
 
   const challenges = [
@@ -3048,55 +3800,78 @@ function generateChallenges(){
 
     createMultiplicationChallenge(),
 
-    createEquationChallenge()
+    createEquationChallenge(),
+
+    createDivisionChallenge(),
+
+    createPowerChallenge(),
+
+    createPercentageChallenge()
 
   ];
 
 
   container.innerHTML =
-    challenges.map((challenge,index)=>{
+    challenges
+      .map(
+        (challenge,index)=>{
 
-      return `
+          return `
 
-        <div class="card challenge">
+            <div class="card challenge">
 
-          <span class="challenge-badge">
-            ${challenge.difficulty}
-          </span>
+              <span class="challenge-badge">
+                ${escapeHTML(
+                  challenge.difficulty
+                )}
+              </span>
 
-          <h3 style="margin-top:12px">
-            ${challenge.title}
-          </h3>
+              <h3 style="margin-top:12px">
+                ${escapeHTML(
+                  challenge.title
+                )}
+              </h3>
 
-          <div class="challenge-question">
-            ${challenge.question}
-          </div>
+              <div class="challenge-question">
+                ${challenge.question}
+              </div>
 
-          <div class="answers">
+              <div class="answers">
 
-            ${challenge.answers.map(answer=>`
+                ${challenge.answers
+                  .map(
+                    answer=>`
 
-              <button
-                class="answer"
-                onclick="answerChallenge(
-                  ${index},
-                  ${answer.correct},
-                  this
-                )">
+                      <button
+                        class="answer"
+                        data-challenge="${index}"
+                        onclick="answerChallenge(
+                          ${index},
+                          ${answer.correct},
+                          this
+                        )">
 
-                ${escapeHTML(String(answer.value))}
+                        ${escapeHTML(
+                          String(
+                            answer.value
+                          )
+                        )}
 
-              </button>
+                      </button>
 
-            `).join("")}
+                    `
+                  )
+                  .join("")}
 
-          </div>
+              </div>
 
-        </div>
+            </div>
 
-      `;
+          `;
 
-    }).join("");
+        }
+      )
+      .join("");
 
 }
 
@@ -3118,7 +3893,8 @@ function createAdditionChallenge(){
 
     difficulty:"سهل",
 
-    question:`${a} + ${b} = ؟`,
+    question:
+      `${a} + ${b} = ؟`,
 
     correct,
 
@@ -3147,7 +3923,8 @@ function createMultiplicationChallenge(){
 
     difficulty:"متوسط",
 
-    question:`${a} × ${b} = ؟`,
+    question:
+      `${a} × ${b} = ؟`,
 
     correct,
 
@@ -3176,7 +3953,8 @@ function createEquationChallenge(){
 
     difficulty:"متقدم",
 
-    question:`${a}x = ${b}<br>x = ؟`,
+    question:
+      `${a}x = ${b}<br>x = ؟`,
 
     correct:x,
 
@@ -3188,43 +3966,189 @@ function createEquationChallenge(){
 }
 
 
-function createAnswers(correct){
+function createDivisionChallenge(){
+
+  const b =
+    randomInt(2,12);
+
+  const answer =
+    randomInt(2,12);
+
+  const a =
+    b*answer;
+
+  return {
+
+    title:"➗ تحدي القسمة",
+
+    difficulty:"متوسط",
+
+    question:
+      `${a} ÷ ${b} = ؟`,
+
+    correct:answer,
+
+    answers:
+      createAnswers(answer)
+
+  };
+
+}
+
+
+function createPowerChallenge(){
+
+  const a =
+    randomInt(2,6);
+
+  const correct =
+    a*a;
+
+  return {
+
+    title:"² الأسس",
+
+    difficulty:"متقدم",
+
+    question:
+      `${a}² = ؟`,
+
+    correct,
+
+    answers:
+      createAnswers(correct)
+
+  };
+
+}
+
+
+function createPercentageChallenge(){
+
+  const percent =
+    [10,20,25,50][
+      randomInt(0,3)
+    ];
+
+  const base =
+    randomInt(2,10)*10;
+
+  const correct =
+    base*percent/100;
+
+  return {
+
+    title:"% النسبة المئوية",
+
+    difficulty:"متقدم",
+
+    question:
+      `${percent}% من ${base} = ؟`,
+
+    correct,
+
+    answers:
+      createAnswers(
+        correct,
+        Math.max(
+          2,
+          Math.round(correct/2)
+        )
+      )
+
+  };
+
+}
+
+
+function createAnswers(
+  correct,
+  offsetBase=0
+){
 
   const values =
-    new Set([correct]);
+    new Set([
+      correct
+    ]);
 
 
   while(values.size<4){
 
     const offset =
-      randomInt(-10,10);
+      offsetBase ||
+      randomInt(1,10);
 
-    if(offset!==0){
+    const sign =
+      Math.random()<.5
+      ? -1
+      : 1;
 
-      values.add(
-        correct + offset
-      );
+    const candidate =
+      correct +
+      sign*offset;
 
+
+    if(candidate!==correct){
+      values.add(candidate);
     }
 
   }
 
 
   return [...values]
-    .sort(()=>Math.random()-.5)
-    .map(value=>({
+    .sort(
+      ()=>Math.random()-.5
+    )
+    .map(
+      value=>({
 
-      value,
+        value,
 
-      correct:
-        value===correct
+        correct:
+          value===correct
 
-    }));
+      })
+    );
 
 }
 
 
-function answerChallenge(index,isCorrect,button){
+function answerChallenge(
+  index,
+  isCorrect,
+  button
+){
+
+  if(state.challengeLocked){
+    return;
+  }
+
+
+  if(
+    button.disabled ||
+    button.classList.contains("correct") ||
+    button.classList.contains("wrong")
+  ){
+    return;
+  }
+
+
+  const card =
+    button.closest(".challenge");
+
+  if(card){
+
+    card
+      .querySelectorAll(".answer")
+      .forEach(btn=>{
+        btn.disabled = true;
+      });
+
+  }
+
+
+  state.challengeLocked = true;
+
 
   if(isCorrect){
 
@@ -3243,11 +4167,6 @@ function answerChallenge(index,isCorrect,button){
       "success"
     );
 
-    setTimeout(
-      generateChallenges,
-      700
-    );
-
   }else{
 
     button.classList.add("wrong");
@@ -3263,6 +4182,12 @@ function answerChallenge(index,isCorrect,button){
 
   }
 
+
+  setTimeout(
+    generateChallenges,
+    900
+  );
+
 }
 
 
@@ -3270,12 +4195,37 @@ function answerChallenge(index,isCorrect,button){
    SPEED GAME
 ========================================================= */
 
+function stopGameTimer(){
+
+  if(
+    state.game &&
+    state.game.interval
+  ){
+
+    clearInterval(
+      state.game.interval
+    );
+
+    state.game.interval = null;
+
+  }
+
+}
+
+
 function startSpeedGame(){
 
   const area =
-    document.getElementById("gameArea");
+    document.getElementById(
+      "gameArea"
+    );
 
-  area.style.display = "block";
+  area.style.display =
+    "block";
+
+
+  stopGameTimer();
+
 
   state.game = {
 
@@ -3287,14 +4237,19 @@ function startSpeedGame(){
 
     a:0,
 
-    b:0
+    b:0,
+
+    locked:false,
+
+    interval:null
 
   };
 
 
-  document.getElementById("gameTitle")
-    .innerHTML =
-      "<h2>⚡ أسرع إجابة</h2>";
+  document.getElementById(
+    "gameTitle"
+  ).innerHTML =
+    "<h2>⚡ أسرع إجابة</h2>";
 
 
   renderSpeedGame();
@@ -3304,11 +4259,36 @@ function startSpeedGame(){
 
 function renderSpeedGame(){
 
+  if(!state.game ||
+     state.game.type!=="speed"){
+    return;
+  }
+
+
   const content =
-    document.getElementById("gameContent");
+    document.getElementById(
+      "gameContent"
+    );
+
+
+  if(!content){
+    return;
+  }
 
 
   if(state.game.time<=0){
+
+    stopGameTimer();
+
+
+    const earned =
+      state.game.score;
+
+
+    state.xp += earned;
+
+    saveGameStats();
+
 
     content.innerHTML = `
 
@@ -3316,7 +4296,16 @@ function renderSpeedGame(){
 
       <p>
         نتيجتك:
-        <strong>${state.game.score}</strong>
+        <strong>
+          ${state.game.score}
+        </strong>
+      </p>
+
+      <p>
+        المكافأة:
+        <strong>
+          +${earned} XP
+        </strong>
       </p>
 
       <button
@@ -3329,11 +4318,6 @@ function renderSpeedGame(){
 
     `;
 
-    state.xp +=
-      state.game.score;
-
-    saveGameStats();
-
     return;
 
   }
@@ -3345,6 +4329,9 @@ function renderSpeedGame(){
   state.game.b =
     randomInt(2,20);
 
+  state.game.locked =
+    false;
+
 
   content.innerHTML = `
 
@@ -3353,16 +4340,22 @@ function renderSpeedGame(){
     </div>
 
     <div class="game-number">
-      ${state.game.a} + ${state.game.b}
+      ${state.game.a}
+      +
+      ${state.game.b}
     </div>
 
     <input
       id="speedAnswer"
       class="input game-input"
       type="number"
+      inputmode="numeric"
       autofocus
       placeholder="؟"
-      onkeydown="if(event.key==='Enter')submitSpeedAnswer()"
+      onkeydown="
+        if(event.key==='Enter')
+          submitSpeedAnswer()
+      "
     >
 
     <button
@@ -3375,31 +4368,42 @@ function renderSpeedGame(){
 
     <p>
       النقاط:
-      <strong>${state.game.score}</strong>
+      <strong>
+        ${state.game.score}
+      </strong>
     </p>
 
   `;
 
-  clearInterval(state.game.interval);
+
+  stopGameTimer();
+
 
   state.game.interval =
-    setInterval(()=>{
+    setInterval(
+      ()=>{
 
-      state.game.time--;
+        if(!state.game){
+          return;
+        }
 
-      renderSpeedTimerOnly();
+        state.game.time--;
 
-      if(state.game.time<=0){
+        renderSpeedTimerOnly();
 
-        clearInterval(
-          state.game.interval
-        );
+        if(
+          state.game.time<=0
+        ){
 
-        renderSpeedGame();
+          stopGameTimer();
 
-      }
+          renderSpeedGame();
 
-    },1000);
+        }
+
+      },
+      1000
+    );
 
 }
 
@@ -3407,12 +4411,17 @@ function renderSpeedGame(){
 function renderSpeedTimerOnly(){
 
   const timer =
-    document.querySelector("#gameContent .timer");
+    document.querySelector(
+      "#gameContent .timer"
+    );
 
-  if(timer){
+  if(timer &&
+     state.game){
 
     timer.textContent =
-      state.game.time;
+      String(
+        state.game.time
+      );
 
   }
 
@@ -3421,25 +4430,51 @@ function renderSpeedTimerOnly(){
 
 function submitSpeedAnswer(){
 
-  const input =
-    document.getElementById("speedAnswer");
+  if(
+    !state.game ||
+    state.game.type!=="speed" ||
+    state.game.locked
+  ){
+    return;
+  }
 
-  if(!input) return;
+
+  const input =
+    document.getElementById(
+      "speedAnswer"
+    );
+
+  if(!input){
+    return;
+  }
 
 
   const answer =
     Number(input.value);
+
 
   const correct =
     state.game.a +
     state.game.b;
 
 
+  if(
+    !Number.isFinite(answer)
+  ){
+
+    return;
+  }
+
+
   if(answer===correct){
+
+    state.game.locked = true;
 
     state.game.score++;
 
     state.xp++;
+
+    state.correct++;
 
     saveGameStats();
 
@@ -3452,7 +4487,7 @@ function submitSpeedAnswer(){
       "error"
     );
 
-    input.value="";
+    input.value = "";
 
     input.focus();
 
@@ -3467,26 +4502,34 @@ function submitSpeedAnswer(){
 
 function startGuessGame(){
 
-  const area =
-    document.getElementById("gameArea");
+  stopGameTimer();
 
-  area.style.display="block";
+
+  const area =
+    document.getElementById(
+      "gameArea"
+    );
+
+  area.style.display =
+    "block";
 
 
   state.game={
 
     type:"guess",
 
-    number:randomInt(1,100),
+    number:
+      randomInt(1,100),
 
     attempts:0
 
   };
 
 
-  document.getElementById("gameTitle")
-    .innerHTML =
-      "<h2>🎯 خمن الرقم</h2>";
+  document.getElementById(
+    "gameTitle"
+  ).innerHTML =
+    "<h2>🎯 خمن الرقم</h2>";
 
 
   renderGuessGame();
@@ -3496,8 +4539,16 @@ function startGuessGame(){
 
 function renderGuessGame(){
 
+  if(!state.game ||
+     state.game.type!=="guess"){
+    return;
+  }
+
+
   const content =
-    document.getElementById("gameContent");
+    document.getElementById(
+      "gameContent"
+    );
 
 
   content.innerHTML = `
@@ -3512,7 +4563,11 @@ function renderGuessGame(){
       type="number"
       min="1"
       max="100"
-      onkeydown="if(event.key==='Enter')submitGuess()"
+      inputmode="numeric"
+      onkeydown="
+        if(event.key==='Enter')
+          submitGuess()
+      "
     >
 
     <button
@@ -3527,28 +4582,61 @@ function renderGuessGame(){
 
     <p>
       المحاولات:
-      ${state.game.attempts}
+      <strong>
+        ${state.game.attempts}
+      </strong>
     </p>
 
   `;
+
+
+  document
+    .getElementById("guessInput")
+    ?.focus();
 
 }
 
 
 function submitGuess(){
 
+  if(
+    !state.game ||
+    state.game.type!=="guess"
+  ){
+    return;
+  }
+
+
   const input =
-    document.getElementById("guessInput");
+    document.getElementById(
+      "guessInput"
+    );
 
   const hint =
-    document.getElementById("guessHint");
+    document.getElementById(
+      "guessHint"
+    );
+
+
+  if(!input || !hint){
+    return;
+  }
 
 
   const value =
     Number(input.value);
 
 
-  if(!value){
+  if(
+    !Number.isInteger(value) ||
+    value<1 ||
+    value>100
+  ){
+
+    toast(
+      "أدخل رقماً صحيحاً بين 1 و100",
+      "error"
+    );
 
     return;
 
@@ -3558,44 +4646,54 @@ function submitGuess(){
   state.game.attempts++;
 
 
-  if(value===state.game.number){
+  if(
+    value===state.game.number
+  ){
 
     const reward =
       Math.max(
         5,
-        25-state.game.attempts*3
+        25 -
+        state.game.attempts*3
       );
 
 
     state.xp += reward;
 
+    state.correct++;
+
     saveGameStats();
 
 
-    document.getElementById("gameContent")
-      .innerHTML = `
+    document.getElementById(
+      "gameContent"
+    ).innerHTML = `
 
-        <h2>🎉 أحسنت!</h2>
+      <h2>🎉 أحسنت!</h2>
 
-        <p>
-          الرقم هو
-          <strong>${state.game.number}</strong>
-        </p>
+      <p>
+        الرقم هو
+        <strong>
+          ${state.game.number}
+        </strong>
+      </p>
 
-        <p>
-          حصلت على
-          <strong>+${reward} XP</strong>
-        </p>
+      <p>
+        حصلت على
+        <strong>
+          +${reward} XP
+        </strong>
+      </p>
 
-        <button
-          class="btn btn-secondary"
-          onclick="startGuessGame()">
+      <button
+        class="btn btn-secondary"
+        onclick="startGuessGame()">
 
-          مرة أخرى
+        مرة أخرى
 
-        </button>
+      </button>
 
-      `;
+    `;
 
     return;
 
@@ -3603,9 +4701,34 @@ function submitGuess(){
 
 
   hint.textContent =
-    value < state.game.number
+    value <
+    state.game.number
     ? "⬆️ الرقم أكبر"
     : "⬇️ الرقم أصغر";
+
+
+  input.value = "";
+
+  input.focus();
+
+
+  const attempts =
+    state.game.attempts;
+
+
+  const p =
+    document.querySelector(
+      "#gameContent p:last-child"
+    );
+
+  if(p){
+
+    p.innerHTML =
+      "المحاولات: <strong>" +
+      attempts +
+      "</strong>";
+
+  }
 
 }
 
@@ -3616,15 +4739,25 @@ function submitGuess(){
 
 function startMemoryGame(){
 
-  const area =
-    document.getElementById("gameArea");
+  stopGameTimer();
 
-  area.style.display="block";
+
+  const area =
+    document.getElementById(
+      "gameArea"
+    );
+
+  area.style.display =
+    "block";
+
+
+  const length =
+    randomInt(5,7);
 
 
   const numbers =
     Array.from(
-      {length:5},
+      {length},
       ()=>randomInt(1,20)
     );
 
@@ -3635,85 +4768,136 @@ function startMemoryGame(){
 
     numbers,
 
-    shown:true
+    shown:true,
+
+    timeout:null
 
   };
 
 
-  document.getElementById("gameTitle")
-    .innerHTML =
-      "<h2>🧠 تحدي الذاكرة</h2>";
+  document.getElementById(
+    "gameTitle"
+  ).innerHTML =
+    "<h2>🧠 تحدي الذاكرة</h2>";
 
 
-  document.getElementById("gameContent")
-    .innerHTML = `
+  document.getElementById(
+    "gameContent"
+  ).innerHTML = `
 
-      <p>
-        احفظ الأرقام التالية:
-      </p>
+    <p>
+      احفظ الأرقام التالية:
+    </p>
 
-      <div class="game-number">
-        ${numbers.join(" - ")}
-      </div>
+    <div class="game-number">
+      ${numbers.join(" - ")}
+    </div>
 
-      <p>
-        سيتم إخفاؤها بعد 3 ثوانٍ...
-      </p>
+    <p>
+      سيتم إخفاؤها بعد 3 ثوانٍ...
+    </p>
 
-    `;
+  `;
 
 
-  setTimeout(()=>{
+  state.game.timeout =
+    setTimeout(
+      ()=>{
 
-    document.getElementById("gameContent")
-      .innerHTML = `
+        if(
+          !state.game ||
+          state.game.type!=="memory"
+        ){
+          return;
+        }
 
-        <p>
-          اكتب الأرقام بالترتيب:
-        </p>
 
-        <input
-          id="memoryAnswer"
-          class="input game-input"
-          placeholder="مثال: 4 12 7 3 18"
-        >
+        state.game.shown =
+          false;
 
-        <button
-          class="btn btn-success"
-          onclick="submitMemoryGame()">
 
-          تحقق
+        document.getElementById(
+          "gameContent"
+        ).innerHTML = `
 
-        </button>
+          <p>
+            اكتب الأرقام بالترتيب:
+          </p>
 
-      `;
+          <input
+            id="memoryAnswer"
+            class="input game-input"
+            placeholder="مثال: 4 12 7 3 18"
+            autocomplete="off"
+          >
 
-  },3000);
+          <button
+            class="btn btn-success"
+            onclick="submitMemoryGame()">
+
+            تحقق
+
+          </button>
+
+        `;
+
+
+        document
+          .getElementById(
+            "memoryAnswer"
+          )
+          ?.focus();
+
+      },
+      3000
+    );
 
 }
 
 
 function submitMemoryGame(){
 
+  if(
+    !state.game ||
+    state.game.type!=="memory"
+  ){
+    return;
+  }
+
+
   const input =
-    document.getElementById("memoryAnswer");
+    document.getElementById(
+      "memoryAnswer"
+    );
+
+
+  if(!input){
+    return;
+  }
 
 
   const answer =
     input.value
       .trim()
       .split(/\s+/)
+      .filter(Boolean)
       .map(Number);
 
 
   const correct =
-    JSON.stringify(answer) ===
-    JSON.stringify(state.game.numbers);
+    answer.length===
+      state.game.numbers.length &&
+    answer.every(
+      (value,index)=>
+        value===state.game.numbers[index]
+    );
 
 
   if(correct){
 
     state.xp += 20;
+
+    state.correct++;
 
     saveGameStats();
 
@@ -3721,6 +4905,28 @@ function submitMemoryGame(){
       "🧠 ممتاز! +20 XP",
       "success"
     );
+
+
+    document.getElementById(
+      "gameContent"
+    ).innerHTML = `
+
+      <h2>🎉 ممتاز!</h2>
+
+      <p>
+        حصلت على
+        <strong>+20 XP</strong>
+      </p>
+
+      <button
+        class="btn btn-success"
+        onclick="startMemoryGame()">
+
+        مرة أخرى
+
+      </button>
+
+    `;
 
   }else{
 
@@ -3735,22 +4941,44 @@ function submitMemoryGame(){
 
 
 /* =========================================================
-   CALCULATOR
+   CALCULATOR — SAFE PARSER
 ========================================================= */
 
 function calcInput(value){
 
   const display =
-    document.getElementById("calcDisplay");
+    document.getElementById(
+      "calcDisplay"
+    );
+
+
+  if(!display){
+    return;
+  }
+
+
+  if(display.value==="خطأ"){
+    display.value="0";
+  }
 
 
   if(display.value==="0"){
 
-    display.value=value;
+    if(
+      value==="+" ||
+      value==="*" ||
+      value==="/"
+    ){
+      return;
+    }
+
+    display.value =
+      value;
 
   }else{
 
-    display.value += value;
+    display.value +=
+      value;
 
   }
 
@@ -3759,9 +4987,14 @@ function calcInput(value){
 
 function calcClear(){
 
-  document.getElementById(
-    "calcDisplay"
-  ).value="0";
+  const display =
+    document.getElementById(
+      "calcDisplay"
+    );
+
+  if(display){
+    display.value="0";
+  }
 
 }
 
@@ -3769,11 +5002,21 @@ function calcClear(){
 function calcBack(){
 
   const display =
-    document.getElementById("calcDisplay");
+    document.getElementById(
+      "calcDisplay"
+    );
+
+
+  if(!display){
+    return;
+  }
 
 
   display.value =
-    display.value.slice(0,-1) ||
+    display.value.slice(
+      0,
+      -1
+    ) ||
     "0";
 
 }
@@ -3782,14 +5025,32 @@ function calcBack(){
 function calcCalculate(){
 
   const display =
-    document.getElementById("calcDisplay");
+    document.getElementById(
+      "calcDisplay"
+    );
+
+
+  if(!display){
+    return;
+  }
 
 
   const expression =
     display.value;
 
 
-  if(!/^[0-9+\-*/().\s]+$/.test(expression)){
+  if(
+    !expression ||
+    expression==="خطأ"
+  ){
+    return;
+  }
+
+
+  if(
+    !/^[0-9+\-*/().\s]+$/
+      .test(expression)
+  ){
 
     display.value="خطأ";
 
@@ -3800,40 +5061,412 @@ function calcCalculate(){
 
   try{
 
-    /*
-      نستخدم Function فقط بعد whitelist
-      صارمة للأرقام والعمليات والأقواس.
-    */
-
     const result =
-      Function(
-        '"use strict";return (' +
-        expression +
-        ')'
-      )();
+      evaluateMathExpression(
+        expression
+      );
 
 
     if(
       !Number.isFinite(result)
     ){
+      throw new Error(
+        "نتيجة غير صالحة"
+      );
+    }
+
+
+    display.value =
+      formatNumber(
+        result
+      );
+
+  }catch(error){
+
+    console.warn(
+      "calculator:",
+      error
+    );
+
+    display.value =
+      "خطأ";
+
+  }
+
+}
+
+
+/*
+  Shunting-yard style parser.
+  No eval().
+  No Function().
+*/
+
+function evaluateMathExpression(expression){
+
+  const tokens =
+    tokenizeExpression(
+      expression
+    );
+
+
+  if(!tokens.length){
+    throw new Error();
+  }
+
+
+  const values = [];
+
+  const operators = [];
+
+
+  const precedence = {
+
+    "+":1,
+
+    "-":1,
+
+    "*":2,
+
+    "/":2
+
+  };
+
+
+  let expectingValue = true;
+
+
+  for(
+    let i=0;
+    i<tokens.length;
+    i++
+  ){
+
+    const token =
+      tokens[i];
+
+
+    if(
+      typeof token==="number"
+    ){
+
+      values.push(token);
+
+      expectingValue=false;
+
+      continue;
+
+    }
+
+
+    if(token==="("){
+
+      operators.push(token);
+
+      expectingValue=true;
+
+      continue;
+
+    }
+
+
+    if(token===")"){
+
+      while(
+        operators.length &&
+        operators[
+          operators.length-1
+        ]!=="("
+      ){
+
+        applyOperator(
+          values,
+          operators.pop()
+        );
+
+      }
+
+
+      if(
+        operators.pop()!=="("
+      ){
+        throw new Error();
+      }
+
+
+      expectingValue=false;
+
+      continue;
+
+    }
+
+
+    if(
+      ["+","-"].includes(token) &&
+      expectingValue
+    ){
+
+      /*
+        Unary + and - are handled by
+        converting them to 0 +/- value.
+      */
+
+      values.push(0);
+
+    }
+
+
+    if(
+      !Object.prototype.hasOwnProperty
+        .call(precedence,token)
+    ){
+      throw new Error();
+    }
+
+
+    while(
+
+      operators.length &&
+
+      operators[
+        operators.length-1
+      ]!=="(" &&
+
+      precedence[
+        operators[
+          operators.length-1
+        ]
+      ] >=
+      precedence[token]
+
+    ){
+
+      applyOperator(
+        values,
+        operators.pop()
+      );
+
+    }
+
+
+    operators.push(token);
+
+    expectingValue=true;
+
+  }
+
+
+  if(expectingValue){
+
+    throw new Error();
+
+  }
+
+
+  while(operators.length){
+
+    const op =
+      operators.pop();
+
+    if(op==="("){
 
       throw new Error();
 
     }
 
-
-    display.value =
-      String(
-        Math.round(
-          result*1000000000
-        )/1000000000
-      );
-
-  }catch{
-
-    display.value="خطأ";
+    applyOperator(
+      values,
+      op
+    );
 
   }
+
+
+  if(values.length!==1){
+
+    throw new Error();
+
+  }
+
+
+  return values[0];
+
+}
+
+
+function tokenizeExpression(expression){
+
+  const tokens=[];
+
+  let i=0;
+
+
+  while(
+    i<expression.length
+  ){
+
+    const char =
+      expression[i];
+
+
+    if(/\s/.test(char)){
+
+      i++;
+
+      continue;
+
+    }
+
+
+    if(
+      /[0-9.]/.test(char)
+    ){
+
+      let number="";
+
+
+      let dots=0;
+
+
+      while(
+        i<expression.length &&
+        /[0-9.]/.test(
+          expression[i]
+        )
+      ){
+
+        if(
+          expression[i]==="."
+        ){
+          dots++;
+        }
+
+        if(dots>1){
+          throw new Error();
+        }
+
+        number +=
+          expression[i];
+
+        i++;
+
+      }
+
+
+      if(
+        number==="."
+      ){
+        throw new Error();
+      }
+
+
+      tokens.push(
+        Number(number)
+      );
+
+      continue;
+
+    }
+
+
+    if(
+      "+-*/()".includes(char)
+    ){
+
+      tokens.push(char);
+
+      i++;
+
+      continue;
+
+    }
+
+
+    throw new Error();
+
+  }
+
+
+  return tokens;
+
+}
+
+
+function applyOperator(
+  values,
+  operator
+){
+
+  if(values.length<2){
+
+    throw new Error();
+
+  }
+
+
+  const b =
+    values.pop();
+
+  const a =
+    values.pop();
+
+
+  let result;
+
+
+  switch(operator){
+
+    case "+":
+
+      result =
+        a+b;
+
+      break;
+
+    case "-":
+
+      result =
+        a-b;
+
+      break;
+
+    case "*":
+
+      result =
+        a*b;
+
+      break;
+
+    case "/":
+
+      if(b===0){
+        throw new Error(
+          "القسمة على صفر"
+        );
+      }
+
+      result =
+        a/b;
+
+      break;
+
+    default:
+
+      throw new Error();
+
+  }
+
+
+  if(
+    !Number.isFinite(result)
+  ){
+
+    throw new Error();
+
+  }
+
+
+  values.push(result);
 
 }
 
@@ -3846,21 +5479,43 @@ function generateFunctionTable(){
 
   const a =
     Number(
-      document.getElementById("lineA").value
+      document.getElementById(
+        "lineA"
+      )?.value
     );
 
   const b =
     Number(
-      document.getElementById("lineB").value
+      document.getElementById(
+        "lineB"
+      )?.value
     );
+
+
+  if(
+    !Number.isFinite(a) ||
+    !Number.isFinite(b)
+  ){
+
+    toast(
+      "أدخل قيماً صحيحة للدالة.",
+      "error"
+    );
+
+    return;
+
+  }
 
 
   let html = `
 
     <h4>
-      y = ${a}x ${b>=0?"+ ":"- "}
-      ${Math.abs(b)}
+      y = ${formatNumber(a)}x
+      ${b>=0?"+ ":"- "}
+      ${formatNumber(Math.abs(b))}
     </h4>
+
+    <div style="overflow:auto">
 
     <table
       style="
@@ -3871,14 +5526,23 @@ function generateFunctionTable(){
     >
 
       <tr>
-        <th style="padding:8px;border:1px solid #ddd">x</th>
-        <th style="padding:8px;border:1px solid #ddd">y</th>
+        <th style="padding:8px;border:1px solid var(--border)">
+          x
+        </th>
+
+        <th style="padding:8px;border:1px solid var(--border)">
+          y
+        </th>
       </tr>
 
   `;
 
 
-  for(let x=-5;x<=5;x++){
+  for(
+    let x=-5;
+    x<=5;
+    x++
+  ){
 
     const y =
       a*x+b;
@@ -3888,12 +5552,20 @@ function generateFunctionTable(){
 
       <tr>
 
-        <td style="padding:8px;border:1px solid #ddd;text-align:center">
+        <td style="
+          padding:8px;
+          border:1px solid var(--border);
+          text-align:center
+        ">
           ${x}
         </td>
 
-        <td style="padding:8px;border:1px solid #ddd;text-align:center">
-          ${y}
+        <td style="
+          padding:8px;
+          border:1px solid var(--border);
+          text-align:center
+        ">
+          ${formatNumber(y)}
         </td>
 
       </tr>
@@ -3903,12 +5575,16 @@ function generateFunctionTable(){
   }
 
 
-  html += "</table>";
+  html += `
+    </table>
+    </div>
+  `;
 
 
   document.getElementById(
     "functionTable"
-  ).innerHTML=html;
+  ).innerHTML =
+    html;
 
 }
 
@@ -3917,11 +5593,25 @@ function geometryCircle(){
 
   const r =
     Number(
-      prompt("أدخل نصف القطر:")
+      prompt(
+        "أدخل نصف القطر:"
+      )
     );
 
 
-  if(!r || r<=0) return;
+  if(
+    !Number.isFinite(r) ||
+    r<=0
+  ){
+
+    toast(
+      "أدخل نصف قطر موجب.",
+      "error"
+    );
+
+    return;
+
+  }
 
 
   const area =
@@ -3960,21 +5650,34 @@ function geometryTriangle(){
 
   const base =
     Number(
-      prompt("أدخل القاعدة:")
+      prompt(
+        "أدخل القاعدة:"
+      )
     );
 
   const height =
     Number(
-      prompt("أدخل الارتفاع:")
+      prompt(
+        "أدخل الارتفاع:"
+      )
     );
 
 
   if(
-    !base ||
-    !height ||
+    !Number.isFinite(base) ||
+    !Number.isFinite(height) ||
     base<=0 ||
     height<=0
-  ) return;
+  ){
+
+    toast(
+      "أدخل قيماً موجبة.",
+      "error"
+    );
+
+    return;
+
+  }
 
 
   const area =
@@ -4005,21 +5708,34 @@ function geometryRectangle(){
 
   const width =
     Number(
-      prompt("أدخل العرض:")
+      prompt(
+        "أدخل العرض:"
+      )
     );
 
   const height =
     Number(
-      prompt("أدخل الطول:")
+      prompt(
+        "أدخل الطول:"
+      )
     );
 
 
   if(
-    !width ||
-    !height ||
+    !Number.isFinite(width) ||
+    !Number.isFinite(height) ||
     width<=0 ||
     height<=0
-  ) return;
+  ){
+
+    toast(
+      "أدخل قيماً موجبة.",
+      "error"
+    );
+
+    return;
+
+  }
 
 
   const area =
@@ -4062,13 +5778,17 @@ async function askAI(){
 
   const question =
     document
-      .getElementById("aiQuestion")
+      .getElementById(
+        "aiQuestion"
+      )
       ?.value
       .trim();
 
 
   const result =
-    document.getElementById("aiResult");
+    document.getElementById(
+      "aiResult"
+    );
 
 
   if(!question){
@@ -4083,6 +5803,32 @@ async function askAI(){
   }
 
 
+  if(question.length>10000){
+
+    toast(
+      "السؤال طويل جداً.",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  if(!state.user){
+
+    toast(
+      "يجب تسجيل الدخول لاستخدام HAMOU AI.",
+      "warning"
+    );
+
+    openAuthModal();
+
+    return;
+
+  }
+
+
   result.textContent =
     "🤖 جاري التفكير...";
 
@@ -4091,12 +5837,14 @@ async function askAI(){
 
     const response =
       await fetch(
-        API_BASE + "/api/ai-generate",
+        API_BASE +
+        "/api/ai-generate",
         {
           method:"POST",
           credentials:"include",
           headers:{
-            "Content-Type":"application/json"
+            "Content-Type":"application/json",
+            "Accept":"application/json"
           },
           body:JSON.stringify({
             prompt:question,
@@ -4111,13 +5859,15 @@ async function askAI(){
       await responseJSON(response);
 
 
-    if(!response.ok ||
-       data.success===false){
+    if(
+      !response.ok ||
+      data.success===false
+    ){
 
       throw new Error(
         data.error ||
         data.message ||
-        "خدمة الذكاء الاصطناعي غير مهيأة بعد"
+        "خدمة الذكاء الاصطناعي غير مهيأة بعد."
       );
 
     }
@@ -4133,16 +5883,23 @@ async function askAI(){
 
 
     result.textContent =
-      answer;
+      String(answer);
 
 
   }catch(error){
 
+    console.error(
+      "askAI:",
+      error
+    );
+
+
     result.textContent =
       "⚠️ " +
-      error.message +
-      "\n\n" +
-      "يمكن تفعيل HAMOU AI من خلال إعداد API الخاص بالذكاء الاصطناعي في Cloudflare Worker.";
+      (
+        error.message ||
+        "تعذر الاتصال بخدمة HAMOU AI."
+      );
 
   }
 
@@ -4153,7 +5910,10 @@ async function askAI(){
    PAYMENT
 ========================================================= */
 
-async function createPayment(plan,amount){
+async function createPayment(
+  plan,
+  amount
+){
 
   if(!state.user){
 
@@ -4169,20 +5929,67 @@ async function createPayment(plan,amount){
   }
 
 
+  const allowedPlans = {
+
+    monthly:1500,
+
+    quarterly:4000,
+
+    yearly:9000
+
+  };
+
+
+  if(
+    !Object.prototype.hasOwnProperty
+      .call(
+        allowedPlans,
+        plan
+      )
+  ){
+
+    toast(
+      "الخطة غير صحيحة.",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  if(
+    Number(amount)!==
+    allowedPlans[plan]
+  ){
+
+    toast(
+      "قيمة الاشتراك غير صحيحة.",
+      "error"
+    );
+
+    return;
+
+  }
+
+
   try{
 
     const response =
       await fetch(
-        API_BASE + "/api/payment/create",
+        API_BASE +
+        "/api/payment/create",
         {
           method:"POST",
           credentials:"include",
           headers:{
-            "Content-Type":"application/json"
+            "Content-Type":"application/json",
+            "Accept":"application/json"
           },
           body:JSON.stringify({
             plan,
-            amount,
+            amount:
+              allowedPlans[plan],
             currency:"DZD"
           })
         }
@@ -4193,13 +6000,15 @@ async function createPayment(plan,amount){
       await responseJSON(response);
 
 
-    if(!response.ok ||
-       data.success===false){
+    if(
+      !response.ok ||
+      data.success===false
+    ){
 
       throw new Error(
         data.error ||
         data.message ||
-        "خدمة الدفع غير مهيأة بعد"
+        "خدمة الدفع غير مهيأة بعد."
       );
 
     }
@@ -4213,24 +6022,39 @@ async function createPayment(plan,amount){
 
     if(url){
 
-      window.location.href =
-        url;
+      const safe =
+        safeUrl(url);
 
-      return;
+
+      if(safe!=="#"){
+
+        window.location.href =
+          safe;
+
+        return;
+
+      }
 
     }
 
 
     toast(
-      "تم إنشاء عملية الدفع",
+      "تم إنشاء عملية الدفع.",
       "success"
     );
 
 
   }catch(error){
 
+    console.error(
+      "createPayment:",
+      error
+    );
+
+
     toast(
-      error.message,
+      error.message ||
+      "تعذر إنشاء عملية الدفع.",
       "error"
     );
 
@@ -4243,10 +6067,163 @@ async function createPayment(plan,amount){
    LANGUAGE
 ========================================================= */
 
-function changeLanguage(language){
+function t(key){
+
+  const dictionary =
+    translations[
+      state.language
+    ] ||
+    translations.ar;
+
+
+  return (
+    dictionary[key] ??
+    translations.ar[key] ??
+    key
+  );
+
+}
+
+
+function applyLanguage(){
+
+  const language =
+    translations[
+      state.language
+    ]
+    ? state.language
+    : "ar";
+
 
   state.language =
     language;
+
+
+  document.documentElement.lang =
+    language;
+
+
+  document.documentElement.dir =
+    language==="ar"
+      ? "rtl"
+      : "ltr";
+
+
+  const dictionary =
+    translations[language];
+
+
+  document
+    .querySelectorAll(
+      "[data-i18n]"
+    )
+    .forEach(element=>{
+
+      const key =
+        element.dataset.i18n;
+
+      const value =
+        dictionary[key] ??
+        translations.ar[key];
+
+
+      if(value==null){
+        return;
+      }
+
+
+      if(value.includes("|")){
+
+        const parts =
+          value.split("|");
+
+
+        element.innerHTML =
+          parts
+            .map(
+              escapeHTML
+            )
+            .join("<br>");
+
+      }else{
+
+        element.textContent =
+          value;
+
+      }
+
+    });
+
+
+  document
+    .querySelectorAll(
+      "[data-i18n-placeholder]"
+    )
+    .forEach(element=>{
+
+      const key =
+        element.dataset
+          .i18nPlaceholder;
+
+      const value =
+        dictionary[key] ??
+        translations.ar[key];
+
+
+      if(value!=null){
+
+        element.placeholder =
+          value;
+
+      }
+
+    });
+
+
+  const languageSelect =
+    document.getElementById(
+      "languageSelect"
+    );
+
+  if(languageSelect){
+
+    languageSelect.value =
+      language;
+
+  }
+
+
+  const search =
+    document.getElementById(
+      "resourceSearch"
+    );
+
+  if(search){
+
+    filterResources();
+
+  }
+
+
+  renderAccount();
+
+}
+
+
+function changeLanguage(language){
+
+  if(
+    !translations[language]
+  ){
+
+    language="ar";
+
+  }
+
+
+  state.language =
+    language;
+
 
   localStorage.setItem(
     "hamou_language",
@@ -4254,32 +6231,71 @@ function changeLanguage(language){
   );
 
 
-  /*
-    الواجهة الأساسية تبقى عربية حالياً.
-    يمكن توسيع قاموس الترجمة لاحقاً
-    دون تغيير بنية المنصة.
-  */
-
-
-  const direction =
-    language==="ar"
-      ? "rtl"
-      : "ltr";
-
-
-  document.documentElement.lang =
-    language;
-
-  document.documentElement.dir =
-    direction;
+  applyLanguage();
 
 
   toast(
     language==="ar"
       ? "تم اختيار العربية"
-      : "Language selected: " + language,
+      : language==="fr"
+      ? "Français sélectionné"
+      : "Language selected",
     "success"
   );
+
+}
+
+
+/* =========================================================
+   THEME
+========================================================= */
+
+function loadTheme(){
+
+  const saved =
+    state.theme;
+
+
+  document.documentElement
+    .classList.toggle(
+      "dark",
+      saved==="dark"
+    );
+
+
+  const button =
+    document.getElementById(
+      "themeButton"
+    );
+
+
+  if(button){
+
+    button.textContent =
+      saved==="dark"
+      ? "☀️"
+      : "🌙";
+
+  }
+
+}
+
+
+function toggleTheme(){
+
+  state.theme =
+    state.theme==="dark"
+      ? "light"
+      : "dark";
+
+
+  localStorage.setItem(
+    "hamou_theme",
+    state.theme
+  );
+
+
+  loadTheme();
 
 }
 
@@ -4288,16 +6304,29 @@ function changeLanguage(language){
    HELPERS
 ========================================================= */
 
-function randomInt(min,max){
+function randomInt(
+  min,
+  max
+){
 
   return Math.floor(
-    Math.random()*(max-min+1)
-  )+min;
+    Math.random()*
+      (max-min+1)
+  ) + min;
 
 }
 
 
 function formatNumber(number){
+
+  if(
+    !Number.isFinite(
+      Number(number)
+    )
+  ){
+    return "—";
+  }
+
 
   return Number(number)
     .toLocaleString(
@@ -4315,11 +6344,49 @@ function formatNumber(number){
 function escapeHTML(value){
 
   return String(value)
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
+    .replaceAll(
+      "&",
+      "&amp;"
+    )
+    .replaceAll(
+      "<",
+      "&lt;"
+    )
+    .replaceAll(
+      ">",
+      "&gt;"
+    )
+    .replaceAll(
+      '"',
+      "&quot;"
+    )
+    .replaceAll(
+      "'",
+      "&#039;"
+    );
+
+}
+
+
+function escapeJS(value){
+
+  return String(value)
+    .replaceAll(
+      "\\",
+      "\\\\"
+    )
+    .replaceAll(
+      "'",
+      "\\'"
+    )
+    .replaceAll(
+      "\n",
+      "\\n"
+    )
+    .replaceAll(
+      "\r",
+      "\\r"
+    );
 
 }
 
@@ -4357,51 +6424,105 @@ function safeUrl(url){
 
 
 /* =========================================================
-   KEYBOARD SHORTCUTS
+   KEYBOARD
 ========================================================= */
 
-document.addEventListener(
-  "keydown",
-  event=>{
+function setupKeyboard(){
 
-    if(
-      event.key==="Escape"
-    ){
-
-      closeAuthModal();
-
-    }
-
-  }
-);
-
-
-/* =========================================================
-   MODAL OUTSIDE CLICK
-========================================================= */
-
-document
-  .getElementById("authModal")
-  ?.addEventListener(
-    "click",
+  document.addEventListener(
+    "keydown",
     event=>{
 
       if(
-        event.target.id==="authModal"
+        event.key==="Escape"
       ){
 
         closeAuthModal();
+
+        closeMobileNav();
+
+      }
+
+
+      if(
+        event.key==="Enter" &&
+        event.ctrlKey &&
+        document.activeElement?.id===
+          "aiQuestion"
+      ){
+
+        askAI();
 
       }
 
     }
   );
 
+}
+
 
 /* =========================================================
-   END
+   MODAL
 ========================================================= */
 
+function setupModal(){
+
+  document
+    .getElementById(
+      "authModal"
+    )
+    ?.addEventListener(
+      "click",
+      event=>{
+
+        if(
+          event.target.id===
+          "authModal"
+        ){
+
+          closeAuthModal();
+
+        }
+
+      }
+    );
+
+}
+
+
+/* =========================================================
+   PWA
+========================================================= */
+
+function registerServiceWorker(){
+
+  if(
+    "serviceWorker" in navigator
+  ){
+
+    window.addEventListener(
+      "load",
+      ()=>{
+
+        navigator.serviceWorker
+          .register(
+            "/service-worker.js"
+          )
+          .catch(
+            error=>{
+              console.warn(
+                "Service Worker:",
+                error
+              );
+            }
+          );
+
+      }
+    );
+
+  }
+
+}
 </script>
 
 </body>
