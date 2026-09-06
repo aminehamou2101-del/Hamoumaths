@@ -27,7 +27,6 @@ export async function handler(event) {
       service: "HAMOU MATH",
       platform: "Netlify",
       timestamp: new Date().toISOString(),
-
       diagnostics: {
         hasUrl: Boolean(process.env.SUPABASE_URL),
         hasAnonKey: Boolean(process.env.SUPABASE_ANON_KEY),
