@@ -77,6 +77,48 @@
     append,
     clear,
     backspace,
+    function calculate(){
+
+
+let expression =
+document.getElementById(
+"calcInput"
+).value;
+
+
+
+try{
+
+
+let result =
+Function(
+"return " + expression
+)();
+
+
+document.getElementById(
+"calcResult"
+)
+.innerHTML =
+"النتيجة: " + result;
+
+
+}
+
+catch(e){
+
+
+document.getElementById(
+"calcResult"
+)
+.innerHTML =
+"خطأ في العملية";
+
+
+}
+
+
+}
     calculate
   };
 
