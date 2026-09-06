@@ -156,6 +156,448 @@ style="display:none">
 
 <script src="../js/dashboard.js"></script>
 
+  <!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>
+لوحة التحكم - HAMOU MATH
+</title>
+
+
+<link rel="stylesheet" href="../css/style.css">
+
+
+<style>
+
+.dashboard{
+
+padding:30px;
+
+}
+
+
+.profile-card,
+.stat-card,
+.menu-card{
+
+background:white;
+
+border-radius:20px;
+
+padding:25px;
+
+margin:15px 0;
+
+box-shadow:0 5px 20px #ddd;
+
+}
+
+
+
+.stats{
+
+display:grid;
+
+grid-template-columns:
+repeat(auto-fit,minmax(200px,1fr));
+
+gap:20px;
+
+}
+
+
+
+.menu{
+
+display:grid;
+
+grid-template-columns:
+repeat(auto-fit,minmax(200px,1fr));
+
+gap:20px;
+
+}
+
+
+
+.menu-card{
+
+text-align:center;
+
+}
+
+
+
+.menu-card a{
+
+color:#1565c0;
+
+text-decoration:none;
+
+font-weight:bold;
+
+}
+
+
+
+</style>
+
+</head>
+
+
+
+<body>
+
+
+
+<header>
+
+<h2>
+👤 HAMOU MATH
+</h2>
+
+
+<a href="../index.html">
+الرئيسية
+</a>
+
+
+</header>
+
+
+
+
+<main class="dashboard">
+
+
+
+<section class="profile-card">
+
+
+<h2 id="username">
+مرحبا
+</h2>
+
+
+<p>
+الصلاحية:
+<span id="role">
+-
+</span>
+</p>
+
+
+</section>
+
+
+
+
+
+<section class="stats">
+
+
+
+<div class="stat-card">
+
+⭐
+
+<h3>
+XP
+</h3>
+
+<h2 id="xp">
+0
+</h2>
+
+</div>
+
+
+
+
+<div class="stat-card">
+
+🏆
+
+<h3>
+المستوى
+</h3>
+
+<h2 id="level">
+1
+</h2>
+
+</div>
+
+
+
+
+<div class="stat-card">
+
+📝
+
+<h3>
+الاختبارات
+</h3>
+
+<h2 id="tests">
+0
+</h2>
+
+</div>
+
+
+</section>
+
+
+
+
+
+<section class="profile-card">
+
+
+<h2>
+🏅 الإنجازات
+</h2>
+
+
+<div id="achievements">
+
+لا توجد إنجازات بعد
+
+</div>
+
+
+</section>
+
+
+
+
+
+<section class="menu">
+
+
+
+<div class="menu-card">
+
+📚
+
+<h3>
+المكتبة
+</h3>
+
+<a href="library.html">
+فتح المكتبة
+</a>
+
+</div>
+
+
+
+
+
+<div class="menu-card">
+
+🧮
+
+<h3>
+الأدوات
+</h3>
+
+<a href="tools.html">
+فتح الأدوات
+</a>
+
+</div>
+
+
+
+
+
+<div class="menu-card"
+id="teacherBox"
+style="display:none">
+
+
+👨‍🏫
+
+<h3>
+فضاء الأستاذ
+</h3>
+
+<a href="teacher.html">
+دخول
+</a>
+
+</div>
+
+
+
+
+
+<div class="menu-card"
+id="adminBox"
+style="display:none">
+
+
+👑
+
+<h3>
+الإدارة
+</h3>
+
+<a href="admin.html">
+دخول
+</a>
+
+
+</div>
+
+
+
+</section>
+
+
+
+<button onclick="logout()">
+
+تسجيل الخروج
+
+</button>
+
+
+
+</main>
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="../js/supabase.js"></script>
+
+
+
+<script>
+
+
+async function loadDashboard(){
+
+
+const profile =
+await getProfile();
+
+
+
+if(!profile){
+
+location.href="login.html";
+
+return;
+
+}
+
+
+
+document
+.getElementById("username")
+.innerHTML =
+"مرحبا "+(profile.full_name || "طالب");
+
+
+
+document
+.getElementById("role")
+.innerHTML =
+profile.role;
+
+
+
+document
+.getElementById("xp")
+.innerHTML =
+profile.xp;
+
+
+
+document
+.getElementById("level")
+.innerHTML =
+profile.level;
+
+
+
+
+if(
+profile.role==="teacher" ||
+profile.role==="admin" ||
+profile.role==="owner"
+){
+
+document
+.getElementById("teacherBox")
+.style.display="block";
+
+}
+
+
+
+
+if(
+profile.role==="admin" ||
+profile.role==="owner"
+){
+
+document
+.getElementById("adminBox")
+.style.display="block";
+
+}
+
+
+
+
+const {data}=
+
+await supabaseClient
+
+.from("quiz_results")
+
+.select("*")
+
+.eq(
+"user_id",
+profile.id
+);
+
+
+
+document
+.getElementById("tests")
+.innerHTML =
+data ? data.length : 0;
+
+
+
+}
+
+
+
+loadDashboard();
+
+
+</script>
+
+
+</body>
+
+</html>
 
 </body>
 
