@@ -5,7 +5,12 @@
 
 <meta charset="UTF-8">
 
-<title>تسجيل الدخول - HAMOU MATH</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>
+دخول HAMOU MATH
+</title>
+
 
 <link rel="stylesheet" href="../css/style.css">
 
@@ -19,18 +24,23 @@
 
 
 <h1>
-🔐 دخول HAMOU MATH
+🔐 تسجيل الدخول
 </h1>
 
 
-<input id="email"
+<input 
+id="email"
 type="email"
-placeholder="البريد الإلكتروني">
+placeholder="البريد الإلكتروني"
+>
 
 
-<input id="password"
+<input
+id="password"
 type="password"
-placeholder="كلمة المرور">
+placeholder="كلمة المرور"
+>
+
 
 
 <button onclick="login()">
@@ -38,23 +48,30 @@ placeholder="كلمة المرور">
 </button>
 
 
+
 <p>
+
 ليس لديك حساب؟
+
 <a href="register.html">
 إنشاء حساب
 </a>
+
 </p>
+
+
+
+<p id="message"></p>
 
 
 </div>
 
 
 
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-<script src="../js/supabase-config.js"></script>
-
-<script src="../js/auth.js"></script>
+<script src="../js/supabase.js"></script>
 
 
 <script>
@@ -72,20 +89,47 @@ document.getElementById("password").value;
 
 
 
-let success =
-await loginUser(
+const {data,error}=
+
+await supabaseClient
+.auth
+.signInWithPassword({
+
 email,
+
 password
-);
+
+});
 
 
 
-if(success){
+if(error){
 
-window.location.href=
-"dashboard.html";
+
+document.getElementById("message")
+.innerHTML =
+"❌ "+error.message;
+
+
+return;
 
 }
+
+
+
+document.getElementById("message")
+.innerHTML =
+"✅ تم الدخول";
+
+
+setTimeout(()=>{
+
+
+location.href="dashboard.html";
+
+
+},1000);
+
 
 
 }
@@ -95,4 +139,5 @@ window.location.href=
 
 
 </body>
+
 </html>
