@@ -378,6 +378,97 @@ alert("✅ تم رفع الملف بنجاح");
 
 
 location.reload();
+  async function addExercise(){
+
+
+const profile =
+await getProfile();
+
+
+if(!profile){
+
+alert("يجب تسجيل الدخول");
+
+return;
+
+}
+
+
+
+const title =
+document.getElementById(
+"exerciseTitle"
+).value;
+
+
+const question =
+document.getElementById(
+"exerciseQuestion"
+).value;
+
+
+const answer =
+document.getElementById(
+"exerciseAnswer"
+).value;
+
+
+const difficulty =
+document.getElementById(
+"exerciseDifficulty"
+).value;
+
+
+
+if(!title || !question || !answer){
+
+alert("املأ جميع الحقول");
+
+return;
+
+}
+
+
+
+
+const {error}=
+
+await supabaseClient
+
+.from("exercises")
+
+.insert({
+
+title:title,
+
+question:question,
+
+answer:answer,
+
+difficulty:difficulty,
+
+created_by:profile.id
+
+});
+
+
+
+
+
+if(error){
+
+alert(error.message);
+
+return;
+
+}
+
+
+
+alert("✅ تم إضافة التمرين بنجاح");
+
+
+}
 
 
 }
