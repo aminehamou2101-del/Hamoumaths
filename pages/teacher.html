@@ -1,3 +1,40 @@
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../js/supabase.js"></script>
+
+<script>
+
+async function checkTeacher(){
+
+const profile = await getProfile();
+
+
+if(!profile){
+
+location.href="login.html";
+
+return;
+
+}
+
+
+if(
+profile.role !== "teacher" &&
+profile.role !== "admin" &&
+profile.role !== "owner"
+){
+
+alert("ليس لديك صلاحية الدخول");
+
+location.href="dashboard.html";
+
+}
+
+}
+
+
+checkTeacher();
+
+</script>
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 
