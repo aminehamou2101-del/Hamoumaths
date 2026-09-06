@@ -1,5 +1,3 @@
-import { createClient } from "@supabase/supabase-js";
-
 export async function handler(event) {
   if (event.httpMethod !== "GET") {
     return {
@@ -14,49 +12,9 @@ export async function handler(event) {
     };
   }
 
-  const url = String(process.env.SUPABASE_URL || "").trim();
-
-  const key = String(
-    process.env.SUPABASE_SERVICE_ROLE_KEY ||
-      process.env.SUPABASE_ANON_KEY ||
-      ""
-  ).trim();
-  // Netlify deployment refresh
-
-  const result = {
-    ok: true,
-    service: "HAMOU MATH",
-    platform: "Netlify",
-    timestamp: new Date().toISOString(),
-    supabase: false,
-  };
-
-  if (url && key) {
-    try {
-      const supabase = createClient(url, key, {
-        auth: {
-          persistSession: false,
-          autoRefreshToken: false,
-        },
-      });
-
-      const { error } = await supabase
-        .from("resources")
-        .select("id")
-        .limit(1);
-
-      if (!error) {
-        result.supabase = true;
-      } else {
-        result.supabase_error = error.message;
-      }
-    } catch (error) {
-      result.supabase_error = error.message;
-    }
-  } else {
-    result.supabase_error =
-      "Supabase environment variables are missing";
-  }
+  const envKeys = Object.keys(process.env)
+    .filter((key) => key.startsWith("SUPABASE_"))
+    .sort();
 
   return {
     statusCode: 200,
@@ -64,6 +22,20 @@ export async function handler(event) {
       "Content-Type": "application/json; charset=utf-8",
       "Cache-Control": "no-store",
     },
-    body: JSON.stringify(result),
+    body: JSON.stringify({
+      ok: true,
+      service: "HAMOU MATH",
+      platform: "Netlify",
+      timestamp: new Date().toISOString(),
+
+      diagnostics: {
+        hasUrl: Boolean(process.env.SUPABASE_URL),
+        hasAnonKey: Boolean(process.env.SUPABASE_ANON_KEY),
+        hasServiceRoleKey: Boolean(
+          process.env.SUPABASE_SERVICE_ROLE_KEY
+        ),
+        detectedSupabaseVariables: envKeys,
+      },
+    }),
   };
 }
