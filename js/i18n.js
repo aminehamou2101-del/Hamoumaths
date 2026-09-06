@@ -178,7 +178,127 @@
       );
     }
   };
+const translations = {
 
+
+ar: {
+
+home:"الرئيسية",
+
+library:"المكتبة",
+
+lessons:"الدروس",
+
+exercises:"التمارين",
+
+tools:"أدوات الرياضيات",
+
+login:"تسجيل الدخول",
+
+logout:"خروج",
+
+welcome:"مرحبا بك في HAMOU MATH"
+
+},
+
+
+fr: {
+
+home:"Accueil",
+
+library:"Bibliothèque",
+
+lessons:"Cours",
+
+exercises:"Exercices",
+
+tools:"Outils mathématiques",
+
+login:"Connexion",
+
+logout:"Déconnexion",
+
+welcome:"Bienvenue dans HAMOU MATH"
+
+},
+
+
+en: {
+
+home:"Home",
+
+library:"Library",
+
+lessons:"Lessons",
+
+exercises:"Exercises",
+
+tools:"Math Tools",
+
+login:"Login",
+
+logout:"Logout",
+
+welcome:"Welcome to HAMOU MATH"
+
+}
+
+
+};
+
+
+
+function changeLanguage(lang){
+
+
+localStorage.setItem(
+"language",
+lang
+);
+
+
+applyLanguage();
+
+
+}
+
+
+
+function applyLanguage(){
+
+
+let lang =
+localStorage.getItem("language")
+||"ar";
+
+
+
+document
+.querySelectorAll("[data-i18n]")
+.forEach(el=>{
+
+
+let key =
+el.dataset.i18n;
+
+
+
+if(translations[lang][key]){
+
+el.innerHTML =
+translations[lang][key];
+
+}
+
+
+});
+
+
+}
+
+
+
+applyLanguage();
   document.addEventListener(
     "DOMContentLoaded",
     () => applyLanguage(currentLanguage)
