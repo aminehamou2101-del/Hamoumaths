@@ -1,38 +1,9 @@
-(function () {
-  "use strict";
+const SUPABASE_URL = "ضع رابط مشروعك هنا";
 
-  const cfg = window.HAMOU_CONFIG || {};
+const SUPABASE_ANON_KEY = "ضع المفتاح العام هنا";
 
-  window.HAMOU_SUPABASE = null;
 
-  if (
-    !window.supabase ||
-    !cfg.supabaseUrl ||
-    !cfg.supabasePublishableKey
-  ) {
-    console.warn(
-      "HAMOU MATH: Supabase configuration is missing."
-    );
-    return;
-  }
-
-  try {
-    window.HAMOU_SUPABASE =
-      window.supabase.createClient(
-        cfg.supabaseUrl,
-        cfg.supabasePublishableKey,
-        {
-          auth: {
-            persistSession: true,
-            autoRefreshToken: true,
-            detectSessionInUrl: true
-          }
-        }
-      );
-  } catch (error) {
-    console.error(
-      "HAMOU MATH Supabase initialization failed:",
-      error
-    );
-  }
-})();
+const supabaseClient = supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_ANON_KEY
+);
