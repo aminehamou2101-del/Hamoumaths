@@ -1,160 +1,254 @@
+```js
 import fs from "node:fs";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 
-const root = process.cwd();
-const dist = path.join(root, "dist");
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-const required = [
-  "index.html",
-  "manifest.json"
-];
+const ROOT = path.resolve(__dirname, "..");
+const DIST = path.join(ROOT, "dist");
 
-let failed = false;
+console.log("========================================");
+console.log(" HAMOU MATH - Build Check");
+console.log("========================================");
+console.log("ROOT:", ROOT);
+console.log("DIST:", DIST);
 
-// ================================
-// 1. Check required files
-// ================================
-for (const file of required) {
-  if (!fs.existsSync(path.join(root, file))) {
-    console.error(`Missing required file: ${file}`);
-    failed = true;
+// --------------------------------------------------
+// Helpers
+// --------------------------------------------------
+
+function removeDir(dir) {
+  if (fs.existsSync(dir)) {
+    fs.rmSync(dir, {
+      recursive: true,
+      force: true
+    });
   }
 }
 
-if (failed) {
-  process.exit(1);
+function ensureDir(dir) {
+  fs.mkdirSync(dir, {
+    recursive: true
+  });
 }
 
-// ================================
-// 2. Clean dist
-// ================================
-fs.rmSync(dist, {
-  recursive: true,
-  force: true
-});
+function copyFile(relativePath) {
+  const source = path.join(ROOT, relativePath);
+  const target = path.join(DIST, relativePath);
 
-fs.mkdirSync(dist, {
-  recursive: true
-});
+  if (!fs.existsSync(source)) {
+    console.log(`⚠️ Skipped missing file: ${relativePath}`);
+    return false;
+  }
 
-// ================================
-// 3. Copy static files
-// ================================
-const filesToCopy = [
+  ensureDir(path.dirname(target));
+
+  fs.copyFileSync(source, target);
+
+  console.log(`✓ Copied: ${relativePath}`);
+  return true;
+}
+
+function copyDirectory(relativePath) {
+  const source = path.join(ROOT, relativePath);
+  const target = path.join(DIST, relativePath);
+
+  if (!fs.existsSync(source)) {
+    console.log(`⚠️ Skipped missing directory: ${relativePath}`);
+    return false;
+  }
+
+  fs.cpSync(source, target, {
+    recursive: true,
+    force: true
+  });
+
+  console.log(`✓ Copied directory: ${relativePath}`);
+  return true;
+}
+
+// --------------------------------------------------
+// Clean dist
+// --------------------------------------------------
+
+console.log("\n🧹 Cleaning dist...");
+
+removeDir(DIST);
+ensureDir(DIST);
+
+console.log("✓ dist is ready");
+
+// --------------------------------------------------
+// Required files
+// --------------------------------------------------
+
+console.log("\n📄 Copying website files...");
+
+const files = [
+  // Main website
   "index.html",
-  "manifest.json",
-  "manifest.webmanifest",
-  "favicon.svg",
-  "robots.txt",
-  "sitemap.xml",
+
+  // OWNER dashboard
+  "admin.html",
 
   // PWA
+  "manifest.json",
+  "manifest.webmanifest",
   "service-worker.js",
   "sw.js",
 
-  // Other static pages
+  // SEO
+  "robots.txt",
+  "sitemap.xml",
+
+  // Fallback
   "404.html",
-  "math-lab.html"
+
+  // Math Lab
+  "math-lab.html",
+
+  // Other possible pages
+  "login.html",
+  "register.html",
+  "teacher.html",
+  "student.html"
 ];
 
-for (const file of filesToCopy) {
-  const source = path.join(root, file);
-  const destination = path.join(dist, file);
-
-  if (fs.existsSync(source)) {
-    fs.copyFileSync(source, destination);
-    console.log(`Copied: ${file}`);
-  } else {
-    console.log(`Skipped missing file: ${file}`);
-  }
+for (const file of files) {
+  copyFile(file);
 }
 
-// ================================
-// 4. Copy static directories
-// ================================
-const directoriesToCopy = [
+// --------------------------------------------------
+// Website directories
+// --------------------------------------------------
+
+console.log("\n📁 Copying website directories...");
+
+const directories = [
+  // Existing resources
   "assets",
   "images",
   "icons",
+
+  // Educational content
   "lessons",
   "memoranda",
   "data",
   "annales",
   "exercises",
-  "archive"
+  "archive",
+
+  // Optional folders that may exist later
+  "books",
+  "pdf",
+  "tests",
+  "exams",
+  "courses",
+  "uploads"
 ];
 
-function copyDirectory(source, destination) {
-  if (!fs.existsSync(source)) {
-    return;
-  }
-
-  fs.mkdirSync(destination, {
-    recursive: true
-  });
-
-  for (const entry of fs.readdirSync(source, {
-    withFileTypes: true
-  })) {
-    const src = path.join(source, entry.name);
-    const dest = path.join(destination, entry.name);
-
-    if (entry.isDirectory()) {
-      copyDirectory(src, dest);
-    } else {
-      fs.copyFileSync(src, dest);
-    }
-  }
+for (const directory of directories) {
+  copyDirectory(directory);
 }
 
-for (const directory of directoriesToCopy) {
-  const source = path.join(root, directory);
+// --------------------------------------------------
+// Verify required output
+// --------------------------------------------------
 
-  if (fs.existsSync(source)) {
-    copyDirectory(
-      source,
-      path.join(dist, directory)
-    );
+console.log("\n🔎 Verifying build...");
 
-    console.log(`Copied directory: ${directory}`);
-  } else {
-    console.log(`Skipped missing directory: ${directory}`);
-  }
-}
-
-// ================================
-// 5. Verify important output
-// ================================
-const verifyFiles = [
+const requiredFiles = [
   "index.html",
+  "admin.html",
   "manifest.json"
 ];
 
-for (const file of verifyFiles) {
-  if (!fs.existsSync(path.join(dist, file))) {
-    console.error(`Build verification failed: ${file}`);
-    process.exit(1);
+let buildOK = true;
+
+for (const file of requiredFiles) {
+  const target = path.join(DIST, file);
+
+  if (fs.existsSync(target)) {
+    console.log(`✓ Verified: dist/${file}`);
+  } else {
+    console.error(`✗ Missing required file: dist/${file}`);
+    buildOK = false;
   }
 }
 
-// ================================
-// 6. Verify Service Worker
-// ================================
-if (
-  !fs.existsSync(path.join(dist, "service-worker.js")) &&
-  !fs.existsSync(path.join(dist, "sw.js"))
-) {
-  console.warn(
-    "Warning: No service worker found in dist."
-  );
+// --------------------------------------------------
+// Verify Owner dashboard
+// --------------------------------------------------
+
+const adminPath = path.join(DIST, "admin.html");
+
+if (fs.existsSync(adminPath)) {
+  const adminSize = fs.statSync(adminPath).size;
+
+  if (adminSize > 100) {
+    console.log(`✓ Owner dashboard ready: admin.html (${adminSize} bytes)`);
+  } else {
+    console.error("✗ admin.html exists but appears to be empty.");
+    buildOK = false;
+  }
+} else {
+  console.error("✗ Owner dashboard was not copied to dist.");
+  buildOK = false;
 }
 
-// ================================
-// 7. Final report
-// ================================
-console.log("");
-console.log("========================================");
-console.log(" HAMOU MATH BUILD COMPLETED SUCCESSFULLY");
-console.log("========================================");
-console.log(`Output directory: ${dist}`);
-console.log("");
+// --------------------------------------------------
+// Verify index
+// --------------------------------------------------
+
+const indexPath = path.join(DIST, "index.html");
+
+if (fs.existsSync(indexPath)) {
+  const indexSize = fs.statSync(indexPath).size;
+
+  if (indexSize > 100) {
+    console.log(`✓ Main website ready: index.html (${indexSize} bytes)`);
+  } else {
+    console.error("✗ index.html exists but appears to be empty.");
+    buildOK = false;
+  }
+}
+
+// --------------------------------------------------
+// Verify service worker
+// --------------------------------------------------
+
+const serviceWorkerPath = path.join(DIST, "service-worker.js");
+const swPath = path.join(DIST, "sw.js");
+
+if (fs.existsSync(serviceWorkerPath)) {
+  console.log("✓ service-worker.js available");
+} else if (fs.existsSync(swPath)) {
+  console.log("✓ sw.js available");
+} else {
+  console.log("⚠️ No service worker found.");
+}
+
+// --------------------------------------------------
+// Build summary
+// --------------------------------------------------
+
+console.log("\n========================================");
+
+if (buildOK) {
+  console.log("✅ HAMOU MATH BUILD SUCCESSFUL");
+  console.log("========================================");
+  console.log("Output directory:", DIST);
+  console.log("Owner dashboard:", "dist/admin.html");
+  console.log("Main website:", "dist/index.html");
+  console.log("========================================");
+
+  process.exit(0);
+}
+
+console.error("❌ HAMOU MATH BUILD FAILED");
+console.error("========================================");
+
+process.exit(1);
+```
