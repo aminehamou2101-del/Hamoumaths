@@ -239,7 +239,47 @@
         }
       );
     }
+async function showResources(){
 
+
+let data =
+await loadResources();
+
+
+let box =
+document.getElementById("resources");
+
+
+data.forEach(item=>{
+
+
+box.innerHTML += `
+
+<div class="resource">
+
+<h3>
+${item.title}
+</h3>
+
+<p>
+${item.description || ""}
+</p>
+
+
+<a href="${item.file_url}">
+فتح الملف
+</a>
+
+
+</div>
+
+`;
+
+
+});
+
+
+}
     search();
   }
 
