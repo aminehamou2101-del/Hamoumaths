@@ -1,321 +1,301 @@
--- =========================================================
--- HAMOU MATH GLOBAL DATABASE V1
--- PART 1 : USERS + SECURITY
--- =========================================================
-
-create extension if not exists pgcrypto;
+// =====================================================
+// HAMOU MATH
+// Supabase Client Configuration
+// =====================================================
 
 
--- =========================
--- PROFILES
--- =========================
+// رابط مشروع Supabase
+const SUPABASE_URL = "ضع_رابط_مشروعك_هنا";
 
-create table if not exists public.profiles (
 
-id uuid primary key references auth.users(id)
-on delete cascade,
+// المفتاح العام فقط (anon public key)
+const SUPABASE_ANON_KEY = "ضع_anon_key_هنا";
 
-email text unique,
 
-full_name text,
-
-avatar_url text,
-
-role text not null default 'student'
-check(role in(
-'student',
-'teacher',
-'researcher',
-'admin',
-'owner'
-)),
-
-xp integer default 0,
-
-level integer default 1,
-
-created_at timestamptz default now(),
-
-updated_at timestamptz default now()
-
+// إنشاء الاتصال
+const supabaseClient = supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_ANON_KEY
 );
 
 
 
--- =========================
--- USER PROGRESS
--- =========================
+// =====================================================
+// AUTH
+// =====================================================
 
-create table if not exists public.user_progress (
 
-user_id uuid primary key references auth.users(id)
-on delete cascade,
+// المستخدم الحالي
+async function getCurrentUser(){
 
-xp integer default 0,
+    const {
+        data:{
+            user
+        }
+    } = await supabaseClient
+        .auth
+        .getUser();
 
-level integer default 1,
 
-games_played integer default 0,
+    return user || null;
 
-challenges_completed integer default 0,
+}
 
-updated_at timestamptz default now()
 
-);
 
+// تسجيل الخروج
+async function logout(){
 
+    await supabaseClient
+        .auth
+        .signOut();
 
--- =========================
--- SECURITY FUNCTIONS
--- =========================
+    window.location.href="/";
 
+}
 
-create or replace function public.is_owner()
 
-returns boolean
 
-language sql
+// =====================================================
+// PROFILE
+// =====================================================
 
-security definer
 
-as $$
+// جلب بيانات المستخدم
+async function getProfile(){
 
-select exists(
+    const user = await getCurrentUser();
 
-select 1
 
-from public.profiles
+    if(!user)
+        return null;
 
-where id=auth.uid()
 
-and role='owner'
+    const {
+        data,
+        error
+    } = await supabaseClient
 
-);
+    .from("profiles")
 
-$$;
+    .select("*")
 
+    .eq(
+        "id",
+        user.id
+    )
 
+    .single();
 
-create or replace function public.is_admin()
 
-returns boolean
 
-language sql
+    if(error){
 
-security definer
+        console.error(error);
 
-as $$
+        return null;
 
-select exists(
+    }
 
-select 1
 
-from public.profiles
+    return data;
 
-where id=auth.uid()
+}
 
-and role in('admin','owner')
 
-);
 
-$$;
+// =====================================================
+// PERMISSIONS
+// =====================================================
 
 
+// هل هو Owner
+async function isOwner(){
 
-create or replace function public.is_teacher()
+    const profile =
+        await getProfile();
 
-returns boolean
 
-language sql
+    return profile?.role === "owner";
 
-security definer
+}
 
-as $$
 
-select exists(
 
-select 1
+// هل هو Admin
+async function isAdmin(){
 
-from public.profiles
+    const profile =
+        await getProfile();
 
-where id=auth.uid()
 
-and role in(
-'teacher',
-'admin',
-'owner'
-)
+    return (
+        profile?.role === "admin"
+        ||
+        profile?.role === "owner"
+    );
 
-);
+}
 
-$$;
 
 
+// هل هو أستاذ
+async function isTeacher(){
 
--- =========================
--- NEW USER TRIGGER
--- =========================
+    const profile =
+        await getProfile();
 
 
-create or replace function public.handle_new_user()
+    return (
+        profile?.role === "teacher"
+        ||
+        profile?.role === "admin"
+        ||
+        profile?.role === "owner"
+    );
 
-returns trigger
+}
 
-language plpgsql
 
-security definer
 
-as $$
+// =====================================================
+// RESOURCES
+// =====================================================
 
-begin
 
+// جلب الكتب والدروس والملفات
 
-insert into public.profiles
-(
-id,
-email,
-full_name
-)
+async function getResources(){
 
-values
-(
-new.id,
-new.email,
-coalesce(
-new.raw_user_meta_data->>'full_name',
-''
-)
 
-)
+    const {
+        data,
+        error
+    } = await supabaseClient
 
-on conflict(id)
-do nothing;
+    .from("resources")
 
+    .select("*")
 
+    .order(
+        "created_at",
+        {
+            ascending:false
+        }
+    );
 
-insert into public.user_progress
-(
-user_id
-)
 
-values
-(
-new.id
-)
+    if(error){
 
-on conflict(user_id)
-do nothing;
+        console.error(error);
 
+        return [];
 
-return new;
+    }
 
 
-end;
+    return data;
 
-$$;
+}
 
 
 
-drop trigger if exists on_auth_user_created
-on auth.users;
+// =====================================================
+// XP SYSTEM
+// =====================================================
 
 
-create trigger on_auth_user_created
+// إضافة نقاط
 
-after insert on auth.users
+async function addXP(
+    userId,
+    amount
+){
 
-for each row
 
-execute procedure public.handle_new_user();
+    const {
+        error
+    } = await supabaseClient
 
+    .rpc(
+        "add_xp",
+        {
+            p_user:userId,
+            p_amount:amount
+        }
+    );
 
 
--- =========================
--- ENABLE RLS
--- =========================
+    if(error)
+        console.error(error);
 
-alter table public.profiles enable row level security;
+}
 
-alter table public.user_progress enable row level security;
 
 
+// =====================================================
+// STORAGE
+// =====================================================
 
--- =========================
--- PROFILE POLICIES
--- =========================
 
+// رفع ملف PDF
 
-create policy "read own profile"
+async function uploadFile(
+file
+){
 
-on public.profiles
 
-for select
+    const fileName =
+    Date.now()
+    +
+    "-"
+    +
+    file.name;
 
-using(
-auth.uid()=id
-);
 
 
+    const {
+        data,
+        error
+    } =
+    await supabaseClient
 
-create policy "update own profile"
+    .storage
 
-on public.profiles
+    .from("hamou-files")
 
-for update
+    .upload(
+        fileName,
+        file
+    );
 
-using(
-auth.uid()=id
-);
 
 
+    if(error){
 
-create policy "owner manage profiles"
+        console.error(error);
 
-on public.profiles
+        return null;
 
-for all
+    }
 
-using(
-public.is_owner()
-);
 
 
+    const {
+        data:urlData
+    } =
+    supabaseClient
 
--- =========================
--- PROGRESS POLICIES
--- =========================
+    .storage
 
+    .from("hamou-files")
 
-create policy "read progress"
+    .getPublicUrl(
+        fileName
+    );
 
-on public.user_progress
 
-for select
 
-using(
-auth.uid()=user_id
-);
+    return urlData.publicUrl;
 
-
-
-create policy "insert progress"
-
-on public.user_progress
-
-for insert
-
-with check(
-auth.uid()=user_id
-);
-
-
-
-create policy "update progress"
-
-on public.user_progress
-
-for update
-
-using(
-auth.uid()=user_id
-);
+}
