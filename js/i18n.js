@@ -439,3 +439,23 @@ document.addEventListener(
 "DOMContentLoaded",
 applyLanguage
 );
+function applyDirection(){
+
+let lang =
+localStorage.getItem("language")
+||"ar";
+
+
+if(lang==="ar"){
+
+document.documentElement.dir="rtl";
+
+}
+
+else{
+
+document.documentElement.dir="ltr";
+
+}
+
+}
