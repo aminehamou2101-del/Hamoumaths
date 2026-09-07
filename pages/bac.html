@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>محاكاة البكالوريا | HAMOU MATH</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+
+    <style>
+        .bac-page {
+            width: min(1100px, 94%);
+            margin: 35px auto 80px;
+        }
+
+        .bac-hero {
+            background: linear-gradient(135deg, #0d47a1, #1565c0);
+            color: white;
+            border-radius: 28px;
+            padding: 40px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .bac-grid {
+            display: grid;
+            grid-template-columns: 1fr 280px;
+            gap: 20px;
+        }
+
+        .bac-card {
+            background: var(--surface, #fff);
+            color: var(--text, #222);
+            border-radius: 22px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,.07);
+        }
+
+        .timer {
+            font-size: 30px;
+            font-weight: 800;
+            text-align: center;
+            color: #c62828;
+        }
+
+        .question {
+            font-size: 20px;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .answer-input {
+            width: 100%;
+            min-height: 110px;
+            padding: 14px;
+            border-radius: 14px;
+            border: 1px solid #d7dee8;
+            resize: vertical;
+            background: var(--surface, #fff);
+            color: var(--text, #222);
+        }
+
+        .bac-actions {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .bac-actions button {
+            border: 0;
+            padding: 12px 20px;
+            border-radius: 12px;
+            cursor: pointer;
+        }
+
+        .primary {
+            background: #1565c0;
+            color: white;
+        }
+
+        .secondary {
+            background: #e9eef5;
+            color: #263238;
+        }
+
+        .progress-track {
+            height: 12px;
+            background: #e9eef5;
+            border-radius: 20px;
+            overflow: hidden;
+            margin: 12px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0;
+            background: linear-gradient(90deg, #1565c0, #00bcd4);
+        }
+
+        .result {
+            text-align: center;
+            padding: 30px;
+        }
+
+        .result-score {
+            font-size: 50px;
+            font-weight: 900;
+            color: #1565c0;
+        }
+
+        @media (max-width: 800px) {
+            .bac-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div id="hamou-navbar"></div>
+
+<main class="bac-page">
+
+    <section class="bac-hero">
+        <h1>🎓 محاكاة البكالوريا</h1>
+        <p>اختبر مستواك تحت ظروف قريبة من الامتحان الحقيقي.</p>
+    </section>
+
+    <section id="startCard" class="bac-card">
+        <h2>ابدأ المحاكاة</h2>
+
+        <p>
+            اختر عدد الأسئلة والزمن، ثم ابدأ الاختبار.
+        </p>
+
+        <label>
+            عدد الأسئلة
+        </label>
+
+        <select id="questionCount">
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="20">20</option>
+        </select>
+
+        <br><br>
+
+        <label>
+            الزمن بالدقائق
+        </label>
+
+        <select id="duration">
+            <option value="10">10</option>
+            <option value="20">20</option>
+            <option value="30">30</option>
+        </select>
+
+        <br><br>
+
+        <button
+            type="button"
+            class="primary"
+            onclick="startExam()"
+        >
+            🚀 ابدأ الاختبار
+        </button>
+    </section>
+
+
+    <section
+        id="examCard"
+        class="bac-grid"
+        style="display:none"
+    >
+
+        <div class="bac-card">
+
+            <div id="questionNumber"></div>
+
+            <div id="questionText" class="question"></div>
+
+            <textarea
+                id="answerInput"
+                class="answer-input"
+                placeholder="اكتب إجابتك هنا..."
+            ></textarea>
+
+            <div class="bac-actions">
+
+                <button
+                    type="button"
+                    class="secondary"
+                    onclick="previousQuestion()"
+                >
+                    السابق
+                </button>
+
+                <button
+                    type="button"
+                    class="primary"
+                    onclick="nextQuestion()"
+                >
+                    التالي
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <aside class="bac-card">
+
+            <h3>⏱️ الوقت</h3>
+
+            <div
+                id="timer"
+                class="timer"
+            >
+                00:00
+            </div>
+
+            <hr>
+
+            <p>
+                السؤال:
+                <strong id="currentIndex">1</strong>
+                /
+                <strong id="totalQuestions">0</strong>
+            </p>
+
+            <div class="progress-track">
+                <div
+                    id="examProgress"
+                    class="progress-fill"
+                ></div>
+            </div>
+
+            <button
+                type="button"
+                class="primary"
+                onclick="finishExam()"
+            >
+                إنهاء الاختبار
+            </button>
+
+        </aside>
+
+    </section>
+
+
+    <section
+        id="resultCard"
+        class="bac-card result"
+        style="display:none"
+    >
+        <h2>📊 نتيجتك</h2>
+
+        <div
+            id="resultScore"
+            class="result-score"
+        >
+            0%
+        </div>
+
+        <p id="resultDetails"></p>
+
+        <a
+            href="bac.html"
+            class="action-btn"
+        >
+            🔄 محاولة جديدة
+        </a>
+    </section>
+
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../js/supabase.js"></script>
+<script src="../js/theme.js"></script>
+<script src="../js/navbar.js"></script>
+<script src="../js/bac.js"></script>
+
+</body>
+</html>
