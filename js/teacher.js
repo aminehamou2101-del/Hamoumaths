@@ -529,3 +529,181 @@ console.log(
 );
 
 }
+async function createResource(event) {
+    event.preventDefault();
+
+    clearStatus("resourceStatus");
+
+    if (!requireCurriculum()) {
+        return;
+    }
+
+    const file =
+        $("resourceFile").files[0];
+
+    if (!file) {
+        showStatus(
+            "resourceStatus",
+            "اختر ملفًا أولًا.",
+            false
+        );
+        return;
+    }
+
+    const allowedTypes = [
+        "application/pdf",
+        "application/msword",
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "application/vnd.ms-powerpoint",
+        "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+    ];
+
+    if (!allowedTypes.includes(file.type)) {
+        showStatus(
+            "resourceStatus",
+            "نوع الملف غير مسموح.",
+            false
+        );
+        return;
+    }
+
+    const maxSize =
+        50 * 1024 * 1024;
+
+    if (file.size > maxSize) {
+        showStatus(
+            "resourceStatus",
+            "الحد الأقصى لحجم الملف هو 50MB.",
+            false
+        );
+        return;
+    }
+
+    const safeName =
+        file.name
+            .normalize("NFKD")
+            .replace(/[^\w.\-]+/g, "_")
+            .replace(/_+/g, "_")
+            .slice(0, 120);
+
+    const storagePath =
+        `teacher/${currentUser.id}/${crypto.randomUUID()}-${safeName}`;
+
+    showStatus(
+        "resourceStatus",
+        "جارٍ رفع الملف...",
+        true
+    );
+
+    const {
+        error: uploadError
+    } = await supabaseClient.storage
+        .from("hamou-files")
+        .upload(
+            storagePath,
+            file,
+            {
+                upsert: false,
+                contentType: file.type
+            }
+        );
+
+    if (uploadError) {
+        console.error(uploadError);
+
+        showStatus(
+            "resourceStatus",
+            "فشل رفع الملف: " +
+            uploadError.message,
+            false
+        );
+
+        return;
+    }
+
+    const {
+        data: publicData
+    } = supabaseClient.storage
+        .from("hamou-files")
+        .getPublicUrl(storagePath);
+
+    const fileUrl =
+        publicData.publicUrl;
+
+    const topicOption =
+        $("curriculumTopic")
+            .selectedOptions[0];
+
+    const payload = {
+        title:
+            $("resourceTitle")
+                .value
+                .trim(),
+
+        description:
+            $("resourceDescription")
+                .value
+                .trim() || null,
+
+        type:
+            $("resourceType").value,
+
+        file_url:
+            fileUrl,
+
+        uploaded_by:
+            currentUser.id,
+
+        curriculum_id:
+            $("curriculumId").value,
+
+        level:
+            $("curriculumLevel").value,
+
+        subject:
+            $("curriculumSubject").value,
+
+        unit:
+            $("curriculumUnit").value,
+
+        topic:
+            topicOption
+                ? topicOption.textContent
+                : null
+    };
+
+    const {
+        error: resourceError
+    } = await supabaseClient
+        .from("resources")
+        .insert(payload);
+
+    if (resourceError) {
+
+        console.error(resourceError);
+
+        // تنظيف الملف الذي تم رفعه إذا فشل الإدخال
+        await supabaseClient.storage
+            .from("hamou-files")
+            .remove([storagePath]);
+
+        showStatus(
+            "resourceStatus",
+            "تعذر حفظ المورد، وتم تنظيف الملف المرفوع.",
+            false
+        );
+
+        return;
+    }
+
+    showStatus(
+        "resourceStatus",
+        "تم رفع المورد وربطه بالمنهاج بنجاح.",
+        true
+    );
+
+    $("resourceForm").reset();
+    $("fileName").textContent = "";
+
+    await loadOwnContent();
+}
