@@ -800,3 +800,41 @@ const { error } =
 if (error) {
     throw error;
 }
+const editBtn =
+    document.createElement("button");
+
+editBtn.className =
+    "secondary";
+
+editBtn.textContent =
+    "تعديل";
+
+editBtn.onclick = () => {
+
+    window.location.href =
+        `content-editor.html?type=${encodeURIComponent(
+            item.contentType
+        )}&id=${encodeURIComponent(
+            item.id
+        )}`;
+};
+
+actions.appendChild(
+    editBtn
+);const statusTd =
+    document.createElement("td");
+
+const statusLabels = {
+    draft: "مسودة",
+    review: "قيد المراجعة",
+    published: "منشور"
+};
+
+statusTd.textContent =
+    statusLabels[item.status] ||
+    item.status ||
+    "غير محدد";
+
+tr.appendChild(statusTd);status,
+published_at,
+updated_at
