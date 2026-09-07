@@ -181,8 +181,52 @@ alert(
 
 
 }
+async function submitAnswer(id) {
+    const user = await getCurrentUser();
 
+    if (!user) {
+        alert("يجب تسجيل الدخول أولًا");
+        return;
+    }
 
+    const input = document.getElementById("answer-" + id);
+    const answer = input.value.trim();
+
+    if (!answer) {
+        alert("اكتب الإجابة أولًا");
+        return;
+    }
+
+    const { data, error } = await supabaseClient.rpc(
+        "submit_exercise",
+        {
+            p_exercise_id: id,
+            p_answer: answer
+        }
+    );
+
+    if (error) {
+        console.error(error);
+        alert("حدث خطأ أثناء التصحيح");
+        return;
+    }
+
+    const result = data?.[0];
+
+    if (!result) {
+        alert("لم يتم الحصول على النتيجة");
+        return;
+    }
+
+    if (result.is_correct) {
+        alert(
+            `✅ إجابة صحيحة\n+${result.xp_gained} XP\nالمستوى: ${result.new_level}`
+        );
+    } else {
+        alert("❌ إجابة غير صحيحة");
+    }
+}
+async function submitAnswer(id) {
 
 }
 
