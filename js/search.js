@@ -2,7 +2,43 @@
 // HAMOU MATH
 // DATABASE-POWERED SEARCH
 // =====================================================
+function loadSearchFromURL() {
 
+    const params =
+        new URLSearchParams(
+            window.location.search
+        );
+
+
+    const type =
+        params.get("type");
+
+    const level =
+        params.get("level");
+
+
+    if (type && searchType) {
+        searchType.value = type;
+    }
+
+
+    if (level && searchLevel) {
+
+        searchLevel.value =
+            level;
+    }
+
+
+    if (type || level) {
+        runSearch(1);
+    }
+}
+
+
+document.addEventListener(
+    "DOMContentLoaded",
+    loadSearchFromURL
+);
 const PAGE_SIZE = 20;
 
 let currentPage = 1;
