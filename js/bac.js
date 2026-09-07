@@ -371,7 +371,217 @@ function normalizeAnswer(value) {
         .toLowerCase()
         .replace(/\s+/g, " ");
 }
+async function finishExam() {
 
+    if (examFinished) return;
+
+    saveCurrentAnswer();
+
+    examFinished = true;
+
+    clearInterval(timerId);
+
+
+    const user =
+        await getCurrentUser();
+
+
+    if (!user) {
+        window.location.href = "login.html";
+        return;
+    }
+
+
+    let correct = 0;
+
+    const questionResults = [];
+
+
+    for (
+        let i = 0;
+        i < examQuestions.length;
+        i++
+    ) {
+
+        const question =
+            examQuestions[i];
+
+
+        const given =
+            normalizeAnswer(
+                examAnswers[i]
+            );
+
+
+        const expected =
+            normalizeAnswer(
+                question.answer
+            );
+
+
+        const isCorrect =
+            given !== "" &&
+            given === expected;
+
+
+        if (isCorrect) {
+            correct++;
+        }
+
+
+        questionResults.push({
+            exercise_id: question.id,
+            difficulty: question.difficulty || "غير محدد",
+            question_order: i + 1,
+            user_answer: examAnswers[i] || "",
+            correct_answer: question.answer || "",
+            is_correct: isCorrect
+        });
+    }
+
+
+    const total =
+        examQuestions.length;
+
+
+    const wrong =
+        total - correct;
+
+
+    const percentage =
+        total
+            ? Math.round(
+                (correct / total) * 100
+            )
+            : 0;
+
+
+    /*
+     * الزمن المنقضي
+     */
+    const duration =
+        Math.max(
+            0,
+            (
+                Number(
+                    document.getElementById(
+                        "duration"
+                    )?.value || 0
+                ) * 60
+            ) - timerSeconds
+        );
+
+
+    // إنشاء نتيجة المحاكاة
+    const {
+        data: simulation,
+        error: simulationError
+    } = await supabaseClient
+        .from("bac_simulation_results")
+        .insert({
+            user_id: user.id,
+            total_questions: total,
+            correct_answers: correct,
+            wrong_answers: wrong,
+            score_percent: percentage,
+            duration_seconds: duration
+        })
+        .select("id")
+        .single();
+
+
+    if (simulationError) {
+
+        console.error(
+            simulationError
+        );
+
+        alert(
+            "تعذر حفظ نتيجة المحاكاة."
+        );
+
+        return;
+    }
+
+
+    // حفظ تفاصيل الأسئلة
+    const details =
+        questionResults.map(
+            item => ({
+                ...item,
+                simulation_id: simulation.id,
+                user_id: user.id
+            })
+        );
+
+
+    const {
+        error: detailsError
+    } = await supabaseClient
+        .from("bac_question_results")
+        .insert(details);
+
+
+    if (detailsError) {
+
+        console.error(
+            detailsError
+        );
+
+        alert(
+            "تم حفظ النتيجة، لكن تعذر حفظ تفاصيل الأسئلة."
+        );
+    }
+
+
+    /*
+     * عرض النتيجة
+     */
+
+    document.getElementById(
+        "examCard"
+    ).style.display = "none";
+
+
+    document.getElementById(
+        "resultCard"
+    ).style.display = "block";
+
+
+    document.getElementById(
+        "resultScore"
+    ).textContent =
+        `${percentage}%`;
+
+
+    document.getElementById(
+        "resultDetails"
+    ).textContent =
+        `أجبت بشكل صحيح عن ${correct} من ${total} سؤال.`;
+
+
+    /*
+     * الانتقال إلى التحليل
+     */
+
+    const analysisButton =
+        document.createElement("a");
+
+    analysisButton.href =
+        "bac-analysis.html";
+
+    analysisButton.className =
+        "action-btn";
+
+    analysisButton.textContent =
+        "📊 تحليل النتيجة";
+
+    document
+        .getElementById("resultCard")
+        .appendChild(
+            analysisButton
+        );
+}
 
 function shuffle(array) {
 
