@@ -1,334 +1,321 @@
-// =====================================================
-// HAMOU MATH
-// Supabase Client Configuration
-// =====================================================
+"use strict";
 
+/*
+=========================================================
+HAMOU MATH
+Supabase Client
+=========================================================
+IMPORTANT:
+ضع هنا Publishable/Anon Key الصحيح من:
+Supabase Dashboard
+→ Project Settings
+→ API
+→ Publishable key / anon key
+=========================================================
+*/
 
-// رابط مشروع Supabase
-const SUPABASE_URL = "https://ifurlsucekmaynuhsfva.supabase.co";
+const SUPABASE_URL =
+    "https://ifurlsucekmaynuhsfva.supabase.co";
 
+const SUPABASE_ANON_KEY =
+    "PUT_YOUR_SUPABASE_PUBLISHABLE_KEY_HERE";
 
-// المفتاح العام فقط (anon public key)
-const SUPABASE_ANON_KEY = "sb_publishable_WRvn0kt8kJ3SSy2WG1ca4w_dzZQBrBUنا";
-
-
-// إنشاء الاتصال
-const supabaseClient = supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_ANON_KEY
-);
-
-
-
-// =====================================================
-// AUTH
-// =====================================================
-
-
-// المستخدم الحالي
-async function getCurrentUser(){
-
-    const {
-        data:{
-            user
-        }
-    } = await supabaseClient
-        .auth
-        .getUser();
-
-
-    return user || null;
-
+if (
+    typeof supabase === "undefined"
+) {
+    throw new Error(
+        "Supabase JS library لم يتم تحميلها."
+    );
 }
 
-
-
-// تسجيل الخروج
-async function logout(){
-
-    await supabaseClient
-        .auth
-        .signOut();
-
-    window.location.href="/";
-
-}
-
-
-
-// =====================================================
-// PROFILE
-// =====================================================
-
-
-// جلب بيانات المستخدم
-async function getProfile(){
-
-    const user = await getCurrentUser();
-
-
-    if(!user)
-        return null;
-
-
-    const {
-        data,
-        error
-    } = await supabaseClient
-
-    .from("profiles")
-
-    .select("*")
-
-    .eq(
-        "id",
-        user.id
+if (
+    !SUPABASE_URL ||
+    !SUPABASE_ANON_KEY ||
+    SUPABASE_ANON_KEY.includes(
+        "PUT_YOUR"
     )
-
-    .single();
-
-
-
-    if(error){
-
-        console.error(error);
-
-        return null;
-
-    }
-
-
-    return data;
-
+) {
+    console.error(
+        "Supabase configuration is incomplete."
+    );
 }
 
-
-
-// =====================================================
-// PERMISSIONS
-// =====================================================
-
-
-// هل هو Owner
-async function isOwner(){
-
-    const profile =
-        await getProfile();
-
-
-    return profile?.role === "owner";
-
-}
-
-
-
-// هل هو Admin
-async function isAdmin(){
-
-    const profile =
-        await getProfile();
-
-
-    return (
-        profile?.role === "admin"
-        ||
-        profile?.role === "owner"
+const supabaseClient =
+    supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_ANON_KEY,
+        {
+            auth: {
+                persistSession: true,
+                autoRefreshToken: true,
+                detectSessionInUrl: true
+            }
+        }
     );
 
-}
+/* =====================================================
+   AUTH
+===================================================== */
 
-
-
-// هل هو أستاذ
-async function isTeacher(){
-
-    const profile =
-        await getProfile();
-
-
-    return (
-        profile?.role === "teacher"
-        ||
-        profile?.role === "admin"
-        ||
-        profile?.role === "owner"
-    );
-
-}
-
-
-
-// =====================================================
-// RESOURCES
-// =====================================================
-
-
-// جلب الكتب والدروس والملفات
-
-async function getResources(){
-
+async function getCurrentUser() {
 
     const {
         data,
         error
-    } = await supabaseClient
+    } =
+        await supabaseClient.auth.getUser();
 
-    .from("resources")
+    if (error) {
+        console.error(
+            "getCurrentUser:",
+            error
+        );
 
-    .select("*")
-
-    .order(
-        "created_at",
-        {
-            ascending:false
-        }
-    );
-
-
-    if(error){
-
-        console.error(error);
-
-        return [];
-
+        return null;
     }
 
-
-    return data;
-
+    return data?.user || null;
 }
 
+async function logout() {
 
+    const {
+        error
+    } =
+        await supabaseClient.auth.signOut();
 
-// =====================================================
-// XP SYSTEM
-// =====================================================
+    if (error) {
+        console.error(
+            "logout:",
+            error
+        );
+    }
 
+    window.location.href =
+        "/";
+}
 
-// إضافة نقاط
+/* =====================================================
+   PROFILE
+===================================================== */
+
+async function getProfile() {
+
+    const user =
+        await getCurrentUser();
+
+    if (!user) {
+        return null;
+    }
+
+    const {
+        data,
+        error
+    } =
+        await supabaseClient
+            .from("profiles")
+            .select(`
+                id,
+                email,
+                full_name,
+                avatar_url,
+                role,
+                xp,
+                level
+            `)
+            .eq(
+                "id",
+                user.id
+            )
+            .maybeSingle();
+
+    if (error) {
+
+        console.error(
+            "getProfile:",
+            error
+        );
+
+        return null;
+    }
+
+    return data;
+}
+
+/* =====================================================
+   PERMISSIONS
+===================================================== */
+
+async function isOwner() {
+
+    const profile =
+        await getProfile();
+
+    return (
+        profile?.role === "owner"
+    );
+}
+
+async function isAdmin() {
+
+    const profile =
+        await getProfile();
+
+    return (
+        profile?.role === "admin" ||
+        profile?.role === "owner"
+    );
+}
+
+async function isTeacher() {
+
+    const profile =
+        await getProfile();
+
+    return (
+        profile?.role === "teacher" ||
+        profile?.role === "admin" ||
+        profile?.role === "owner"
+    );
+}
+
+/* =====================================================
+   XP
+===================================================== */
 
 async function addXP(
     userId,
     amount
-){
+) {
 
-
-    const {
-        error
-    } = await supabaseClient
-
-    .rpc(
-        "add_xp",
-        {
-            p_user:userId,
-            p_amount:amount
-        }
-    );
-
-
-    if(error)
-        console.error(error);
-
-}
-
-
-
-// =====================================================
-// STORAGE
-// =====================================================
-
-
-// رفع ملف PDF
-
-async function uploadFile(
-file
-){
-
-
-    const fileName =
-    Date.now()
-    +
-    "-"
-    +
-    file.name;
-
-
+    if (!userId) {
+        throw new Error(
+            "userId غير موجود."
+        );
+    }
 
     const {
         data,
         error
     } =
-    await supabaseClient
+        await supabaseClient.rpc(
+            "add_xp",
+            {
+                p_user: userId,
+                p_amount: amount
+            }
+        );
 
-    .storage
-
-    .from("hamou-files")
-
-    .upload(
-        fileName,
-        file
-    );
-
-
-
-    if(error){
-
-        console.error(error);
-
-        return null;
-
+    if (error) {
+        throw error;
     }
 
+    return data;
+}
 
+/* =====================================================
+   RESOURCES
+===================================================== */
+
+async function getResources() {
 
     const {
-        data:urlData
+        data,
+        error
     } =
-    supabaseClient
+        await supabaseClient
+            .from("resources")
+            .select("*")
+            .eq(
+                "status",
+                "published"
+            )
+            .order(
+                "created_at",
+                {
+                    ascending: false
+                }
+            );
 
-    .storage
+    if (error) {
 
-    .from("hamou-files")
+        console.error(
+            "getResources:",
+            error
+        );
 
-    .getPublicUrl(
-        fileName
-    );
+        return [];
+    }
 
-
-
-    return urlData.publicUrl;
-
-}
-async function getNotifications() {
-  const user = await getCurrentUser();
-
-  if (!user) return [];
-
-  const { data, error } = await supabaseClient
-    .from("notifications")
-    .select("*")
-    .eq("user_id", user.id)
-    .order("created_at", { ascending: false });
-
-  if (error) {
-    console.error("Notifications error:", error);
-    return [];
-  }
-
-  return data || [];
+    return data || [];
 }
 
+/* =====================================================
+   STORAGE
+===================================================== */
 
-async function markNotificationAsRead(id) {
-  const { error } = await supabaseClient
-    .from("notifications")
-    .update({ is_read: true })
-    .eq("id", id);
+async function uploadFile(
+    file
+) {
 
-  if (error) {
-    console.error("Notification update error:", error);
-    return false;
-  }
+    if (!file) {
+        throw new Error(
+            "لم يتم اختيار ملف."
+        );
+    }
 
-  return true;
+    const user =
+        await getCurrentUser();
+
+    if (!user) {
+        throw new Error(
+            "يجب تسجيل الدخول أولًا."
+        );
+    }
+
+    const safeName =
+        file.name
+            .normalize("NFKD")
+            .replace(
+                /[^\w.\-]+/g,
+                "_"
+            )
+            .slice(0, 120);
+
+    const path =
+        `teacher/${user.id}/${crypto.randomUUID()}-${safeName}`;
+
+    const {
+        error
+    } =
+        await supabaseClient
+            .storage
+            .from("hamou-files")
+            .upload(
+                path,
+                file,
+                {
+                    upsert: false,
+                    contentType:
+                        file.type ||
+                        "application/octet-stream"
+                }
+            );
+
+    if (error) {
+        throw error;
+    }
+
+    const {
+        data
+    } =
+        supabaseClient
+            .storage
+            .from("hamou-files")
+            .getPublicUrl(path);
+
+    return {
+        path,
+        url: data.publicUrl
+    };
 }
