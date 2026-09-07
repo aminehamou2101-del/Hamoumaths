@@ -177,3 +177,24 @@ if (profile && profile.role === "owner") {
 
     navLinks.appendChild(ownerLink);
 }
+if (
+    profile &&
+    (
+        profile.role === "owner" ||
+        profile.role === "admin"
+    )
+) {
+
+    const reviewLink =
+        document.createElement("a");
+
+    reviewLink.href =
+        `${basePath}pages/content-review.html`;
+
+    reviewLink.textContent =
+        "مراجعة المحتوى";
+
+    navLinks.appendChild(
+        reviewLink
+    );
+}
