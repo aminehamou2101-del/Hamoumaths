@@ -1,1563 +1,2314 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-
 <head>
     <meta charset="UTF-8">
-
     <meta
         name="viewport"
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>الأدوات الرياضية | HAMOU MATH</title>
+    <title>HAMOU MATH - الأدوات الرياضية</title>
 
-    <link
-        rel="icon"
-        href="../assets/logo.svg"
+    <meta
+        name="description"
+        content="حاسبة علمية ورسم دوال رياضية - HAMOU MATH"
     >
 
-    <style>
+    <script>
+        (function () {
+            const theme =
+                localStorage.getItem("hamou_math_theme") || "light";
 
+            document.documentElement.dataset.theme = theme;
+
+            if (theme === "dark") {
+                document.documentElement.classList.add("dark");
+            }
+        })();
+    </script>
+
+    <style>
         :root {
-            --primary: #1565c0;
-            --primary-dark: #0d47a1;
-            --secondary: #00bcd4;
-            --dark: #082b5c;
-            --bg: #f4f8ff;
-            --card: #ffffff;
+            --bg: #f5f7fb;
+            --surface: #ffffff;
+            --surface-2: #f8fafc;
             --text: #172033;
-            --muted: #64748b;
-            --border: #dbe5f1;
-            --shadow:
-                0 14px 38px
-                rgba(8,43,92,.08);
+            --muted: #667085;
+            --border: #e4e7ec;
+            --primary: #2563eb;
+            --primary-2: #7c3aed;
+            --success: #16a34a;
+            --danger: #dc2626;
+            --shadow: 0 12px 35px rgba(15, 23, 42, .08);
+        }
+
+        html.dark {
+            --bg: #0b1120;
+            --surface: #111827;
+            --surface-2: #182233;
+            --text: #f8fafc;
+            --muted: #aab4c3;
+            --border: #293548;
+            --shadow: 0 15px 40px rgba(0, 0, 0, .25);
         }
 
         * {
             box-sizing: border-box;
         }
 
+        html,
         body {
             margin: 0;
+            min-height: 100%;
             background: var(--bg);
             color: var(--text);
             font-family:
-                Tahoma,
                 Arial,
+                "Segoe UI",
+                Tahoma,
                 sans-serif;
         }
 
-        .container {
-            width: min(1400px, 94%);
-            margin: 30px auto 60px;
+        body {
+            min-height: 100vh;
+        }
+
+        .page {
+            width: min(1450px, 95%);
+            margin: 0 auto;
+            padding: 35px 0 60px;
         }
 
         .hero {
-            padding: 30px;
-            border-radius: 24px;
-            margin-bottom: 20px;
-            color: white;
-
-            background:
-                radial-gradient(
-                    circle at top left,
-                    rgba(0,188,212,.25),
-                    transparent 30%
-                ),
-                linear-gradient(
-                    135deg,
-                    var(--dark),
-                    var(--primary)
-                );
-
-            box-shadow:
-                0 20px 55px
-                rgba(8,43,92,.14);
+            text-align: center;
+            margin-bottom: 28px;
         }
 
         .hero h1 {
-            margin: 0 0 7px;
-            font-size: 30px;
+            margin: 0 0 10px;
+            font-size: clamp(2rem, 4vw, 3.2rem);
+            font-weight: 900;
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--primary),
+                    var(--primary-2)
+                );
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
         }
 
         .hero p {
-            margin: 0;
-            opacity: .9;
+            margin: 0 auto;
+            max-width: 800px;
+            color: var(--muted);
+            line-height: 1.8;
         }
 
         .tools-grid {
             display: grid;
             grid-template-columns:
-                minmax(360px, .9fr)
-                minmax(450px, 1.1fr);
-            gap: 20px;
+                minmax(330px, 430px)
+                minmax(0, 1fr);
+            gap: 22px;
+            align-items: start;
         }
 
         .card {
-            background: var(--card);
+            background: var(--surface);
             border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 22px;
+            border-radius: 22px;
             box-shadow: var(--shadow);
+            overflow: hidden;
         }
 
-        .card h2 {
-            margin-top: 0;
-            color: var(--dark);
+        .card-header {
+            padding: 22px 24px;
+            border-bottom: 1px solid var(--border);
         }
 
-        /* Calculator */
-
-        .calculator {
-            max-width: 520px;
-            margin: auto;
+        .card-header h2 {
+            margin: 0 0 6px;
+            font-size: 1.25rem;
         }
 
-        .display {
-            width: 100%;
-            min-height: 80px;
-
-            margin-bottom: 12px;
-
-            padding: 15px;
-
-            border: 1px solid var(--border);
-            border-radius: 14px;
-
-            background: #f8fbff;
-
-            color: var(--dark);
-
-            font-size: 25px;
-            font-weight: 800;
-
-            text-align: left;
-
-            direction: ltr;
-
-            overflow-x: auto;
-            white-space: nowrap;
-        }
-
-        .history {
-            min-height: 25px;
-            margin-bottom: 12px;
+        .card-header p {
+            margin: 0;
             color: var(--muted);
-            font-size: 12px;
-            direction: ltr;
-            text-align: left;
+            font-size: .92rem;
+            line-height: 1.6;
         }
 
-        .calc-grid {
+        .card-body {
+            padding: 20px;
+        }
+
+        /* =====================================================
+           CALCULATOR
+        ===================================================== */
+
+        .calculator-display {
+            width: 100%;
+            min-height: 105px;
+            padding: 18px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            background: var(--surface-2);
+            color: var(--text);
+            font-size: clamp(1.5rem, 4vw, 2rem);
+            font-weight: 700;
+            text-align: left;
+            direction: ltr;
+            outline: none;
+            margin-bottom: 14px;
+            overflow-x: auto;
+        }
+
+        .calculator-display.error {
+            border-color: var(--danger);
+        }
+
+        .calculator-result {
+            min-height: 30px;
+            margin-bottom: 14px;
+            color: var(--muted);
+            text-align: left;
+            direction: ltr;
+            font-size: .95rem;
+            word-break: break-word;
+        }
+
+        .calculator-keypad {
             display: grid;
-            grid-template-columns:
-                repeat(4, 1fr);
-            gap: 8px;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 9px;
         }
 
         .calc-btn {
             min-height: 52px;
-
-            border: 0;
-            border-radius: 12px;
-
-            background: #edf5ff;
-            color: var(--dark);
-
-            font-size: 16px;
+            border: 1px solid var(--border);
+            border-radius: 13px;
+            background: var(--surface-2);
+            color: var(--text);
+            font-size: 1rem;
             font-weight: 800;
-
             cursor: pointer;
-
-            transition: .16s ease;
+            transition:
+                transform .12s ease,
+                background .12s ease;
         }
 
         .calc-btn:hover {
             transform: translateY(-1px);
-            background: #dcecff;
+            background: var(--surface);
+        }
+
+        .calc-btn:active {
+            transform: translateY(1px);
+        }
+
+        .calc-btn.function {
+            font-size: .9rem;
         }
 
         .calc-btn.operator {
-            background: #e4f7fa;
-            color: #075985;
+            background: rgba(37, 99, 235, .09);
+            color: var(--primary);
         }
 
-        .calc-btn.equal {
+        .calc-btn.equals {
             background: var(--primary);
+            border-color: var(--primary);
             color: white;
         }
 
         .calc-btn.danger {
-            background: #fee2e2;
-            color: #991b1b;
+            color: var(--danger);
         }
 
-        /* Graph */
+        .calculator-help {
+            margin-top: 15px;
+            padding: 14px;
+            border-radius: 14px;
+            background: var(--surface-2);
+            color: var(--muted);
+            line-height: 1.8;
+            font-size: .84rem;
+        }
+
+        /* =====================================================
+           GRAPH
+        ===================================================== */
 
         .graph-controls {
             display: grid;
             grid-template-columns:
-                1fr 120px 120px;
-            gap: 9px;
-            margin-bottom: 13px;
+                minmax(180px, 1.5fr)
+                minmax(130px, .7fr)
+                minmax(100px, .5fr)
+                auto auto;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .field {
+            min-width: 0;
         }
 
         .field label {
             display: block;
             margin-bottom: 6px;
-            color: var(--dark);
-            font-size: 13px;
+            color: var(--muted);
+            font-size: .8rem;
             font-weight: 800;
         }
 
-        input {
+        .field input,
+        .field select {
             width: 100%;
-            padding: 11px;
-            border:
-                1px solid
-                var(--border);
-            border-radius: 11px;
-            background: var(--card);
+            height: 46px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: var(--surface-2);
             color: var(--text);
-            font: inherit;
-        }
-
-        input:focus {
             outline: none;
+            padding: 0 12px;
+            font-size: .95rem;
+        }
+
+        .field input:focus,
+        .field select:focus {
             border-color: var(--primary);
-        }
-
-        canvas {
-            display: block;
-            width: 100%;
-            height: auto;
-
-            border:
-                1px solid
-                var(--border);
-
-            border-radius: 15px;
-
-            background:
-                white;
-        }
-
-        .graph-actions {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-top: 12px;
+            box-shadow:
+                0 0 0 3px rgba(37, 99, 235, .10);
         }
 
         .graph-button {
+            align-self: end;
+            height: 46px;
+            padding: 0 17px;
             border: 0;
-            border-radius: 10px;
-            padding: 9px 13px;
+            border-radius: 12px;
             cursor: pointer;
-            background: #edf5ff;
-            color: var(--dark);
-            font-weight: 800;
+            font-weight: 900;
+            color: white;
+            background: var(--primary);
         }
 
-        .formula-help {
-            margin-top: 10px;
-            color: var(--muted);
-            font-size: 12px;
+        .graph-button.secondary {
+            background: var(--surface-2);
+            border: 1px solid var(--border);
+            color: var(--text);
         }
 
-        .message {
-            display: none;
-            margin-top: 12px;
-            padding: 10px;
+        .graph-status {
+            min-height: 34px;
+            margin-bottom: 12px;
+            padding: 9px 12px;
             border-radius: 10px;
-            font-size: 13px;
+            background: var(--surface-2);
+            color: var(--muted);
+            font-size: .86rem;
         }
 
-        .message.show {
+        .graph-status.error {
+            color: var(--danger);
+            border: 1px solid rgba(220, 38, 38, .2);
+        }
+
+        .graph-wrap {
+            position: relative;
+            width: 100%;
+            height: min(64vh, 620px);
+            min-height: 350px;
+            border: 1px solid var(--border);
+            border-radius: 17px;
+            overflow: hidden;
+            background: var(--surface-2);
+        }
+
+        #graphCanvas {
             display: block;
+            width: 100%;
+            height: 100%;
+            touch-action: none;
         }
 
-        .message.error {
-            background: #fee2e2;
-            color: #991b1b;
+        .graph-legend {
+            margin-top: 12px;
+            color: var(--muted);
+            line-height: 1.8;
+            font-size: .84rem;
         }
 
-        .message.success {
-            background: #dcfce7;
-            color: #166534;
+        .examples {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 7px;
+            margin-top: 10px;
         }
 
-        @media (max-width: 900px) {
+        .example-btn {
+            border: 1px solid var(--border);
+            background: var(--surface-2);
+            color: var(--text);
+            border-radius: 999px;
+            padding: 7px 10px;
+            cursor: pointer;
+            font-size: .8rem;
+            font-weight: 700;
+        }
 
+        @media (max-width: 1000px) {
             .tools-grid {
                 grid-template-columns: 1fr;
             }
 
+            .graph-controls {
+                grid-template-columns: 1fr 1fr;
+            }
         }
 
-        @media (max-width: 600px) {
-
-            .container {
-                width: 95%;
-            }
-
-            .hero {
-                padding: 22px;
-                border-radius: 19px;
-            }
-
-            .hero h1 {
-                font-size: 24px;
+        @media (max-width: 650px) {
+            .page {
+                width: 94%;
+                padding-top: 22px;
             }
 
             .graph-controls {
                 grid-template-columns: 1fr;
             }
 
-            .card {
-                padding: 16px;
-                border-radius: 17px;
+            .calculator-keypad {
+                gap: 7px;
             }
 
             .calc-btn {
-                min-height: 48px;
+                min-height: 47px;
             }
 
+            .graph-wrap {
+                min-height: 300px;
+                height: 55vh;
+            }
         }
-
     </style>
 </head>
 
 <body>
 
-<div id="hamou-navbar"></div>
+    <!-- القائمة الرئيسية -->
+    <div id="hamou-navbar"></div>
 
-<main class="container">
+    <main class="page">
 
-    <section class="hero">
+        <section class="hero">
+            <h1 data-i18n="tools.title">
+                الأدوات الرياضية
+            </h1>
 
-        <h1>
-            🧮 الأدوات الرياضية
-        </h1>
-
-        <p>
-            حاسبة رياضية ورسم دوال تفاعلي داخل HAMOU MATH.
-        </p>
-
-    </section>
-
-    <section class="tools-grid">
-
-        <!-- Calculator -->
-
-        <section class="card">
-
-            <h2>
-                🧮 الحاسبة
-            </h2>
-
-            <div class="calculator">
-
-                <div
-                    id="history"
-                    class="history"
-                ></div>
-
-                <div
-                    id="display"
-                    class="display"
-                >
-                    0
-                </div>
-
-                <div class="calc-grid">
-
-                    <button
-                        class="calc-btn danger"
-                        data-action="clear"
-                    >
-                        AC
-                    </button>
-
-                    <button
-                        class="calc-btn"
-                        data-value="("
-                    >
-                        (
-                    </button>
-
-                    <button
-                        class="calc-btn"
-                        data-value=")"
-                    >
-                        )
-                    </button>
-
-                    <button
-                        class="calc-btn operator"
-                        data-value="/"
-                    >
-                        ÷
-                    </button>
-
-                    <button
-                        class="calc-btn"
-                        data-value="sin("
-                    >
-                        sin
-                    </button>
-
-                    <button
-                        class="calc-btn"
-                        data-value="cos("
-                    >
-                        cos
-                    </button>
-
-                    <button
-                        class="calc-btn"
-                        data-value="tan("
-                    >
-                        tan
-                    </button>
-
-                    <button
-                        class="calc-btn operator"
-                        data-value="*"
-                    >
-                        ×
-                    </button>
-
-                    <button
-                        class="calc-btn"
-                        data-value="sqrt("
-                    >
-                        √
-                    </button>
-
-                    <button
-                        class="calc-btn"
-                        data-value="log("
-                    >
-                        log
-                    </button>
-
-                    <button
-                        class="calc-btn"
-                        data-value="ln("
-                    >
-                        ln
-                    </button>
-
-                    <button
-                        class="calc-btn operator"
-                        data-value="-"
-                    >
-                        −
-                    </button>
-
-                    <button
-                        class="calc-btn"
-                        data-value="7"
-                    >
-                        7
-                    </button>
-
-                    <button
-                        class="calc-btn"
-                        data-value="8"
-                    >
-                        8
-                    </button>
-
-                    <button
-                        class="calc-btn"
-                        data-value="9"
-                    >
-                        9
-                    </button>
-
-                    <button
-                        class="calc-btn operator"
-                        data-value="+"
-                    >
-                        +
-                    </button>
-
-                    <button
-                        class="calc-btn"
-                        data-value="4"
-                    >
-                        4
-                    </button>
-
-                    <button
-                        class="calc-btn"
-                        data-value="5"
-                    >
-                        5
-                    </button>
-
-                    <button
-                        class="calc-btn"
-                        data-value="6"
-                    >
-                        6
-                    </button>
-
-                    <button
-                        class="calc-btn"
-                        data-value="^"
-                    >
-                        xʸ
-                    </button>
-
-                    <button
-                        class="calc-btn"
-                        data-value="1"
-                    >
-                        1
-                    </button>
-
-                    <button
-                        class="calc-btn"
-                        data-value="2"
-                    >
-                        2
-                    </button>
-
-                    <button
-                        class="calc-btn"
-                        data-value="3"
-                    >
-                        3
-                    </button>
-
-                    <button
-                        class="calc-btn"
-                        data-value="pi"
-                    >
-                        π
-                    </button>
-
-                    <button
-                        class="calc-btn"
-                        data-value="0"
-                    >
-                        0
-                    </button>
-
-                    <button
-                        class="calc-btn"
-                        data-value="."
-                    >
-                        .
-                    </button>
-
-                    <button
-                        class="calc-btn equal"
-                        data-action="calculate"
-                    >
-                        =
-                    </button>
-
-                    <button
-                        class="calc-btn"
-                        data-value="e"
-                    >
-                        e
-                    </button>
-
-                </div>
-
-                <div
-                    id="calcMessage"
-                    class="message"
-                ></div>
-
-            </div>
-
+            <p>
+                حاسبة علمية متقدمة ورسم حقيقي للدوال الرياضية.
+            </p>
         </section>
 
-        <!-- Graph -->
+        <section class="tools-grid">
 
-        <section class="card">
+            <!-- =================================================
+                 CALCULATOR
+            ================================================== -->
 
-            <h2>
-                📈 رسم الدوال
-            </h2>
+            <article class="card">
 
-            <div class="graph-controls">
+                <div class="card-header">
+                    <h2 data-i18n="tools.calculator">
+                        الحاسبة العلمية
+                    </h2>
 
-                <div class="field">
-
-                    <label for="functionInput">
-                        f(x)
-                    </label>
-
-                    <input
-                        id="functionInput"
-                        value="x^2"
-                        placeholder="مثال: x^2 - 3*x + 2"
-                    >
-
+                    <p>
+                        العمليات الحسابية والدوال المثلثية
+                        والجذور والأسس واللوغاريتمات.
+                    </p>
                 </div>
 
-                <div class="field">
-
-                    <label for="xMin">
-                        من x
-                    </label>
+                <div class="card-body">
 
                     <input
-                        id="xMin"
-                        type="number"
-                        value="-10"
+                        id="calcDisplay"
+                        class="calculator-display"
+                        type="text"
+                        inputmode="decimal"
+                        autocomplete="off"
+                        spellcheck="false"
+                        aria-label="Calculator"
                     >
 
+                    <div
+                        id="calcResult"
+                        class="calculator-result"
+                    ></div>
+
+                    <div class="calculator-keypad">
+
+                        <button class="calc-btn danger"
+                                data-action="clear">
+                            AC
+                        </button>
+
+                        <button class="calc-btn"
+                                data-action="backspace">
+                            ⌫
+                        </button>
+
+                        <button class="calc-btn function"
+                                data-value="(">
+                            (
+                        </button>
+
+                        <button class="calc-btn function"
+                                data-value=")">
+                            )
+                        </button>
+
+                        <button class="calc-btn operator"
+                                data-value="/">
+                            ÷
+                        </button>
+
+                        <button class="calc-btn function"
+                                data-value="sin(">
+                            sin
+                        </button>
+
+                        <button class="calc-btn function"
+                                data-value="cos(">
+                            cos
+                        </button>
+
+                        <button class="calc-btn function"
+                                data-value="tan(">
+                            tan
+                        </button>
+
+                        <button class="calc-btn function"
+                                data-value="sqrt(">
+                            √
+                        </button>
+
+                        <button class="calc-btn operator"
+                                data-value="^">
+                            xʸ
+                        </button>
+
+                        <button class="calc-btn"
+                                data-value="7">
+                            7
+                        </button>
+
+                        <button class="calc-btn"
+                                data-value="8">
+                            8
+                        </button>
+
+                        <button class="calc-btn"
+                                data-value="9">
+                            9
+                        </button>
+
+                        <button class="calc-btn operator"
+                                data-value="*">
+                            ×
+                        </button>
+
+                        <button class="calc-btn function"
+                                data-value="log(">
+                            log
+                        </button>
+
+                        <button class="calc-btn"
+                                data-value="4">
+                            4
+                        </button>
+
+                        <button class="calc-btn"
+                                data-value="5">
+                            5
+                        </button>
+
+                        <button class="calc-btn"
+                                data-value="6">
+                            6
+                        </button>
+
+                        <button class="calc-btn operator"
+                                data-value="-">
+                            −
+                        </button>
+
+                        <button class="calc-btn function"
+                                data-value="ln(">
+                            ln
+                        </button>
+
+                        <button class="calc-btn"
+                                data-value="1">
+                            1
+                        </button>
+
+                        <button class="calc-btn"
+                                data-value="2">
+                            2
+                        </button>
+
+                        <button class="calc-btn"
+                                data-value="3">
+                            3
+                        </button>
+
+                        <button class="calc-btn operator"
+                                data-value="+">
+                            +
+                        </button>
+
+                        <button class="calc-btn function"
+                                data-value="pi">
+                            π
+                        </button>
+
+                        <button class="calc-btn"
+                                data-value="0">
+                            0
+                        </button>
+
+                        <button class="calc-btn"
+                                data-value=".">
+                            .
+                        </button>
+
+                        <button class="calc-btn function"
+                                data-value="e">
+                            e
+                        </button>
+
+                        <button class="calc-btn equals"
+                                data-action="calculate">
+                            =
+                        </button>
+
+                    </div>
+
+                    <div class="calculator-help">
+                        أمثلة:
+                        <strong>2+3*4</strong>،
+                        <strong>sqrt(25)</strong>،
+                        <strong>sin(pi/2)</strong>،
+                        <strong>2^8</strong>،
+                        <strong>log(100)</strong>.
+                        الدوال المثلثية تعمل بالراديان.
+                    </div>
+
+                </div>
+            </article>
+
+            <!-- =================================================
+                 GRAPH
+            ================================================== -->
+
+            <article class="card">
+
+                <div class="card-header">
+                    <h2 data-i18n="tools.graph">
+                        رسم الدوال
+                    </h2>
+
+                    <p>
+                        اكتب الدالة بدلالة x ثم اضغط رسم.
+                    </p>
                 </div>
 
-                <div class="field">
+                <div class="card-body">
 
-                    <label for="xMax">
-                        إلى x
-                    </label>
+                    <div class="graph-controls">
 
-                    <input
-                        id="xMax"
-                        type="number"
-                        value="10"
+                        <div class="field">
+                            <label for="functionInput">
+                                f(x)
+                            </label>
+
+                            <input
+                                id="functionInput"
+                                type="text"
+                                value="x^2"
+                                autocomplete="off"
+                                spellcheck="false"
+                                placeholder="مثال: x^2 + 2*x + 1"
+                            >
+                        </div>
+
+                        <div class="field">
+                            <label for="xMin">
+                                x min
+                            </label>
+
+                            <input
+                                id="xMin"
+                                type="number"
+                                value="-10"
+                                step="0.5"
+                            >
+                        </div>
+
+                        <div class="field">
+                            <label for="xMax">
+                                x max
+                            </label>
+
+                            <input
+                                id="xMax"
+                                type="number"
+                                value="10"
+                                step="0.5"
+                            >
+                        </div>
+
+                        <button
+                            id="drawButton"
+                            class="graph-button"
+                            type="button"
+                        >
+                            رسم
+                        </button>
+
+                        <button
+                            id="resetGraphButton"
+                            class="graph-button secondary"
+                            type="button"
+                        >
+                            إعادة ضبط
+                        </button>
+
+                    </div>
+
+                    <div
+                        id="graphStatus"
+                        class="graph-status"
                     >
+                        جاهز للرسم.
+                    </div>
+
+                    <div class="graph-wrap">
+                        <canvas id="graphCanvas"></canvas>
+                    </div>
+
+                    <div class="examples">
+
+                        <button
+                            class="example-btn"
+                            type="button"
+                            data-function="x^2"
+                        >
+                            x²
+                        </button>
+
+                        <button
+                            class="example-btn"
+                            type="button"
+                            data-function="2*x+3"
+                        >
+                            2x + 3
+                        </button>
+
+                        <button
+                            class="example-btn"
+                            type="button"
+                            data-function="sin(x)"
+                        >
+                            sin(x)
+                        </button>
+
+                        <button
+                            class="example-btn"
+                            type="button"
+                            data-function="cos(x)"
+                        >
+                            cos(x)
+                        </button>
+
+                        <button
+                            class="example-btn"
+                            type="button"
+                            data-function="sqrt(abs(x))"
+                        >
+                            √|x|
+                        </button>
+
+                        <button
+                            class="example-btn"
+                            type="button"
+                            data-function="1/x"
+                        >
+                            1/x
+                        </button>
+
+                    </div>
+
+                    <div class="graph-legend">
+                        يدعم:
+                        + ، − ، × ، ÷ ، ^ ،
+                        الأقواس،
+                        sin،
+                        cos،
+                        tan،
+                        sqrt،
+                        abs،
+                        log،
+                        ln،
+                        π،
+                        e.
+                    </div>
 
                 </div>
-
-            </div>
-
-            <canvas
-                id="graphCanvas"
-                width="900"
-                height="550"
-            ></canvas>
-
-            <div class="graph-actions">
-
-                <button
-                    id="drawGraph"
-                    class="graph-button"
-                >
-                    رسم الدالة
-                </button>
-
-                <button
-                    id="zoomIn"
-                    class="graph-button"
-                >
-                    تكبير +
-                </button>
-
-                <button
-                    id="zoomOut"
-                    class="graph-button"
-                >
-                    تصغير −
-                </button>
-
-                <button
-                    id="resetGraph"
-                    class="graph-button"
-                >
-                    إعادة ضبط
-                </button>
-
-            </div>
-
-            <div class="formula-help">
-                أمثلة:
-                x^2،
-                sin(x)،
-                cos(x)،
-                sqrt(abs(x))،
-                2*x+3
-            </div>
-
-            <div
-                id="graphMessage"
-                class="message"
-            ></div>
+            </article>
 
         </section>
+    </main>
 
-    </section>
+    <!-- =========================================================
+         SCRIPTS
+    ========================================================== -->
 
-</main>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../js/supabase.js"></script>
+    <script src="../js/i18n.js"></script>
+    <script src="../js/navbar.js"></script>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        "use strict";
 
-<script src="../js/supabase.js"></script>
-<script src="../js/theme.js"></script>
-<script src="../js/i18n.js"></script>
-<script src="../js/navbar.js"></script>
+        /* ======================================================
+           SAFE MATH PARSER
+        ====================================================== */
 
-<script>
+        class MathParser {
 
-(function () {
-
-    "use strict";
-
-    /* ===========================================
-       SAFE MATH PARSER
-       لا يستخدم eval أو Function
-    =========================================== */
-
-    const display =
-        document.getElementById("display");
-
-    const history =
-        document.getElementById("history");
-
-    const calcMessage =
-        document.getElementById(
-            "calcMessage"
-        );
-
-    let expression = "";
-
-    const FUNCTIONS = {
-        sin: Math.sin,
-        cos: Math.cos,
-        tan: Math.tan,
-        sqrt: Math.sqrt,
-        abs: Math.abs,
-        ln: Math.log,
-        log: Math.log10
-    };
-
-    const CONSTANTS = {
-        pi: Math.PI,
-        e: Math.E
-    };
-
-    function showCalcError(
-        text
-    ) {
-
-        calcMessage.textContent =
-            text;
-
-        calcMessage.className =
-            "message show error";
-    }
-
-    function clearCalcError() {
-
-        calcMessage.textContent =
-            "";
-
-        calcMessage.className =
-            "message";
-    }
-
-    /*
-     * Lexer + Recursive Descent Parser
-     */
-
-    function tokenize(input) {
-
-        const tokens = [];
-
-        let i = 0;
-
-        while (
-            i < input.length
-        ) {
-
-            const char =
-                input[i];
-
-            if (
-                /\s/.test(char)
-            ) {
-
-                i++;
-                continue;
+            constructor(expression, variables = {}) {
+                this.original = expression;
+                this.expression = expression;
+                this.index = 0;
+                this.variables = variables;
             }
 
-            if (
-                /[0-9.]/.test(char)
-            ) {
+            static evaluate(expression, variables = {}) {
 
-                let number = "";
+                let expr = String(expression || "")
+                    .trim()
+                    .toLowerCase();
 
-                while (
-                    i < input.length &&
-                    /[0-9.]/.test(input[i])
-                ) {
-                    number +=
-                        input[i++];
+                if (!expr) {
+                    throw new Error(
+                        "التعبير فارغ."
+                    );
                 }
 
+                /*
+                 * تحويل الرموز الشائعة
+                 */
+                expr = expr
+                    .replace(/π/g, "pi")
+                    .replace(/√/g, "sqrt")
+                    .replace(/×/g, "*")
+                    .replace(/÷/g, "/")
+                    .replace(/−/g, "-");
+
+                /*
+                 * إزالة المسافات
+                 */
+                expr = expr.replace(/\s+/g, "");
+
+                /*
+                 * x² -> x^2
+                 * x³ -> x^3
+                 */
+                expr = expr.replace(/²/g, "^2");
+                expr = expr.replace(/³/g, "^3");
+
+                /*
+                 * الضرب الضمني:
+                 * 2x -> 2*x
+                 * 2pi -> 2*pi
+                 * )( -> )*(
+                 */
+                expr = expr
+                    .replace(
+                        /(\d|\))(?=(x|pi|e|\())/g,
+                        "$1*"
+                    )
+                    .replace(
+                        /(x|pi|e|\))(?=\d)/g,
+                        "$1*"
+                    )
+                    .replace(
+                        /(\))(?=(sin|cos|tan|sqrt|abs|log|ln)\()/g,
+                        "$1*"
+                    );
+
+                const parser =
+                    new MathParser(
+                        expr,
+                        variables
+                    );
+
+                const result =
+                    parser.parseExpression();
+
+                parser.skipSpaces();
+
                 if (
-                    (number.match(/\./g) || [])
-                        .length > 1
+                    parser.index <
+                    parser.expression.length
                 ) {
+                    throw new Error(
+                        "تعبير غير مفهوم قرب: " +
+                        parser.expression.slice(
+                            parser.index
+                        )
+                    );
+                }
+
+                if (!Number.isFinite(result)) {
+                    throw new Error(
+                        "النتيجة غير معرفة."
+                    );
+                }
+
+                return result;
+            }
+
+            skipSpaces() {
+                while (
+                    this.index <
+                    this.expression.length &&
+                    /\s/.test(
+                        this.expression[this.index]
+                    )
+                ) {
+                    this.index++;
+                }
+            }
+
+            peek() {
+                return this.expression[this.index];
+            }
+
+            match(char) {
+                this.skipSpaces();
+
+                if (
+                    this.expression[
+                        this.index
+                    ] === char
+                ) {
+                    this.index++;
+                    return true;
+                }
+
+                return false;
+            }
+
+            parseExpression() {
+
+                let value =
+                    this.parseTerm();
+
+                while (true) {
+
+                    if (this.match("+")) {
+                        value += this.parseTerm();
+                        continue;
+                    }
+
+                    if (this.match("-")) {
+                        value -= this.parseTerm();
+                        continue;
+                    }
+
+                    break;
+                }
+
+                return value;
+            }
+
+            parseTerm() {
+
+                let value =
+                    this.parsePower();
+
+                while (true) {
+
+                    if (this.match("*")) {
+                        value *= this.parsePower();
+                        continue;
+                    }
+
+                    if (this.match("/")) {
+
+                        const divisor =
+                            this.parsePower();
+
+                        if (
+                            Math.abs(divisor) <
+                            Number.EPSILON
+                        ) {
+                            throw new Error(
+                                "لا يمكن القسمة على صفر."
+                            );
+                        }
+
+                        value /= divisor;
+                        continue;
+                    }
+
+                    break;
+                }
+
+                return value;
+            }
+
+            parsePower() {
+
+                let base =
+                    this.parseUnary();
+
+                if (this.match("^")) {
+
+                    const exponent =
+                        this.parsePower();
+
+                    base =
+                        Math.pow(
+                            base,
+                            exponent
+                        );
+                }
+
+                return base;
+            }
+
+            parseUnary() {
+
+                if (this.match("+")) {
+                    return this.parseUnary();
+                }
+
+                if (this.match("-")) {
+                    return -this.parseUnary();
+                }
+
+                return this.parsePrimary();
+            }
+
+            parsePrimary() {
+
+                this.skipSpaces();
+
+                const ch =
+                    this.peek();
+
+                /*
+                 * Parentheses
+                 */
+                if (this.match("(")) {
+
+                    const value =
+                        this.parseExpression();
+
+                    if (!this.match(")")) {
+                        throw new Error(
+                            "قوس مغلق مفقود."
+                        );
+                    }
+
+                    return value;
+                }
+
+                /*
+                 * Number
+                 */
+                if (
+                    /[0-9.]/.test(
+                        ch || ""
+                    )
+                ) {
+                    return this.parseNumber();
+                }
+
+                /*
+                 * Name / variable / function
+                 */
+                if (
+                    /[a-z]/i.test(
+                        ch || ""
+                    )
+                ) {
+                    const name =
+                        this.parseIdentifier();
+
+                    /*
+                     * Function
+                     */
+                    if (this.match("(")) {
+
+                        const arg =
+                            this.parseExpression();
+
+                        if (!this.match(")")) {
+                            throw new Error(
+                                "قوس الدالة غير مكتمل."
+                            );
+                        }
+
+                        return this.callFunction(
+                            name,
+                            arg
+                        );
+                    }
+
+                    /*
+                     * Constants
+                     */
+                    if (name === "pi") {
+                        return Math.PI;
+                    }
+
+                    if (name === "e") {
+                        return Math.E;
+                    }
+
+                    /*
+                     * Variable
+                     */
+                    if (
+                        Object.prototype.hasOwnProperty.call(
+                            this.variables,
+                            name
+                        )
+                    ) {
+                        return this.variables[name];
+                    }
+
+                    throw new Error(
+                        "رمز غير معروف: " + name
+                    );
+                }
+
+                throw new Error(
+                    "رمز غير صالح."
+                );
+            }
+
+            parseNumber() {
+
+                const start =
+                    this.index;
+
+                let hasDot = false;
+
+                while (
+                    this.index <
+                    this.expression.length
+                ) {
+
+                    const c =
+                        this.expression[
+                            this.index
+                        ];
+
+                    if (c === ".") {
+
+                        if (hasDot) break;
+
+                        hasDot = true;
+                        this.index++;
+                        continue;
+                    }
+
+                    if (
+                        /[0-9]/.test(c)
+                    ) {
+                        this.index++;
+                        continue;
+                    }
+
+                    break;
+                }
+
+                /*
+                 * Scientific notation
+                 */
+                if (
+                    this.expression[
+                        this.index
+                    ] === "e"
+                ) {
+
+                    const saved =
+                        this.index;
+
+                    this.index++;
+
+                    if (
+                        this.expression[
+                            this.index
+                        ] === "+" ||
+                        this.expression[
+                            this.index
+                        ] === "-"
+                    ) {
+                        this.index++;
+                    }
+
+                    const digitStart =
+                        this.index;
+
+                    while (
+                        this.index <
+                        this.expression.length &&
+                        /[0-9]/.test(
+                            this.expression[
+                                this.index
+                            ]
+                        )
+                    ) {
+                        this.index++;
+                    }
+
+                    if (
+                        digitStart ===
+                        this.index
+                    ) {
+                        this.index = saved;
+                    }
+                }
+
+                const text =
+                    this.expression.slice(
+                        start,
+                        this.index
+                    );
+
+                const value =
+                    Number(text);
+
+                if (!Number.isFinite(value)) {
                     throw new Error(
                         "رقم غير صالح."
                     );
                 }
 
-                tokens.push({
-                    type: "number",
-                    value:
-                        Number(number)
-                });
-
-                continue;
-            }
-
-            if (
-                /[a-zA-Z]/.test(char)
-            ) {
-
-                let word = "";
-
-                while (
-                    i < input.length &&
-                    /[a-zA-Z]/.test(input[i])
-                ) {
-                    word +=
-                        input[i++];
-                }
-
-                tokens.push({
-                    type: "word",
-                    value:
-                        word.toLowerCase()
-                });
-
-                continue;
-            }
-
-            if (
-                "+-*/^()".includes(char)
-            ) {
-
-                tokens.push({
-                    type: char,
-                    value: char
-                });
-
-                i++;
-                continue;
-            }
-
-            throw new Error(
-                `رمز غير مسموح: ${char}`
-            );
-        }
-
-        return tokens;
-    }
-
-    function parseMath(input) {
-
-        const tokens =
-            tokenize(input);
-
-        let position = 0;
-
-        function peek() {
-            return tokens[position];
-        }
-
-        function consume(type) {
-
-            const token =
-                tokens[position];
-
-            if (
-                !token ||
-                (
-                    type &&
-                    token.type !== type
-                )
-            ) {
-
-                throw new Error(
-                    "تعبير رياضي غير مكتمل."
-                );
-            }
-
-            position++;
-
-            return token;
-        }
-
-        function parseExpression() {
-
-            let value =
-                parseTerm();
-
-            while (
-                peek()?.type === "+" ||
-                peek()?.type === "-"
-            ) {
-
-                const op =
-                    consume().type;
-
-                const right =
-                    parseTerm();
-
-                value =
-                    op === "+"
-                        ? value + right
-                        : value - right;
-            }
-
-            return value;
-        }
-
-        function parseTerm() {
-
-            let value =
-                parsePower();
-
-            while (
-                peek()?.type === "*" ||
-                peek()?.type === "/"
-            ) {
-
-                const op =
-                    consume().type;
-
-                const right =
-                    parsePower();
-
-                if (
-                    op === "/" &&
-                    right === 0
-                ) {
-
-                    throw new Error(
-                        "لا يمكن القسمة على صفر."
-                    );
-                }
-
-                value =
-                    op === "*"
-                        ? value * right
-                        : value / right;
-            }
-
-            return value;
-        }
-
-        function parsePower() {
-
-            let value =
-                parseUnary();
-
-            if (
-                peek()?.type === "^"
-            ) {
-
-                consume("^");
-
-                const exponent =
-                    parsePower();
-
-                value =
-                    Math.pow(
-                        value,
-                        exponent
-                    );
-            }
-
-            return value;
-        }
-
-        function parseUnary() {
-
-            if (
-                peek()?.type === "+"
-            ) {
-
-                consume("+");
-
-                return parseUnary();
-            }
-
-            if (
-                peek()?.type === "-"
-            ) {
-
-                consume("-");
-
-                return -parseUnary();
-            }
-
-            return parsePrimary();
-        }
-
-        function parsePrimary() {
-
-            const token =
-                peek();
-
-            if (!token) {
-                throw new Error(
-                    "تعبير غير مكتمل."
-                );
-            }
-
-            if (
-                token.type ===
-                "number"
-            ) {
-
-                return consume(
-                    "number"
-                ).value;
-            }
-
-            if (
-                token.type ===
-                "word"
-            ) {
-
-                const word =
-                    consume(
-                        "word"
-                    ).value;
-
-                if (
-                    Object.prototype
-                        .hasOwnProperty
-                        .call(
-                            CONSTANTS,
-                            word
-                        )
-                ) {
-
-                    return CONSTANTS[word];
-                }
-
-                if (
-                    Object.prototype
-                        .hasOwnProperty
-                        .call(
-                            FUNCTIONS,
-                            word
-                        )
-                ) {
-
-                    consume("(");
-
-                    const value =
-                        parseExpression();
-
-                    consume(")");
-
-                    const result =
-                        FUNCTIONS[word](
-                            value
-                        );
-
-                    if (
-                        !Number.isFinite(
-                            result
-                        )
-                    ) {
-
-                        throw new Error(
-                            "النتيجة غير معرفة."
-                        );
-                    }
-
-                    return result;
-                }
-
-                throw new Error(
-                    `الدالة أو الرمز غير معروف: ${word}`
-                );
-            }
-
-            if (
-                token.type === "("
-            ) {
-
-                consume("(");
-
-                const value =
-                    parseExpression();
-
-                consume(")");
-
                 return value;
             }
 
-            throw new Error(
-                "تعبير رياضي غير صالح."
-            );
-        }
+            parseIdentifier() {
 
-        const value =
-            parseExpression();
+                const start =
+                    this.index;
 
-        if (
-            position !==
-            tokens.length
-        ) {
-
-            throw new Error(
-                "يوجد جزء غير مفهوم في التعبير."
-            );
-        }
-
-        if (
-            !Number.isFinite(value)
-        ) {
-
-            throw new Error(
-                "النتيجة غير معرفة."
-            );
-        }
-
-        return value;
-    }
-
-    function calculate() {
-
-        clearCalcError();
-
-        if (!expression) {
-            return;
-        }
-
-        try {
-
-            const result =
-                parseMath(
-                    expression
-                );
-
-            history.textContent =
-                `${expression} =`;
-
-            expression =
-                String(
-                    Number(
-                        result.toPrecision(12)
+                while (
+                    this.index <
+                    this.expression.length &&
+                    /[a-z]/i.test(
+                        this.expression[
+                            this.index
+                        ]
                     )
-                );
+                ) {
+                    this.index++;
+                }
 
-            updateDisplay();
+                return this.expression
+                    .slice(
+                        start,
+                        this.index
+                    )
+                    .toLowerCase();
+            }
 
-        } catch (error) {
+            callFunction(name, value) {
 
-            showCalcError(
-                error.message
+                let result;
+
+                switch (name) {
+
+                    case "sin":
+                        result = Math.sin(value);
+                        break;
+
+                    case "cos":
+                        result = Math.cos(value);
+                        break;
+
+                    case "tan":
+                        result = Math.tan(value);
+                        break;
+
+                    case "sqrt":
+                        if (value < 0) {
+                            throw new Error(
+                                "الجذر التربيعي لعدد سالب غير معرف ضمن الأعداد الحقيقية."
+                            );
+                        }
+                        result = Math.sqrt(value);
+                        break;
+
+                    case "abs":
+                        result = Math.abs(value);
+                        break;
+
+                    case "log":
+                        if (value <= 0) {
+                            throw new Error(
+                                "log يتطلب عددًا موجبًا."
+                            );
+                        }
+                        result = Math.log10(value);
+                        break;
+
+                    case "ln":
+                        if (value <= 0) {
+                            throw new Error(
+                                "ln يتطلب عددًا موجبًا."
+                            );
+                        }
+                        result = Math.log(value);
+                        break;
+
+                    default:
+                        throw new Error(
+                            "الدالة غير مدعومة: " +
+                            name
+                        );
+                }
+
+                if (!Number.isFinite(result)) {
+                    throw new Error(
+                        "نتيجة الدالة غير معرفة."
+                    );
+                }
+
+                return result;
+            }
+        }
+
+        /* ======================================================
+           CALCULATOR
+        ====================================================== */
+
+        const calcDisplay =
+            document.getElementById(
+                "calcDisplay"
+            );
+
+        const calcResult =
+            document.getElementById(
+                "calcResult"
+            );
+
+        function insertCalculatorValue(value) {
+
+            const start =
+                calcDisplay.selectionStart ??
+                calcDisplay.value.length;
+
+            const end =
+                calcDisplay.selectionEnd ??
+                calcDisplay.value.length;
+
+            const oldValue =
+                calcDisplay.value;
+
+            calcDisplay.value =
+                oldValue.slice(0, start) +
+                value +
+                oldValue.slice(end);
+
+            const newPosition =
+                start + value.length;
+
+            calcDisplay.focus();
+
+            calcDisplay.setSelectionRange(
+                newPosition,
+                newPosition
+            );
+
+            calcResult.textContent = "";
+            calcDisplay.classList.remove(
+                "error"
             );
         }
-    }
 
-    function updateDisplay() {
+        function clearCalculator() {
+            calcDisplay.value = "";
+            calcResult.textContent = "";
+            calcDisplay.classList.remove(
+                "error"
+            );
+            calcDisplay.focus();
+        }
 
-        display.textContent =
-            expression || "0";
-    }
+        function backspaceCalculator() {
 
-    document
-        .querySelectorAll(
-            ".calc-btn[data-value]"
-        )
-        .forEach(
-            button => {
+            const start =
+                calcDisplay.selectionStart ??
+                calcDisplay.value.length;
 
-                button.addEventListener(
-                    "click",
-                    function () {
+            const end =
+                calcDisplay.selectionEnd ??
+                calcDisplay.value.length;
 
-                        clearCalcError();
+            if (start !== end) {
 
-                        expression +=
-                            button.dataset.value;
+                calcDisplay.value =
+                    calcDisplay.value.slice(
+                        0,
+                        start
+                    ) +
+                    calcDisplay.value.slice(
+                        end
+                    );
 
-                        updateDisplay();
-                    }
+                calcDisplay.setSelectionRange(
+                    start,
+                    start
+                );
+
+            } else if (start > 0) {
+
+                calcDisplay.value =
+                    calcDisplay.value.slice(
+                        0,
+                        start - 1
+                    ) +
+                    calcDisplay.value.slice(
+                        start
+                    );
+
+                calcDisplay.setSelectionRange(
+                    start - 1,
+                    start - 1
                 );
             }
-        );
 
-    document
-        .querySelector(
-            '[data-action="clear"]'
-        )
-        .addEventListener(
-            "click",
-            function () {
+            calcDisplay.focus();
+        }
 
-                expression = "";
+        function calculateCalculator() {
 
-                history.textContent =
-                    "";
+            const expression =
+                calcDisplay.value.trim();
 
-                clearCalcError();
-
-                updateDisplay();
-            }
-        );
-
-    document
-        .querySelector(
-            '[data-action="calculate"]'
-        )
-        .addEventListener(
-            "click",
-            calculate
-        );
-
-    document.addEventListener(
-        "keydown",
-        function (event) {
-
-            if (
-                /^[0-9.+\-*/()^]$/
-                    .test(event.key)
-            ) {
-
-                expression +=
-                    event.key;
-
-                updateDisplay();
-
+            if (!expression) {
                 return;
             }
-
-            if (
-                event.key === "Enter"
-            ) {
-
-                event.preventDefault();
-
-                calculate();
-
-                return;
-            }
-
-            if (
-                event.key === "Escape"
-            ) {
-
-                expression = "";
-
-                updateDisplay();
-            }
-        }
-    );
-
-    /* ===========================================
-       GRAPH
-    =========================================== */
-
-    const canvas =
-        document.getElementById(
-            "graphCanvas"
-        );
-
-    const ctx =
-        canvas.getContext("2d");
-
-    const functionInput =
-        document.getElementById(
-            "functionInput"
-        );
-
-    const xMinInput =
-        document.getElementById(
-            "xMin"
-        );
-
-    const xMaxInput =
-        document.getElementById(
-            "xMax"
-        );
-
-    const graphMessage =
-        document.getElementById(
-            "graphMessage"
-        );
-
-    let zoom =
-        1;
-
-    function showGraphError(
-        text
-    ) {
-
-        graphMessage.textContent =
-            text;
-
-        graphMessage.className =
-            "message show error";
-    }
-
-    function clearGraphError() {
-
-        graphMessage.textContent =
-            "";
-
-        graphMessage.className =
-            "message";
-    }
-
-    function evaluateFunction(
-        formula,
-        x
-    ) {
-
-        let expression =
-            formula
-                .replace(
-                    /\bx\b/gi,
-                    `(${x})`
-                );
-
-        return parseMath(
-            expression
-        );
-    }
-
-    function drawGraph() {
-
-        clearGraphError();
-
-        const formula =
-            functionInput.value
-                .trim();
-
-        let xMin =
-            Number(
-                xMinInput.value
-            );
-
-        let xMax =
-            Number(
-                xMaxInput.value
-            );
-
-        if (
-            !formula
-        ) {
-
-            showGraphError(
-                "اكتب الدالة أولًا."
-            );
-
-            return;
-        }
-
-        if (
-            !Number.isFinite(xMin) ||
-            !Number.isFinite(xMax) ||
-            xMin >= xMax
-        ) {
-
-            showGraphError(
-                "مجال x غير صالح."
-            );
-
-            return;
-        }
-
-        const center =
-            (xMin + xMax) / 2;
-
-        const half =
-            (xMax - xMin) /
-            (2 * zoom);
-
-        xMin =
-            center - half;
-
-        xMax =
-            center + half;
-
-        ctx.clearRect(
-            0,
-            0,
-            canvas.width,
-            canvas.height
-        );
-
-        const width =
-            canvas.width;
-
-        const height =
-            canvas.height;
-
-        const yMin = -10;
-        const yMax = 10;
-
-        function sx(x) {
-
-            return (
-                (x - xMin) /
-                (xMax - xMin)
-            ) * width;
-        }
-
-        function sy(y) {
-
-            return height -
-                (
-                    (y - yMin) /
-                    (yMax - yMin)
-                ) * height;
-        }
-
-        /* grid */
-
-        ctx.beginPath();
-
-        for (
-            let x = Math.ceil(xMin);
-            x <= xMax;
-            x++
-        ) {
-
-            const px =
-                sx(x);
-
-            ctx.moveTo(
-                px,
-                0
-            );
-
-            ctx.lineTo(
-                px,
-                height
-            );
-        }
-
-        for (
-            let y = Math.ceil(yMin);
-            y <= yMax;
-            y++
-        ) {
-
-            const py =
-                sy(y);
-
-            ctx.moveTo(
-                0,
-                py
-            );
-
-            ctx.lineTo(
-                width,
-                py
-            );
-        }
-
-        ctx.strokeStyle =
-            "#e2e8f0";
-
-        ctx.lineWidth =
-            1;
-
-        ctx.stroke();
-
-        /* axes */
-
-        ctx.beginPath();
-
-        ctx.moveTo(
-            sx(0),
-            0
-        );
-
-        ctx.lineTo(
-            sx(0),
-            height
-        );
-
-        ctx.moveTo(
-            0,
-            sy(0)
-        );
-
-        ctx.lineTo(
-            width,
-            sy(0)
-        );
-
-        ctx.strokeStyle =
-            "#475569";
-
-        ctx.lineWidth =
-            2;
-
-        ctx.stroke();
-
-        /* curve */
-
-        ctx.beginPath();
-
-        let started =
-            false;
-
-        for (
-            let px = 0;
-            px <= width;
-            px += 2
-        ) {
-
-            const x =
-                xMin +
-                (
-                    px /
-                    width
-                ) *
-                (xMax - xMin);
 
             try {
 
-                const y =
-                    evaluateFunction(
-                        formula,
-                        x
+                const result =
+                    MathParser.evaluate(
+                        expression
                     );
 
-                if (
-                    !Number.isFinite(y) ||
-                    Math.abs(y) > 1e5
-                ) {
+                const formatted =
+                    Number.isInteger(result)
+                        ? String(result)
+                        : String(
+                            Number(
+                                result.toPrecision(12)
+                            )
+                        );
 
-                    started = false;
-                    continue;
+                calcResult.textContent =
+                    "= " + formatted;
+
+                calcDisplay.classList.remove(
+                    "error"
+                );
+
+            } catch (error) {
+
+                calcResult.textContent =
+                    error.message ||
+                    "تعبير غير صالح.";
+
+                calcDisplay.classList.add(
+                    "error"
+                );
+            }
+        }
+
+        document
+            .querySelectorAll(".calc-btn")
+            .forEach(button => {
+
+                button.addEventListener(
+                    "click",
+                    () => {
+
+                        const value =
+                            button.dataset.value;
+
+                        const action =
+                            button.dataset.action;
+
+                        if (value) {
+                            insertCalculatorValue(
+                                value
+                            );
+                        }
+
+                        if (
+                            action === "clear"
+                        ) {
+                            clearCalculator();
+                        }
+
+                        if (
+                            action === "backspace"
+                        ) {
+                            backspaceCalculator();
+                        }
+
+                        if (
+                            action === "calculate"
+                        ) {
+                            calculateCalculator();
+                        }
+                    }
+                );
+            });
+
+        calcDisplay.addEventListener(
+            "keydown",
+            event => {
+
+                if (event.key === "Enter") {
+                    event.preventDefault();
+                    calculateCalculator();
                 }
+
+                if (event.key === "Escape") {
+                    clearCalculator();
+                }
+            }
+        );
+
+        /* ======================================================
+           GRAPH ENGINE
+        ====================================================== */
+
+        const canvas =
+            document.getElementById(
+                "graphCanvas"
+            );
+
+        const ctx =
+            canvas.getContext("2d");
+
+        const functionInput =
+            document.getElementById(
+                "functionInput"
+            );
+
+        const xMinInput =
+            document.getElementById(
+                "xMin"
+            );
+
+        const xMaxInput =
+            document.getElementById(
+                "xMax"
+            );
+
+        const drawButton =
+            document.getElementById(
+                "drawButton"
+            );
+
+        const resetGraphButton =
+            document.getElementById(
+                "resetGraphButton"
+            );
+
+        const graphStatus =
+            document.getElementById(
+                "graphStatus"
+            );
+
+        let resizeObserver = null;
+
+        function resizeCanvas() {
+
+            const rect =
+                canvas.getBoundingClientRect();
+
+            const dpr =
+                window.devicePixelRatio || 1;
+
+            const width =
+                Math.max(
+                    1,
+                    Math.floor(
+                        rect.width * dpr
+                    )
+                );
+
+            const height =
+                Math.max(
+                    1,
+                    Math.floor(
+                        rect.height * dpr
+                    )
+                );
+
+            if (
+                canvas.width !== width ||
+                canvas.height !== height
+            ) {
+                canvas.width = width;
+                canvas.height = height;
+
+                ctx.setTransform(
+                    dpr,
+                    0,
+                    0,
+                    dpr,
+                    0,
+                    0
+                );
+            }
+
+            return {
+                width: rect.width,
+                height: rect.height
+            };
+        }
+
+        function niceStep(range) {
+
+            if (
+                !Number.isFinite(range) ||
+                range <= 0
+            ) {
+                return 1;
+            }
+
+            const rough =
+                range / 10;
+
+            const power =
+                Math.pow(
+                    10,
+                    Math.floor(
+                        Math.log10(
+                            rough
+                        )
+                    )
+                );
+
+            const normalized =
+                rough / power;
+
+            let factor;
+
+            if (normalized < 1.5) {
+                factor = 1;
+            } else if (normalized < 3) {
+                factor = 2;
+            } else if (normalized < 7) {
+                factor = 5;
+            } else {
+                factor = 10;
+            }
+
+            return factor * power;
+        }
+
+        function formatNumber(value) {
+
+            if (!Number.isFinite(value)) {
+                return "";
+            }
+
+            if (
+                Math.abs(value) >= 1000 ||
+                Math.abs(value) < .001
+            ) {
+                return value.toExponential(1);
+            }
+
+            const rounded =
+                Math.round(
+                    value * 1000
+                ) / 1000;
+
+            return String(rounded);
+        }
+
+        function setGraphStatus(
+            message,
+            isError = false
+        ) {
+
+            graphStatus.textContent =
+                message;
+
+            graphStatus.classList.toggle(
+                "error",
+                isError
+            );
+        }
+
+        function evaluateFunction(
+            expression,
+            x
+        ) {
+
+            return MathParser.evaluate(
+                expression,
+                { x }
+            );
+        }
+
+        function drawGrid(
+            width,
+            height,
+            xMin,
+            xMax,
+            yMin,
+            yMax
+        ) {
+
+            /*
+             * الخلفية
+             */
+            ctx.clearRect(
+                0,
+                0,
+                width,
+                height
+            );
+
+            ctx.fillStyle =
+                getComputedStyle(
+                    document.documentElement
+                ).getPropertyValue(
+                    "--surface-2"
+                ).trim() ||
+                "#f8fafc";
+
+            ctx.fillRect(
+                0,
+                0,
+                width,
+                height
+            );
+
+            function sx(x) {
+                return (
+                    (x - xMin) /
+                    (xMax - xMin)
+                ) * width;
+            }
+
+            function sy(y) {
+                return (
+                    height -
+                    (y - yMin) /
+                    (yMax - yMin) *
+                    height
+                );
+            }
+
+            /*
+             * Grid
+             */
+            ctx.lineWidth = 1;
+
+            const stepX =
+                niceStep(
+                    xMax - xMin
+                );
+
+            const stepY =
+                niceStep(
+                    yMax - yMin
+                );
+
+            ctx.font =
+                "12px Arial";
+
+            ctx.textBaseline =
+                "middle";
+
+            /*
+             * خطوط X
+             */
+            const firstX =
+                Math.ceil(
+                    xMin / stepX
+                ) * stepX;
+
+            for (
+                let x = firstX;
+                x <= xMax;
+                x += stepX
+            ) {
+
+                const px =
+                    sx(x);
+
+                ctx.strokeStyle =
+                    "rgba(127,127,127,.18)";
+
+                ctx.beginPath();
+                ctx.moveTo(
+                    px,
+                    0
+                );
+                ctx.lineTo(
+                    px,
+                    height
+                );
+                ctx.stroke();
+
+                if (
+                    Math.abs(x) >
+                    stepX * .001
+                ) {
+                    ctx.fillStyle =
+                        getComputedStyle(
+                            document.documentElement
+                        ).getPropertyValue(
+                            "--muted"
+                        ).trim() ||
+                        "#667085";
+
+                    ctx.textAlign =
+                        "center";
+
+                    ctx.fillText(
+                        formatNumber(x),
+                        px,
+                        Math.min(
+                            height - 12,
+                            Math.max(
+                                12,
+                                sy(0) + 14
+                            )
+                        )
+                    );
+                }
+            }
+
+            /*
+             * خطوط Y
+             */
+            const firstY =
+                Math.ceil(
+                    yMin / stepY
+                ) * stepY;
+
+            for (
+                let y = firstY;
+                y <= yMax;
+                y += stepY
+            ) {
 
                 const py =
                     sy(y);
 
+                ctx.strokeStyle =
+                    "rgba(127,127,127,.18)";
+
+                ctx.beginPath();
+                ctx.moveTo(
+                    0,
+                    py
+                );
+                ctx.lineTo(
+                    width,
+                    py
+                );
+                ctx.stroke();
+
                 if (
-                    py < -height * 3 ||
-                    py > height * 3
+                    Math.abs(y) >
+                    stepY * .001
                 ) {
 
-                    started = false;
+                    ctx.fillStyle =
+                        getComputedStyle(
+                            document.documentElement
+                        ).getPropertyValue(
+                            "--muted"
+                        ).trim() ||
+                        "#667085";
+
+                    ctx.textAlign =
+                        "left";
+
+                    ctx.fillText(
+                        formatNumber(y),
+                        7,
+                        py
+                    );
+                }
+            }
+
+            /*
+             * محور X
+             */
+            if (
+                xMin <= 0 &&
+                xMax >= 0
+            ) {
+
+                const px =
+                    sx(0);
+
+                ctx.strokeStyle =
+                    getComputedStyle(
+                        document.documentElement
+                    ).getPropertyValue(
+                        "--text"
+                    ).trim() ||
+                    "#172033";
+
+                ctx.lineWidth = 2;
+
+                ctx.beginPath();
+
+                ctx.moveTo(
+                    px,
+                    0
+                );
+
+                ctx.lineTo(
+                    px,
+                    height
+                );
+
+                ctx.stroke();
+
+                ctx.fillStyle =
+                    getComputedStyle(
+                        document.documentElement
+                    ).getPropertyValue(
+                        "--text"
+                    ).trim() ||
+                    "#172033";
+
+                ctx.font =
+                    "bold 13px Arial";
+
+                ctx.textAlign =
+                    "left";
+
+                ctx.fillText(
+                    "y",
+                    px + 7,
+                    15
+                );
+            }
+
+            /*
+             * محور Y
+             */
+            if (
+                yMin <= 0 &&
+                yMax >= 0
+            ) {
+
+                const py =
+                    sy(0);
+
+                ctx.strokeStyle =
+                    getComputedStyle(
+                        document.documentElement
+                    ).getPropertyValue(
+                        "--text"
+                    ).trim() ||
+                    "#172033";
+
+                ctx.lineWidth = 2;
+
+                ctx.beginPath();
+
+                ctx.moveTo(
+                    0,
+                    py
+                );
+
+                ctx.lineTo(
+                    width,
+                    py
+                );
+
+                ctx.stroke();
+
+                ctx.fillStyle =
+                    getComputedStyle(
+                        document.documentElement
+                    ).getPropertyValue(
+                        "--text"
+                    ).trim() ||
+                    "#172033";
+
+                ctx.font =
+                    "bold 13px Arial";
+
+                ctx.textAlign =
+                    "right";
+
+                ctx.fillText(
+                    "x",
+                    width - 8,
+                    Math.max(
+                        15,
+                        py - 8
+                    )
+                );
+            }
+        }
+
+        function drawFunction() {
+
+            const expression =
+                functionInput.value.trim();
+
+            let xMin =
+                Number(
+                    xMinInput.value
+                );
+
+            let xMax =
+                Number(
+                    xMaxInput.value
+                );
+
+            if (!expression) {
+                setGraphStatus(
+                    "اكتب دالة أولًا.",
+                    true
+                );
+                return;
+            }
+
+            if (
+                !Number.isFinite(xMin) ||
+                !Number.isFinite(xMax)
+            ) {
+                setGraphStatus(
+                    "حدود x غير صحيحة.",
+                    true
+                );
+                return;
+            }
+
+            if (xMin >= xMax) {
+                setGraphStatus(
+                    "يجب أن يكون x min أصغر من x max.",
+                    true
+                );
+                return;
+            }
+
+            try {
+
+                /*
+                 * اختبار التعبير
+                 */
+                evaluateFunction(
+                    expression,
+                    0
+                );
+
+            } catch (error) {
+
+                /*
+                 * بعض الدوال مثل 1/x
+                 * غير معرفة عند x=0.
+                 * نجرب نقطة أخرى.
+                 */
+
+                try {
+                    evaluateFunction(
+                        expression,
+                        xMin
+                    );
+                } catch (secondError) {
+
+                    setGraphStatus(
+                        secondError.message ||
+                        "الدالة غير صالحة.",
+                        true
+                    );
+
+                    return;
+                }
+            }
+
+            const size =
+                resizeCanvas();
+
+            const width =
+                size.width;
+
+            const height =
+                size.height;
+
+            /*
+             * أول مرور لاكتشاف مجال Y
+             */
+
+            const samples =
+                Math.max(
+                    800,
+                    Math.floor(
+                        width * 2
+                    )
+                );
+
+            const values = [];
+
+            let yMin =
+                Infinity;
+
+            let yMax =
+                -Infinity;
+
+            for (
+                let i = 0;
+                i <= samples;
+                i++
+            ) {
+
+                const x =
+                    xMin +
+                    (
+                        i / samples
+                    ) *
+                    (
+                        xMax - xMin
+                    );
+
+                let y;
+
+                try {
+                    y =
+                        evaluateFunction(
+                            expression,
+                            x
+                        );
+                } catch {
+                    y = NaN;
+                }
+
+                if (
+                    Number.isFinite(y)
+                ) {
+
+                    /*
+                     * منع قيم ضخمة جدًا من تدمير
+                     * الرسم.
+                     */
+                    if (
+                        Math.abs(y) <
+                        1e8
+                    ) {
+
+                        values.push({
+                            x,
+                            y
+                        });
+
+                        yMin =
+                            Math.min(
+                                yMin,
+                                y
+                            );
+
+                        yMax =
+                            Math.max(
+                                yMax,
+                                y
+                            );
+                    } else {
+                        values.push({
+                            x,
+                            y: NaN
+                        });
+                    }
+
+                } else {
+
+                    values.push({
+                        x,
+                        y: NaN
+                    });
+
+                }
+            }
+
+            if (
+                !Number.isFinite(yMin) ||
+                !Number.isFinite(yMax)
+            ) {
+
+                setGraphStatus(
+                    "لا توجد نقاط حقيقية يمكن رسمها ضمن المجال المحدد.",
+                    true
+                );
+
+                ctx.clearRect(
+                    0,
+                    0,
+                    width,
+                    height
+                );
+
+                return;
+            }
+
+            /*
+             * هامش حول Y
+             */
+            if (
+                Math.abs(
+                    yMax - yMin
+                ) < 1e-9
+            ) {
+
+                const padding =
+                    Math.max(
+                        1,
+                        Math.abs(yMax) * .25
+                    );
+
+                yMin -= padding;
+                yMax += padding;
+
+            } else {
+
+                const padding =
+                    (
+                        yMax - yMin
+                    ) * .10;
+
+                yMin -= padding;
+                yMax += padding;
+            }
+
+            /*
+             * إذا كانت القيم ضخمة جدًا،
+             * نحدها بشكل منطقي.
+             */
+            if (
+                yMax - yMin >
+                1e10
+            ) {
+                yMin = -100;
+                yMax = 100;
+            }
+
+            drawGrid(
+                width,
+                height,
+                xMin,
+                xMax,
+                yMin,
+                yMax
+            );
+
+            function sx(x) {
+                return (
+                    (x - xMin) /
+                    (xMax - xMin)
+                ) * width;
+            }
+
+            function sy(y) {
+                return (
+                    height -
+                    (y - yMin) /
+                    (yMax - yMin)
+                    * height
+                );
+            }
+
+            /*
+             * رسم المنحنى
+             */
+            ctx.beginPath();
+
+            let drawing =
+                false;
+
+            let count =
+                0;
+
+            let previousY =
+                null;
+
+            for (
+                let i = 0;
+                i < values.length;
+                i++
+            ) {
+
+                const point =
+                    values[i];
+
+                if (
+                    !Number.isFinite(
+                        point.y
+                    )
+                ) {
+
+                    drawing = false;
+                    previousY = null;
                     continue;
                 }
 
-                if (!started) {
+                const px =
+                    sx(point.x);
+
+                const py =
+                    sy(point.y);
+
+                /*
+                 * منع الخطوط العمودية الخاطئة
+                 * عند الانقطاعات/asymptotes.
+                 */
+                if (
+                    previousY !== null &&
+                    Math.abs(
+                        py - previousY
+                    ) >
+                    height * .85
+                ) {
+                    drawing = false;
+                }
+
+                if (!drawing) {
 
                     ctx.moveTo(
                         px,
                         py
                     );
 
-                    started = true;
+                    drawing = true;
 
                 } else {
 
@@ -1567,87 +2318,190 @@
                     );
                 }
 
-            } catch {
-
-                started = false;
+                previousY = py;
+                count++;
             }
+
+            ctx.strokeStyle =
+                getComputedStyle(
+                    document.documentElement
+                ).getPropertyValue(
+                    "--primary"
+                ).trim() ||
+                "#2563eb";
+
+            ctx.lineWidth = 2.5;
+            ctx.lineJoin = "round";
+            ctx.lineCap = "round";
+
+            ctx.stroke();
+
+            /*
+             * نقطة الأصل
+             */
+            if (
+                xMin <= 0 &&
+                xMax >= 0 &&
+                yMin <= 0 &&
+                yMax >= 0
+            ) {
+
+                const ox =
+                    sx(0);
+
+                const oy =
+                    sy(0);
+
+                ctx.beginPath();
+
+                ctx.arc(
+                    ox,
+                    oy,
+                    4,
+                    0,
+                    Math.PI * 2
+                );
+
+                ctx.fillStyle =
+                    getComputedStyle(
+                        document.documentElement
+                    ).getPropertyValue(
+                        "--danger"
+                    ).trim() ||
+                    "#dc2626";
+
+                ctx.fill();
+            }
+
+            if (count === 0) {
+
+                setGraphStatus(
+                    "لم يتم العثور على نقاط قابلة للرسم.",
+                    true
+                );
+
+                return;
+            }
+
+            setGraphStatus(
+                "تم رسم: f(x) = " +
+                expression
+            );
         }
 
-        ctx.strokeStyle =
-            "#1565c0";
+        function resetGraph() {
 
-        ctx.lineWidth =
-            3;
+            functionInput.value =
+                "x^2";
 
-        ctx.stroke();
+            xMinInput.value =
+                "-10";
 
-    }
+            xMaxInput.value =
+                "10";
 
-    document
-        .getElementById(
-            "drawGraph"
-        )
-        .addEventListener(
+            drawFunction();
+        }
+
+        drawButton.addEventListener(
             "click",
-            drawGraph
+            drawFunction
         );
 
-    document
-        .getElementById(
-            "zoomIn"
-        )
-        .addEventListener(
+        resetGraphButton.addEventListener(
             "click",
-            function () {
+            resetGraph
+        );
 
-                zoom *= 1.5;
+        functionInput.addEventListener(
+            "keydown",
+            event => {
 
-                drawGraph();
+                if (
+                    event.key === "Enter"
+                ) {
+                    drawFunction();
+                }
             }
         );
 
-    document
-        .getElementById(
-            "zoomOut"
-        )
-        .addEventListener(
-            "click",
-            function () {
+        document
+            .querySelectorAll(
+                ".example-btn"
+            )
+            .forEach(button => {
 
-                zoom /= 1.5;
+                button.addEventListener(
+                    "click",
+                    () => {
 
-                drawGraph();
+                        functionInput.value =
+                            button.dataset.function;
+
+                        drawFunction();
+                    }
+                );
+            });
+
+        /*
+         * إعادة الرسم عند تغيير حجم الشاشة
+         */
+        if (
+            typeof ResizeObserver !==
+            "undefined"
+        ) {
+
+            resizeObserver =
+                new ResizeObserver(
+                    () => {
+                        drawFunction();
+                    }
+                );
+
+            resizeObserver.observe(
+                document.querySelector(
+                    ".graph-wrap"
+                )
+            );
+
+        } else {
+
+            window.addEventListener(
+                "resize",
+                () => {
+                    drawFunction();
+                }
+            );
+        }
+
+        /*
+         * إعادة الرسم عند تغيير الوضع
+         */
+        document.addEventListener(
+            "hamou:languageChanged",
+            () => {
+                setTimeout(
+                    drawFunction,
+                    50
+                );
             }
         );
 
-    document
-        .getElementById(
-            "resetGraph"
-        )
-        .addEventListener(
-            "click",
-            function () {
-
-                zoom = 1;
-
-                xMinInput.value =
-                    "-10";
-
-                xMaxInput.value =
-                    "10";
-
-                functionInput.value =
-                    "x^2";
-
-                drawGraph();
-            }
+        /*
+         * الرسم الأول
+         */
+        window.addEventListener(
+            "load",
+            () => {
+                setTimeout(
+                    drawFunction,
+                    100
+                );
+            },
+            { once: true }
         );
 
-    drawGraph();
-
-})();
-</script>
+    </script>
 
 </body>
-
 </html>
