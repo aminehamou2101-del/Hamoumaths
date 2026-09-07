@@ -162,3 +162,18 @@
 <a href="${base}pages/curriculum.html">
     📚 المنهج
 </a>
+if (profile && profile.role === "owner") {
+    const ownerLink =
+        document.createElement("a");
+
+    ownerLink.href =
+        `${basePath}pages/curriculum-admin.html`;
+
+    ownerLink.textContent =
+        "إدارة المنهاج";
+
+    ownerLink.className =
+        "owner-nav-link";
+
+    navLinks.appendChild(ownerLink);
+}
