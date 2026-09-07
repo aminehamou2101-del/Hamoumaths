@@ -606,6 +606,34 @@ loadDashboard();
     لا توجد إشعارات
   </div>
 </section>
+
+  <script>
+async function loadNotifications() {
+  const list = await getNotifications();
+  const box = document.getElementById("notifications");
+
+  if (!list.length) {
+    box.textContent = "لا توجد إشعارات";
+    return;
+  }
+
+  box.innerHTML = list.map(item => `
+    <div class="card">
+      <h3>${escapeHtml(item.title || "إشعار")}</h3>
+      <p>${escapeHtml(item.message || "")}</p>
+      <small>${new Date(item.created_at).toLocaleString("ar-DZ")}</small>
+    </div>
+  `).join("");
+}
+
+function escapeHtml(value) {
+  const div = document.createElement("div");
+  div.textContent = String(value);
+  return div.innerHTML;
+}
+
+loadNotifications();
+</script>
 </html>
 
 </body>
