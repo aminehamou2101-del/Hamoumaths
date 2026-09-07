@@ -707,3 +707,96 @@ async function createResource(event) {
 
     await loadOwnContent();
 }
+const topicOption =
+    $("curriculumTopic")
+        .selectedOptions[0];
+
+const lessonData = {
+    title:
+        $("lessonTitle").value.trim(),
+
+    content:
+        $("lessonContent").value.trim(),
+
+    video_url:
+        $("lessonVideo").value.trim() || null,
+
+    order_number:
+        Number(
+            $("lessonOrder").value || 1
+        ),
+
+    curriculum_id:
+        $("curriculumId").value,
+
+    level:
+        $("curriculumLevel").value,
+
+    subject:
+        $("curriculumSubject").value,
+
+    unit:
+        $("curriculumUnit").value,
+
+    topic:
+        topicOption
+            ? topicOption.textContent
+            : null,
+
+    created_by:
+        currentUser.id
+};
+
+const { error } =
+    await supabaseClient
+        .from("lessons")
+        .insert(lessonData);
+
+if (error) {
+    throw error;
+}const topicOption =
+    $("curriculumTopic")
+        .selectedOptions[0];
+
+const exerciseData = {
+    title:
+        $("exerciseTitle").value.trim(),
+
+    question:
+        $("exerciseQuestion").value.trim(),
+
+    answer:
+        $("exerciseAnswer").value.trim(),
+
+    difficulty:
+        $("exerciseDifficulty").value,
+
+    curriculum_id:
+        $("curriculumId").value,
+
+    level:
+        $("curriculumLevel").value,
+
+    subject:
+        $("curriculumSubject").value,
+
+    unit:
+        $("curriculumUnit").value,
+
+    topic:
+        topicOption
+            ? topicOption.textContent
+            : null,
+
+    created_by:
+        currentUser.id
+};
+
+const { error } =
+    await supabaseClient
+        .from("exercises")
+        .insert(exerciseData);
+
+if (error) {
+    throw error;
+}
