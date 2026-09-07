@@ -1,20 +1,12 @@
 // =====================================================
 // HAMOU MATH
-// ADVANCED SEARCH + PAGINATION
+// DATABASE-POWERED SEARCH
 // =====================================================
 
 const PAGE_SIZE = 20;
 
-let currentPage = 0;
+let currentPage = 1;
 
-let lastSearch = {
-    term: "",
-    type: "all",
-    level: "",
-    subject: "",
-    unit: "",
-    difficulty: ""
-};
 
 const searchInput =
     document.getElementById("searchInput");
@@ -44,118 +36,112 @@ const searchResults =
     document.getElementById("searchResults");
 
 
-// =====================================================
-// SEARCH
-// =====================================================
+async function runSearch(page = 1) {
 
-async function runSearch(page = 0) {
+    const query =
+        String(
+            searchInput?.value || ""
+        ).trim();
 
-    const term =
-        String(searchInput?.value || "").trim();
 
     const type =
         searchType?.value || "all";
 
+
     const level =
         searchLevel?.value || "";
 
+
     const subject =
-        String(searchSubject?.value || "").trim();
+        String(
+            searchSubject?.value || ""
+        ).trim();
+
 
     const unit =
-        String(searchUnit?.value || "").trim();
+        String(
+            searchUnit?.value || ""
+        ).trim();
+
 
     const difficulty =
         searchDifficulty?.value || "";
 
 
     if (
-        term.length < 2 &&
+        query.length < 2 &&
         !level &&
         !subject &&
         !unit &&
         !difficulty
     ) {
 
-        setStatus(
-            "اكتب حرفين على الأقل أو اختر فلترًا."
-        );
+        searchStatus.textContent =
+            "اكتب حرفين على الأقل أو اختر فلترًا.";
 
-        clearResults();
+        searchResults.innerHTML = "";
 
         return;
     }
 
 
-    currentPage = page;
+    currentPage = Math.max(page, 1);
 
+    searchStatus.textContent =
+        "⏳ جارٍ البحث...";
 
-    lastSearch = {
-        term,
-        type,
-        level,
-        subject,
-        unit,
-        difficulty
-    };
-
-
-    setStatus("⏳ جارٍ البحث...");
-
-    clearResults();
+    searchResults.innerHTML = "";
 
 
     try {
 
-        const results = [];
-
-
-        await searchResources(results);
-
-        await searchLessons(results);
-
-        await searchExercises(results);
-
-
-        /*
-         * pagination على النتائج المجمعة.
-         * هذا مناسب الآن للمشروع،
-         * لكن عند نمو البيانات جدًا سننقل البحث
-         * إلى RPC / Full Text Search مركزي.
-         */
-
-        const start =
-            currentPage * PAGE_SIZE;
-
-        const end =
-            start + PAGE_SIZE;
-
-        const pageResults =
-            results.slice(start, end);
-
-
-        if (!pageResults.length) {
-
-            setStatus(
-                currentPage === 0
-                    ? "لم يتم العثور على نتائج."
-                    : "لا توجد نتائج أخرى."
+        const {
+            data,
+            error
+        } = await supabaseClient
+            .rpc(
+                "global_search",
+                {
+                    p_query: query,
+                    p_type: type,
+                    p_level: level,
+                    p_subject: subject,
+                    p_unit: unit,
+                    p_difficulty: difficulty,
+                    p_page: currentPage,
+                    p_page_size: PAGE_SIZE
+                }
             );
+
+
+        if (error) {
+            throw error;
+        }
+
+
+        const results =
+            data || [];
+
+
+        if (!results.length) {
+
+            searchStatus.textContent =
+                currentPage === 1
+                    ? "لم يتم العثور على نتائج."
+                    : "لا توجد نتائج إضافية.";
+
+            removePagination();
 
             return;
         }
 
 
-        setStatus(
-            `النتائج ${start + 1} - ${Math.min(
-                end,
-                results.length
-            )} من ${results.length}`
-        );
+        searchStatus.textContent =
+            `تم تحميل ${results.length} نتيجة في الصفحة ${currentPage}.`;
 
 
         searchResults.innerHTML =
-            pageResults
+            results
                 .map(renderResult)
                 .join("");
 
@@ -172,419 +158,14 @@ async function runSearch(page = 0) {
             error
         );
 
-        setStatus(
-            "❌ حدث خطأ أثناء البحث."
-        );
+        searchStatus.textContent =
+            "❌ حدث خطأ أثناء البحث.";
     }
 }
 
 
 // =====================================================
-// RESOURCES
-// =====================================================
-
-async function searchResources(results) {
-
-    if (
-        lastSearch.type !== "all" &&
-        lastSearch.type !== "resource"
-    ) {
-        return;
-    }
-
-
-    let query =
-        supabaseClient
-            .from("resources")
-            .select(`
-                id,
-                title,
-                description,
-                type,
-                file_url,
-                level,
-                subject,
-                unit,
-                difficulty,
-                created_at
-            `)
-            .order(
-                "created_at",
-                {
-                    ascending: false
-                }
-            )
-            .limit(500);
-
-
-    applyCommonFilters(
-        query,
-        "resource"
-    );
-
-
-    if (lastSearch.term.length >= 2) {
-
-        const pattern =
-            buildLike(lastSearch.term);
-
-        query =
-            query.or(
-                `title.ilike.${pattern},description.ilike.${pattern}`
-            );
-    }
-
-
-    const {
-        data,
-        error
-    } = await query;
-
-
-    if (error) {
-        throw error;
-    }
-
-
-    (data || []).forEach(item => {
-
-        results.push({
-            kind: "resource",
-            id: item.id,
-            title: item.title,
-            description: item.description,
-            url: item.file_url,
-            level: item.level,
-            subject: item.subject,
-            unit: item.unit,
-            difficulty: item.difficulty
-        });
-
-    });
-}
-
-
-// =====================================================
-// LESSONS
-// =====================================================
-
-async function searchLessons(results) {
-
-    if (
-        lastSearch.type !== "all" &&
-        lastSearch.type !== "lesson"
-    ) {
-        return;
-    }
-
-
-    let query =
-        supabaseClient
-            .from("lessons")
-            .select(`
-                id,
-                title,
-                content,
-                level,
-                subject,
-                unit,
-                created_at
-            `)
-            .order(
-                "created_at",
-                {
-                    ascending: false
-                }
-            )
-            .limit(500);
-
-
-    applyCommonFilters(
-        query,
-        "lesson"
-    );
-
-
-    if (lastSearch.term.length >= 2) {
-
-        const pattern =
-            buildLike(lastSearch.term);
-
-        query =
-            query.or(
-                `title.ilike.${pattern},content.ilike.${pattern}`
-            );
-    }
-
-
-    const {
-        data,
-        error
-    } = await query;
-
-
-    if (error) {
-        throw error;
-    }
-
-
-    (data || []).forEach(item => {
-
-        results.push({
-            kind: "lesson",
-            id: item.id,
-            title: item.title,
-            description: item.content,
-            url:
-                `lesson.html?id=${encodeURIComponent(item.id)}`,
-            level: item.level,
-            subject: item.subject,
-            unit: item.unit
-        });
-
-    });
-}
-
-
-// =====================================================
-// EXERCISES
-// =====================================================
-
-async function searchExercises(results) {
-
-    if (
-        lastSearch.type !== "all" &&
-        lastSearch.type !== "exercise"
-    ) {
-        return;
-    }
-
-
-    let query =
-        supabaseClient
-            .from("exercises")
-            .select(`
-                id,
-                title,
-                question,
-                difficulty,
-                level,
-                subject,
-                unit,
-                created_at
-            `)
-            .order(
-                "created_at",
-                {
-                    ascending: false
-                }
-            )
-            .limit(500);
-
-
-    applyCommonFilters(
-        query,
-        "exercise"
-    );
-
-
-    if (lastSearch.term.length >= 2) {
-
-        const pattern =
-            buildLike(lastSearch.term);
-
-        query =
-            query.or(
-                `title.ilike.${pattern},question.ilike.${pattern}`
-            );
-    }
-
-
-    if (lastSearch.difficulty) {
-
-        query =
-            query.eq(
-                "difficulty",
-                lastSearch.difficulty
-            );
-    }
-
-
-    const {
-        data,
-        error
-    } = await query;
-
-
-    if (error) {
-        throw error;
-    }
-
-
-    (data || []).forEach(item => {
-
-        results.push({
-            kind: "exercise",
-            id: item.id,
-            title: item.title,
-            description: item.question,
-            difficulty: item.difficulty,
-            level: item.level,
-            subject: item.subject,
-            unit: item.unit
-        });
-
-    });
-}
-
-
-// =====================================================
-// COMMON FILTERS
-// =====================================================
-
-function applyCommonFilters(
-    query,
-    kind
-) {
-
-    if (lastSearch.level) {
-
-        query =
-            query.eq(
-                "level",
-                lastSearch.level
-            );
-    }
-
-
-    if (lastSearch.subject) {
-
-        query =
-            query.ilike(
-                "subject",
-                buildLike(
-                    lastSearch.subject
-                )
-            );
-    }
-
-
-    if (lastSearch.unit) {
-
-        query =
-            query.ilike(
-                "unit",
-                buildLike(
-                    lastSearch.unit
-                )
-            );
-    }
-
-    return query;
-}
-
-
-// =====================================================
-// PAGINATION UI
-// =====================================================
-
-function renderPagination(
-    total
-) {
-
-    let old =
-        document.getElementById(
-            "searchPagination"
-        );
-
-
-    if (old) {
-        old.remove();
-    }
-
-
-    const totalPages =
-        Math.ceil(
-            total / PAGE_SIZE
-        );
-
-
-    if (totalPages <= 1) {
-        return;
-    }
-
-
-    const wrapper =
-        document.createElement("div");
-
-
-    wrapper.id =
-        "searchPagination";
-
-
-    wrapper.className =
-        "search-pagination";
-
-
-    const previous =
-        document.createElement("button");
-
-    previous.type =
-        "button";
-
-    previous.textContent =
-        "السابق";
-
-    previous.disabled =
-        currentPage === 0;
-
-
-    previous.onclick =
-        () => runSearch(
-            currentPage - 1
-        );
-
-
-    const pageInfo =
-        document.createElement("span");
-
-    pageInfo.textContent =
-        `صفحة ${currentPage + 1} من ${totalPages}`;
-
-
-    const next =
-        document.createElement("button");
-
-    next.type =
-        "button";
-
-    next.textContent =
-        "التالي";
-
-    next.disabled =
-        currentPage >= totalPages - 1;
-
-
-    next.onclick =
-        () => runSearch(
-            currentPage + 1
-        );
-
-
-    wrapper.append(
-        previous,
-        pageInfo,
-        next
-    );
-
-
-    searchResults.parentElement
-        ?.appendChild(wrapper);
-}
-
-
-// =====================================================
-// RESULT RENDER
+// RESULT
 // =====================================================
 
 function renderResult(item) {
@@ -593,7 +174,7 @@ function renderResult(item) {
 
 
     if (
-        item.kind === "resource" &&
+        item.result_type === "resource" &&
         item.url
     ) {
 
@@ -608,18 +189,22 @@ function renderResult(item) {
             </a>
         `;
 
-    } else if (item.kind === "lesson") {
+    } else if (
+        item.result_type === "lesson"
+    ) {
 
         action = `
             <a
                 class="search-action"
-                href="${escapeAttribute(item.url)}"
+                href="lesson.html?id=${encodeURIComponent(item.result_id)}"
             >
                 📖 فتح الدرس
             </a>
         `;
 
-    } else if (item.kind === "exercise") {
+    } else if (
+        item.result_type === "exercise"
+    ) {
 
         action = `
             <a
@@ -636,7 +221,7 @@ function renderResult(item) {
         <article class="search-card">
 
             <span class="search-badge">
-                ${getTypeLabel(item.kind)}
+                ${getTypeLabel(item.result_type)}
             </span>
 
             <h3>
@@ -690,20 +275,116 @@ function renderResult(item) {
 
 
 // =====================================================
+// PAGINATION
+// =====================================================
+
+function renderPagination(
+    resultCount
+) {
+
+    removePagination();
+
+
+    const wrapper =
+        document.createElement(
+            "div"
+        );
+
+    wrapper.id =
+        "searchPagination";
+
+    wrapper.className =
+        "search-pagination";
+
+
+    const previous =
+        document.createElement(
+            "button"
+        );
+
+    previous.type =
+        "button";
+
+    previous.textContent =
+        "← السابق";
+
+    previous.disabled =
+        currentPage <= 1;
+
+    previous.onclick =
+        () => runSearch(
+            currentPage - 1
+        );
+
+
+    const page =
+        document.createElement(
+            "span"
+        );
+
+    page.textContent =
+        `صفحة ${currentPage}`;
+
+
+    const next =
+        document.createElement(
+            "button"
+        );
+
+    next.type =
+        "button";
+
+    next.textContent =
+        "التالي →";
+
+    /*
+     * إذا رجعت صفحة كاملة فهذا يعني
+     * أنه قد توجد صفحة أخرى.
+     */
+    next.disabled =
+        resultCount < PAGE_SIZE;
+
+    next.onclick =
+        () => runSearch(
+            currentPage + 1
+        );
+
+
+    wrapper.append(
+        previous,
+        page,
+        next
+    );
+
+
+    searchResults.parentElement
+        ?.appendChild(wrapper);
+}
+
+
+function removePagination() {
+
+    document
+        .getElementById("searchPagination")
+        ?.remove();
+}
+
+
+// =====================================================
 // HELPERS
 // =====================================================
 
-function getTypeLabel(kind) {
+function getTypeLabel(type) {
 
-    if (kind === "resource") {
+    if (type === "resource") {
         return "📚 مورد";
     }
 
-    if (kind === "lesson") {
+    if (type === "lesson") {
         return "📖 درس";
     }
 
-    if (kind === "exercise") {
+    if (type === "exercise") {
         return "📝 تمرين";
     }
 
@@ -725,23 +406,14 @@ function truncate(
 }
 
 
-function buildLike(
-    value
-) {
-
-    return `%${String(value)
-        .replace(/\\/g, "\\\\")
-        .replace(/%/g, "\\%")
-        .replace(/_/g, "\\_")}%`;
-}
-
-
 function escapeHtml(
     value
 ) {
 
     const div =
-        document.createElement("div");
+        document.createElement(
+            "div"
+        );
 
     div.textContent =
         String(value);
@@ -754,40 +426,13 @@ function escapeAttribute(
     value
 ) {
 
-    return escapeHtml(value)
-        .replace(/'/g, "&#39;");
-}
-
-
-function setStatus(
-    message
-) {
-
-    if (searchStatus) {
-        searchStatus.textContent =
-            message;
-    }
-}
-
-
-function clearResults() {
-
-    if (searchResults) {
-        searchResults.innerHTML = "";
-    }
-
-    const pagination =
-        document.getElementById(
-            "searchPagination"
-        );
-
-    pagination?.remove();
+    return escapeHtml(value);
 }
 
 
 searchButton?.addEventListener(
     "click",
-    () => runSearch(0)
+    () => runSearch(1)
 );
 
 
@@ -796,7 +441,7 @@ searchInput?.addEventListener(
     event => {
 
         if (event.key === "Enter") {
-            runSearch(0);
+            runSearch(1);
         }
 
     }
