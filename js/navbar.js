@@ -1,940 +1,1608 @@
+"use strict";
+
+/*
+============================================================
+HAMOU MATH - Global Navbar
+js/navbar.js
+
+المزايا:
+- قائمة موحدة في جميع الصفحات
+- AR / FR / EN تعمل فعليًا
+- حفظ اللغة المختارة
+- دعم RTL / LTR
+- متوافق مع js/i18n.js
+- متوافق مع js/supabase.js
+- روابط صحيحة من الجذر ومن /pages/
+- تسجيل الدخول / التسجيل / الملف الشخصي / تسجيل الخروج
+- إظهار روابط الأستاذ والإدارة حسب الدور
+- Mobile Menu
+- Light / Dark Theme
+============================================================
+*/
+
 (function () {
     "use strict";
 
+    const NAVBAR_ID = "hamou-navbar";
+
+    /*
+    ------------------------------------------------------------
+    تحديد المسار الأساسي تلقائيًا
+    ------------------------------------------------------------
+    */
+
     function getBasePath() {
-        return window.location.pathname.includes("/pages/")
+        const path = window.location.pathname || "";
+
+        return path.includes("/pages/")
             ? "../"
-            : "";
+            : "./";
     }
 
-    function link(base, path, text) {
-        return `
-            <a href="${base}${path}">
-                ${text}
-            </a>
-        `;
+    const BASE = getBasePath();
+
+    function url(path) {
+        return BASE + path;
     }
 
     /*
-     * مهم:
-     * لا نسمي هذه الدالة getProfile حتى لا تتعارض
-     * مع getProfile الموجودة في supabase.js.
-     */
+    ------------------------------------------------------------
+    Escape HTML
+    ------------------------------------------------------------
+    */
+
+    function escapeHtml(value) {
+        return String(value ?? "")
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
+
+    /*
+    ------------------------------------------------------------
+    الحصول على الترجمة
+    ------------------------------------------------------------
+    */
+
+    function tr(key, fallback) {
+        if (
+            window.HAMOU_I18N &&
+            typeof window.HAMOU_I18N.t === "function"
+        ) {
+            return window.HAMOU_I18N.t(key, fallback);
+        }
+
+        return fallback || key;
+    }
+
+    /*
+    ------------------------------------------------------------
+    Profile
+    مهم:
+    لا نستعمل getProfile() هنا حتى لا يحدث recursion
+    ------------------------------------------------------------
+    */
+
     async function fetchNavbarProfile() {
         try {
             if (
-                typeof supabaseClient === "undefined"
+                typeof window.supabaseClient === "undefined" ||
+                !window.supabaseClient
             ) {
                 return null;
             }
 
             const {
-                data: authData,
-                error: authError
-            } = await supabaseClient.auth.getUser();
+                data: sessionData,
+                error: sessionError
+            } = await window.supabaseClient.auth.getSession();
 
-            if (authError || !authData?.user) {
+            if (sessionError || !sessionData?.session?.user) {
                 return null;
             }
 
+            const user = sessionData.session.user;
+
             const {
-                data,
-                error
-            } = await supabaseClient
+                data: profile,
+                error: profileError
+            } = await window.supabaseClient
                 .from("profiles")
                 .select(`
                     id,
+                    email,
                     full_name,
-                    role,
                     avatar_url,
+                    role,
                     xp,
                     level
                 `)
-                .eq(
-                    "id",
-                    authData.user.id
-                )
+                .eq("id", user.id)
                 .maybeSingle();
 
-            if (error) {
-                console.error(
-                    "Navbar profile:",
-                    error
+            if (profileError) {
+                console.warn(
+                    "HAMOU NAVBAR profile:",
+                    profileError.message
                 );
-                return null;
+
+                return {
+                    id: user.id,
+                    email: user.email || "",
+                    full_name:
+                        user.user_metadata?.full_name ||
+                        user.email ||
+                        "User",
+                    avatar_url:
+                        user.user_metadata?.avatar_url ||
+                        "",
+                    role: "student"
+                };
             }
 
-            return data || null;
-
+            return profile || {
+                id: user.id,
+                email: user.email || "",
+                full_name:
+                    user.user_metadata?.full_name ||
+                    user.email ||
+                    "User",
+                avatar_url:
+                    user.user_metadata?.avatar_url ||
+                    "",
+                role: "student"
+            };
         } catch (error) {
-            console.error(
-                "Navbar auth:",
+            console.warn(
+                "HAMOU NAVBAR:",
                 error
             );
+
             return null;
         }
     }
 
-    function renderNavbar(profile) {
+    /*
+    ------------------------------------------------------------
+    role helpers
+    ------------------------------------------------------------
+    */
 
-        const container =
-            document.getElementById(
-                "hamou-navbar"
+    function isTeacherRole(role) {
+        return [
+            "teacher",
+            "admin",
+            "owner"
+        ].includes(role);
+    }
+
+    function isAdminRole(role) {
+        return [
+            "admin",
+            "owner"
+        ].includes(role);
+    }
+
+    function isOwnerRole(role) {
+        return role === "owner";
+    }
+
+    /*
+    ------------------------------------------------------------
+    لغة المستخدم الحالية
+    ------------------------------------------------------------
+    */
+
+    function getCurrentLanguage() {
+        try {
+            if (
+                window.HAMOU_I18N &&
+                typeof window.HAMOU_I18N.getLanguage === "function"
+            ) {
+                return window.HAMOU_I18N.getLanguage();
+            }
+
+            return (
+                localStorage.getItem("hamou_math_language") ||
+                "ar"
             );
-
-        if (!container) {
-            return;
+        } catch {
+            return "ar";
         }
+    }
 
-        const base =
-            getBasePath();
+    /*
+    ------------------------------------------------------------
+    بناء أزرار اللغة
+    ------------------------------------------------------------
+    */
 
-        const role =
-            profile?.role || null;
+    function languageButtons() {
+        const current = getCurrentLanguage();
 
-        let roleLinks = "";
-
-        if (
-            role === "teacher" ||
-            role === "admin" ||
-            role === "owner"
-        ) {
-            roleLinks += link(
-                base,
-                "pages/teacher.html",
-                "👨‍🏫 الأستاذ"
-            );
-        }
-
-        if (
-            role === "admin" ||
-            role === "owner"
-        ) {
-            roleLinks += link(
-                base,
-                "pages/content-review.html",
-                "🛡️ المراجعة"
-            );
-        }
-
-        if (role === "owner") {
-            roleLinks += link(
-                base,
-                "pages/curriculum-admin.html",
-                "👑 إدارة المنهاج"
-            );
-
-            roleLinks += link(
-                base,
-                "pages/admin.html",
-                "⚙️ الإدارة"
-            );
-        }
-
-        const authLinks = profile
-            ? `
-                <a href="${base}pages/profile.html">
-                    👤 ${escapeHtml(
-                        profile.full_name ||
-                        "حسابي"
-                    )}
-                </a>
+        return `
+            <div class="hamou-lang-switcher"
+                 role="group"
+                 aria-label="${escapeHtml(
+                     tr("nav.language", "Language")
+                 )}">
 
                 <button
                     type="button"
-                    id="hamouLogoutButton"
+                    class="hamou-lang-btn ${current === "ar" ? "active" : ""}"
+                    data-hamou-language="ar"
+                    aria-pressed="${current === "ar"}"
+                    title="العربية"
                 >
-                    🚪 خروج
-                </button>
-            `
-            : `
-                <a href="${base}pages/login.html">
-                    🔐 دخول
-                </a>
-
-                <a href="${base}pages/register.html">
-                    🚀 إنشاء حساب
-                </a>
-            `;
-
-        container.innerHTML = `
-            <style>
-
-                .hamou-navbar {
-                    position: sticky;
-                    top: 0;
-                    z-index: 5000;
-
-                    width: 100%;
-
-                    background:
-                        rgba(255,255,255,.96);
-
-                    backdrop-filter:
-                        blur(14px);
-
-                    border-bottom:
-                        1px solid #dbe5f1;
-
-                    box-shadow:
-                        0 6px 24px
-                        rgba(8,43,92,.07);
-                }
-
-                .hamou-navbar *,
-                .hamou-navbar *::before,
-                .hamou-navbar *::after {
-                    box-sizing: border-box;
-                }
-
-                .hamou-navbar-inner {
-                    width:
-                        min(1450px, 94%);
-
-                    min-height:
-                        70px;
-
-                    margin:
-                        0 auto;
-
-                    display:
-                        flex;
-
-                    align-items:
-                        center;
-
-                    justify-content:
-                        space-between;
-
-                    gap:
-                        12px;
-                }
-
-                .hamou-brand {
-                    display:
-                        flex;
-
-                    align-items:
-                        center;
-
-                    gap:
-                        10px;
-
-                    color:
-                        #082b5c;
-
-                    font-size:
-                        19px;
-
-                    font-weight:
-                        900;
-
-                    white-space:
-                        nowrap;
-                }
-
-                .hamou-brand-mark {
-                    width:
-                        43px;
-
-                    height:
-                        43px;
-
-                    flex:
-                        0 0 43px;
-
-                    display:
-                        grid;
-
-                    place-items:
-                        center;
-
-                    border-radius:
-                        13px;
-
-                    color:
-                        white;
-
-                    background:
-                        linear-gradient(
-                            135deg,
-                            #082b5c,
-                            #1565c0,
-                            #00bcd4
-                        );
-
-                    box-shadow:
-                        0 8px 20px
-                        rgba(21,101,192,.22);
-                }
-
-                .hamou-nav {
-                    display:
-                        flex;
-
-                    align-items:
-                        center;
-
-                    justify-content:
-                        flex-end;
-
-                    flex-wrap:
-                        wrap;
-
-                    gap:
-                        3px;
-
-                    overflow-x:
-                        auto;
-                }
-
-                .hamou-nav a,
-                .hamou-nav button {
-
-                    appearance:
-                        none;
-
-                    border:
-                        0;
-
-                    text-decoration:
-                        none;
-
-                    background:
-                        transparent;
-
-                    color:
-                        #334155;
-
-                    padding:
-                        9px 10px;
-
-                    border-radius:
-                        10px;
-
-                    font-family:
-                        inherit;
-
-                    font-size:
-                        12px;
-
-                    font-weight:
-                        800;
-
-                    cursor:
-                        pointer;
-
-                    white-space:
-                        nowrap;
-
-                    transition:
-                        .18s ease;
-                }
-
-                .hamou-nav a:hover,
-                .hamou-nav button:hover {
-
-                    background:
-                        #edf5ff;
-
-                    color:
-                        #1565c0;
-                }
-
-                .hamou-menu-button {
-
-                    display:
-                        none;
-
-                    width:
-                        44px;
-
-                    height:
-                        44px;
-
-                    flex:
-                        0 0 44px;
-
-                    border:
-                        0;
-
-                    border-radius:
-                        12px;
-
-                    background:
-                        #edf5ff;
-
-                    color:
-                        #082b5c;
-
-                    font-size:
-                        22px;
-
-                    cursor:
-                        pointer;
-                }
-
-                .hamou-mobile-panel {
-
-                    display:
-                        none;
-
-                    width:
-                        min(1450px,94%);
-
-                    margin:
-                        0 auto;
-
-                    padding:
-                        0 0 14px;
-                }
-
-                .hamou-mobile-panel.active {
-                    display:
-                        block;
-                }
-
-                .hamou-mobile-panel a,
-                .hamou-mobile-panel button {
-
-                    display:
-                        block;
-
-                    width:
-                        100%;
-
-                    border:
-                        0;
-
-                    background:
-                        #f8fbff;
-
-                    color:
-                        #172033;
-
-                    padding:
-                        12px 14px;
-
-                    margin-top:
-                        7px;
-
-                    border-radius:
-                        11px;
-
-                    text-align:
-                        right;
-
-                    text-decoration:
-                        none;
-
-                    font-family:
-                        inherit;
-
-                    font-size:
-                        13px;
-
-                    font-weight:
-                        800;
-
-                    cursor:
-                        pointer;
-                }
-
-                .hamou-mobile-panel a:hover,
-                .hamou-mobile-panel button:hover {
-                    background:
-                        #edf5ff;
-
-                    color:
-                        #1565c0;
-                }
-
-                @media (max-width: 1150px) {
-
-                    .hamou-nav {
-                        display:
-                            none;
-                    }
-
-                    .hamou-menu-button {
-                        display:
-                            block;
-                    }
-                }
-
-                @media (max-width: 500px) {
-
-                    .hamou-navbar-inner {
-                        min-height:
-                            62px;
-                    }
-
-                    .hamou-brand {
-                        font-size:
-                            16px;
-                    }
-
-                    .hamou-brand-mark {
-                        width:
-                            39px;
-
-                        height:
-                            39px;
-
-                        flex-basis:
-                            39px;
-                    }
-                }
-
-                /* Dark mode */
-
-                :root[data-theme="dark"]
-                .hamou-navbar {
-
-                    background:
-                        rgba(8,20,33,.95);
-
-                    border-bottom-color:
-                        #284057;
-                }
-
-                :root[data-theme="dark"]
-                .hamou-brand {
-
-                    color:
-                        #e3f2fd;
-                }
-
-                :root[data-theme="dark"]
-                .hamou-nav a,
-                :root[data-theme="dark"]
-                .hamou-nav button {
-
-                    color:
-                        #d5e1ec;
-                }
-
-                :root[data-theme="dark"]
-                .hamou-nav a:hover,
-                :root[data-theme="dark"]
-                .hamou-nav button:hover {
-
-                    background:
-                        #172b40;
-
-                    color:
-                        #64b5f6;
-                }
-
-                :root[data-theme="dark"]
-                .hamou-menu-button {
-
-                    background:
-                        #172b40;
-
-                    color:
-                        #e3f2fd;
-                }
-
-                :root[data-theme="dark"]
-                .hamou-mobile-panel a,
-                :root[data-theme="dark"]
-                .hamou-mobile-panel button {
-
-                    background:
-                        #102235;
-
-                    color:
-                        #e5edf5;
-                }
-
-            </style>
-
-            <div class="hamou-navbar-inner">
-
-                <a
-                    class="hamou-brand"
-                    href="${base}index.html"
-                >
-
-                    <span class="hamou-brand-mark">
-                        ∑
-                    </span>
-
-                    <span>
-                        HAMOU MATH
-                    </span>
-
-                </a>
-
-                <nav class="hamou-nav">
-
-                    ${link(
-                        base,
-                        "index.html",
-                        "الرئيسية"
-                    )}
-
-                    ${link(
-                        base,
-                        "pages/levels.html",
-                        "🎓 المستويات"
-                    )}
-
-                    ${link(
-                        base,
-                        "pages/curriculum.html",
-                        "📚 المنهاج"
-                    )}
-
-                    ${link(
-                        base,
-                        "pages/library.html",
-                        "📖 المكتبة"
-                    )}
-
-                    ${link(
-                        base,
-                        "pages/exercises.html",
-                        "📝 التمارين"
-                    )}
-
-                    ${link(
-                        base,
-                        "pages/tools.html",
-                        "🧮 الأدوات"
-                    )}
-
-                    ${link(
-                        base,
-                        "pages/bac.html",
-                        "🎯 البكالوريا"
-                    )}
-
-                    ${link(
-                        base,
-                        "pages/leaderboard.html",
-                        "🏆 الترتيب"
-                    )}
-
-                    ${link(
-                        base,
-                        "pages/achievements.html",
-                        "🎖️ الإنجازات"
-                    )}
-
-                    ${link(
-                        base,
-                        "pages/search.html",
-                        "🔎 البحث"
-                    )}
-
-                    ${link(
-                        base,
-                        "pages/dashboard.html",
-                        "📊 لوحتي"
-                    )}
-
-                    ${roleLinks}
-
-                    ${authLinks}
-
-                    <button
-                        type="button"
-                        data-theme-toggle
-                        id="hamouThemeButton"
-                        title="الوضع الليلي"
-                        aria-label="الوضع الليلي"
-                    >
-                        🌙
-                    </button>
-
-                </nav>
-
-                <button
-                    type="button"
-                    id="hamouMenuButton"
-                    class="hamou-menu-button"
-                    aria-expanded="false"
-                    aria-label="فتح القائمة"
-                >
-                    ☰
+                    AR
                 </button>
 
-            </div>
-
-            <div
-                id="hamouMobilePanel"
-                class="hamou-mobile-panel"
-            >
-
-                ${link(
-                    base,
-                    "index.html",
-                    "🏠 الرئيسية"
-                )}
-
-                ${link(
-                    base,
-                    "pages/levels.html",
-                    "🎓 المستويات"
-                )}
-
-                ${link(
-                    base,
-                    "pages/curriculum.html",
-                    "📚 المنهاج"
-                )}
-
-                ${link(
-                    base,
-                    "pages/library.html",
-                    "📖 المكتبة"
-                )}
-
-                ${link(
-                    base,
-                    "pages/exercises.html",
-                    "📝 التمارين"
-                )}
-
-                ${link(
-                    base,
-                    "pages/tools.html",
-                    "🧮 الأدوات"
-                )}
-
-                ${link(
-                    base,
-                    "pages/bac.html",
-                    "🎯 البكالوريا"
-                )}
-
-                ${link(
-                    base,
-                    "pages/leaderboard.html",
-                    "🏆 الترتيب"
-                )}
-
-                ${link(
-                    base,
-                    "pages/achievements.html",
-                    "🎖️ الإنجازات"
-                )}
-
-                ${link(
-                    base,
-                    "pages/search.html",
-                    "🔎 البحث"
-                )}
-
-                ${link(
-                    base,
-                    "pages/profile.html",
-                    "👤 الملف الشخصي"
-                )}
-
-                ${link(
-                    base,
-                    "pages/dashboard.html",
-                    "📊 لوحتي"
-                )}
-
-                ${roleLinks}
-
-                ${authLinks}
+                <button
+                    type="button"
+                    class="hamou-lang-btn ${current === "fr" ? "active" : ""}"
+                    data-hamou-language="fr"
+                    aria-pressed="${current === "fr"}"
+                    title="Français"
+                >
+                    FR
+                </button>
 
                 <button
                     type="button"
-                    data-theme-toggle
-                    id="hamouMobileThemeButton"
+                    class="hamou-lang-btn ${current === "en" ? "active" : ""}"
+                    data-hamou-language="en"
+                    aria-pressed="${current === "en"}"
+                    title="English"
                 >
-                    🌙 الوضع الليلي
+                    EN
                 </button>
 
             </div>
         `;
+    }
 
-        /* =========================================
-           MOBILE MENU
-        ========================================= */
+    /*
+    ------------------------------------------------------------
+    قائمة التنقل الأساسية
+    ------------------------------------------------------------
+    */
+
+    function baseNavigation() {
+        return [
+            {
+                href: url("index.html"),
+                icon: "⌂",
+                key: "nav.home",
+                fallback: "الرئيسية"
+            },
+            {
+                href: url("pages/levels.html"),
+                icon: "🎓",
+                key: "nav.levels",
+                fallback: "المستويات"
+            },
+            {
+                href: url("pages/curriculum.html"),
+                icon: "📚",
+                key: "nav.curriculum",
+                fallback: "المنهاج"
+            },
+            {
+                href: url("pages/library.html"),
+                icon: "📖",
+                key: "nav.library",
+                fallback: "المكتبة"
+            },
+            {
+                href: url("pages/exercises.html"),
+                icon: "✏️",
+                key: "nav.exercises",
+                fallback: "التمارين"
+            },
+            {
+                href: url("pages/tools.html"),
+                icon: "🧮",
+                key: "nav.tools",
+                fallback: "الأدوات"
+            },
+            {
+                href: url("pages/bac.html"),
+                icon: "🏆",
+                key: "nav.bac",
+                fallback: "البكالوريا"
+            },
+            {
+                href: url("pages/leaderboard.html"),
+                icon: "🥇",
+                key: "nav.leaderboard",
+                fallback: "المتصدرون"
+            },
+            {
+                href: url("pages/achievements.html"),
+                icon: "⭐",
+                key: "nav.achievements",
+                fallback: "الإنجازات"
+            },
+            {
+                href: url("pages/search.html"),
+                icon: "🔎",
+                key: "nav.search",
+                fallback: "بحث"
+            }
+        ];
+    }
+
+    /*
+    ------------------------------------------------------------
+    الدور
+    ------------------------------------------------------------
+    */
+
+    function roleNavigation(profile) {
+        if (!profile) {
+            return [];
+        }
+
+        const links = [];
+
+        const role = profile.role;
+
+        if (isTeacherRole(role)) {
+            links.push({
+                href: url("pages/teacher.html"),
+                icon: "👨‍🏫",
+                key: "nav.teacher",
+                fallback: "فضاء الأستاذ"
+            });
+        }
+
+        if (isAdminRole(role)) {
+            links.push({
+                href: url("pages/content-review.html"),
+                icon: "✅",
+                key: "nav.review",
+                fallback: "مراجعة المحتوى"
+            });
+        }
+
+        if (isOwnerRole(role)) {
+            links.push({
+                href: url("pages/curriculum-admin.html"),
+                icon: "🗂️",
+                key: "nav.curriculumAdmin",
+                fallback: "إدارة المنهاج"
+            });
+
+            links.push({
+                href: url("pages/admin.html"),
+                icon: "⚙️",
+                key: "nav.owner",
+                fallback: "الإدارة"
+            });
+        }
+
+        return links;
+    }
+
+    /*
+    ------------------------------------------------------------
+    عنصر رابط
+    ------------------------------------------------------------
+    */
+
+    function renderNavLink(item, mobile = false) {
+        return `
+            <a
+                class="hamou-nav-link ${mobile ? "mobile-link" : ""}"
+                href="${escapeHtml(item.href)}"
+            >
+                <span class="hamou-nav-icon">
+                    ${item.icon}
+                </span>
+
+                <span class="hamou-nav-text">
+                    ${escapeHtml(
+                        tr(item.key, item.fallback)
+                    )}
+                </span>
+            </a>
+        `;
+    }
+
+    /*
+    ------------------------------------------------------------
+    منطقة الحساب
+    ------------------------------------------------------------
+    */
+
+    function renderAuthArea(profile, mobile = false) {
+        if (profile) {
+            const name =
+                profile.full_name ||
+                profile.email ||
+                "User";
+
+            const avatar = profile.avatar_url
+                ? `
+                    <img
+                        src="${escapeHtml(profile.avatar_url)}"
+                        alt=""
+                        class="hamou-avatar"
+                    >
+                  `
+                : `
+                    <span class="hamou-avatar-placeholder">
+                        ${escapeHtml(
+                            name.charAt(0).toUpperCase()
+                        )}
+                    </span>
+                  `;
+
+            return `
+                <div class="hamou-user-area ${mobile ? "mobile-auth" : ""}">
+
+                    <a
+                        href="${escapeHtml(
+                            url("pages/profile.html")
+                        )}"
+                        class="hamou-profile-link"
+                    >
+                        ${avatar}
+
+                        <span class="hamou-user-info">
+                            <strong>
+                                ${escapeHtml(name)}
+                            </strong>
+
+                            <small>
+                                ${escapeHtml(
+                                    translateRole(profile.role)
+                                )}
+                            </small>
+                        </span>
+                    </a>
+
+                    <button
+                        type="button"
+                        class="hamou-logout-btn"
+                        data-hamou-logout
+                        title="${escapeHtml(
+                            tr("nav.logout", "Logout")
+                        )}"
+                    >
+                        <span>↪</span>
+                        <span>
+                            ${escapeHtml(
+                                tr("nav.logout", "Logout")
+                            )}
+                        </span>
+                    </button>
+
+                </div>
+            `;
+        }
+
+        return `
+            <div class="hamou-auth-area ${mobile ? "mobile-auth" : ""}">
+
+                <a
+                    href="${escapeHtml(
+                        url("pages/login.html")
+                    )}"
+                    class="hamou-login-btn"
+                >
+                    ${escapeHtml(
+                        tr("nav.login", "Login")
+                    )}
+                </a>
+
+                <a
+                    href="${escapeHtml(
+                        url("pages/register.html")
+                    )}"
+                    class="hamou-register-btn"
+                >
+                    ${escapeHtml(
+                        tr("nav.register", "Create Account")
+                    )}
+                </a>
+
+            </div>
+        `;
+    }
+
+    /*
+    ------------------------------------------------------------
+    ترجمة الدور
+    ------------------------------------------------------------
+    */
+
+    function translateRole(role) {
+        switch (role) {
+            case "owner":
+                return tr(
+                    "profile.owner",
+                    "Owner"
+                );
+
+            case "admin":
+                return tr(
+                    "profile.admin",
+                    "Admin"
+                );
+
+            case "teacher":
+                return tr(
+                    "profile.teacher",
+                    "Teacher"
+                );
+
+            case "researcher":
+                return tr(
+                    "profile.researcher",
+                    "Researcher"
+                );
+
+            default:
+                return tr(
+                    "profile.student",
+                    "Student"
+                );
+        }
+    }
+
+    /*
+    ------------------------------------------------------------
+    تحديد الصفحة الحالية
+    ------------------------------------------------------------
+    */
+
+    function markActiveLink(root) {
+        const currentPath =
+            window.location.pathname
+                .replace(/\/+/g, "/");
+
+        root
+            .querySelectorAll(".hamou-nav-link")
+            .forEach(link => {
+
+                let href = "";
+
+                try {
+                    href = new URL(
+                        link.href,
+                        window.location.origin
+                    ).pathname;
+                } catch {
+                    return;
+                }
+
+                const normalizedHref =
+                    href.replace(/\/+/g, "/");
+
+                const active =
+                    normalizedHref === currentPath;
+
+                link.classList.toggle(
+                    "active",
+                    active
+                );
+            });
+    }
+
+    /*
+    ------------------------------------------------------------
+    CSS
+    ------------------------------------------------------------
+    */
+
+    function injectStyles() {
+        if (
+            document.getElementById(
+                "hamou-navbar-style"
+            )
+        ) {
+            return;
+        }
+
+        const style =
+            document.createElement("style");
+
+        style.id =
+            "hamou-navbar-style";
+
+        style.textContent = `
+        :root {
+            --hamou-nav-bg: rgba(255,255,255,.92);
+            --hamou-nav-text: #172033;
+            --hamou-nav-muted: #667085;
+            --hamou-nav-border: rgba(15,23,42,.10);
+            --hamou-nav-hover: rgba(37,99,235,.08);
+            --hamou-nav-active: rgba(37,99,235,.13);
+            --hamou-nav-accent: #2563eb;
+            --hamou-nav-shadow:
+                0 8px 30px rgba(15,23,42,.08);
+        }
+
+        html[data-theme="dark"],
+        html.dark,
+        body.dark {
+            --hamou-nav-bg: rgba(15,23,42,.94);
+            --hamou-nav-text: #f8fafc;
+            --hamou-nav-muted: #cbd5e1;
+            --hamou-nav-border: rgba(255,255,255,.10);
+            --hamou-nav-hover: rgba(255,255,255,.07);
+            --hamou-nav-active: rgba(59,130,246,.20);
+            --hamou-nav-accent: #60a5fa;
+            --hamou-nav-shadow:
+                0 10px 30px rgba(0,0,0,.25);
+        }
+
+        .hamou-navbar {
+            position: sticky;
+            top: 0;
+            z-index: 9999;
+            width: 100%;
+            background: var(--hamou-nav-bg);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border-bottom:
+                1px solid var(--hamou-nav-border);
+            box-shadow: var(--hamou-nav-shadow);
+        }
+
+        .hamou-navbar * {
+            box-sizing: border-box;
+        }
+
+        .hamou-nav-container {
+            width: min(1500px, 96%);
+            margin: 0 auto;
+            min-height: 74px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .hamou-brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            flex: 0 0 auto;
+            text-decoration: none;
+            color: var(--hamou-nav-text);
+            font-weight: 900;
+            letter-spacing: -.5px;
+            white-space: nowrap;
+        }
+
+        .hamou-brand-logo {
+            width: 44px;
+            height: 44px;
+            border-radius: 14px;
+            display: grid;
+            place-items: center;
+            font-size: 20px;
+            font-weight: 900;
+            color: white;
+            background:
+                linear-gradient(
+                    135deg,
+                    #2563eb,
+                    #7c3aed
+                );
+            box-shadow:
+                0 8px 20px rgba(37,99,235,.25);
+        }
+
+        .hamou-brand-name {
+            font-size: 1.05rem;
+        }
+
+        .hamou-desktop-nav {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            flex: 1;
+            min-width: 0;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .hamou-desktop-nav::-webkit-scrollbar {
+            display: none;
+        }
+
+        .hamou-nav-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            min-height: 42px;
+            padding: 8px 11px;
+            border-radius: 12px;
+            color: var(--hamou-nav-muted);
+            text-decoration: none;
+            font-size: .88rem;
+            font-weight: 750;
+            white-space: nowrap;
+            transition:
+                background .18s ease,
+                color .18s ease,
+                transform .18s ease;
+        }
+
+        .hamou-nav-link:hover {
+            color: var(--hamou-nav-text);
+            background: var(--hamou-nav-hover);
+            transform: translateY(-1px);
+        }
+
+        .hamou-nav-link.active {
+            color: var(--hamou-nav-accent);
+            background: var(--hamou-nav-active);
+        }
+
+        .hamou-nav-icon {
+            font-size: 1rem;
+            line-height: 1;
+        }
+
+        .hamou-nav-text {
+            line-height: 1.2;
+        }
+
+        .hamou-nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex: 0 0 auto;
+        }
+
+        .hamou-lang-switcher {
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            padding: 4px;
+            border:
+                1px solid var(--hamou-nav-border);
+            border-radius: 12px;
+            background:
+                rgba(127,127,127,.06);
+        }
+
+        .hamou-lang-btn {
+            appearance: none;
+            border: 0;
+            min-width: 37px;
+            height: 34px;
+            padding: 0 8px;
+            border-radius: 9px;
+            cursor: pointer;
+            color: var(--hamou-nav-muted);
+            background: transparent;
+            font-weight: 900;
+            font-size: .75rem;
+            transition:
+                background .18s ease,
+                color .18s ease,
+                transform .18s ease;
+        }
+
+        .hamou-lang-btn:hover {
+            color: var(--hamou-nav-text);
+            background: var(--hamou-nav-hover);
+        }
+
+        .hamou-lang-btn.active {
+            color: white;
+            background: var(--hamou-nav-accent);
+            box-shadow:
+                0 4px 12px rgba(37,99,235,.22);
+        }
+
+        .hamou-theme-btn {
+            width: 42px;
+            height: 42px;
+            border: 1px solid var(--hamou-nav-border);
+            border-radius: 12px;
+            background: transparent;
+            color: var(--hamou-nav-text);
+            cursor: pointer;
+            font-size: 1.1rem;
+        }
+
+        .hamou-theme-btn:hover {
+            background: var(--hamou-nav-hover);
+        }
+
+        .hamou-auth-area,
+        .hamou-user-area {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .hamou-login-btn,
+        .hamou-register-btn,
+        .hamou-logout-btn {
+            min-height: 42px;
+            padding: 8px 13px;
+            border-radius: 11px;
+            text-decoration: none;
+            font-size: .84rem;
+            font-weight: 850;
+            cursor: pointer;
+        }
+
+        .hamou-login-btn {
+            color: var(--hamou-nav-text);
+            border:
+                1px solid var(--hamou-nav-border);
+            background: transparent;
+        }
+
+        .hamou-register-btn {
+            color: white;
+            background: var(--hamou-nav-accent);
+            border: 1px solid transparent;
+        }
+
+        .hamou-login-btn:hover {
+            background: var(--hamou-nav-hover);
+        }
+
+        .hamou-register-btn:hover {
+            filter: brightness(1.06);
+        }
+
+        .hamou-profile-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            color: var(--hamou-nav-text);
+            min-width: 0;
+        }
+
+        .hamou-avatar,
+        .hamou-avatar-placeholder {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            object-fit: cover;
+            display: grid;
+            place-items: center;
+            flex: 0 0 auto;
+        }
+
+        .hamou-avatar-placeholder {
+            color: white;
+            font-weight: 900;
+            background:
+                linear-gradient(
+                    135deg,
+                    #2563eb,
+                    #7c3aed
+                );
+        }
+
+        .hamou-user-info {
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+        }
+
+        .hamou-user-info strong {
+            max-width: 120px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-size: .82rem;
+        }
+
+        .hamou-user-info small {
+            color: var(--hamou-nav-muted);
+            font-size: .7rem;
+        }
+
+        .hamou-logout-btn {
+            border:
+                1px solid var(--hamou-nav-border);
+            background: transparent;
+            color: var(--hamou-nav-text);
+        }
+
+        .hamou-logout-btn:hover {
+            background: var(--hamou-nav-hover);
+        }
+
+        .hamou-menu-btn {
+            display: none;
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            border:
+                1px solid var(--hamou-nav-border);
+            background: transparent;
+            color: var(--hamou-nav-text);
+            cursor: pointer;
+            font-size: 1.25rem;
+        }
+
+        .hamou-mobile-panel {
+            display: none;
+            border-top:
+                1px solid var(--hamou-nav-border);
+            padding: 12px;
+            background: var(--hamou-nav-bg);
+        }
+
+        .hamou-mobile-panel.open {
+            display: block;
+        }
+
+        .hamou-mobile-links {
+            display: grid;
+            gap: 5px;
+        }
+
+        .hamou-mobile-links .hamou-nav-link {
+            width: 100%;
+            justify-content: flex-start;
+            min-height: 46px;
+        }
+
+        .hamou-mobile-tools {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 8px;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top:
+                1px solid var(--hamou-nav-border);
+        }
+
+        .hamou-mobile-tools .hamou-auth-area,
+        .hamou-mobile-tools .hamou-user-area {
+            width: 100%;
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 1250px) {
+            .hamou-nav-text {
+                display: none;
+            }
+
+            .hamou-nav-link {
+                min-width: 42px;
+                padding-inline: 9px;
+            }
+        }
+
+        @media (max-width: 1000px) {
+            .hamou-desktop-nav,
+            .hamou-nav-actions {
+                display: none;
+            }
+
+            .hamou-menu-btn {
+                display: inline-grid;
+                place-items: center;
+                margin-inline-start: auto;
+            }
+        }
+
+        @media (max-width: 560px) {
+            .hamou-nav-container {
+                min-height: 64px;
+                width: min(96%, 100%);
+            }
+
+            .hamou-brand-name {
+                font-size: .95rem;
+            }
+
+            .hamou-brand-logo {
+                width: 40px;
+                height: 40px;
+                border-radius: 12px;
+            }
+        }
+        `;
+
+        document.head.appendChild(style);
+    }
+
+    /*
+    ------------------------------------------------------------
+    Render Navbar
+    ------------------------------------------------------------
+    */
+
+    async function renderNavbar(profile = null) {
+        const host =
+            document.getElementById(NAVBAR_ID);
+
+        if (!host) {
+            return;
+        }
+
+        const links = [
+            ...baseNavigation(),
+            ...roleNavigation(profile)
+        ];
+
+        host.innerHTML = `
+            <nav
+                class="hamou-navbar"
+                aria-label="${escapeHtml(
+                    tr("app.name", "HAMOU MATH")
+                )}"
+            >
+
+                <div class="hamou-nav-container">
+
+                    <a
+                        href="${escapeHtml(
+                            url("index.html")
+                        )}"
+                        class="hamou-brand"
+                    >
+                        <span class="hamou-brand-logo">
+                            H
+                        </span>
+
+                        <span class="hamou-brand-name">
+                            HAMOU MATH
+                        </span>
+                    </a>
+
+                    <div class="hamou-desktop-nav">
+                        ${links
+                            .map(item =>
+                                renderNavLink(item)
+                            )
+                            .join("")}
+                    </div>
+
+                    <div class="hamou-nav-actions">
+
+                        ${languageButtons()}
+
+                        <button
+                            type="button"
+                            class="hamou-theme-btn"
+                            data-hamou-theme
+                            title="${escapeHtml(
+                                tr(
+                                    "nav.theme",
+                                    "Theme"
+                                )
+                            )}"
+                            aria-label="${escapeHtml(
+                                tr(
+                                    "nav.theme",
+                                    "Theme"
+                                )
+                            )}"
+                        >
+                            🌙
+                        </button>
+
+                        ${renderAuthArea(profile)}
+
+                    </div>
+
+                    <button
+                        type="button"
+                        class="hamou-menu-btn"
+                        data-hamou-menu
+                        aria-expanded="false"
+                        aria-label="${escapeHtml(
+                            tr(
+                                "nav.menu",
+                                "Menu"
+                            )
+                        )}"
+                    >
+                        ☰
+                    </button>
+
+                </div>
+
+                <div
+                    class="hamou-mobile-panel"
+                    data-hamou-mobile-panel
+                >
+
+                    <div class="hamou-mobile-links">
+                        ${links
+                            .map(item =>
+                                renderNavLink(
+                                    item,
+                                    true
+                                )
+                            )
+                            .join("")}
+                    </div>
+
+                    <div class="hamou-mobile-tools">
+
+                        ${languageButtons()}
+
+                        <button
+                            type="button"
+                            class="hamou-theme-btn"
+                            data-hamou-theme
+                        >
+                            🌙
+                        </button>
+
+                        ${renderAuthArea(
+                            profile,
+                            true
+                        )}
+
+                    </div>
+
+                </div>
+
+            </nav>
+        `;
+
+        bindNavbarEvents(host);
+        markActiveLink(host);
+        syncThemeButton(host);
+    }
+
+    /*
+    ------------------------------------------------------------
+    ربط الأحداث
+    ------------------------------------------------------------
+    */
+
+    function bindNavbarEvents(host) {
+
+        /*
+        LANGUAGE
+        */
+
+        host
+            .querySelectorAll(
+                "[data-hamou-language]"
+            )
+            .forEach(button => {
+
+                button.addEventListener(
+                    "click",
+                    async function (event) {
+
+                        event.preventDefault();
+
+                        const language =
+                            this.getAttribute(
+                                "data-hamou-language"
+                            );
+
+                        if (!language) {
+                            return;
+                        }
+
+                        /*
+                        استخدام i18n الرسمي
+                        */
+
+                        if (
+                            window.HAMOU_I18N &&
+                            typeof window.HAMOU_I18N.setLanguage ===
+                                "function"
+                        ) {
+                            window.HAMOU_I18N.setLanguage(
+                                language
+                            );
+                        } else {
+                            /*
+                            fallback
+                            */
+
+                            try {
+                                localStorage.setItem(
+                                    "hamou_math_language",
+                                    language
+                                );
+                            } catch {}
+                        }
+
+                        /*
+                        تحديث اتجاه الصفحة فورًا
+                        */
+
+                        applyLanguageFallback(language);
+
+                        /*
+                        إعادة رسم navbar حتى تتحدث
+                        النصوص واللغة النشطة
+                        */
+
+                        const profile =
+                            await fetchNavbarProfile();
+
+                        await renderNavbar(profile);
+                    }
+                );
+            });
+
+        /*
+        MENU
+        */
 
         const menuButton =
-            document.getElementById(
-                "hamouMenuButton"
+            host.querySelector(
+                "[data-hamou-menu]"
             );
 
         const mobilePanel =
-            document.getElementById(
-                "hamouMobilePanel"
+            host.querySelector(
+                "[data-hamou-mobile-panel]"
             );
 
         if (menuButton && mobilePanel) {
-
             menuButton.addEventListener(
                 "click",
-                function () {
+                () => {
 
-                    const active =
+                    const open =
                         mobilePanel.classList.toggle(
-                            "active"
+                            "open"
                         );
 
                     menuButton.setAttribute(
                         "aria-expanded",
-                        String(active)
+                        String(open)
                     );
                 }
             );
         }
-
-        /* =========================================
-           LOGOUT
-        ========================================= */
-
-        const logoutButton =
-            document.getElementById(
-                "hamouLogoutButton"
-            );
-
-        if (logoutButton) {
-
-            logoutButton.addEventListener(
-                "click",
-                async function () {
-
-                    logoutButton.disabled =
-                        true;
-
-                    logoutButton.textContent =
-                        "جارِ الخروج...";
-
-                    try {
-
-                        const {
-                            error
-                        } =
-                            await supabaseClient
-                                .auth
-                                .signOut();
-
-                        if (error) {
-                            throw error;
-                        }
-
-                        window.location.href =
-                            base +
-                            "index.html";
-
-                    } catch (error) {
-
-                        console.error(
-                            "Logout:",
-                            error
-                        );
-
-                        logoutButton.disabled =
-                            false;
-
-                        logoutButton.textContent =
-                            "🚪 خروج";
-                    }
-                }
-            );
-        }
-
-        /* =========================================
-           THEME
-        ========================================= */
-
-        document
-            .querySelectorAll(
-                "[data-theme-toggle]"
-            )
-            .forEach(
-                button => {
-
-                    button.addEventListener(
-                        "click",
-                        function () {
-
-                            if (
-                                typeof window.toggleTheme ===
-                                "function"
-                            ) {
-
-                                window.toggleTheme();
-
-                            } else {
-
-                                const current =
-                                    document
-                                        .documentElement
-                                        .dataset
-                                        .theme ||
-                                    "light";
-
-                                const next =
-                                    current ===
-                                    "dark"
-                                        ? "light"
-                                        : "dark";
-
-                                document
-                                    .documentElement
-                                    .dataset
-                                    .theme =
-                                    next;
-
-                                localStorage.setItem(
-                                    "hamou-theme",
-                                    next
-                                );
-                            }
-                        }
-                    );
-                }
-            );
-    }
-
-    function escapeHtml(value) {
-
-        return String(value ?? "")
-            .replace(
-                /&/g,
-                "&amp;"
-            )
-            .replace(
-                /</g,
-                "&lt;"
-            )
-            .replace(
-                />/g,
-                "&gt;"
-            )
-            .replace(
-                /"/g,
-                "&quot;"
-            )
-            .replace(
-                /'/g,
-                "&#039;"
-            );
-    }
-
-    async function startNavbar() {
 
         /*
-         * نرسم القائمة أولًا حتى لا يختفي الشريط
-         * أثناء انتظار Supabase.
-         */
-        renderNavbar(null);
+        LOGOUT
+        */
+
+        host
+            .querySelectorAll(
+                "[data-hamou-logout]"
+            )
+            .forEach(button => {
+
+                button.addEventListener(
+                    "click",
+                    async () => {
+
+                        try {
+
+                            if (
+                                window.supabaseClient
+                            ) {
+
+                                const { error } =
+                                    await window.supabaseClient
+                                        .auth
+                                        .signOut();
+
+                                if (error) {
+                                    throw error;
+                                }
+                            }
+
+                            window.location.href =
+                                url("index.html");
+
+                        } catch (error) {
+
+                            console.error(
+                                "HAMOU logout:",
+                                error
+                            );
+
+                            alert(
+                                tr(
+                                    "general.error",
+                                    "An error occurred"
+                                )
+                            );
+                        }
+                    }
+                );
+            });
+
+        /*
+        THEME
+        */
+
+        host
+            .querySelectorAll(
+                "[data-hamou-theme]"
+            )
+            .forEach(button => {
+
+                button.addEventListener(
+                    "click",
+                    toggleTheme
+                );
+            });
+
+        /*
+        إغلاق القائمة بعد اختيار رابط
+        */
+
+        host
+            .querySelectorAll(
+                ".hamou-mobile-panel a"
+            )
+            .forEach(link => {
+
+                link.addEventListener(
+                    "click",
+                    () => {
+
+                        const panel =
+                            host.querySelector(
+                                "[data-hamou-mobile-panel]"
+                            );
+
+                        const menu =
+                            host.querySelector(
+                                "[data-hamou-menu]"
+                            );
+
+                        panel?.classList.remove(
+                            "open"
+                        );
+
+                        menu?.setAttribute(
+                            "aria-expanded",
+                            "false"
+                        );
+                    }
+                );
+            });
+    }
+
+    /*
+    ------------------------------------------------------------
+    Language fallback
+    ------------------------------------------------------------
+    */
+
+    function applyLanguageFallback(language) {
+
+        const map = {
+            ar: {
+                lang: "ar",
+                dir: "rtl"
+            },
+            fr: {
+                lang: "fr",
+                dir: "ltr"
+            },
+            en: {
+                lang: "en",
+                dir: "ltr"
+            }
+        };
+
+        const meta =
+            map[language] || map.ar;
+
+        document.documentElement.lang =
+            meta.lang;
+
+        document.documentElement.dir =
+            meta.dir;
+
+        if (document.body) {
+            document.body.dir =
+                meta.dir;
+        }
+    }
+
+    /*
+    ------------------------------------------------------------
+    Theme
+    ------------------------------------------------------------
+    */
+
+    function getTheme() {
+        try {
+            return (
+                localStorage.getItem(
+                    "hamou_math_theme"
+                ) || "light"
+            );
+        } catch {
+            return "light";
+        }
+    }
+
+    function applyTheme(theme) {
+
+        document.documentElement.dataset.theme =
+            theme;
+
+        document.documentElement.classList.toggle(
+            "dark",
+            theme === "dark"
+        );
+
+        document.body?.classList.toggle(
+            "dark",
+            theme === "dark"
+        );
+
+        try {
+            localStorage.setItem(
+                "hamou_math_theme",
+                theme
+            );
+        } catch {}
+    }
+
+    function toggleTheme() {
+
+        const current =
+            getTheme();
+
+        const next =
+            current === "dark"
+                ? "light"
+                : "dark";
+
+        applyTheme(next);
+
+        syncThemeButton(
+            document.getElementById(
+                NAVBAR_ID
+            )
+        );
+    }
+
+    function syncThemeButton(host) {
+
+        if (!host) return;
+
+        const dark =
+            getTheme() === "dark";
+
+        host
+            .querySelectorAll(
+                "[data-hamou-theme]"
+            )
+            .forEach(button => {
+
+                button.textContent =
+                    dark ? "☀️" : "🌙";
+
+                button.setAttribute(
+                    "aria-label",
+                    dark
+                        ? tr(
+                            "nav.light",
+                            "Light Mode"
+                        )
+                        : tr(
+                            "nav.dark",
+                            "Dark Mode"
+                        )
+                );
+
+                button.setAttribute(
+                    "title",
+                    dark
+                        ? tr(
+                            "nav.light",
+                            "Light Mode"
+                        )
+                        : tr(
+                            "nav.dark",
+                            "Dark Mode"
+                        )
+                );
+            });
+    }
+
+    /*
+    ------------------------------------------------------------
+    الاستماع لتغيير اللغة من i18n.js
+    ------------------------------------------------------------
+    */
+
+    document.addEventListener(
+        "hamou:languageChanged",
+        async event => {
+
+            applyLanguageFallback(
+                event.detail?.language ||
+                "ar"
+            );
+
+            const host =
+                document.getElementById(
+                    NAVBAR_ID
+                );
+
+            if (!host) return;
+
+            const profile =
+                await fetchNavbarProfile();
+
+            await renderNavbar(profile);
+        }
+    );
+
+    /*
+    ------------------------------------------------------------
+    عند جاهزية i18n
+    ------------------------------------------------------------
+    */
+
+    document.addEventListener(
+        "hamou:i18nApplied",
+        () => {
+            const host =
+                document.getElementById(
+                    NAVBAR_ID
+                );
+
+            if (!host) return;
+
+            markActiveLink(host);
+        }
+    );
+
+    /*
+    ------------------------------------------------------------
+    Init
+    ------------------------------------------------------------
+    */
+
+    async function initNavbar() {
+
+        injectStyles();
+
+        /*
+        اتجاه ابتدائي سريع قبل تحميل Supabase
+        */
+
+        applyLanguageFallback(
+            getCurrentLanguage()
+        );
+
+        /*
+        Render أولي مباشر
+        حتى لا تختفي القائمة
+        */
+
+        await renderNavbar(null);
+
+        /*
+        تحميل الحساب لاحقًا
+        */
 
         const profile =
             await fetchNavbarProfile();
 
-        renderNavbar(profile);
+        await renderNavbar(profile);
     }
+
+    /*
+    ------------------------------------------------------------
+    تشغيل
+    ------------------------------------------------------------
+    */
 
     if (
         document.readyState ===
@@ -943,12 +1611,13 @@
 
         document.addEventListener(
             "DOMContentLoaded",
-            startNavbar
+            initNavbar,
+            { once: true }
         );
 
     } else {
 
-        startNavbar();
+        initNavbar();
 
     }
 
