@@ -479,6 +479,8 @@ searchInput?.addEventListener(
         if (event.key === "Enter") {
             runSearch(1);
         }
+        const searchTopic =
+    document.getElementById("searchTopic");
 
     }
 );
