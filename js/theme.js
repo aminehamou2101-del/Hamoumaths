@@ -1,51 +1,108 @@
-// =====================================================
-// HAMOU MATH
-// THEME + NAVIGATION
-// =====================================================
-
 (function () {
+    "use strict";
 
-    const savedTheme =
-        localStorage.getItem("hamou-theme") || "light";
+    const STORAGE_KEY = "hamou-theme";
 
-    document.documentElement.dataset.theme = savedTheme;
+    function getTheme() {
+        const saved = localStorage.getItem(STORAGE_KEY);
 
-    function updateThemeButton() {
+        if (saved === "dark" || saved === "light") {
+            return saved;
+        }
 
-        const buttons =
-            document.querySelectorAll("[data-theme-toggle]");
-
-        buttons.forEach(button => {
-            button.textContent =
-                document.documentElement.dataset.theme === "dark"
-                    ? "☀️"
-                    : "🌙";
-        });
+        return window.matchMedia &&
+            window.matchMedia("(prefers-color-scheme: dark)").matches
+            ? "dark"
+            : "light";
     }
 
-    window.toggleTheme = function () {
+    function applyTheme(theme) {
+        const root = document.documentElement;
 
-        const current =
-            document.documentElement.dataset.theme;
+        root.dataset.theme = theme;
 
-        const next =
-            current === "dark"
-                ? "light"
-                : "dark";
-
-        document.documentElement.dataset.theme = next;
-
-        localStorage.setItem(
-            "hamou-theme",
-            next
+        root.classList.toggle(
+            "dark",
+            theme === "dark"
         );
 
-        updateThemeButton();
-    };
+        document.body?.classList.toggle(
+            "dark-mode",
+            theme === "dark"
+        );
+
+        localStorage.setItem(
+            STORAGE_KEY,
+            theme
+        );
+
+        updateButtons(theme);
+    }
+
+    function updateButtons(theme) {
+        const icon =
+            theme === "dark" ? "☀️" : "🌙";
+
+        const text =
+            theme === "dark"
+                ? "الوضع النهاري"
+                : "الوضع الليلي";
+
+        document
+            .querySelectorAll(
+                "[data-theme-toggle]"
+            )
+            .forEach(button => {
+                button.textContent = icon;
+                button.title = text;
+                button.setAttribute(
+                    "aria-label",
+                    text
+                );
+            });
+    }
+
+    function toggleTheme() {
+        const current =
+            document.documentElement.dataset.theme ||
+            getTheme();
+
+        applyTheme(
+            current === "dark"
+                ? "light"
+                : "dark"
+        );
+    }
+
+    window.toggleTheme = toggleTheme;
+    window.applyHamouTheme = applyTheme;
+
+    /*
+     * نطبّق الوضع قبل اكتمال تحميل الصفحة
+     * لتقليل وميض الصفحة.
+     */
+    applyTheme(getTheme());
 
     document.addEventListener(
         "DOMContentLoaded",
-        updateThemeButton
-    );
+        function () {
 
+            document
+                .querySelectorAll(
+                    "[data-theme-toggle]"
+                )
+                .forEach(button => {
+
+                    button.addEventListener(
+                        "click",
+                        toggleTheme
+                    );
+
+                });
+
+            updateButtons(
+                document.documentElement.dataset.theme
+            );
+        }
+    );
 })();
