@@ -445,7 +445,112 @@ function renderStrengths(rows) {
             )
             .join("");
 }
+async function loadTreatmentPlan() {
 
+    const box =
+        document.getElementById(
+            "treatmentPlan"
+        );
+
+    if (!box) return;
+
+
+    const {
+        data,
+        error
+    } = await supabaseClient
+        .rpc(
+            "get_my_recommendations"
+        );
+
+
+    if (error) {
+
+        console.error(
+            "Treatment plan error:",
+            error
+        );
+
+        box.textContent =
+            "تعذر إعداد الخطة العلاجية.";
+
+        return;
+    }
+
+
+    const recommendations =
+        data || [];
+
+
+    if (!recommendations.length) {
+
+        box.innerHTML = `
+            <div class="recommendation">
+                🎉 لا توجد أخطاء كافية لإنشاء خطة علاجية.
+                استمر في التدريب!
+            </div>
+        `;
+
+        return;
+    }
+
+
+    box.innerHTML =
+        recommendations
+            .map(
+                exercise => `
+                    <div class="mistake-row">
+
+                        <h3>
+                            ${escapeHtml(
+                                exercise.title
+                            )}
+                        </h3>
+
+                        <p>
+                            ${escapeHtml(
+                                exercise.question
+                            )}
+                        </p>
+
+                        <small>
+                            الصعوبة:
+                            ${escapeHtml(
+                                exercise.difficulty || "غير محدد"
+                            )}
+                        </small>
+
+                        ${
+                            exercise.topic
+                                ? `
+                                    <p>
+                                        📚 المهارة:
+                                        ${escapeHtml(
+                                            exercise.topic
+                                        )}
+                                    </p>
+                                  `
+                                : ""
+                        }
+
+                        ${
+                            exercise.lesson_id
+                                ? `
+                                    <a
+                                        class="action-btn"
+                                        href="lesson.html?id=${encodeURIComponent(exercise.lesson_id)}"
+                                    >
+                                        📖 مراجعة الدرس
+                                    </a>
+                                  `
+                                : ""
+                        }
+
+                    </div>
+                `
+            )
+            .join("");
+}
 
 // =====================================================
 // Recommendation
