@@ -3,189 +3,716 @@
 
 <head>
 
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-<title>
-إنشاء حساب - HAMOU MATH
-</title>
+    <title>
+        إنشاء حساب | HAMOU MATH
+    </title>
 
-<link rel="stylesheet" href="../css/style.css">
+    <link
+        rel="icon"
+        href="../assets/logo.svg"
+    >
+
+    <style>
+
+        :root {
+            --primary: #1565c0;
+            --dark: #082b5c;
+            --bg: #f4f8ff;
+            --text: #172033;
+            --muted: #64748b;
+            --border: #dbe5f1;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+
+            margin: 0;
+
+            min-height: 100vh;
+
+            font-family:
+                Tahoma,
+                Arial,
+                sans-serif;
+
+            background:
+                radial-gradient(
+                    circle at top left,
+                    rgba(0,188,212,.10),
+                    transparent 28%
+                ),
+                linear-gradient(
+                    180deg,
+                    #f8fbff,
+                    var(--bg)
+                );
+
+            color: var(--text);
+        }
+
+        .page {
+
+            min-height:
+                calc(100vh - 70px);
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                center;
+
+            padding:
+                40px 15px;
+        }
+
+        .card {
+
+            width:
+                min(500px, 100%);
+
+            background: #fff;
+
+            border:
+                1px solid
+                var(--border);
+
+            border-radius:
+                25px;
+
+            padding:
+                32px;
+
+            box-shadow:
+                0 25px 70px
+                rgba(8,43,92,.12);
+        }
+
+        .brand {
+
+            display:
+                flex;
+
+            justify-content:
+                center;
+
+            align-items:
+                center;
+
+            gap:
+                10px;
+
+            color:
+                var(--dark);
+
+            font-weight:
+                900;
+
+            font-size:
+                21px;
+
+            margin-bottom:
+                20px;
+        }
+
+        .logo {
+
+            width:
+                48px;
+
+            height:
+                48px;
+
+            display:
+                grid;
+
+            place-items:
+                center;
+
+            border-radius:
+                15px;
+
+            color:
+                #fff;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #082b5c,
+                    #1565c0,
+                    #00bcd4
+                );
+        }
+
+        h1 {
+
+            text-align:
+                center;
+
+            color:
+                var(--dark);
+
+            font-size:
+                27px;
+
+            margin:
+                0 0 8px;
+        }
+
+        .subtitle {
+
+            color:
+                var(--muted);
+
+            text-align:
+                center;
+
+            font-size:
+                13px;
+
+            margin:
+                0 0 23px;
+        }
+
+        .field {
+            margin-bottom:
+                15px;
+        }
+
+        label {
+
+            display:
+                block;
+
+            margin-bottom:
+                6px;
+
+            color:
+                var(--dark);
+
+            font-weight:
+                800;
+
+            font-size:
+                13px;
+        }
+
+        input {
+
+            width:
+                100%;
+
+            padding:
+                13px;
+
+            border:
+                1px solid
+                var(--border);
+
+            border-radius:
+                12px;
+
+            font:
+                inherit;
+
+            outline:
+                none;
+        }
+
+        input:focus {
+
+            border-color:
+                var(--primary);
+
+            box-shadow:
+                0 0 0 4px
+                rgba(21,101,192,.09);
+        }
+
+        .button {
+
+            width:
+                100%;
+
+            border:
+                0;
+
+            border-radius:
+                12px;
+
+            padding:
+                13px;
+
+            color:
+                white;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #1565c0,
+                    #0d47a1
+                );
+
+            font:
+                inherit;
+
+            font-weight:
+                900;
+
+            cursor:
+                pointer;
+        }
+
+        .button:disabled {
+            opacity:
+                .65;
+
+            cursor:
+                not-allowed;
+        }
+
+        .message {
+
+            display:
+                none;
+
+            margin-top:
+                14px;
+
+            padding:
+                12px;
+
+            border-radius:
+                11px;
+
+            font-size:
+                13px;
+        }
+
+        .message.show {
+            display:
+                block;
+        }
+
+        .error {
+
+            background:
+                #fee2e2;
+
+            color:
+                #991b1b;
+        }
+
+        .success {
+
+            background:
+                #dcfce7;
+
+            color:
+                #166534;
+        }
+
+        .login-link {
+
+            margin-top:
+                18px;
+
+            text-align:
+                center;
+
+            color:
+                var(--muted);
+
+            font-size:
+                13px;
+        }
+
+        .login-link a {
+
+            color:
+                var(--primary);
+
+            font-weight:
+                800;
+        }
+
+        .password-help {
+
+            color:
+                var(--muted);
+
+            font-size:
+                11px;
+
+            margin-top:
+                5px;
+        }
+
+        @media (max-width: 500px) {
+
+            .card {
+                padding:
+                    23px 18px;
+
+                border-radius:
+                    19px;
+            }
+        }
+
+    </style>
 
 </head>
 
-
 <body>
 
+<div id="hamou-navbar"></div>
 
-<div class="auth-box">
+<main class="page">
 
+    <section class="card">
 
-<h1>
-🚀 إنشاء حساب جديد
-</h1>
+        <div class="brand">
 
+            <div class="logo">
+                ∑
+            </div>
 
+            HAMOU MATH
 
-<input
-id="name"
-type="text"
-placeholder="الاسم الكامل"
->
+        </div>
 
+        <h1>
+            🚀 إنشاء حساب
+        </h1>
 
+        <p class="subtitle">
+            أنشئ حسابك وابدأ مسارك في الرياضيات.
+        </p>
 
-<input
-id="email"
-type="email"
-placeholder="البريد الإلكتروني"
->
+        <form id="registerForm">
 
+            <div class="field">
 
+                <label for="name">
+                    الاسم الكامل
+                </label>
 
-<input
-id="password"
-type="password"
-placeholder="كلمة المرور"
->
+                <input
+                    id="name"
+                    type="text"
+                    autocomplete="name"
+                    minlength="2"
+                    maxlength="100"
+                    required
+                    placeholder="اكتب اسمك الكامل"
+                >
 
+            </div>
 
+            <div class="field">
 
-<button onclick="register()">
+                <label for="email">
+                    البريد الإلكتروني
+                </label>
 
-إنشاء الحساب
+                <input
+                    id="email"
+                    type="email"
+                    autocomplete="email"
+                    maxlength="255"
+                    required
+                    placeholder="example@email.com"
+                >
 
-</button>
+            </div>
 
+            <div class="field">
 
+                <label for="password">
+                    كلمة المرور
+                </label>
 
-<p id="message"></p>
+                <input
+                    id="password"
+                    type="password"
+                    autocomplete="new-password"
+                    minlength="8"
+                    required
+                    placeholder="8 أحرف على الأقل"
+                >
 
+                <div class="password-help">
+                    استخدم كلمة مرور قوية ولا تشاركها مع أي شخص.
+                </div>
 
+            </div>
 
-<p>
+            <button
+                id="registerButton"
+                class="button"
+                type="submit"
+            >
+                إنشاء الحساب
+            </button>
 
-لديك حساب؟
+            <div
+                id="message"
+                class="message"
+            ></div>
 
-<a href="login.html">
-تسجيل الدخول
-</a>
+        </form>
 
-</p>
+        <div class="login-link">
 
+            لديك حساب بالفعل؟
 
-</div>
+            <a href="login.html">
+                تسجيل الدخول
+            </a>
 
+        </div>
 
+    </section>
 
+</main>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script src="../js/supabase.js"></script>
-
-
+<script src="../js/theme.js"></script>
+<script src="../js/i18n.js"></script>
+<script src="../js/navbar.js"></script>
 
 <script>
 
+(function () {
 
-async function register(){
+    "use strict";
 
+    const form =
+        document.getElementById(
+            "registerForm"
+        );
 
-const name =
-document.getElementById("name").value;
+    const name =
+        document.getElementById(
+            "name"
+        );
 
+    const email =
+        document.getElementById(
+            "email"
+        );
 
-const email =
-document.getElementById("email").value;
+    const password =
+        document.getElementById(
+            "password"
+        );
 
+    const button =
+        document.getElementById(
+            "registerButton"
+        );
 
-const password =
-document.getElementById("password").value;
+    const message =
+        document.getElementById(
+            "message"
+        );
 
+    function showMessage(
+        text,
+        success = false
+    ) {
 
+        message.textContent =
+            text;
 
-if(!name || !email || !password){
+        message.className =
+            `message show ${
+                success
+                    ? "success"
+                    : "error"
+            }`;
+    }
 
-document.getElementById("message")
-.innerHTML =
-"⚠️ املأ جميع الحقول";
+    form.addEventListener(
+        "submit",
+        async function (event) {
 
-return;
+            event.preventDefault();
 
-}
+            const fullName =
+                name.value.trim();
 
+            const emailValue =
+                email.value
+                    .trim()
+                    .toLowerCase();
 
+            const passwordValue =
+                password.value;
 
+            if (
+                fullName.length < 2
+            ) {
 
-const {data,error}=
+                showMessage(
+                    "أدخل اسمًا صحيحًا."
+                );
 
-await supabaseClient
-.auth
-.signUp({
+                return;
+            }
 
-email,
+            if (
+                passwordValue.length < 8
+            ) {
 
-password,
+                showMessage(
+                    "كلمة المرور يجب أن تكون 8 أحرف على الأقل."
+                );
 
+                return;
+            }
 
-options:{
+            button.disabled =
+                true;
 
+            button.textContent =
+                "جارِ إنشاء الحساب...";
 
-data:{
+            try {
 
+                const {
+                    data,
+                    error
+                } =
+                    await supabaseClient
+                        .auth
+                        .signUp({
+                            email:
+                                emailValue,
 
-full_name:name
+                            password:
+                                passwordValue,
 
+                            options: {
+                                data: {
+                                    full_name:
+                                        fullName
+                                }
+                            }
+                        });
 
-}
+                if (error) {
+                    throw error;
+                }
 
+                /*
+                 * إذا كانت تأكيدات البريد مفعّلة
+                 * فلن تكون session موجودة.
+                 */
 
-}
+                if (
+                    data.user &&
+                    !data.session
+                ) {
 
+                    showMessage(
+                        "تم إنشاء الحساب. تحقق من بريدك الإلكتروني لتأكيد الحساب.",
+                        true
+                    );
 
-});
+                } else {
 
+                    showMessage(
+                        "تم إنشاء الحساب بنجاح. جارِ فتح لوحتك...",
+                        true
+                    );
 
+                    setTimeout(
+                        () => {
 
+                            window.location.href =
+                                "dashboard.html";
 
-if(error){
+                        },
+                        700
+                    );
+                }
 
+            } catch (error) {
 
-document.getElementById("message")
-.innerHTML =
-"❌ "+error.message;
+                console.error(error);
 
+                showMessage(
+                    translateRegisterError(
+                        error
+                    )
+                );
 
-return;
+                button.disabled =
+                    false;
 
-}
+                button.textContent =
+                    "إنشاء الحساب";
+            }
+        }
+    );
 
+    function translateRegisterError(
+        error
+    ) {
 
+        const text =
+            String(
+                error?.message || ""
+            ).toLowerCase();
 
+        if (
+            text.includes(
+                "user already registered"
+            )
+        ) {
 
-document.getElementById("message")
-.innerHTML =
-"✅ تم إنشاء الحساب بنجاح";
+            return "هذا البريد الإلكتروني مسجل بالفعل. حاول تسجيل الدخول.";
+        }
 
+        if (
+            text.includes(
+                "password"
+            )
+        ) {
 
+            return (
+                "كلمة المرور غير مقبولة: " +
+                error.message
+            );
+        }
 
-setTimeout(()=>{
+        return (
+            "تعذر إنشاء الحساب: " +
+            (
+                error?.message ||
+                "خطأ غير معروف"
+            )
+        );
+    }
 
-
-location.href="login.html";
-
-
-},1500);
-
-
-
-}
-
+})();
 
 </script>
 
-
 </body>
-
 </html>
