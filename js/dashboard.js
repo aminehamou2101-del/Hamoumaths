@@ -13,7 +13,9 @@ location.href="login.html";
 return;
 
 }
-
+<a href="profile.html">
+    👤 ملفي الشخصي
+</a>
 
 
 document.getElementById("welcome")
