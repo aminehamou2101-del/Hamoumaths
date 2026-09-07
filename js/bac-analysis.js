@@ -516,7 +516,7 @@ function renderRecommendation(
     box.textContent =
         recommendation;
 }
-
+await loadTreatmentPlan();
 
 // =====================================================
 // Helpers
