@@ -1,0 +1,1654 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="تمارين الرياضيات التفاعلية - HAMOU MATH"
+    >
+
+    <title>التمارين | HAMOU MATH</title>
+
+    <link
+        rel="icon"
+        href="../assets/logo.svg"
+    >
+
+    <style>
+
+        :root {
+            --primary: #1565c0;
+            --primary-dark: #0d47a1;
+            --secondary: #00bcd4;
+            --dark: #082b5c;
+
+            --bg: #f4f8ff;
+            --card: #ffffff;
+            --text: #172033;
+            --muted: #64748b;
+            --border: #dbe5f1;
+
+            --success: #16a34a;
+            --success-bg: #dcfce7;
+
+            --warning: #d97706;
+            --warning-bg: #fef3c7;
+
+            --danger: #dc2626;
+            --danger-bg: #fee2e2;
+
+            --shadow:
+                0 14px 38px
+                rgba(8, 43, 92, .07);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #f8fbff 0%,
+                    var(--bg) 100%
+                );
+
+            color: var(--text);
+
+            font-family:
+                Tahoma,
+                Arial,
+                sans-serif;
+
+            line-height: 1.7;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button,
+        input,
+        select {
+            font-family: inherit;
+        }
+
+        .container {
+            width: min(1350px, 94%);
+            margin: 30px auto 60px;
+        }
+
+        /* =========================================
+           HERO
+        ========================================= */
+
+        .hero {
+
+            padding: 32px;
+
+            margin-bottom: 22px;
+
+            border-radius: 25px;
+
+            color: white;
+
+            background:
+                radial-gradient(
+                    circle at top left,
+                    rgba(0,188,212,.22),
+                    transparent 30%
+                ),
+                linear-gradient(
+                    135deg,
+                    var(--dark),
+                    var(--primary)
+                );
+
+            box-shadow:
+                0 20px 50px
+                rgba(8,43,92,.15);
+        }
+
+        .hero h1 {
+            margin: 0 0 8px;
+            font-size: 31px;
+        }
+
+        .hero p {
+            margin: 0;
+            max-width: 850px;
+            color: rgba(255,255,255,.90);
+        }
+
+        .hero-links {
+
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 9px;
+
+            margin-top: 18px;
+        }
+
+        .hero-link {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 7px;
+
+            padding:
+                9px 13px;
+
+            border-radius:
+                11px;
+
+            background:
+                rgba(255,255,255,.10);
+
+            border:
+                1px solid
+                rgba(255,255,255,.20);
+
+            color: white;
+
+            font-size: 13px;
+
+            font-weight: 800;
+        }
+
+        /* =========================================
+           FILTERS
+        ========================================= */
+
+        .filters {
+
+            background:
+                var(--card);
+
+            border:
+                1px solid
+                var(--border);
+
+            border-radius:
+                20px;
+
+            padding:
+                20px;
+
+            margin-bottom:
+                22px;
+
+            box-shadow:
+                var(--shadow);
+        }
+
+        .filters-grid {
+
+            display:
+                grid;
+
+            grid-template-columns:
+                minmax(220px, 2fr)
+                repeat(4, minmax(130px, 1fr));
+
+            gap: 10px;
+        }
+
+        .field label {
+
+            display:
+                block;
+
+            margin-bottom:
+                6px;
+
+            color:
+                var(--dark);
+
+            font-size:
+                13px;
+
+            font-weight:
+                800;
+        }
+
+        input,
+        select {
+
+            width:
+                100%;
+
+            padding:
+                12px;
+
+            border:
+                1px solid
+                var(--border);
+
+            border-radius:
+                12px;
+
+            background:
+                #fff;
+
+            color:
+                var(--text);
+
+            outline:
+                none;
+
+            font-size:
+                14px;
+        }
+
+        input:focus,
+        select:focus {
+
+            border-color:
+                var(--primary);
+
+            box-shadow:
+                0 0 0 3px
+                rgba(21,101,192,.10);
+        }
+
+        .filter-actions {
+
+            display:
+                flex;
+
+            justify-content:
+                space-between;
+
+            align-items:
+                center;
+
+            gap: 10px;
+
+            margin-top:
+                14px;
+        }
+
+        .result-count {
+
+            color:
+                var(--muted);
+
+            font-size:
+                13px;
+        }
+
+        .clear-btn {
+
+            border:
+                0;
+
+            border-radius:
+                10px;
+
+            padding:
+                9px 13px;
+
+            cursor:
+                pointer;
+
+            background:
+                #edf5ff;
+
+            color:
+                var(--dark);
+
+            font-weight:
+                800;
+        }
+
+        /* =========================================
+           GRID
+        ========================================= */
+
+        .exercise-grid {
+
+            display:
+                grid;
+
+            grid-template-columns:
+                repeat(
+                    auto-fill,
+                    minmax(280px, 1fr)
+                );
+
+            gap:
+                18px;
+        }
+
+        .exercise-card {
+
+            background:
+                var(--card);
+
+            border:
+                1px solid
+                var(--border);
+
+            border-radius:
+                19px;
+
+            padding:
+                20px;
+
+            box-shadow:
+                var(--shadow);
+
+            display:
+                flex;
+
+            flex-direction:
+                column;
+
+            min-height:
+                280px;
+
+            transition:
+                transform .18s ease,
+                box-shadow .18s ease,
+                border-color .18s ease;
+        }
+
+        .exercise-card:hover {
+
+            transform:
+                translateY(-4px);
+
+            border-color:
+                rgba(21,101,192,.25);
+
+            box-shadow:
+                0 20px 40px
+                rgba(8,43,92,.10);
+        }
+
+        .card-top {
+
+            display:
+                flex;
+
+            justify-content:
+                space-between;
+
+            align-items:
+                flex-start;
+
+            gap:
+                10px;
+
+            margin-bottom:
+                11px;
+        }
+
+        .exercise-icon {
+
+            width:
+                45px;
+
+            height:
+                45px;
+
+            display:
+                grid;
+
+            place-items:
+                center;
+
+            border-radius:
+                13px;
+
+            background:
+                #edf5ff;
+
+            color:
+                var(--primary);
+
+            font-size:
+                21px;
+        }
+
+        .difficulty {
+
+            padding:
+                5px 9px;
+
+            border-radius:
+                999px;
+
+            font-size:
+                11px;
+
+            font-weight:
+                800;
+        }
+
+        .difficulty.easy {
+
+            color:
+                #166534;
+
+            background:
+                var(--success-bg);
+        }
+
+        .difficulty.medium {
+
+            color:
+                #92400e;
+
+            background:
+                var(--warning-bg);
+        }
+
+        .difficulty.hard {
+
+            color:
+                #991b1b;
+
+            background:
+                var(--danger-bg);
+        }
+
+        .exercise-card h2 {
+
+            margin:
+                0 0 9px;
+
+            color:
+                var(--dark);
+
+            font-size:
+                18px;
+
+            line-height:
+                1.4;
+        }
+
+        .question {
+
+            color:
+                #475569;
+
+            font-size:
+                14px;
+
+            line-height:
+                1.8;
+
+            margin-bottom:
+                13px;
+
+            display:
+                -webkit-box;
+
+            -webkit-line-clamp:
+                5;
+
+            -webkit-box-orient:
+                vertical;
+
+            overflow:
+                hidden;
+        }
+
+        .meta {
+
+            display:
+                flex;
+
+            flex-wrap:
+                wrap;
+
+            gap:
+                6px;
+
+            margin-top:
+                auto;
+
+            margin-bottom:
+                14px;
+        }
+
+        .meta span {
+
+            padding:
+                5px 8px;
+
+            border-radius:
+                999px;
+
+            background:
+                #f1f5f9;
+
+            color:
+                #475569;
+
+            font-size:
+                11px;
+
+            font-weight:
+                700;
+        }
+
+        .solve-btn {
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                center;
+
+            width:
+                100%;
+
+            padding:
+                11px;
+
+            border-radius:
+                11px;
+
+            background:
+                var(--primary);
+
+            color:
+                white;
+
+            font-size:
+                13px;
+
+            font-weight:
+                900;
+
+            transition:
+                .18s ease;
+        }
+
+        .solve-btn:hover {
+            background:
+                var(--primary-dark);
+        }
+
+        /* =========================================
+           STATES
+        ========================================= */
+
+        .state {
+
+            grid-column:
+                1 / -1;
+
+            background:
+                white;
+
+            border:
+                1px solid
+                var(--border);
+
+            border-radius:
+                18px;
+
+            padding:
+                40px;
+
+            text-align:
+                center;
+
+            color:
+                var(--muted);
+        }
+
+        .state-icon {
+
+            font-size:
+                38px;
+
+            margin-bottom:
+                8px;
+        }
+
+        .state.error {
+
+            color:
+                #991b1b;
+
+            background:
+                #fff7f7;
+
+            border-color:
+                #fecaca;
+        }
+
+        .retry {
+
+            margin-top:
+                12px;
+
+            border:
+                0;
+
+            padding:
+                10px 15px;
+
+            border-radius:
+                10px;
+
+            cursor:
+                pointer;
+
+            background:
+                var(--primary);
+
+            color:
+                white;
+
+            font-weight:
+                800;
+        }
+
+        /* =========================================
+           FOOTER NOTE
+        ========================================= */
+
+        .bottom-note {
+
+            margin-top:
+                25px;
+
+            padding:
+                16px;
+
+            border-radius:
+                15px;
+
+            background:
+                #eef6ff;
+
+            border:
+                1px solid
+                #d7e8fb;
+
+            color:
+                #36506f;
+
+            text-align:
+                center;
+
+            font-size:
+                13px;
+        }
+
+        /* =========================================
+           RESPONSIVE
+        ========================================= */
+
+        @media (max-width: 1100px) {
+
+            .filters-grid {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .filters-grid .search-field {
+
+                grid-column:
+                    1 / -1;
+            }
+        }
+
+        @media (max-width: 650px) {
+
+            .container {
+                width: 95%;
+            }
+
+            .hero {
+                padding: 23px;
+                border-radius: 19px;
+            }
+
+            .hero h1 {
+                font-size: 24px;
+            }
+
+            .filters {
+                padding: 15px;
+                border-radius: 16px;
+            }
+
+            .filters-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .filters-grid .search-field {
+                grid-column: auto;
+            }
+
+            .filter-actions {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .exercise-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div id="hamou-navbar"></div>
+
+<main class="container">
+
+    <!-- =========================================
+         HEADER
+    ========================================== -->
+
+    <section class="hero">
+
+        <h1>
+            📝 تمارين الرياضيات
+        </h1>
+
+        <p>
+            تدرب على تمارين الرياضيات المرتبطة بالمنهاج،
+            واختر المستوى والصعوبة والموضوع المناسب لك.
+        </p>
+
+        <div class="hero-links">
+
+            <a
+                class="hero-link"
+                href="curriculum.html"
+            >
+                🎓 المنهاج
+            </a>
+
+            <a
+                class="hero-link"
+                href="dashboard.html"
+            >
+                📊 لوحتي
+            </a>
+
+            <a
+                class="hero-link"
+                href="leaderboard.html"
+            >
+                🏆 الترتيب
+            </a>
+
+        </div>
+
+    </section>
+
+    <!-- =========================================
+         FILTERS
+    ========================================== -->
+
+    <section class="filters">
+
+        <div class="filters-grid">
+
+            <div class="field search-field">
+
+                <label for="search">
+                    البحث
+                </label>
+
+                <input
+                    id="search"
+                    type="search"
+                    autocomplete="off"
+                    placeholder="ابحث عن عنوان التمرين أو الموضوع..."
+                >
+
+            </div>
+
+            <div class="field">
+
+                <label for="level">
+                    المستوى
+                </label>
+
+                <select id="level">
+
+                    <option value="">
+                        كل المستويات
+                    </option>
+
+                </select>
+
+            </div>
+
+            <div class="field">
+
+                <label for="subject">
+                    المادة
+                </label>
+
+                <select id="subject">
+
+                    <option value="">
+                        كل المواد
+                    </option>
+
+                </select>
+
+            </div>
+
+            <div class="field">
+
+                <label for="difficulty">
+                    الصعوبة
+                </label>
+
+                <select id="difficulty">
+
+                    <option value="">
+                        كل المستويات
+                    </option>
+
+                    <option value="easy">
+                        سهل
+                    </option>
+
+                    <option value="medium">
+                        متوسط
+                    </option>
+
+                    <option value="hard">
+                        صعب
+                    </option>
+
+                </select>
+
+            </div>
+
+            <div class="field">
+
+                <label for="unit">
+                    الوحدة
+                </label>
+
+                <select id="unit">
+
+                    <option value="">
+                        كل الوحدات
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+        <div class="filter-actions">
+
+            <div
+                id="resultCount"
+                class="result-count"
+            >
+                جارِ تحميل التمارين...
+            </div>
+
+            <button
+                type="button"
+                id="clearFilters"
+                class="clear-btn"
+            >
+                إعادة التصفية
+            </button>
+
+        </div>
+
+    </section>
+
+    <!-- =========================================
+         EXERCISES
+    ========================================== -->
+
+    <section
+        id="exerciseGrid"
+        class="exercise-grid"
+    >
+
+        <div class="state">
+
+            <div class="state-icon">
+                ⏳
+            </div>
+
+            جارِ تحميل التمارين...
+
+        </div>
+
+    </section>
+
+    <div class="bottom-note">
+
+        💡 ستكسب XP عند الإجابة الصحيحة
+        على التمارين المدعومة بنظام التقييم.
+        
+    </div>
+
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="../js/supabase.js"></script>
+<script src="../js/theme.js"></script>
+<script src="../js/i18n.js"></script>
+<script src="../js/navbar.js"></script>
+
+<script>
+
+(function () {
+
+    "use strict";
+
+    const grid =
+        document.getElementById(
+            "exerciseGrid"
+        );
+
+    const search =
+        document.getElementById(
+            "search"
+        );
+
+    const level =
+        document.getElementById(
+            "level"
+        );
+
+    const subject =
+        document.getElementById(
+            "subject"
+        );
+
+    const unit =
+        document.getElementById(
+            "unit"
+        );
+
+    const difficulty =
+        document.getElementById(
+            "difficulty"
+        );
+
+    const resultCount =
+        document.getElementById(
+            "resultCount"
+        );
+
+    const clearFilters =
+        document.getElementById(
+            "clearFilters"
+        );
+
+    let exercises = [];
+
+    const params =
+        new URLSearchParams(
+            window.location.search
+        );
+
+    const requestedId =
+        params.get("id");
+
+    const requestedTopic =
+        params.get("topic");
+
+    /* ==========================================
+       Helpers
+    ========================================== */
+
+    function setState(
+        message,
+        icon = "ℹ️",
+        error = false
+    ) {
+
+        grid.innerHTML = "";
+
+        const state =
+            document.createElement(
+                "div"
+            );
+
+        state.className =
+            error
+                ? "state error"
+                : "state";
+
+        const stateIcon =
+            document.createElement(
+                "div"
+            );
+
+        stateIcon.className =
+            "state-icon";
+
+        stateIcon.textContent =
+            icon;
+
+        const text =
+            document.createElement(
+                "div"
+            );
+
+        text.textContent =
+            message;
+
+        state.appendChild(
+            stateIcon
+        );
+
+        state.appendChild(
+            text
+        );
+
+        if (error) {
+
+            const retry =
+                document.createElement(
+                    "button"
+                );
+
+            retry.className =
+                "retry";
+
+            retry.textContent =
+                "إعادة المحاولة";
+
+            retry.addEventListener(
+                "click",
+                loadExercises
+            );
+
+            state.appendChild(
+                retry
+            );
+        }
+
+        grid.appendChild(
+            state
+        );
+    }
+
+    function unique(values) {
+
+        return [
+            ...new Set(
+                values
+                    .filter(
+                        value =>
+                            value !== null &&
+                            value !== undefined &&
+                            String(value).trim() !== ""
+                    )
+            )
+        ];
+    }
+
+    function addOptions(
+        select,
+        values
+    ) {
+
+        values
+            .sort(
+                (a, b) =>
+                    String(a)
+                        .localeCompare(
+                            String(b),
+                            "ar"
+                        )
+            )
+            .forEach(value => {
+
+                const option =
+                    document.createElement(
+                        "option"
+                    );
+
+                option.value =
+                    value;
+
+                option.textContent =
+                    value;
+
+                select.appendChild(
+                    option
+                );
+
+            });
+    }
+
+    function fillFilters() {
+
+        const currentLevel =
+            params.get("level") || "";
+
+        const currentSubject =
+            params.get("subject") || "";
+
+        const currentUnit =
+            params.get("unit") || "";
+
+        const currentDifficulty =
+            params.get("difficulty") || "";
+
+        level.innerHTML =
+            '<option value="">كل المستويات</option>';
+
+        subject.innerHTML =
+            '<option value="">كل المواد</option>';
+
+        unit.innerHTML =
+            '<option value="">كل الوحدات</option>';
+
+        addOptions(
+            level,
+            unique(
+                exercises.map(
+                    item =>
+                        item.level
+                )
+            )
+        );
+
+        addOptions(
+            subject,
+            unique(
+                exercises.map(
+                    item =>
+                        item.subject
+                )
+            )
+        );
+
+        addOptions(
+            unit,
+            unique(
+                exercises.map(
+                    item =>
+                        item.unit
+                )
+            )
+        );
+
+        if (
+            currentLevel
+        ) {
+            level.value =
+                currentLevel;
+        }
+
+        if (
+            currentSubject
+        ) {
+            subject.value =
+                currentSubject;
+        }
+
+        if (
+            currentUnit
+        ) {
+            unit.value =
+                currentUnit;
+        }
+
+        if (
+            ["easy", "medium", "hard"]
+                .includes(
+                    currentDifficulty
+                )
+        ) {
+            difficulty.value =
+                currentDifficulty;
+        }
+
+        if (requestedTopic) {
+
+            search.value =
+                requestedTopic;
+        }
+    }
+
+    /* ==========================================
+       LOAD
+    ========================================== */
+
+    async function loadExercises() {
+
+        setState(
+            "جارِ تحميل التمارين...",
+            "⏳"
+        );
+
+        try {
+
+            if (
+                typeof supabaseClient ===
+                "undefined"
+            ) {
+                throw new Error(
+                    "Supabase غير متاح."
+                );
+            }
+
+            const {
+                data,
+                error
+            } =
+                await supabaseClient
+                    .from("exercises")
+                    .select(`
+                        id,
+                        title,
+                        question,
+                        difficulty,
+                        level,
+                        subject,
+                        unit,
+                        topic,
+                        curriculum_id,
+                        status,
+                        created_at
+                    `)
+                    .eq(
+                        "status",
+                        "published"
+                    )
+                    .order(
+                        "created_at",
+                        {
+                            ascending: false
+                        }
+                    );
+
+            if (error) {
+                throw error;
+            }
+
+            exercises =
+                data || [];
+
+            fillFilters();
+
+            render();
+
+        } catch (error) {
+
+            console.error(
+                "HAMOU MATH exercises:",
+                error
+            );
+
+            setState(
+                "تعذر تحميل التمارين: " +
+                error.message,
+                "⚠️",
+                true
+            );
+
+            resultCount.textContent =
+                "تعذر تحميل البيانات";
+        }
+    }
+
+    /* ==========================================
+       FILTER
+    ========================================== */
+
+    function getFiltered() {
+
+        const query =
+            search.value
+                .trim()
+                .toLowerCase();
+
+        const selectedLevel =
+            level.value;
+
+        const selectedSubject =
+            subject.value;
+
+        const selectedUnit =
+            unit.value;
+
+        const selectedDifficulty =
+            difficulty.value;
+
+        return exercises.filter(
+            item => {
+
+                const text = [
+                    item.title,
+                    item.question,
+                    item.topic,
+                    item.unit,
+                    item.subject,
+                    item.level
+                ]
+                    .filter(Boolean)
+                    .join(" ")
+                    .toLowerCase();
+
+                const matchesSearch =
+                    !query ||
+                    text.includes(query);
+
+                const matchesLevel =
+                    !selectedLevel ||
+                    item.level ===
+                        selectedLevel;
+
+                const matchesSubject =
+                    !selectedSubject ||
+                    item.subject ===
+                        selectedSubject;
+
+                const matchesUnit =
+                    !selectedUnit ||
+                    item.unit ===
+                        selectedUnit;
+
+                const matchesDifficulty =
+                    !selectedDifficulty ||
+                    item.difficulty ===
+                        selectedDifficulty;
+
+                return (
+                    matchesSearch &&
+                    matchesLevel &&
+                    matchesSubject &&
+                    matchesUnit &&
+                    matchesDifficulty
+                );
+            }
+        );
+    }
+
+    /* ==========================================
+       RENDER
+    ========================================== */
+
+    function render() {
+
+        const filtered =
+            getFiltered();
+
+        resultCount.textContent =
+            `عرض ${filtered.length} من ${exercises.length} تمرين`;
+
+        grid.innerHTML = "";
+
+        if (!filtered.length) {
+
+            setState(
+                "لا توجد تمارين مطابقة للفلاتر الحالية.",
+                "🔎"
+            );
+
+            resultCount.textContent =
+                `لا توجد نتائج — ${exercises.length} تمرين متاح`;
+
+            return;
+        }
+
+        filtered.forEach(
+            item => {
+
+                const card =
+                    document.createElement(
+                        "article"
+                    );
+
+                card.className =
+                    "exercise-card";
+
+                /* top */
+
+                const top =
+                    document.createElement(
+                        "div"
+                    );
+
+                top.className =
+                    "card-top";
+
+                const icon =
+                    document.createElement(
+                        "div"
+                    );
+
+                icon.className =
+                    "exercise-icon";
+
+                icon.textContent =
+                    "📝";
+
+                top.appendChild(
+                    icon
+                );
+
+                if (
+                    item.difficulty
+                ) {
+
+                    const difficultyBadge =
+                        document.createElement(
+                            "span"
+                        );
+
+                    difficultyBadge.className =
+                        `difficulty ${
+                            item.difficulty
+                        }`;
+
+                    difficultyBadge.textContent =
+                        item.difficulty === "easy"
+                            ? "سهل"
+                            : item.difficulty === "hard"
+                            ? "صعب"
+                            : "متوسط";
+
+                    top.appendChild(
+                        difficultyBadge
+                    );
+                }
+
+                card.appendChild(
+                    top
+                );
+
+                /* title */
+
+                const title =
+                    document.createElement(
+                        "h2"
+                    );
+
+                title.textContent =
+                    item.title ||
+                    "تمرين رياضيات";
+
+                card.appendChild(
+                    title
+                );
+
+                /* question */
+
+                const question =
+                    document.createElement(
+                        "div"
+                    );
+
+                question.className =
+                    "question";
+
+                question.textContent =
+                    item.question ||
+                    "لا يوجد نص للسؤال.";
+
+                card.appendChild(
+                    question
+                );
+
+                /* metadata */
+
+                const meta =
+                    document.createElement(
+                        "div"
+                    );
+
+                meta.className =
+                    "meta";
+
+                [
+                    item.level,
+                    item.subject,
+                    item.unit,
+                    item.topic
+                ]
+                    .filter(Boolean)
+                    .forEach(
+                        value => {
+
+                            const span =
+                                document.createElement(
+                                    "span"
+                                );
+
+                            span.textContent =
+                                value;
+
+                            meta.appendChild(
+                                span
+                            );
+                        }
+                    );
+
+                card.appendChild(
+                    meta
+                );
+
+                /* solve */
+
+                const solve =
+                    document.createElement(
+                        "a"
+                    );
+
+                solve.className =
+                    "solve-btn";
+
+                solve.href =
+                    `exercise.html?id=${encodeURIComponent(
+                        item.id
+                    )}`;
+
+                solve.textContent =
+                    "حل التمرين ←";
+
+                card.appendChild(
+                    solve
+                );
+
+                grid.appendChild(
+                    card
+                );
+            }
+        );
+    }
+
+    /* ==========================================
+       EVENTS
+    ========================================== */
+
+    search.addEventListener(
+        "input",
+        render
+    );
+
+    level.addEventListener(
+        "change",
+        render
+    );
+
+    subject.addEventListener(
+        "change",
+        render
+    );
+
+    unit.addEventListener(
+        "change",
+        render
+    );
+
+    difficulty.addEventListener(
+        "change",
+        render
+    );
+
+    clearFilters.addEventListener(
+        "click",
+        function () {
+
+            search.value = "";
+            level.value = "";
+            subject.value = "";
+            unit.value = "";
+            difficulty.value = "";
+
+            render();
+        }
+    );
+
+    /* ==========================================
+       START
+    ========================================== */
+
+    loadExercises();
+
+})();
+
+</script>
+
+</body>
+
+</html>
