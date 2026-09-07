@@ -13,7 +13,9 @@
             : "";
     }
 
-
+<a href="${base}pages/bac.html">
+    🎓 محاكاة البكالوريا
+</a>
     function renderNavbar() {
 
         const base = getBasePath();
