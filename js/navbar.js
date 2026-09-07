@@ -129,7 +129,9 @@
             document.getElementById(
                 "hamouThemeButton"
             );
-
+<a href="${base}pages/levels.html">
+    🎓 المستويات
+</a>
 
         themeButton?.addEventListener(
             "click",
