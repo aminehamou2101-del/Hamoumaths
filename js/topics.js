@@ -1,15 +1,15 @@
 // =====================================================
 // HAMOU MATH
-// CURRICULUM TOPICS
+// OFFICIAL CURRICULUM TOPICS
 // =====================================================
 
 document.addEventListener(
     "DOMContentLoaded",
-    loadTopics
+    loadCurriculum
 );
 
 
-async function loadTopics() {
+async function loadCurriculum() {
 
     const params =
         new URLSearchParams(
@@ -21,7 +21,9 @@ async function loadTopics() {
 
 
     const title =
-        document.getElementById("pageTitle");
+        document.getElementById(
+            "pageTitle"
+        );
 
     const container =
         document.getElementById(
@@ -31,8 +33,11 @@ async function loadTopics() {
 
     if (!level) {
 
+        title.textContent =
+            "المستوى غير محدد";
+
         container.textContent =
-            "لم يتم تحديد المستوى.";
+            "اختر مستوى دراسي أولًا.";
 
         return;
     }
@@ -42,111 +47,60 @@ async function loadTopics() {
         `📚 ${level}`;
 
 
-    /*
-     * نقرأ الوحدات والمواضيع الموجودة فعليًا
-     * في الدروس والتمارين.
-     */
+    const {
+        data,
+        error
+    } = await supabaseClient
 
-    const [
-        lessonsResult,
-        exercisesResult
-    ] = await Promise.all([
+        .from("curriculum")
 
-        supabaseClient
-            .from("lessons")
-            .select(
-                "subject,unit,topic"
-            )
-            .eq(
-                "level",
-                level
-            ),
+        .select(`
+            id,
+            level,
+            subject,
+            unit,
+            topic,
+            description,
+            order_number
+        `)
 
-        supabaseClient
-            .from("exercises")
-            .select(
-                "subject,unit,topic"
-            )
-            .eq(
-                "level",
-                level
-            )
-    ]);
+        .eq(
+            "level",
+            level
+        )
+
+        .eq(
+            "is_active",
+            true
+        )
+
+        .order(
+            "order_number",
+            {
+                ascending: true
+            }
+        );
 
 
-    if (lessonsResult.error) {
+    if (error) {
 
         console.error(
-            lessonsResult.error
+            "Curriculum error:",
+            error
         );
+
+        container.textContent =
+            "تعذر تحميل المنهج.";
+
+        return;
     }
 
 
-    if (exercisesResult.error) {
-
-        console.error(
-            exercisesResult.error
-        );
-    }
-
-
-    const rows = [
-
-        ...(lessonsResult.data || []),
-        ...(exercisesResult.data || [])
-
-    ];
-
-
-    const map =
-        new Map();
-
-
-    rows.forEach(row => {
-
-        const subject =
-            row.subject ||
-            "رياضيات";
-
-
-        const unit =
-            row.unit ||
-            "غير مصنف";
-
-
-        const topic =
-            row.topic ||
-            "موضوع عام";
-
-
-        const key =
-            `${subject}|||${unit}`;
-
-
-        if (!map.has(key)) {
-
-            map.set(key, {
-                subject,
-                unit,
-                topics: new Set()
-            });
-
-        }
-
-
-        map
-            .get(key)
-            .topics
-            .add(topic);
-
-    });
-
-
-    if (!map.size) {
+    if (!data || !data.length) {
 
         container.innerHTML = `
             <div class="card">
-                لا توجد وحدات مصنفة لهذا المستوى حتى الآن.
+                لا توجد وحدات منشورة لهذا المستوى حتى الآن.
             </div>
         `;
 
@@ -154,54 +108,104 @@ async function loadTopics() {
     }
 
 
+    // ---------------------------------------------
+    // تجميع حسب المادة ثم الوحدة
+    // ---------------------------------------------
+
+    const grouped =
+        new Map();
+
+
+    data.forEach(item => {
+
+        const key =
+            `${item.subject}|||${item.unit}`;
+
+
+        if (!grouped.has(key)) {
+
+            grouped.set(
+                key,
+                {
+                    subject: item.subject,
+                    unit: item.unit,
+                    topics: []
+                }
+            );
+        }
+
+
+        grouped
+            .get(key)
+            .topics
+            .push(item);
+
+    });
+
+
     container.innerHTML =
-        Array.from(map.values())
-            .map(item => {
-
-                const topics =
-                    Array.from(
-                        item.topics
-                    );
-
-
-                const topicLinks =
-                    topics
-                        .map(
-                            topic => `
-                                <a
-                                    class="action-btn"
-                                    href="search.html?level=${encodeURIComponent(level)}&subject=${encodeURIComponent(item.subject)}&unit=${encodeURIComponent(item.unit)}&q=${encodeURIComponent(topic)}"
-                                >
-                                    ${escapeHtml(topic)}
-                                </a>
-                            `
-                        )
-                        .join("");
-
-
-                return `
-                    <article class="card">
-
-                        <h2>
-                            📖 ${escapeHtml(item.unit)}
-                        </h2>
-
-                        <p>
-                            المادة:
-                            ${escapeHtml(item.subject)}
-                        </p>
-
-                        <div>
-                            ${topicLinks}
-                        </div>
-
-                    </article>
-                `;
-
-            })
-            .join("");
+        Array.from(
+            grouped.values()
+        )
+        .map(
+            renderUnit
+        )
+        .join("");
 }
 
+
+// =====================================================
+// UNIT
+// =====================================================
+
+function renderUnit(unit) {
+
+    const topics =
+        unit.topics
+            .map(
+                topic => `
+
+                    <a
+                        class="action-btn"
+                        href="search.html?level=${encodeURIComponent(topic.level || "")}&subject=${encodeURIComponent(unit.subject)}&unit=${encodeURIComponent(unit.unit)}&topic=${encodeURIComponent(topic.topic)}"
+                    >
+
+                        🧩
+                        ${escapeHtml(topic.topic)}
+
+                    </a>
+
+                `
+            )
+            .join("");
+
+
+    return `
+
+        <article class="card">
+
+            <h2>
+                📖 ${escapeHtml(unit.unit)}
+            </h2>
+
+            <p>
+                المادة:
+                ${escapeHtml(unit.subject)}
+            </p>
+
+            <div>
+                ${topics}
+            </div>
+
+        </article>
+
+    `;
+}
+
+
+// =====================================================
+// HELPERS
+// =====================================================
 
 function escapeHtml(value) {
 
