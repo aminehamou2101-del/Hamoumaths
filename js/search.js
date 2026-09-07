@@ -1,6 +1,6 @@
 // =====================================================
 // HAMOU MATH
-// GLOBAL SEARCH
+// ADVANCED SEARCH
 // =====================================================
 
 const searchInput =
@@ -8,6 +8,18 @@ const searchInput =
 
 const searchType =
     document.getElementById("searchType");
+
+const searchLevel =
+    document.getElementById("searchLevel");
+
+const searchSubject =
+    document.getElementById("searchSubject");
+
+const searchUnit =
+    document.getElementById("searchUnit");
+
+const searchDifficulty =
+    document.getElementById("searchDifficulty");
 
 const searchButton =
     document.getElementById("searchButton");
@@ -19,7 +31,7 @@ const searchResults =
     document.getElementById("searchResults");
 
 
-function setSearchStatus(message) {
+function setStatus(message) {
 
     if (searchStatus) {
         searchStatus.textContent = message;
@@ -35,33 +47,56 @@ function clearResults() {
 }
 
 
+function buildLike(value) {
+
+    return `%${String(value)
+        .replace(/\\/g, "\\\\")
+        .replace(/%/g, "\\%")
+        .replace(/_/g, "\\_")}%`;
+}
+
+
 async function runSearch() {
 
     const term =
-        String(
-            searchInput?.value || ""
-        ).trim();
+        String(searchInput?.value || "").trim();
 
     const type =
         searchType?.value || "all";
+
+    const level =
+        searchLevel?.value || "";
+
+    const subject =
+        String(searchSubject?.value || "").trim();
+
+    const unit =
+        String(searchUnit?.value || "").trim();
+
+    const difficulty =
+        searchDifficulty?.value || "";
 
 
     clearResults();
 
 
-    if (term.length < 2) {
+    if (
+        term.length < 2 &&
+        !level &&
+        !subject &&
+        !unit &&
+        !difficulty
+    ) {
 
-        setSearchStatus(
-            "اكتب حرفين على الأقل للبحث."
+        setStatus(
+            "اكتب حرفين على الأقل أو اختر فلترًا."
         );
 
         return;
     }
 
 
-    setSearchStatus(
-        "⏳ جارٍ البحث..."
-    );
+    setStatus("⏳ جارٍ البحث...");
 
 
     try {
@@ -69,34 +104,91 @@ async function runSearch() {
         const results = [];
 
 
-        // ---------------------------------------------
-        // الموارد
-        // ---------------------------------------------
+        // =================================================
+        // RESOURCES
+        // =================================================
 
         if (
             type === "all" ||
             type === "resource"
         ) {
 
+            let query =
+                supabaseClient
+                    .from("resources")
+                    .select(`
+                        id,
+                        title,
+                        description,
+                        type,
+                        file_url,
+                        level,
+                        subject,
+                        unit,
+                        difficulty,
+                        created_at
+                    `)
+                    .order(
+                        "created_at",
+                        {
+                            ascending: false
+                        }
+                    )
+                    .limit(50);
+
+
+            if (term.length >= 2) {
+
+                const pattern =
+                    buildLike(term);
+
+                query =
+                    query.or(
+                        `title.ilike.${pattern},description.ilike.${pattern}`
+                    );
+            }
+
+
+            if (level) {
+                query =
+                    query.eq(
+                        "level",
+                        level
+                    );
+            }
+
+
+            if (subject) {
+                query =
+                    query.ilike(
+                        "subject",
+                        buildLike(subject)
+                    );
+            }
+
+
+            if (unit) {
+                query =
+                    query.ilike(
+                        "unit",
+                        buildLike(unit)
+                    );
+            }
+
+
+            if (difficulty) {
+                query =
+                    query.eq(
+                        "difficulty",
+                        difficulty
+                    );
+            }
+
+
             const {
                 data,
                 error
-            } = await supabaseClient
-                .from("resources")
-                .select(
-                    "id, title, description, type, file_url, created_at"
-                )
-                .ilike(
-                    "title",
-                    `%${escapeLike(term)}%`
-                )
-                .order(
-                    "created_at",
-                    {
-                        ascending: false
-                    }
-                )
-                .limit(30);
+            } = await query;
 
 
             if (error) {
@@ -110,43 +202,94 @@ async function runSearch() {
                     kind: "resource",
                     id: item.id,
                     title: item.title,
-                    description: item.description,
-                    type: item.type,
-                    url: item.file_url
+                    description:
+                        item.description,
+                    url: item.file_url,
+                    level: item.level,
+                    subject: item.subject,
+                    unit: item.unit,
+                    difficulty: item.difficulty,
+                    type: item.type
                 });
 
             });
+
         }
 
 
-        // ---------------------------------------------
-        // الدروس
-        // ---------------------------------------------
+        // =================================================
+        // LESSONS
+        // =================================================
 
         if (
             type === "all" ||
             type === "lesson"
         ) {
 
+            let query =
+                supabaseClient
+                    .from("lessons")
+                    .select(`
+                        id,
+                        title,
+                        content,
+                        level,
+                        subject,
+                        unit,
+                        created_at
+                    `)
+                    .order(
+                        "created_at",
+                        {
+                            ascending: false
+                        }
+                    )
+                    .limit(50);
+
+
+            if (term.length >= 2) {
+
+                const pattern =
+                    buildLike(term);
+
+                query =
+                    query.or(
+                        `title.ilike.${pattern},content.ilike.${pattern}`
+                    );
+            }
+
+
+            if (level) {
+                query =
+                    query.eq(
+                        "level",
+                        level
+                    );
+            }
+
+
+            if (subject) {
+                query =
+                    query.ilike(
+                        "subject",
+                        buildLike(subject)
+                    );
+            }
+
+
+            if (unit) {
+                query =
+                    query.ilike(
+                        "unit",
+                        buildLike(unit)
+                    );
+            }
+
+
             const {
                 data,
                 error
-            } = await supabaseClient
-                .from("lessons")
-                .select(
-                    "id, title, content, course_id, created_at"
-                )
-                .ilike(
-                    "title",
-                    `%${escapeLike(term)}%`
-                )
-                .order(
-                    "created_at",
-                    {
-                        ascending: false
-                    }
-                )
-                .limit(30);
+            } = await query;
 
 
             if (error) {
@@ -163,40 +306,100 @@ async function runSearch() {
                     description:
                         item.content || "",
                     url:
-                        `lesson.html?id=${encodeURIComponent(item.id)}`
+                        `lesson.html?id=${encodeURIComponent(item.id)}`,
+                    level: item.level,
+                    subject: item.subject,
+                    unit: item.unit
                 });
 
             });
+
         }
 
 
-        // ---------------------------------------------
-        // التمارين
-        // ---------------------------------------------
+        // =================================================
+        // EXERCISES
+        // =================================================
 
         if (
             type === "all" ||
             type === "exercise"
         ) {
 
+            let query =
+                supabaseClient
+                    .from("exercises")
+                    .select(`
+                        id,
+                        title,
+                        question,
+                        difficulty,
+                        level,
+                        subject,
+                        unit,
+                        created_at
+                    `)
+                    .order(
+                        "created_at",
+                        {
+                            ascending: false
+                        }
+                    )
+                    .limit(50);
+
+
+            if (term.length >= 2) {
+
+                const pattern =
+                    buildLike(term);
+
+                query =
+                    query.or(
+                        `title.ilike.${pattern},question.ilike.${pattern}`
+                    );
+            }
+
+
+            if (level) {
+                query =
+                    query.eq(
+                        "level",
+                        level
+                    );
+            }
+
+
+            if (subject) {
+                query =
+                    query.ilike(
+                        "subject",
+                        buildLike(subject)
+                    );
+            }
+
+
+            if (unit) {
+                query =
+                    query.ilike(
+                        "unit",
+                        buildLike(unit)
+                    );
+            }
+
+
+            if (difficulty) {
+                query =
+                    query.eq(
+                        "difficulty",
+                        difficulty
+                    );
+            }
+
+
             const {
                 data,
                 error
-            } = await supabaseClient
-                .from("exercises")
-                .select(
-                    "id, title, question, difficulty, created_at"
-                )
-                .or(
-                    `title.ilike.%${escapeLike(term)}%,question.ilike.%${escapeLike(term)}%`
-                )
-                .order(
-                    "created_at",
-                    {
-                        ascending: false
-                    }
-                )
-                .limit(30);
+            } = await query;
 
 
             if (error) {
@@ -210,66 +413,65 @@ async function runSearch() {
                     kind: "exercise",
                     id: item.id,
                     title: item.title,
-                    description: item.question,
-                    difficulty: item.difficulty
+                    description:
+                        item.question,
+                    difficulty:
+                        item.difficulty,
+                    level:
+                        item.level,
+                    subject:
+                        item.subject,
+                    unit:
+                        item.unit
                 });
 
             });
+
         }
 
 
-        renderResults(
-            results,
-            term
-        );
+        renderResults(results);
 
 
     } catch (error) {
 
         console.error(
-            "Search error:",
+            "Advanced search error:",
             error
         );
 
-        setSearchStatus(
+        setStatus(
             "❌ حدث خطأ أثناء البحث."
         );
     }
 }
 
 
-function renderResults(
-    results,
-    term
-) {
+function renderResults(results) {
 
     if (!results.length) {
 
-        setSearchStatus(
-            `لا توجد نتائج لـ "${term}".`
+        setStatus(
+            "لم يتم العثور على نتائج مناسبة."
         );
 
         return;
     }
 
 
-    setSearchStatus(
+    setStatus(
         `تم العثور على ${results.length} نتيجة.`
     );
 
 
     searchResults.innerHTML =
-        results.map(
-            renderResult
-        ).join("");
+        results
+            .map(renderResult)
+            .join("");
 }
 
 
 function renderResult(item) {
-
-    const badge =
-        getTypeLabel(item.kind);
-
 
     let action = "";
 
@@ -289,10 +491,9 @@ function renderResult(item) {
                 📄 فتح
             </a>
         `;
+
     }
-
-
-    if (item.kind === "lesson") {
+    else if (item.kind === "lesson") {
 
         action = `
             <a
@@ -302,10 +503,9 @@ function renderResult(item) {
                 📖 فتح الدرس
             </a>
         `;
+
     }
-
-
-    if (item.kind === "exercise") {
+    else if (item.kind === "exercise") {
 
         action = `
             <a
@@ -322,7 +522,7 @@ function renderResult(item) {
         <article class="search-card">
 
             <span class="search-badge">
-                ${badge}
+                ${getTypeLabel(item.kind)}
             </span>
 
             <h3>
@@ -338,22 +538,35 @@ function renderResult(item) {
                 )}
             </p>
 
-            ${
-                item.difficulty
-                    ? `
-                        <small>
-                            الصعوبة:
-                            ${escapeHtml(
-                                item.difficulty
-                            )}
-                        </small>
-                      `
-                    : ""
-            }
+            <div class="search-meta">
 
-            <div>
-                ${action}
+                ${
+                    item.level
+                        ? `<span>🎓 ${escapeHtml(item.level)}</span>`
+                        : ""
+                }
+
+                ${
+                    item.subject
+                        ? `<span>📚 ${escapeHtml(item.subject)}</span>`
+                        : ""
+                }
+
+                ${
+                    item.unit
+                        ? `<span>📖 ${escapeHtml(item.unit)}</span>`
+                        : ""
+                }
+
+                ${
+                    item.difficulty
+                        ? `<span>⭐ ${escapeHtml(item.difficulty)}</span>`
+                        : ""
+                }
+
             </div>
+
+            ${action}
 
         </article>
     `;
@@ -378,27 +591,14 @@ function getTypeLabel(kind) {
 }
 
 
-function truncate(
-    text,
-    max
-) {
+function truncate(text, max) {
 
     const value =
         String(text);
 
-
     return value.length > max
         ? value.slice(0, max) + "…"
         : value;
-}
-
-
-function escapeLike(value) {
-
-    return String(value)
-        .replace(/\\/g, "\\\\")
-        .replace(/%/g, "\\%")
-        .replace(/_/g, "\\_");
 }
 
 
@@ -416,8 +616,7 @@ function escapeHtml(value) {
 
 function escapeAttribute(value) {
 
-    return escapeHtml(value)
-        .replace(/'/g, "&#39;");
+    return escapeHtml(value);
 }
 
 
