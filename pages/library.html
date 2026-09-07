@@ -2,184 +2,1651 @@
 <html lang="ar" dir="rtl">
 
 <head>
+    <meta charset="UTF-8">
 
-<meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-<title>مكتبة HAMOU MATH</title>
+    <title>الأدوات الرياضية | HAMOU MATH</title>
 
-<link rel="stylesheet" href="../css/style.css">
+    <link
+        rel="icon"
+        href="../assets/logo.svg"
+    >
 
+    <style>
+
+        :root {
+            --primary: #1565c0;
+            --primary-dark: #0d47a1;
+            --secondary: #00bcd4;
+            --dark: #082b5c;
+            --bg: #f4f8ff;
+            --card: #ffffff;
+            --text: #172033;
+            --muted: #64748b;
+            --border: #dbe5f1;
+            --shadow:
+                0 14px 38px
+                rgba(8,43,92,.08);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--text);
+            font-family:
+                Tahoma,
+                Arial,
+                sans-serif;
+        }
+
+        .container {
+            width: min(1400px, 94%);
+            margin: 30px auto 60px;
+        }
+
+        .hero {
+            padding: 30px;
+            border-radius: 24px;
+            margin-bottom: 20px;
+            color: white;
+
+            background:
+                radial-gradient(
+                    circle at top left,
+                    rgba(0,188,212,.25),
+                    transparent 30%
+                ),
+                linear-gradient(
+                    135deg,
+                    var(--dark),
+                    var(--primary)
+                );
+
+            box-shadow:
+                0 20px 55px
+                rgba(8,43,92,.14);
+        }
+
+        .hero h1 {
+            margin: 0 0 7px;
+            font-size: 30px;
+        }
+
+        .hero p {
+            margin: 0;
+            opacity: .9;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns:
+                minmax(360px, .9fr)
+                minmax(450px, 1.1fr);
+            gap: 20px;
+        }
+
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 22px;
+            box-shadow: var(--shadow);
+        }
+
+        .card h2 {
+            margin-top: 0;
+            color: var(--dark);
+        }
+
+        /* Calculator */
+
+        .calculator {
+            max-width: 520px;
+            margin: auto;
+        }
+
+        .display {
+            width: 100%;
+            min-height: 80px;
+
+            margin-bottom: 12px;
+
+            padding: 15px;
+
+            border: 1px solid var(--border);
+            border-radius: 14px;
+
+            background: #f8fbff;
+
+            color: var(--dark);
+
+            font-size: 25px;
+            font-weight: 800;
+
+            text-align: left;
+
+            direction: ltr;
+
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+
+        .history {
+            min-height: 25px;
+            margin-bottom: 12px;
+            color: var(--muted);
+            font-size: 12px;
+            direction: ltr;
+            text-align: left;
+        }
+
+        .calc-grid {
+            display: grid;
+            grid-template-columns:
+                repeat(4, 1fr);
+            gap: 8px;
+        }
+
+        .calc-btn {
+            min-height: 52px;
+
+            border: 0;
+            border-radius: 12px;
+
+            background: #edf5ff;
+            color: var(--dark);
+
+            font-size: 16px;
+            font-weight: 800;
+
+            cursor: pointer;
+
+            transition: .16s ease;
+        }
+
+        .calc-btn:hover {
+            transform: translateY(-1px);
+            background: #dcecff;
+        }
+
+        .calc-btn.operator {
+            background: #e4f7fa;
+            color: #075985;
+        }
+
+        .calc-btn.equal {
+            background: var(--primary);
+            color: white;
+        }
+
+        .calc-btn.danger {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        /* Graph */
+
+        .graph-controls {
+            display: grid;
+            grid-template-columns:
+                1fr 120px 120px;
+            gap: 9px;
+            margin-bottom: 13px;
+        }
+
+        .field label {
+            display: block;
+            margin-bottom: 6px;
+            color: var(--dark);
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        input {
+            width: 100%;
+            padding: 11px;
+            border:
+                1px solid
+                var(--border);
+            border-radius: 11px;
+            background: var(--card);
+            color: var(--text);
+            font: inherit;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        canvas {
+            display: block;
+            width: 100%;
+            height: auto;
+
+            border:
+                1px solid
+                var(--border);
+
+            border-radius: 15px;
+
+            background:
+                white;
+        }
+
+        .graph-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .graph-button {
+            border: 0;
+            border-radius: 10px;
+            padding: 9px 13px;
+            cursor: pointer;
+            background: #edf5ff;
+            color: var(--dark);
+            font-weight: 800;
+        }
+
+        .formula-help {
+            margin-top: 10px;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .message {
+            display: none;
+            margin-top: 12px;
+            padding: 10px;
+            border-radius: 10px;
+            font-size: 13px;
+        }
+
+        .message.show {
+            display: block;
+        }
+
+        .message.error {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .message.success {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        @media (max-width: 900px) {
+
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+        @media (max-width: 600px) {
+
+            .container {
+                width: 95%;
+            }
+
+            .hero {
+                padding: 22px;
+                border-radius: 19px;
+            }
+
+            .hero h1 {
+                font-size: 24px;
+            }
+
+            .graph-controls {
+                grid-template-columns: 1fr;
+            }
+
+            .card {
+                padding: 16px;
+                border-radius: 17px;
+            }
+
+            .calc-btn {
+                min-height: 48px;
+            }
+
+        }
+
+    </style>
 </head>
-
 
 <body>
 
+<div id="hamou-navbar"></div>
 
-<header>
+<main class="container">
 
-<h1>
-📚 مكتبة HAMOU MATH
-</h1>
+    <section class="hero">
 
-</header>
+        <h1>
+            🧮 الأدوات الرياضية
+        </h1>
 
+        <p>
+            حاسبة رياضية ورسم دوال تفاعلي داخل HAMOU MATH.
+        </p>
 
+    </section>
 
-<main>
+    <section class="tools-grid">
 
+        <!-- Calculator -->
 
-<input 
-id="search"
-placeholder="🔎 ابحث عن كتاب أو درس..."
-onkeyup="searchResources()"
->
+        <section class="card">
 
+            <h2>
+                🧮 الحاسبة
+            </h2>
 
-<select id="typeFilter">
+            <div class="calculator">
 
-<option value="">
-كل المحتوى
-</option>
+                <div
+                    id="history"
+                    class="history"
+                ></div>
 
-<option value="pdf">
-كتب PDF
-</option>
+                <div
+                    id="display"
+                    class="display"
+                >
+                    0
+                </div>
 
-<option value="book">
-كتب
-</option>
+                <div class="calc-grid">
 
-<option value="exercise">
-تمارين
-</option>
+                    <button
+                        class="calc-btn danger"
+                        data-action="clear"
+                    >
+                        AC
+                    </button>
 
-</select>
+                    <button
+                        class="calc-btn"
+                        data-value="("
+                    >
+                        (
+                    </button>
 
+                    <button
+                        class="calc-btn"
+                        data-value=")"
+                    >
+                        )
+                    </button>
 
+                    <button
+                        class="calc-btn operator"
+                        data-value="/"
+                    >
+                        ÷
+                    </button>
 
-<div id="resources">
+                    <button
+                        class="calc-btn"
+                        data-value="sin("
+                    >
+                        sin
+                    </button>
 
-</div>
+                    <button
+                        class="calc-btn"
+                        data-value="cos("
+                    >
+                        cos
+                    </button>
 
+                    <button
+                        class="calc-btn"
+                        data-value="tan("
+                    >
+                        tan
+                    </button>
+
+                    <button
+                        class="calc-btn operator"
+                        data-value="*"
+                    >
+                        ×
+                    </button>
+
+                    <button
+                        class="calc-btn"
+                        data-value="sqrt("
+                    >
+                        √
+                    </button>
+
+                    <button
+                        class="calc-btn"
+                        data-value="log("
+                    >
+                        log
+                    </button>
+
+                    <button
+                        class="calc-btn"
+                        data-value="ln("
+                    >
+                        ln
+                    </button>
+
+                    <button
+                        class="calc-btn operator"
+                        data-value="-"
+                    >
+                        −
+                    </button>
+
+                    <button
+                        class="calc-btn"
+                        data-value="7"
+                    >
+                        7
+                    </button>
+
+                    <button
+                        class="calc-btn"
+                        data-value="8"
+                    >
+                        8
+                    </button>
+
+                    <button
+                        class="calc-btn"
+                        data-value="9"
+                    >
+                        9
+                    </button>
+
+                    <button
+                        class="calc-btn operator"
+                        data-value="+"
+                    >
+                        +
+                    </button>
+
+                    <button
+                        class="calc-btn"
+                        data-value="4"
+                    >
+                        4
+                    </button>
+
+                    <button
+                        class="calc-btn"
+                        data-value="5"
+                    >
+                        5
+                    </button>
+
+                    <button
+                        class="calc-btn"
+                        data-value="6"
+                    >
+                        6
+                    </button>
+
+                    <button
+                        class="calc-btn"
+                        data-value="^"
+                    >
+                        xʸ
+                    </button>
+
+                    <button
+                        class="calc-btn"
+                        data-value="1"
+                    >
+                        1
+                    </button>
+
+                    <button
+                        class="calc-btn"
+                        data-value="2"
+                    >
+                        2
+                    </button>
+
+                    <button
+                        class="calc-btn"
+                        data-value="3"
+                    >
+                        3
+                    </button>
+
+                    <button
+                        class="calc-btn"
+                        data-value="pi"
+                    >
+                        π
+                    </button>
+
+                    <button
+                        class="calc-btn"
+                        data-value="0"
+                    >
+                        0
+                    </button>
+
+                    <button
+                        class="calc-btn"
+                        data-value="."
+                    >
+                        .
+                    </button>
+
+                    <button
+                        class="calc-btn equal"
+                        data-action="calculate"
+                    >
+                        =
+                    </button>
+
+                    <button
+                        class="calc-btn"
+                        data-value="e"
+                    >
+                        e
+                    </button>
+
+                </div>
+
+                <div
+                    id="calcMessage"
+                    class="message"
+                ></div>
+
+            </div>
+
+        </section>
+
+        <!-- Graph -->
+
+        <section class="card">
+
+            <h2>
+                📈 رسم الدوال
+            </h2>
+
+            <div class="graph-controls">
+
+                <div class="field">
+
+                    <label for="functionInput">
+                        f(x)
+                    </label>
+
+                    <input
+                        id="functionInput"
+                        value="x^2"
+                        placeholder="مثال: x^2 - 3*x + 2"
+                    >
+
+                </div>
+
+                <div class="field">
+
+                    <label for="xMin">
+                        من x
+                    </label>
+
+                    <input
+                        id="xMin"
+                        type="number"
+                        value="-10"
+                    >
+
+                </div>
+
+                <div class="field">
+
+                    <label for="xMax">
+                        إلى x
+                    </label>
+
+                    <input
+                        id="xMax"
+                        type="number"
+                        value="10"
+                    >
+
+                </div>
+
+            </div>
+
+            <canvas
+                id="graphCanvas"
+                width="900"
+                height="550"
+            ></canvas>
+
+            <div class="graph-actions">
+
+                <button
+                    id="drawGraph"
+                    class="graph-button"
+                >
+                    رسم الدالة
+                </button>
+
+                <button
+                    id="zoomIn"
+                    class="graph-button"
+                >
+                    تكبير +
+                </button>
+
+                <button
+                    id="zoomOut"
+                    class="graph-button"
+                >
+                    تصغير −
+                </button>
+
+                <button
+                    id="resetGraph"
+                    class="graph-button"
+                >
+                    إعادة ضبط
+                </button>
+
+            </div>
+
+            <div class="formula-help">
+                أمثلة:
+                x^2،
+                sin(x)،
+                cos(x)،
+                sqrt(abs(x))،
+                2*x+3
+            </div>
+
+            <div
+                id="graphMessage"
+                class="message"
+            ></div>
+
+        </section>
+
+    </section>
 
 </main>
-
-
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-<script src="../js/supabase-config.js"></script>
-
-<script src="../js/library.js"></script>
-
-
-</body>
-
-</html>
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-
-<head>
-
-<meta charset="UTF-8">
-
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>
-مكتبة HAMOU MATH
-</title>
-
-
-<link rel="stylesheet" href="../css/style.css">
-
-
-</head>
-
-
-<body>
-
-
-<header>
-
-<h1>
-📚 مكتبة HAMOU MATH
-</h1>
-
-
-<a href="dashboard.html">
-العودة
-</a>
-
-
-</header>
-
-
-
-
-<main class="library">
-
-
-<h2>
-الموارد التعليمية
-</h2>
-
-
-
-<input 
-id="search"
-placeholder="🔎 ابحث عن كتاب أو درس..."
-onkeyup="filterResources()"
->
-
-
-
-<select id="type"
-onchange="filterResources()">
-
-<option value="">
-كل المحتوى
-</option>
-
-
-<option value="pdf">
-PDF
-</option>
-
-
-<option value="book">
-كتب
-</option>
-
-
-<option value="exercise">
-تمارين
-</option>
-
-
-</select>
-
-
-
-
-<div id="resources">
-
-</div>
-
-
-
-</main>
-
-
-
-
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script src="../js/supabase.js"></script>
+<script src="../js/theme.js"></script>
+<script src="../js/i18n.js"></script>
+<script src="../js/navbar.js"></script>
 
-<script src="../js/library.js"></script>
+<script>
 
+(function () {
 
+    "use strict";
+
+    /* ===========================================
+       SAFE MATH PARSER
+       لا يستخدم eval أو Function
+    =========================================== */
+
+    const display =
+        document.getElementById("display");
+
+    const history =
+        document.getElementById("history");
+
+    const calcMessage =
+        document.getElementById(
+            "calcMessage"
+        );
+
+    let expression = "";
+
+    const FUNCTIONS = {
+        sin: Math.sin,
+        cos: Math.cos,
+        tan: Math.tan,
+        sqrt: Math.sqrt,
+        abs: Math.abs,
+        ln: Math.log,
+        log: Math.log10
+    };
+
+    const CONSTANTS = {
+        pi: Math.PI,
+        e: Math.E
+    };
+
+    function showCalcError(
+        text
+    ) {
+
+        calcMessage.textContent =
+            text;
+
+        calcMessage.className =
+            "message show error";
+    }
+
+    function clearCalcError() {
+
+        calcMessage.textContent =
+            "";
+
+        calcMessage.className =
+            "message";
+    }
+
+    /*
+     * Lexer + Recursive Descent Parser
+     */
+
+    function tokenize(input) {
+
+        const tokens = [];
+
+        let i = 0;
+
+        while (
+            i < input.length
+        ) {
+
+            const char =
+                input[i];
+
+            if (
+                /\s/.test(char)
+            ) {
+
+                i++;
+                continue;
+            }
+
+            if (
+                /[0-9.]/.test(char)
+            ) {
+
+                let number = "";
+
+                while (
+                    i < input.length &&
+                    /[0-9.]/.test(input[i])
+                ) {
+                    number +=
+                        input[i++];
+                }
+
+                if (
+                    (number.match(/\./g) || [])
+                        .length > 1
+                ) {
+                    throw new Error(
+                        "رقم غير صالح."
+                    );
+                }
+
+                tokens.push({
+                    type: "number",
+                    value:
+                        Number(number)
+                });
+
+                continue;
+            }
+
+            if (
+                /[a-zA-Z]/.test(char)
+            ) {
+
+                let word = "";
+
+                while (
+                    i < input.length &&
+                    /[a-zA-Z]/.test(input[i])
+                ) {
+                    word +=
+                        input[i++];
+                }
+
+                tokens.push({
+                    type: "word",
+                    value:
+                        word.toLowerCase()
+                });
+
+                continue;
+            }
+
+            if (
+                "+-*/^()".includes(char)
+            ) {
+
+                tokens.push({
+                    type: char,
+                    value: char
+                });
+
+                i++;
+                continue;
+            }
+
+            throw new Error(
+                `رمز غير مسموح: ${char}`
+            );
+        }
+
+        return tokens;
+    }
+
+    function parseMath(input) {
+
+        const tokens =
+            tokenize(input);
+
+        let position = 0;
+
+        function peek() {
+            return tokens[position];
+        }
+
+        function consume(type) {
+
+            const token =
+                tokens[position];
+
+            if (
+                !token ||
+                (
+                    type &&
+                    token.type !== type
+                )
+            ) {
+
+                throw new Error(
+                    "تعبير رياضي غير مكتمل."
+                );
+            }
+
+            position++;
+
+            return token;
+        }
+
+        function parseExpression() {
+
+            let value =
+                parseTerm();
+
+            while (
+                peek()?.type === "+" ||
+                peek()?.type === "-"
+            ) {
+
+                const op =
+                    consume().type;
+
+                const right =
+                    parseTerm();
+
+                value =
+                    op === "+"
+                        ? value + right
+                        : value - right;
+            }
+
+            return value;
+        }
+
+        function parseTerm() {
+
+            let value =
+                parsePower();
+
+            while (
+                peek()?.type === "*" ||
+                peek()?.type === "/"
+            ) {
+
+                const op =
+                    consume().type;
+
+                const right =
+                    parsePower();
+
+                if (
+                    op === "/" &&
+                    right === 0
+                ) {
+
+                    throw new Error(
+                        "لا يمكن القسمة على صفر."
+                    );
+                }
+
+                value =
+                    op === "*"
+                        ? value * right
+                        : value / right;
+            }
+
+            return value;
+        }
+
+        function parsePower() {
+
+            let value =
+                parseUnary();
+
+            if (
+                peek()?.type === "^"
+            ) {
+
+                consume("^");
+
+                const exponent =
+                    parsePower();
+
+                value =
+                    Math.pow(
+                        value,
+                        exponent
+                    );
+            }
+
+            return value;
+        }
+
+        function parseUnary() {
+
+            if (
+                peek()?.type === "+"
+            ) {
+
+                consume("+");
+
+                return parseUnary();
+            }
+
+            if (
+                peek()?.type === "-"
+            ) {
+
+                consume("-");
+
+                return -parseUnary();
+            }
+
+            return parsePrimary();
+        }
+
+        function parsePrimary() {
+
+            const token =
+                peek();
+
+            if (!token) {
+                throw new Error(
+                    "تعبير غير مكتمل."
+                );
+            }
+
+            if (
+                token.type ===
+                "number"
+            ) {
+
+                return consume(
+                    "number"
+                ).value;
+            }
+
+            if (
+                token.type ===
+                "word"
+            ) {
+
+                const word =
+                    consume(
+                        "word"
+                    ).value;
+
+                if (
+                    Object.prototype
+                        .hasOwnProperty
+                        .call(
+                            CONSTANTS,
+                            word
+                        )
+                ) {
+
+                    return CONSTANTS[word];
+                }
+
+                if (
+                    Object.prototype
+                        .hasOwnProperty
+                        .call(
+                            FUNCTIONS,
+                            word
+                        )
+                ) {
+
+                    consume("(");
+
+                    const value =
+                        parseExpression();
+
+                    consume(")");
+
+                    const result =
+                        FUNCTIONS[word](
+                            value
+                        );
+
+                    if (
+                        !Number.isFinite(
+                            result
+                        )
+                    ) {
+
+                        throw new Error(
+                            "النتيجة غير معرفة."
+                        );
+                    }
+
+                    return result;
+                }
+
+                throw new Error(
+                    `الدالة أو الرمز غير معروف: ${word}`
+                );
+            }
+
+            if (
+                token.type === "("
+            ) {
+
+                consume("(");
+
+                const value =
+                    parseExpression();
+
+                consume(")");
+
+                return value;
+            }
+
+            throw new Error(
+                "تعبير رياضي غير صالح."
+            );
+        }
+
+        const value =
+            parseExpression();
+
+        if (
+            position !==
+            tokens.length
+        ) {
+
+            throw new Error(
+                "يوجد جزء غير مفهوم في التعبير."
+            );
+        }
+
+        if (
+            !Number.isFinite(value)
+        ) {
+
+            throw new Error(
+                "النتيجة غير معرفة."
+            );
+        }
+
+        return value;
+    }
+
+    function calculate() {
+
+        clearCalcError();
+
+        if (!expression) {
+            return;
+        }
+
+        try {
+
+            const result =
+                parseMath(
+                    expression
+                );
+
+            history.textContent =
+                `${expression} =`;
+
+            expression =
+                String(
+                    Number(
+                        result.toPrecision(12)
+                    )
+                );
+
+            updateDisplay();
+
+        } catch (error) {
+
+            showCalcError(
+                error.message
+            );
+        }
+    }
+
+    function updateDisplay() {
+
+        display.textContent =
+            expression || "0";
+    }
+
+    document
+        .querySelectorAll(
+            ".calc-btn[data-value]"
+        )
+        .forEach(
+            button => {
+
+                button.addEventListener(
+                    "click",
+                    function () {
+
+                        clearCalcError();
+
+                        expression +=
+                            button.dataset.value;
+
+                        updateDisplay();
+                    }
+                );
+            }
+        );
+
+    document
+        .querySelector(
+            '[data-action="clear"]'
+        )
+        .addEventListener(
+            "click",
+            function () {
+
+                expression = "";
+
+                history.textContent =
+                    "";
+
+                clearCalcError();
+
+                updateDisplay();
+            }
+        );
+
+    document
+        .querySelector(
+            '[data-action="calculate"]'
+        )
+        .addEventListener(
+            "click",
+            calculate
+        );
+
+    document.addEventListener(
+        "keydown",
+        function (event) {
+
+            if (
+                /^[0-9.+\-*/()^]$/
+                    .test(event.key)
+            ) {
+
+                expression +=
+                    event.key;
+
+                updateDisplay();
+
+                return;
+            }
+
+            if (
+                event.key === "Enter"
+            ) {
+
+                event.preventDefault();
+
+                calculate();
+
+                return;
+            }
+
+            if (
+                event.key === "Escape"
+            ) {
+
+                expression = "";
+
+                updateDisplay();
+            }
+        }
+    );
+
+    /* ===========================================
+       GRAPH
+    =========================================== */
+
+    const canvas =
+        document.getElementById(
+            "graphCanvas"
+        );
+
+    const ctx =
+        canvas.getContext("2d");
+
+    const functionInput =
+        document.getElementById(
+            "functionInput"
+        );
+
+    const xMinInput =
+        document.getElementById(
+            "xMin"
+        );
+
+    const xMaxInput =
+        document.getElementById(
+            "xMax"
+        );
+
+    const graphMessage =
+        document.getElementById(
+            "graphMessage"
+        );
+
+    let zoom =
+        1;
+
+    function showGraphError(
+        text
+    ) {
+
+        graphMessage.textContent =
+            text;
+
+        graphMessage.className =
+            "message show error";
+    }
+
+    function clearGraphError() {
+
+        graphMessage.textContent =
+            "";
+
+        graphMessage.className =
+            "message";
+    }
+
+    function evaluateFunction(
+        formula,
+        x
+    ) {
+
+        let expression =
+            formula
+                .replace(
+                    /\bx\b/gi,
+                    `(${x})`
+                );
+
+        return parseMath(
+            expression
+        );
+    }
+
+    function drawGraph() {
+
+        clearGraphError();
+
+        const formula =
+            functionInput.value
+                .trim();
+
+        let xMin =
+            Number(
+                xMinInput.value
+            );
+
+        let xMax =
+            Number(
+                xMaxInput.value
+            );
+
+        if (
+            !formula
+        ) {
+
+            showGraphError(
+                "اكتب الدالة أولًا."
+            );
+
+            return;
+        }
+
+        if (
+            !Number.isFinite(xMin) ||
+            !Number.isFinite(xMax) ||
+            xMin >= xMax
+        ) {
+
+            showGraphError(
+                "مجال x غير صالح."
+            );
+
+            return;
+        }
+
+        const center =
+            (xMin + xMax) / 2;
+
+        const half =
+            (xMax - xMin) /
+            (2 * zoom);
+
+        xMin =
+            center - half;
+
+        xMax =
+            center + half;
+
+        ctx.clearRect(
+            0,
+            0,
+            canvas.width,
+            canvas.height
+        );
+
+        const width =
+            canvas.width;
+
+        const height =
+            canvas.height;
+
+        const yMin = -10;
+        const yMax = 10;
+
+        function sx(x) {
+
+            return (
+                (x - xMin) /
+                (xMax - xMin)
+            ) * width;
+        }
+
+        function sy(y) {
+
+            return height -
+                (
+                    (y - yMin) /
+                    (yMax - yMin)
+                ) * height;
+        }
+
+        /* grid */
+
+        ctx.beginPath();
+
+        for (
+            let x = Math.ceil(xMin);
+            x <= xMax;
+            x++
+        ) {
+
+            const px =
+                sx(x);
+
+            ctx.moveTo(
+                px,
+                0
+            );
+
+            ctx.lineTo(
+                px,
+                height
+            );
+        }
+
+        for (
+            let y = Math.ceil(yMin);
+            y <= yMax;
+            y++
+        ) {
+
+            const py =
+                sy(y);
+
+            ctx.moveTo(
+                0,
+                py
+            );
+
+            ctx.lineTo(
+                width,
+                py
+            );
+        }
+
+        ctx.strokeStyle =
+            "#e2e8f0";
+
+        ctx.lineWidth =
+            1;
+
+        ctx.stroke();
+
+        /* axes */
+
+        ctx.beginPath();
+
+        ctx.moveTo(
+            sx(0),
+            0
+        );
+
+        ctx.lineTo(
+            sx(0),
+            height
+        );
+
+        ctx.moveTo(
+            0,
+            sy(0)
+        );
+
+        ctx.lineTo(
+            width,
+            sy(0)
+        );
+
+        ctx.strokeStyle =
+            "#475569";
+
+        ctx.lineWidth =
+            2;
+
+        ctx.stroke();
+
+        /* curve */
+
+        ctx.beginPath();
+
+        let started =
+            false;
+
+        for (
+            let px = 0;
+            px <= width;
+            px += 2
+        ) {
+
+            const x =
+                xMin +
+                (
+                    px /
+                    width
+                ) *
+                (xMax - xMin);
+
+            try {
+
+                const y =
+                    evaluateFunction(
+                        formula,
+                        x
+                    );
+
+                if (
+                    !Number.isFinite(y) ||
+                    Math.abs(y) > 1e5
+                ) {
+
+                    started = false;
+                    continue;
+                }
+
+                const py =
+                    sy(y);
+
+                if (
+                    py < -height * 3 ||
+                    py > height * 3
+                ) {
+
+                    started = false;
+                    continue;
+                }
+
+                if (!started) {
+
+                    ctx.moveTo(
+                        px,
+                        py
+                    );
+
+                    started = true;
+
+                } else {
+
+                    ctx.lineTo(
+                        px,
+                        py
+                    );
+                }
+
+            } catch {
+
+                started = false;
+            }
+        }
+
+        ctx.strokeStyle =
+            "#1565c0";
+
+        ctx.lineWidth =
+            3;
+
+        ctx.stroke();
+
+    }
+
+    document
+        .getElementById(
+            "drawGraph"
+        )
+        .addEventListener(
+            "click",
+            drawGraph
+        );
+
+    document
+        .getElementById(
+            "zoomIn"
+        )
+        .addEventListener(
+            "click",
+            function () {
+
+                zoom *= 1.5;
+
+                drawGraph();
+            }
+        );
+
+    document
+        .getElementById(
+            "zoomOut"
+        )
+        .addEventListener(
+            "click",
+            function () {
+
+                zoom /= 1.5;
+
+                drawGraph();
+            }
+        );
+
+    document
+        .getElementById(
+            "resetGraph"
+        )
+        .addEventListener(
+            "click",
+            function () {
+
+                zoom = 1;
+
+                xMinInput.value =
+                    "-10";
+
+                xMaxInput.value =
+                    "10";
+
+                functionInput.value =
+                    "x^2";
+
+                drawGraph();
+            }
+        );
+
+    drawGraph();
+
+})();
+</script>
 
 </body>
 
