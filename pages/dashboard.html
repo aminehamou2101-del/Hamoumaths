@@ -3,717 +3,433 @@
 
 <head>
 
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
 
-<title>لوحة التحكم - HAMOU MATH</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-<link rel="stylesheet" href="../css/style.css">
+    <title>لوحتي التعليمية | HAMOU MATH</title>
+
+    <link
+        rel="icon"
+        href="../assets/logo.svg"
+    >
+
+    <style>
+
+        body {
+            margin: 0;
+            background: #f4f8ff;
+            color: #172033;
+            font-family:
+                Tahoma,
+                Arial,
+                sans-serif;
+        }
+
+        .container {
+            width: min(1350px, 94%);
+            margin: 30px auto 60px;
+        }
+
+        .hero {
+            background:
+                linear-gradient(
+                    135deg,
+                    #082b5c,
+                    #1565c0
+                );
+            color: #fff;
+            padding: 28px;
+            border-radius: 24px;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 {
+            margin: 0 0 8px;
+            font-size: 30px;
+        }
+
+        .hero p {
+            margin: 0;
+            opacity: .9;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns:
+                repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat {
+            background: #fff;
+            border: 1px solid #dbe5f1;
+            border-radius: 18px;
+            padding: 20px;
+            box-shadow:
+                0 10px 28px rgba(8,43,92,.06);
+        }
+
+        .stat .value {
+            font-size: 27px;
+            font-weight: 800;
+            color: #1565c0;
+        }
+
+        .stat .label {
+            color: #64748b;
+            margin-top: 5px;
+            font-size: 14px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns:
+                repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .card {
+            background: #fff;
+            border: 1px solid #dbe5f1;
+            border-radius: 20px;
+            padding: 21px;
+            box-shadow:
+                0 10px 28px rgba(8,43,92,.06);
+        }
+
+        .card h2 {
+            margin-top: 0;
+            color: #082b5c;
+        }
+
+        .item {
+            display: block;
+            padding: 13px;
+            margin: 8px 0;
+            border-radius: 12px;
+            background: #f8fbff;
+            border: 1px solid #e4ebf3;
+            text-decoration: none;
+            color: #172033;
+        }
+
+        .item:hover {
+            border-color: #1565c0;
+        }
+
+        .meta {
+            margin-top: 4px;
+            color: #64748b;
+            font-size: 12px;
+        }
+
+        .xpbar {
+            background: #e5e7eb;
+            height: 12px;
+            border-radius: 999px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .xpbar-inner {
+            background:
+                linear-gradient(
+                    90deg,
+                    #1565c0,
+                    #00bcd4
+                );
+            height: 100%;
+            width: 0;
+            transition: width .4s;
+        }
+
+        .achievement {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: #f8fbff;
+            border-radius: 13px;
+            padding: 11px;
+            margin: 8px 0;
+        }
+
+        .achievement-icon {
+            font-size: 26px;
+        }
+
+        .result {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            align-items: center;
+            border-bottom: 1px solid #edf1f5;
+            padding: 12px 0;
+        }
+
+        .correct {
+            color: #15803d;
+            font-weight: 700;
+        }
+
+        .wrong {
+            color: #b91c1c;
+            font-weight: 700;
+        }
+
+        .empty {
+            color: #64748b;
+            padding: 15px 0;
+        }
+
+        .loading {
+            padding: 30px;
+            text-align: center;
+            color: #64748b;
+        }
+
+        .actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 14px;
+            border-radius: 11px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 13px;
+        }
+
+        .primary {
+            background: #1565c0;
+            color: #fff;
+        }
+
+        .secondary {
+            background: #e8f1ff;
+            color: #082b5c;
+        }
+
+        @media (max-width: 900px) {
+
+            .stats {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 500px) {
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                width: 95%;
+            }
+
+            .hero h1 {
+                font-size: 23px;
+            }
+        }
+
+    </style>
 
 </head>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-<script src="../js/supabase.js"></script>
-
-<script src="../js/student-stats.js"></script>
-<script src="../js/supabase.js"></script>
-<script src="../js/my-ranking.js"></script>
-    <body>
-<a href="leaderboard.html">
-    🏆 ترتيب الطلاب
-</a>
-
-<header>
-
-<h1>
-HAMOU MATH
-</h1>
-
-
-<button onclick="logoutUser()">
-تسجيل الخروج
-</button>
-
-
-</header>
-
-
-
-<main class="dashboard">
-
-
-<h2 id="welcome">
-مرحبا
-</h2>
-
-
-
-<div class="stats">
-
-
-<div class="card">
-
-⭐
-
-<h3>
-XP
-</h3>
-
-<p id="xp">
-0
-</p>
-
-</div>
-
-
-
-<div class="card">
-
-🏆
-
-<h3>
-المستوى
-</h3>
-
-<p id="level">
-1
-</p>
-
-</div>
-
-
-
-<div class="card">
-
-📝
-
-<h3>
-الاختبارات
-</h3>
-
-<p id="tests">
-0
-</p>
-
-</div>
-
-
-
-</div>
-
-
-
-<section>
-
-<h2>
-الإنجازات
-</h2>
-
-<div id="achievements">
-
-</div>
-
-
-</section>
-
-
-
-<div id="teacherPanel"
-style="display:none">
-
-
-<h2>
-👨‍🏫 لوحة الأستاذ
-</h2>
-
-<a href="teacher.html">
-الدخول
-</a>
-
-
-</div>
-
-
-
-<div id="adminPanel"
-style="display:none">
-
-
-<h2>
-👑 لوحة الإدارة
-</h2>
-
-<a href="admin.html">
-الدخول
-</a>
-
-
-</div>
-
-
-
-</main>
-
-<section class="profile-card">
-
-    <h2>
-        مرحبًا <span id="studentName">...</span>
-    </h2>
-
-    <p>
-        الصلاحية:
-        <strong id="studentRole">student</strong>
-    </p>
-
-</section>
-
-
-<section class="stats">
-
-    <div class="stat-card">
-        ⭐
-        <h3>XP</h3>
-        <h2 id="studentXP">0</h2>
-    </div>
-
-    <div class="stat-card">
-        🏆
-        <h3>المستوى</h3>
-        <h2 id="studentLevel">1</h2>
-    </div>
-
-    <div class="stat-card">
-        📝
-        <h3>المحاولات</h3>
-        <h2 id="attemptsCount">0</h2>
-    </div>
-
-    <div class="stat-card">
-        ✅
-        <h3>إجابات صحيحة</h3>
-        <h2 id="correctCount">0</h2>
-    </div>
-
-    <div class="stat-card">
-        📈
-        <h3>نسبة النجاح</h3>
-        <h2 id="successRate">0%</h2>
-    </div>
-
-    <div class="stat-card">
-        🎯
-        <h3>تمارين مكتملة</h3>
-        <h2 id="completedCount">0</h2>
-    </div>
-
-</section>
-
-
-<section class="profile-card">
-
-    <h2>📊 آخر المحاولات</h2>
-
-    <div id="recentResults">
-        جارٍ التحميل...
-    </div>
-
-</section>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-<script src="../js/supabase-config.js"></script>
-
-<script src="../js/auth.js"></script>
-
-<script src="../js/dashboard.js"></script>
-
-  <!DOCTYPE html>
-<html lang="ar" dir="rtl">
-
-<head>
-
-<meta charset="UTF-8">
-
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>
-لوحة التحكم - HAMOU MATH
-</title>
-
-
-<link rel="stylesheet" href="../css/style.css">
-
-
-<style>
-
-.dashboard{
-
-padding:30px;
-
-}
-
-
-.profile-card,
-.stat-card,
-.menu-card{
-
-background:white;
-
-border-radius:20px;
-
-padding:25px;
-
-margin:15px 0;
-
-box-shadow:0 5px 20px #ddd;
-
-}
-
-
-
-.stats{
-
-display:grid;
-
-grid-template-columns:
-repeat(auto-fit,minmax(200px,1fr));
-
-gap:20px;
-
-}
-
-
-
-.menu{
-
-display:grid;
-
-grid-template-columns:
-repeat(auto-fit,minmax(200px,1fr));
-
-gap:20px;
-
-}
-
-
-
-.menu-card{
-
-text-align:center;
-
-}
-
-
-
-.menu-card a{
-
-color:#1565c0;
-
-text-decoration:none;
-
-font-weight:bold;
-
-}
-
-
-
-</style>
-
-</head>
-
-
 
 <body>
 
+<div id="hamou-navbar"></div>
+
+<main class="container">
+
+    <section class="hero">
+
+        <h1 id="welcome">
+            مرحبًا بك في HAMOU MATH
+        </h1>
+
+        <p id="profileSummary">
+            جارِ تحميل مسارك التعليمي...
+        </p>
+
+        <div class="actions" style="margin-top:18px">
+
+            <a
+                class="btn primary"
+                href="levels.html"
+            >
+                متابعة المنهاج
+            </a>
+
+            <a
+                class="btn secondary"
+                href="excellence.html"
+            >
+                مركز التميز
+            </a>
+
+        </div>
+
+    </section>
+
+    <section class="stats">
+
+        <div class="stat">
+            <div
+                id="xp"
+                class="value"
+            >0</div>
+
+            <div class="label">
+                XP
+            </div>
+        </div>
+
+        <div class="stat">
+            <div
+                id="level"
+                class="value"
+            >1</div>
+
+            <div class="label">
+                المستوى
+            </div>
+        </div>
 
+        <div class="stat">
+            <div
+                id="attempts"
+                class="value"
+            >0</div>
 
-<header>
+            <div class="label">
+                المحاولات
+            </div>
+        </div>
 
-<h2>
-👤 HAMOU MATH
-</h2>
+        <div class="stat">
+            <div
+                id="successRate"
+                class="value"
+            >0%</div>
 
+            <div class="label">
+                نسبة النجاح
+            </div>
+        </div>
 
-<a href="../index.html">
-الرئيسية
-</a>
+    </section>
 
+    <section class="card" style="margin-bottom:20px">
 
-</header>
+        <h2>
+            📈 التقدم في المستوى
+        </h2>
 
+        <div>
+            XP الحالي:
+            <strong id="currentXp">
+                0
+            </strong>
+        </div>
 
+        <div>
+            الهدف التالي:
+            <strong id="nextXp">
+                100
+            </strong>
+        </div>
 
+        <div class="xpbar">
+            <div
+                id="xpProgress"
+                class="xpbar-inner"
+            ></div>
+        </div>
 
-<main class="dashboard">
+    </section>
 
+    <section class="grid">
 
+        <div class="card">
 
-<section class="profile-card">
+            <h2>
+                🎯 تمارين مقترحة
+            </h2>
 
+            <div id="recommendations">
+                <div class="loading">
+                    جارِ التحميل...
+                </div>
+            </div>
 
-<h2 id="username">
-مرحبا
-</h2>
+        </div>
 
+        <div class="card">
 
-<p>
-الصلاحية:
-<span id="role">
--
-</span>
-</p>
+            <h2>
+                📖 دروس حديثة
+            </h2>
 
+            <div id="lessons">
+                <div class="loading">
+                    جارِ التحميل...
+                </div>
+            </div>
 
-</section>
+        </div>
 
+        <div class="card">
 
+            <h2>
+                🧠 آخر النتائج
+            </h2>
 
+            <div id="results">
+                <div class="loading">
+                    جارِ التحميل...
+                </div>
+            </div>
 
+        </div>
 
-<section class="stats">
+        <div class="card">
 
+            <h2>
+                🏆 إنجازاتي
+            </h2>
 
+            <div id="achievements">
+                <div class="loading">
+                    جارِ التحميل...
+                </div>
+            </div>
 
-<div class="stat-card">
+        </div>
 
-⭐
-
-<h3>
-XP
-</h3>
-
-<h2 id="xp">
-0
-</h2>
-
-</div>
-
-
-
-
-<div class="stat-card">
-
-🏆
-
-<h3>
-المستوى
-</h3>
-
-<h2 id="level">
-1
-</h2>
-
-</div>
-
-
-
-
-<div class="stat-card">
-
-📝
-
-<h3>
-الاختبارات
-</h3>
-
-<h2 id="tests">
-0
-</h2>
-
-</div>
-
-
-</section>
-
-
-
-
-
-<section class="profile-card">
-
-
-<h2>
-🏅 الإنجازات
-</h2>
-
-
-<div id="achievements">
-
-لا توجد إنجازات بعد
-
-</div>
-
-
-</section>
-
-
-
-
-
-<section class="menu">
-
-
-
-<div class="menu-card">
-
-📚
-
-<h3>
-المكتبة
-</h3>
-
-<a href="library.html">
-فتح المكتبة
-</a>
-
-</div>
-
-
-
-
-
-<div class="menu-card">
-
-🧮
-
-<h3>
-الأدوات
-</h3>
-
-<a href="tools.html">
-فتح الأدوات
-</a>
-
-</div>
-
-
-
-
-
-<div class="menu-card"
-id="teacherBox"
-style="display:none">
-
-
-👨‍🏫
-
-<h3>
-فضاء الأستاذ
-</h3>
-
-<a href="teacher.html">
-دخول
-</a>
-
-</div>
-
-
-
-
-
-<div class="menu-card"
-id="adminBox"
-style="display:none">
-
-
-👑
-
-<h3>
-الإدارة
-</h3>
-
-<a href="admin.html">
-دخول
-</a>
-
-
-</div>
-
-
-
-</section>
-
-
-
-<button onclick="logout()">
-
-تسجيل الخروج
-
-</button>
-
-
+    </section>
 
 </main>
-
-
-
-
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script src="../js/supabase.js"></script>
-
-
-
-<script>
-
-
-async function loadDashboard(){
-
-
-const profile =
-await getProfile();
-
-
-
-if(!profile){
-
-location.href="login.html";
-
-return;
-
-}
-
-
-
-document
-.getElementById("username")
-.innerHTML =
-"مرحبا "+(profile.full_name || "طالب");
-<section class="profile-card">
-
-    <h2>🏆 ترتيبك</h2>
-
-    <div id="myRanking">
-        جارٍ تحميل ترتيبك...
-    </div>
-
-</section>
-
-
-document
-.getElementById("role")
-.innerHTML =
-profile.role;
-
-
-
-document
-.getElementById("xp")
-.innerHTML =
-profile.xp;
-
-
-
-document
-.getElementById("level")
-.innerHTML =
-profile.level;
-
-
-
-
-if(
-profile.role==="teacher" ||
-profile.role==="admin" ||
-profile.role==="owner"
-){
-
-document
-.getElementById("teacherBox")
-.style.display="block";
-
-}
-
-
-
-
-if(
-profile.role==="admin" ||
-profile.role==="owner"
-){
-
-document
-.getElementById("adminBox")
-.style.display="block";
-
-}
-
-
-
-
-const {data}=
-
-await supabaseClient
-
-.from("quiz_results")
-
-.select("*")
-
-.eq(
-"user_id",
-profile.id
-);
-
-
-
-document
-.getElementById("tests")
-.innerHTML =
-data ? data.length : 0;
-
-
-
-}
-
-
-
-loadDashboard();
-
-
-</script>
-
-<a href="leaderboard.html">
-
-🏆 ترتيب الطلاب
-
-</a>
-</body>
-<section class="panel">
-  <h2>🔔 الإشعارات</h2>
-  <div id="notifications">
-    لا توجد إشعارات
-  </div>
-</section>
-
-  <script>
-async function loadNotifications() {
-  const list = await getNotifications();
-  const box = document.getElementById("notifications");
-
-  if (!list.length) {
-    box.textContent = "لا توجد إشعارات";
-    return;
-  }
-
-  box.innerHTML = list.map(item => `
-    <div class="card">
-      <h3>${escapeHtml(item.title || "إشعار")}</h3>
-      <p>${escapeHtml(item.message || "")}</p>
-      <small>${new Date(item.created_at).toLocaleString("ar-DZ")}</small>
-    </div>
-  `).join("");
-}
-
-function escapeHtml(value) {
-  const div = document.createElement("div");
-  div.textContent = String(value);
-  return div.innerHTML;
-}
-
-loadNotifications();
-</script>
-</html>
+<script src="../js/theme.js"></script>
+<script src="../js/i18n.js"></script>
+<script src="../js/navbar.js"></script>
+<script src="../js/student-dashboard.js"></script>
 
 </body>
 
