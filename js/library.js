@@ -1,600 +1,1013 @@
 (function () {
-  "use strict";
 
-  const state = {
-    page: 1,
-    limit: 12,
-    query: "",
-    level: "",
-    type: "",
-    subject: ""
-  };
+    "use strict";
 
-  async function search() {
-    const params = new URLSearchParams();
+    let resources = [];
 
-    params.set(
-      "page",
-      String(state.page)
-    );
+    const $ = id =>
+        document.getElementById(id);
 
-    params.set(
-      "limit",
-      String(state.limit)
-    );
+    const grid =
+        $("libraryGrid");
 
-    if (state.query) {
-      params.set("q", state.query);
-    }
-
-    if (state.level) {
-      params.set("level", state.level);
-    }
-
-    if (state.type) {
-      params.set("type", state.type);
-    }
-
-    if (state.subject) {
-      params.set(
-        "subject",
-        state.subject
-      );
-    }
-
-    try {
-      const response =
-        await fetch(
-          `/api/resources?${params.toString()}`,
-          {
-            headers: {
-              Accept: "application/json"
-            }
-          }
-        );
-
-      if (!response.ok) {
-        throw new Error(
-          `HTTP ${response.status}`
-        );
-      }
-
-      const data =
-        await response.json();
-
-      render(data);
-    } catch (error) {
-      console.error(
-        "Library error:",
-        error
-      );
-
-      render({
-        resources: [],
-        total: 0
-      });
-    }
-  }
-
-  function render(data) {
-    const container =
-      document.querySelector(
-        "#resources"
-      );
-
-    if (!container) {
-      return;
-    }
-
-    const resources =
-      Array.isArray(data.resources)
-        ? data.resources
-        : [];
-
-    if (!resources.length) {
-      container.innerHTML = `
-        <div class="empty-state">
-          لا توجد موارد مطابقة حاليًا.
-        </div>
-      `;
-      return;
-    }
-
-    container.innerHTML =
-      resources
-        .map((resource) => {
-          const title =
-            escapeHtml(
-              resource.title ||
-                "مورد رياضيات"
-            );
-
-          const description =
-            escapeHtml(
-              resource.description ||
-                ""
-            );
-
-          return `
-            <article class="resource">
-              <span class="resource-type">
-                ${escapeHtml(
-                  resource.type || "RESOURCE"
-                )}
-              </span>
-
-              <h3>${title}</h3>
-
-              <p>${description}</p>
-
-              <div class="resource-meta">
-                ${
-                  resource.level
-                    ? `<span class="tag">${escapeHtml(
-                        resource.level
-                      )}</span>`
-                    : ""
-                }
-
-                ${
-                  resource.subject
-                    ? `<span class="tag">${escapeHtml(
-                        resource.subject
-                      )}</span>`
-                    : ""
-                }
-              </div>
-
-              <div class="resource-actions">
-                ${
-                  resource.url
-                    ? `
-                    <a
-                      class="btn btn-primary"
-                      href="${escapeAttribute(
-                        resource.url
-                      )}"
-                      target="_blank"
-                      rel="noopener"
-                    >
-                      فتح
-                    </a>
-                  `
-                    : ""
-                }
-              </div>
-            </article>
-          `;
-        })
-        .join("");
-  }
-
-  function escapeHtml(value) {
-    return String(value)
-      .replaceAll("&", "&amp;")
-      .replaceAll("<", "&lt;")
-      .replaceAll(">", "&gt;")
-      .replaceAll('"', "&quot;")
-      .replaceAll("'", "&#039;");
-  }
-
-  function escapeAttribute(value) {
-    return escapeHtml(value);
-  }
-
-  function init() {
     const searchInput =
-      document.querySelector(
-        "#librarySearch"
-      );
+        $("searchInput");
 
-    const level =
-      document.querySelector(
-        "#libraryLevel"
-      );
+    const levelFilter =
+        $("levelFilter");
 
-    const type =
-      document.querySelector(
-        "#libraryType"
-      );
+    const subjectFilter =
+        $("subjectFilter");
 
-    if (searchInput) {
-      searchInput.addEventListener(
+    const unitFilter =
+        $("unitFilter");
+
+    const topicFilter =
+        $("topicFilter");
+
+    const typeFilter =
+        $("typeFilter");
+
+    const resultsInfo =
+        $("resultsInfo");
+
+    const previewModal =
+        $("previewModal");
+
+    const previewTitle =
+        $("previewTitle");
+
+    const previewFrame =
+        $("previewFrame");
+
+    const previewUnsupported =
+        $("previewUnsupported");
+
+    const unsupportedLink =
+        $("unsupportedLink");
+
+    const closePreview =
+        $("closePreview");
+
+    const totalResources =
+        $("totalResources");
+
+    const pdfResources =
+        $("pdfResources");
+
+    const bookResources =
+        $("bookResources");
+
+    const exerciseResources =
+        $("exerciseResources");
+
+    /*
+     * =====================================================
+     * URL PARAMETERS
+     * =====================================================
+     */
+
+    const urlParams =
+        new URLSearchParams(
+            window.location.search
+        );
+
+    const initialLevel =
+        urlParams.get("level") || "";
+
+    const initialSubject =
+        urlParams.get("subject") || "";
+
+    const initialUnit =
+        urlParams.get("unit") || "";
+
+    const initialTopic =
+        urlParams.get("topic") || "";
+
+    const initialType =
+        urlParams.get("type") || "";
+
+    /*
+     * =====================================================
+     * HELPERS
+     * =====================================================
+     */
+
+    function setState(
+        message,
+        icon = "ℹ️",
+        isError = false
+    ) {
+
+        grid.innerHTML = "";
+
+        const state =
+            document.createElement(
+                "div"
+            );
+
+        state.className =
+            `library-state ${
+                isError ? "error" : ""
+            }`;
+
+        const iconElement =
+            document.createElement(
+                "div"
+            );
+
+        iconElement.className =
+            "state-icon";
+
+        iconElement.textContent =
+            icon;
+
+        const text =
+            document.createElement(
+                "strong"
+            );
+
+        text.textContent =
+            message;
+
+        state.appendChild(
+            iconElement
+        );
+
+        state.appendChild(
+            text
+        );
+
+        if (isError) {
+
+            const retry =
+                document.createElement(
+                    "button"
+                );
+
+            retry.className =
+                "retry-button";
+
+            retry.textContent =
+                "إعادة المحاولة";
+
+            retry.addEventListener(
+                "click",
+                loadResources
+            );
+
+            state.appendChild(
+                retry
+            );
+        }
+
+        grid.appendChild(
+            state
+        );
+    }
+
+    function unique(values) {
+
+        return [
+            ...new Set(
+                values
+                    .filter(
+                        value =>
+                            value !== null &&
+                            value !== undefined &&
+                            String(value).trim() !== ""
+                    )
+            )
+        ];
+    }
+
+    function sortValues(values) {
+
+        return values.sort(
+            (a, b) =>
+                String(a).localeCompare(
+                    String(b),
+                    "ar"
+                )
+        );
+    }
+
+    function addOptions(
+        select,
+        values
+    ) {
+
+        sortValues(
+            unique(values)
+        ).forEach(
+            value => {
+
+                const option =
+                    document.createElement(
+                        "option"
+                    );
+
+                option.value =
+                    value;
+
+                option.textContent =
+                    value;
+
+                select.appendChild(
+                    option
+                );
+            }
+        );
+    }
+
+    function typeLabel(type) {
+
+        const labels = {
+            pdf: "PDF",
+            book: "كتاب",
+            exercise: "ملف تمارين",
+            video: "فيديو",
+            link: "رابط"
+        };
+
+        return labels[type] ||
+            type ||
+            "مورد";
+    }
+
+    function typeIcon(type) {
+
+        const icons = {
+            pdf: "📄",
+            book: "📘",
+            exercise: "📝",
+            video: "🎥",
+            link: "🔗"
+        };
+
+        return icons[type] ||
+            "📚";
+    }
+
+    function getSearchText(item) {
+
+        return [
+            item.title,
+            item.description,
+            item.level,
+            item.subject,
+            item.unit,
+            item.topic,
+            item.type
+        ]
+            .filter(Boolean)
+            .join(" ")
+            .toLowerCase();
+    }
+
+    function normalizeFileUrl(url) {
+
+        if (!url) {
+            return null;
+        }
+
+        try {
+
+            const parsed =
+                new URL(
+                    url,
+                    window.location.origin
+                );
+
+            if (
+                parsed.protocol === "http:" ||
+                parsed.protocol === "https:"
+            ) {
+                return parsed.href;
+            }
+
+        } catch {
+            return null;
+        }
+
+        return null;
+    }
+
+    /*
+     * =====================================================
+     * LOAD RESOURCES
+     * =====================================================
+     */
+
+    async function loadResources() {
+
+        setState(
+            "جارِ تحميل المكتبة...",
+            "⏳"
+        );
+
+        try {
+
+            if (
+                typeof supabaseClient ===
+                "undefined"
+            ) {
+
+                throw new Error(
+                    "Supabase غير متاح."
+                );
+            }
+
+            const {
+                data,
+                error
+            } =
+                await supabaseClient
+                    .from("resources")
+                    .select(`
+                        id,
+                        title,
+                        description,
+                        type,
+                        file_url,
+                        level,
+                        subject,
+                        unit,
+                        topic,
+                        difficulty,
+                        views,
+                        created_at,
+                        curriculum_id,
+                        status
+                    `)
+                    .eq(
+                        "status",
+                        "published"
+                    )
+                    .order(
+                        "created_at",
+                        {
+                            ascending: false
+                        }
+                    );
+
+            if (error) {
+                throw error;
+            }
+
+            resources =
+                data || [];
+
+            updateStats();
+            populateFilters();
+            applyInitialFilters();
+            render();
+
+        } catch (error) {
+
+            console.error(
+                "HAMOU MATH library:",
+                error
+            );
+
+            resultsInfo.textContent =
+                "تعذر تحميل المكتبة";
+
+            setState(
+                "تعذر تحميل الموارد: " +
+                error.message,
+                "⚠️",
+                true
+            );
+        }
+    }
+
+    /*
+     * =====================================================
+     * STATS
+     * =====================================================
+     */
+
+    function updateStats() {
+
+        totalResources.textContent =
+            resources.length;
+
+        pdfResources.textContent =
+            resources.filter(
+                item =>
+                    item.type === "pdf"
+            ).length;
+
+        bookResources.textContent =
+            resources.filter(
+                item =>
+                    item.type === "book"
+            ).length;
+
+        exerciseResources.textContent =
+            resources.filter(
+                item =>
+                    item.type === "exercise"
+            ).length;
+    }
+
+    /*
+     * =====================================================
+     * FILTERS
+     * =====================================================
+     */
+
+    function populateFilters() {
+
+        levelFilter.innerHTML =
+            '<option value="">كل المستويات</option>';
+
+        subjectFilter.innerHTML =
+            '<option value="">كل المواد</option>';
+
+        unitFilter.innerHTML =
+            '<option value="">كل الوحدات</option>';
+
+        topicFilter.innerHTML =
+            '<option value="">كل المواضيع</option>';
+
+        addOptions(
+            levelFilter,
+            resources.map(
+                item =>
+                    item.level
+            )
+        );
+
+        addOptions(
+            subjectFilter,
+            resources.map(
+                item =>
+                    item.subject
+            )
+        );
+
+        addOptions(
+            unitFilter,
+            resources.map(
+                item =>
+                    item.unit
+            )
+        );
+
+        addOptions(
+            topicFilter,
+            resources.map(
+                item =>
+                    item.topic
+            )
+        );
+    }
+
+    function applyInitialFilters() {
+
+        if (
+            initialLevel
+        ) {
+            levelFilter.value =
+                initialLevel;
+        }
+
+        if (
+            initialSubject
+        ) {
+            subjectFilter.value =
+                initialSubject;
+        }
+
+        if (
+            initialUnit
+        ) {
+            unitFilter.value =
+                initialUnit;
+        }
+
+        if (
+            initialTopic
+        ) {
+            topicFilter.value =
+                initialTopic;
+
+            searchInput.value =
+                initialTopic;
+        }
+
+        if (
+            [
+                "pdf",
+                "book",
+                "exercise",
+                "video",
+                "link"
+            ].includes(
+                initialType
+            )
+        ) {
+
+            typeFilter.value =
+                initialType;
+        }
+    }
+
+    function getFilteredResources() {
+
+        const query =
+            searchInput.value
+                .trim()
+                .toLowerCase();
+
+        const selectedLevel =
+            levelFilter.value;
+
+        const selectedSubject =
+            subjectFilter.value;
+
+        const selectedUnit =
+            unitFilter.value;
+
+        const selectedTopic =
+            topicFilter.value;
+
+        const selectedType =
+            typeFilter.value;
+
+        return resources.filter(
+            item => {
+
+                const text =
+                    getSearchText(
+                        item
+                    );
+
+                return (
+                    (!query ||
+                        text.includes(query)) &&
+
+                    (!selectedLevel ||
+                        item.level ===
+                            selectedLevel) &&
+
+                    (!selectedSubject ||
+                        item.subject ===
+                            selectedSubject) &&
+
+                    (!selectedUnit ||
+                        item.unit ===
+                            selectedUnit) &&
+
+                    (!selectedTopic ||
+                        item.topic ===
+                            selectedTopic) &&
+
+                    (!selectedType ||
+                        item.type ===
+                            selectedType)
+                );
+            }
+        );
+    }
+
+    /*
+     * =====================================================
+     * CARD
+     * =====================================================
+     */
+
+    function createResourceCard(
+        item
+    ) {
+
+        const card =
+            document.createElement(
+                "article"
+            );
+
+        card.className =
+            "resource-card";
+
+        const top =
+            document.createElement(
+                "div"
+            );
+
+        top.className =
+            "resource-top";
+
+        const icon =
+            document.createElement(
+                "div"
+            );
+
+        icon.className =
+            "resource-icon";
+
+        icon.textContent =
+            typeIcon(item.type);
+
+        const type =
+            document.createElement(
+                "span"
+            );
+
+        type.className =
+            "resource-type";
+
+        type.textContent =
+            typeLabel(item.type);
+
+        top.appendChild(icon);
+        top.appendChild(type);
+
+        card.appendChild(top);
+
+        const title =
+            document.createElement(
+                "h3"
+            );
+
+        title.textContent =
+            item.title ||
+            "مورد تعليمي";
+
+        card.appendChild(title);
+
+        const description =
+            document.createElement(
+                "p"
+            );
+
+        description.className =
+            "resource-description";
+
+        description.textContent =
+            item.description ||
+            "لا يوجد وصف لهذا المورد.";
+
+        card.appendChild(
+            description
+        );
+
+        const tags =
+            document.createElement(
+                "div"
+            );
+
+        tags.className =
+            "resource-tags";
+
+        [
+            item.level,
+            item.subject,
+            item.unit,
+            item.topic
+        ]
+            .filter(Boolean)
+            .slice(0, 5)
+            .forEach(
+                value => {
+
+                    const tag =
+                        document.createElement(
+                            "span"
+                        );
+
+                    tag.className =
+                        "resource-tag";
+
+                    tag.textContent =
+                        value;
+
+                    tags.appendChild(
+                        tag
+                    );
+                }
+            );
+
+        card.appendChild(tags);
+
+        const actions =
+            document.createElement(
+                "div"
+            );
+
+        actions.className =
+            "resource-actions";
+
+        const url =
+            normalizeFileUrl(
+                item.file_url
+            );
+
+        if (url) {
+
+            const preview =
+                document.createElement(
+                    "button"
+                );
+
+            preview.type =
+                "button";
+
+            preview.className =
+                "preview-button";
+
+            preview.textContent =
+                "👁️ معاينة";
+
+            preview.addEventListener(
+                "click",
+                function () {
+
+                    openPreview(
+                        item
+                    );
+                }
+            );
+
+            actions.appendChild(
+                preview
+            );
+
+            const download =
+                document.createElement(
+                    "a"
+                );
+
+            download.className =
+                "download-button";
+
+            download.href =
+                url;
+
+            download.target =
+                "_blank";
+
+            download.rel =
+                "noopener noreferrer";
+
+            download.textContent =
+                "⬇️ فتح / تحميل";
+
+            actions.appendChild(
+                download
+            );
+
+        } else {
+
+            const unavailable =
+                document.createElement(
+                    "button"
+                );
+
+            unavailable.type =
+                "button";
+
+            unavailable.className =
+                "preview-button";
+
+            unavailable.disabled =
+                true;
+
+            unavailable.textContent =
+                "الرابط غير متاح";
+
+            actions.appendChild(
+                unavailable
+            );
+        }
+
+        card.appendChild(actions);
+
+        return card;
+    }
+
+    /*
+     * =====================================================
+     * RENDER
+     * =====================================================
+     */
+
+    function render() {
+
+        const filtered =
+            getFilteredResources();
+
+        resultsInfo.textContent =
+            `عرض ${filtered.length} من ${resources.length} مورد`;
+
+        grid.innerHTML = "";
+
+        if (!filtered.length) {
+
+            setState(
+                "لا توجد موارد مطابقة للفلاتر الحالية.",
+                "🔎"
+            );
+
+            return;
+        }
+
+        filtered.forEach(
+            item => {
+
+                grid.appendChild(
+                    createResourceCard(
+                        item
+                    )
+                );
+            }
+        );
+    }
+
+    /*
+     * =====================================================
+     * PREVIEW
+     * =====================================================
+     */
+
+    function openPreview(item) {
+
+        const url =
+            normalizeFileUrl(
+                item.file_url
+            );
+
+        if (!url) {
+            return;
+        }
+
+        previewTitle.textContent =
+            item.title ||
+            "معاينة المورد";
+
+        previewUnsupported.classList.add(
+            "hidden"
+        );
+
+        previewFrame.classList.remove(
+            "hidden"
+        );
+
+        /*
+         * PDF:
+         * يعرض مباشرة داخل iframe.
+         */
+        if (
+            item.type === "pdf" ||
+            /\.pdf(?:$|\?)/i.test(url)
+        ) {
+
+            previewFrame.src =
+                url;
+
+        } else {
+
+            /*
+             * الأنواع الأخرى قد لا يدعمها
+             * المتصفح داخل iframe.
+             */
+            previewFrame.src =
+                "about:blank";
+
+            previewFrame.classList.add(
+                "hidden"
+            );
+
+            previewUnsupported.classList.remove(
+                "hidden"
+            );
+
+            unsupportedLink.href =
+                url;
+        }
+
+        previewModal.classList.add(
+            "open"
+        );
+
+        previewModal.setAttribute(
+            "aria-hidden",
+            "false"
+        );
+
+        document.body.style.overflow =
+            "hidden";
+    }
+
+    function closePreviewModal() {
+
+        previewModal.classList.remove(
+            "open"
+        );
+
+        previewModal.setAttribute(
+            "aria-hidden",
+            "true"
+        );
+
+        previewFrame.src =
+            "about:blank";
+
+        document.body.style.overflow =
+            "";
+    }
+
+    closePreview.addEventListener(
+        "click",
+        closePreviewModal
+    );
+
+    document
+        .querySelector(
+            ".modal-backdrop"
+        )
+        .addEventListener(
+            "click",
+            closePreviewModal
+        );
+
+    document.addEventListener(
+        "keydown",
+        function (event) {
+
+            if (
+                event.key === "Escape"
+            ) {
+
+                closePreviewModal();
+            }
+        }
+    );
+
+    /*
+     * =====================================================
+     * EVENTS
+     * =====================================================
+     */
+
+    searchInput.addEventListener(
         "input",
-        () => {
-          state.query =
-            searchInput.value.trim();
+        render
+    );
 
-          state.page = 1;
-
-          search();
-        }
-      );
-    }
-
-    if (level) {
-      level.addEventListener(
+    levelFilter.addEventListener(
         "change",
-        () => {
-          state.level =
-            level.value;
+        render
+    );
 
-          state.page = 1;
-
-          search();
-        }
-      );
-    }
-
-    if (type) {
-      type.addEventListener(
+    subjectFilter.addEventListener(
         "change",
-        () => {
-          state.type =
-            type.value;
+        render
+    );
 
-          state.page = 1;
+    unitFilter.addEventListener(
+        "change",
+        render
+    );
 
-          search();
-        }
-      );
-    }
-async function showResources(){
+    topicFilter.addEventListener(
+        "change",
+        render
+    );
 
+    typeFilter.addEventListener(
+        "change",
+        render
+    );
 
-let data =
-await loadResources();
+    $("clearFilters")
+        .addEventListener(
+            "click",
+            function () {
 
+                searchInput.value = "";
 
-let box =
-document.getElementById("resources");
+                levelFilter.value = "";
 
+                subjectFilter.value = "";
 
-data.forEach(item=>{
+                unitFilter.value = "";
 
+                topicFilter.value = "";
 
-box.innerHTML += `
+                typeFilter.value = "";
 
-<div class="resource">
+                render();
+            }
+        );
 
-<h3>
-${item.title}
-</h3>
+    /*
+     * =====================================================
+     * START
+     * =====================================================
+     */
 
-<p>
-${item.description || ""}
-</p>
+    loadResources();
 
-
-<a href="${item.file_url}">
-فتح الملف
-</a>
-
-
-</div>
-
-`;
-
-
-});
-
-
-}
-    search();
-  }
-
-  window.HAMOU_LIBRARY = {
-    search,
-    state
-  };
-
-  document.addEventListener(
-    "DOMContentLoaded",
-    let allResources=[];
-
-
-
-async function loadResources(){
-
-
-const {data,error}=
-
-await supabaseClient
-
-.from("resources")
-
-.select("*")
-
-.order(
-"created_at",
-{
-ascending:false
-}
-);
-
-
-
-if(error){
-
-console.log(error);
-
-return;
-
-}
-
-
-allResources=data;
-
-
-displayResources(data);
-
-
-}
-
-
-
-function displayResources(resources){
-
-
-const box=
-document.getElementById("resources");
-
-
-box.innerHTML="";
-
-
-
-resources.forEach(item=>{
-
-
-box.innerHTML += `
-
-<div class="resource-card">
-
-
-<h3>
-${item.title}
-</h3>
-
-
-<p>
-${item.description || ""}
-</p>
-
-
-
-<span>
-${item.type}
-</span>
-
-
-
-<br>
-
-
-<a target="_blank"
-href="${item.file_url}">
-📄 فتح الملف
-</a>
-
-
-
-</div>
-
-`;
-
-});
-
-
-}
-
-
-
-function searchResources(){
-
-
-let value=
-document
-.getElementById("search")
-.value
-.toLowerCase();
-
-
-
-let result=
-allResources.filter(item=>
-
-item.title
-.toLowerCase()
-.includes(value)
-
-);
-
-
-
-displayResources(result);
-
-
-}
-
-
-
-loadResources();
-    init
-  );
 })();
-
-let resources=[];
-
-
-
-async function loadLibrary(){
-
-
-const {
-
-data,
-
-error
-
-}= await supabaseClient
-
-.from("resources")
-
-.select("*")
-
-.order(
-"created_at",
-{
-ascending:false
-}
-);
-
-
-
-if(error){
-
-console.log(error);
-
-return;
-
-}
-
-
-
-resources=data;
-
-
-displayResources(resources);
-
-
-}
-
-
-
-
-
-function displayResources(list){
-
-
-const box =
-document.getElementById("resources");
-
-
-box.innerHTML="";
-
-
-
-if(list.length===0){
-
-box.innerHTML=
-"<p>لا توجد موارد حاليا</p>";
-
-return;
-
-}
-
-
-
-list.forEach(item=>{
-
-
-box.innerHTML += `
-
-
-<div class="resource-card">
-
-
-<h3>
-${item.title}
-</h3>
-
-
-<p>
-${item.description || ""}
-</p>
-
-
-
-<p>
-📁 ${item.type}
-</p>
-
-
-
-<a target="_blank"
-href="${item.file_url}">
-
-فتح الملف
-
-</a>
-
-
-
-</div>
-
-
-`;
-
-
-});
-
-
-}
-
-
-
-
-
-function filterResources(){
-
-
-let text =
-document
-.getElementById("search")
-.value
-.toLowerCase();
-
-
-
-let type =
-document
-.getElementById("type")
-.value;
-
-
-
-let result =
-resources.filter(item=>{
-
-
-let matchText =
-item.title
-.toLowerCase()
-.includes(text);
-
-
-
-let matchType =
-!type ||
-item.type===type;
-
-
-
-return matchText && matchType;
-
-
-});
-
-
-
-displayResources(result);
-
-
-}
-
-
-
-
-
-loadLibrary();
