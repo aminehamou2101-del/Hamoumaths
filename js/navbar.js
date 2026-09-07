@@ -586,3 +586,11 @@
 >
     🌙
 </button>
+<button
+    id="installApp"
+    class="install-app"
+    type="button"
+    hidden
+>
+    📱 تثبيت تطبيق HAMOU MATH
+</button>
