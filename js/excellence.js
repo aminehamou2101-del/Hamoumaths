@@ -448,3 +448,70 @@ function escapeHtml(value) {
 
     return div.innerHTML;
 }
+async function loadRecommendedExercises() {
+
+    const box =
+        document.getElementById(
+            "recommendedExercises"
+        );
+
+    if (!box) return;
+
+
+    const {
+        data,
+        error
+    } = await supabaseClient
+        .rpc(
+            "get_my_recommendations"
+        );
+
+
+    if (error) {
+
+        console.error(error);
+
+        box.textContent =
+            "تعذر تحميل التوصيات.";
+
+        return;
+    }
+
+
+    if (!data?.length) {
+
+        box.textContent =
+            "🎉 لا توجد تمارين علاجية مقترحة الآن.";
+
+        return;
+    }
+
+
+    box.innerHTML =
+        data.map(
+            item => `
+                <div class="mistake-item">
+
+                    <strong>
+                        ${escapeHtml(
+                            item.title
+                        )}
+                    </strong>
+
+                    <p>
+                        ${escapeHtml(
+                            item.question
+                        )}
+                    </p>
+
+                    <a
+                        class="action-btn"
+                        href="exercises.html"
+                    >
+                        📝 حل التمرين
+                    </a>
+
+                </div>
+            `
+        ).join("");
+}
