@@ -1,49 +1,26 @@
 "use strict";
 
-/*
-=========================================================
-HAMOU MATH
-Supabase Client
-=========================================================
-IMPORTANT:
-ضع هنا Publishable/Anon Key الصحيح من:
-Supabase Dashboard
-→ Project Settings
-→ API
-→ Publishable key / anon key
-=========================================================
-*/
+/* =========================================================
+   HAMOU MATH
+   Supabase Browser Client
+   ========================================================= */
 
 const SUPABASE_URL =
     "https://ifurlsucekmaynuhsfva.supabase.co";
 
-const SUPABASE_ANON_KEY =
-    "PUT_YOUR_SUPABASE_PUBLISHABLE_KEY_HERE";
+const SUPABASE_PUBLISHABLE_KEY =
+    "sb_publishable_WRvn0kt8kJ3SSy2WG1ca4w_dzZQBrBU";
 
-if (
-    typeof supabase === "undefined"
-) {
+if (typeof supabase === "undefined") {
     throw new Error(
-        "Supabase JS library لم يتم تحميلها."
-    );
-}
-
-if (
-    !SUPABASE_URL ||
-    !SUPABASE_ANON_KEY ||
-    SUPABASE_ANON_KEY.includes(
-        "PUT_YOUR"
-    )
-) {
-    console.error(
-        "Supabase configuration is incomplete."
+        "Supabase JS library غير محملة."
     );
 }
 
 const supabaseClient =
     supabase.createClient(
         SUPABASE_URL,
-        SUPABASE_ANON_KEY,
+        SUPABASE_PUBLISHABLE_KEY,
         {
             auth: {
                 persistSession: true,
@@ -53,54 +30,65 @@ const supabaseClient =
         }
     );
 
-/* =====================================================
+/* =========================================================
    AUTH
-===================================================== */
+   ========================================================= */
 
 async function getCurrentUser() {
-
     const {
         data,
         error
-    } =
-        await supabaseClient.auth.getUser();
+    } = await supabaseClient.auth.getUser();
 
     if (error) {
         console.error(
             "getCurrentUser:",
             error
         );
-
         return null;
     }
 
     return data?.user || null;
 }
 
-async function logout() {
+async function getSession() {
+    const {
+        data,
+        error
+    } = await supabaseClient.auth.getSession();
 
+    if (error) {
+        console.error(
+            "getSession:",
+            error
+        );
+        return null;
+    }
+
+    return data?.session || null;
+}
+
+async function logout() {
     const {
         error
-    } =
-        await supabaseClient.auth.signOut();
+    } = await supabaseClient.auth.signOut();
 
     if (error) {
         console.error(
             "logout:",
             error
         );
+        throw error;
     }
 
-    window.location.href =
-        "/";
+    window.location.href = "../index.html";
 }
 
-/* =====================================================
+/* =========================================================
    PROFILE
-===================================================== */
+   ========================================================= */
 
 async function getProfile() {
-
     const user =
         await getCurrentUser();
 
@@ -111,53 +99,46 @@ async function getProfile() {
     const {
         data,
         error
-    } =
-        await supabaseClient
-            .from("profiles")
-            .select(`
-                id,
-                email,
-                full_name,
-                avatar_url,
-                role,
-                xp,
-                level
-            `)
-            .eq(
-                "id",
-                user.id
-            )
-            .maybeSingle();
+    } = await supabaseClient
+        .from("profiles")
+        .select(`
+            id,
+            email,
+            full_name,
+            avatar_url,
+            role,
+            xp,
+            level
+        `)
+        .eq(
+            "id",
+            user.id
+        )
+        .maybeSingle();
 
     if (error) {
-
         console.error(
             "getProfile:",
             error
         );
-
         return null;
     }
 
     return data;
 }
 
-/* =====================================================
-   PERMISSIONS
-===================================================== */
+/* =========================================================
+   ROLES
+   ========================================================= */
 
 async function isOwner() {
-
     const profile =
         await getProfile();
 
-    return (
-        profile?.role === "owner"
-    );
+    return profile?.role === "owner";
 }
 
 async function isAdmin() {
-
     const profile =
         await getProfile();
 
@@ -168,7 +149,6 @@ async function isAdmin() {
 }
 
 async function isTeacher() {
-
     const profile =
         await getProfile();
 
@@ -179,32 +159,30 @@ async function isTeacher() {
     );
 }
 
-/* =====================================================
+/* =========================================================
    XP
-===================================================== */
+   ========================================================= */
 
 async function addXP(
     userId,
     amount
 ) {
-
     if (!userId) {
         throw new Error(
-            "userId غير موجود."
+            "معرف المستخدم غير موجود."
         );
     }
 
     const {
         data,
         error
-    } =
-        await supabaseClient.rpc(
-            "add_xp",
-            {
-                p_user: userId,
-                p_amount: amount
-            }
-        );
+    } = await supabaseClient.rpc(
+        "add_xp",
+        {
+            p_user: userId,
+            p_amount: amount
+        }
+    );
 
     if (error) {
         throw error;
@@ -213,32 +191,29 @@ async function addXP(
     return data;
 }
 
-/* =====================================================
+/* =========================================================
    RESOURCES
-===================================================== */
+   ========================================================= */
 
 async function getResources() {
-
     const {
         data,
         error
-    } =
-        await supabaseClient
-            .from("resources")
-            .select("*")
-            .eq(
-                "status",
-                "published"
-            )
-            .order(
-                "created_at",
-                {
-                    ascending: false
-                }
-            );
+    } = await supabaseClient
+        .from("resources")
+        .select("*")
+        .eq(
+            "status",
+            "published"
+        )
+        .order(
+            "created_at",
+            {
+                ascending: false
+            }
+        );
 
     if (error) {
-
         console.error(
             "getResources:",
             error
@@ -250,13 +225,11 @@ async function getResources() {
     return data || [];
 }
 
-/* =====================================================
+/* =========================================================
    STORAGE
-===================================================== */
+   ========================================================= */
 
-async function uploadFile(
-    file
-) {
+async function uploadFile(file) {
 
     if (!file) {
         throw new Error(
@@ -280,6 +253,10 @@ async function uploadFile(
                 /[^\w.\-]+/g,
                 "_"
             )
+            .replace(
+                /_+/g,
+                "_"
+            )
             .slice(0, 120);
 
     const path =
@@ -287,20 +264,18 @@ async function uploadFile(
 
     const {
         error
-    } =
-        await supabaseClient
-            .storage
-            .from("hamou-files")
-            .upload(
-                path,
-                file,
-                {
-                    upsert: false,
-                    contentType:
-                        file.type ||
-                        "application/octet-stream"
-                }
-            );
+    } = await supabaseClient.storage
+        .from("hamou-files")
+        .upload(
+            path,
+            file,
+            {
+                upsert: false,
+                contentType:
+                    file.type ||
+                    "application/octet-stream"
+            }
+        );
 
     if (error) {
         throw error;
@@ -308,11 +283,9 @@ async function uploadFile(
 
     const {
         data
-    } =
-        supabaseClient
-            .storage
-            .from("hamou-files")
-            .getPublicUrl(path);
+    } = supabaseClient.storage
+        .from("hamou-files")
+        .getPublicUrl(path);
 
     return {
         path,
