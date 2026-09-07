@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>إنجازاتي وشاراتي | HAMOU MATH</title>
+
+    <meta
+        name="description"
+        content="شارات وإنجازات طالب HAMOU MATH"
+    >
+
+    <link rel="stylesheet" href="../css/style.css">
+
+    <style>
+        .achievements-page {
+            width: min(1100px, 94%);
+            margin: 35px auto 80px;
+        }
+
+        .achievements-hero {
+            background: linear-gradient(135deg, #0d47a1, #1565c0);
+            color: white;
+            border-radius: 28px;
+            padding: 40px 30px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .achievements-hero h1 {
+            margin: 10px 0;
+            font-size: 38px;
+        }
+
+        .achievements-hero p {
+            margin: 0;
+            opacity: .92;
+        }
+
+        .achievement-summary {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            margin-bottom: 25px;
+        }
+
+        .summary-card {
+            background: white;
+            border-radius: 20px;
+            padding: 22px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0,0,0,.07);
+        }
+
+        .summary-card strong {
+            display: block;
+            font-size: 32px;
+            margin-top: 8px;
+            color: #1565c0;
+        }
+
+        .achievement-section {
+            background: white;
+            border-radius: 25px;
+            padding: 25px;
+            box-shadow: 0 8px 25px rgba(0,0,0,.06);
+        }
+
+        .achievement-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .achievement-toolbar h2 {
+            margin: 0;
+        }
+
+        .refresh-btn {
+            border: 0;
+            background: #1565c0;
+            color: white;
+            padding: 10px 17px;
+            border-radius: 12px;
+            cursor: pointer;
+        }
+
+        .achievement-message {
+            min-height: 24px;
+            color: #607d8b;
+            margin-bottom: 15px;
+        }
+
+        .achievements-grid {
+            display: grid;
+            grid-template-columns: repeat(
+                auto-fit,
+                minmax(240px, 1fr)
+            );
+            gap: 18px;
+        }
+
+        .achievement-card {
+            border-radius: 20px;
+            padding: 23px;
+            text-align: center;
+            border: 1px solid #e7edf5;
+            transition: transform .2s ease, box-shadow .2s ease;
+        }
+
+        .achievement-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(0,0,0,.08);
+        }
+
+        .achievement-card.unlocked {
+            background: #fffaf0;
+        }
+
+        .achievement-card.locked {
+            background: #f7f9fc;
+            opacity: .72;
+        }
+
+        .achievement-icon {
+            font-size: 55px;
+            margin-bottom: 10px;
+        }
+
+        .achievement-card h3 {
+            margin: 8px 0;
+        }
+
+        .achievement-description {
+            color: #546e7a;
+            line-height: 1.7;
+            min-height: 48px;
+        }
+
+        .achievement-requirement {
+            margin-top: 14px;
+            color: #1565c0;
+            font-weight: bold;
+        }
+
+        .achievement-status {
+            margin-top: 14px;
+            font-weight: bold;
+        }
+
+        .achievement-status small {
+            display: block;
+            margin-top: 5px;
+            color: #78909c;
+            font-weight: normal;
+        }
+
+        @media (max-width: 700px) {
+            .achievement-summary {
+                grid-template-columns: 1fr;
+            }
+
+            .achievements-hero h1 {
+                font-size: 30px;
+            }
+
+            .achievement-toolbar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+        }
+    </style>
+</head>
+
+
+<body>
+
+<header class="navbar">
+
+    <div class="brand">
+        <a href="../index.html">
+            🧮 HAMOU MATH
+        </a>
+    </div>
+
+    <nav>
+        <a href="../index.html">الرئيسية</a>
+        <a href="dashboard.html">لوحة التحكم</a>
+        <a href="leaderboard.html">🏆 الترتيب</a>
+        <a href="library.html">📚 المكتبة</a>
+    </nav>
+
+</header>
+
+
+<main class="achievements-page">
+
+    <section class="achievements-hero">
+
+        <div>HAMOU MATH</div>
+
+        <h1>🏆 إنجازاتي وشاراتي</h1>
+
+        <p>
+            أكمل التمارين واجمع XP وافتح شارات جديدة.
+        </p>
+
+    </section>
+
+
+    <section class="achievement-summary">
+
+        <div class="summary-card">
+            🎖️
+            <div>الشارات المفتوحة</div>
+            <strong id="unlockedCount">0</strong>
+        </div>
+
+        <div class="summary-card">
+            🏅
+            <div>إجمالي الشارات</div>
+            <strong id="totalCount">0</strong>
+        </div>
+
+        <div class="summary-card">
+            📈
+            <div>نسبة الإنجاز</div>
+            <strong id="completionRate">0%</strong>
+        </div>
+
+    </section>
+
+
+    <section class="achievement-section">
+
+        <div class="achievement-toolbar">
+
+            <h2>جميع الشارات</h2>
+
+            <button
+                id="refreshAchievements"
+                class="refresh-btn"
+                type="button"
+            >
+                🔄 تحديث
+            </button>
+
+        </div>
+
+
+        <div
+            id="achievementMessage"
+            class="achievement-message"
+        >
+            جارٍ تحميل الإنجازات...
+        </div>
+
+
+        <div
+            id="achievementsGrid"
+            class="achievements-grid"
+        ></div>
+
+    </section>
+
+</main>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../js/supabase.js"></script>
+<script src="../js/achievements.js"></script>
+
+</body>
+</html>
