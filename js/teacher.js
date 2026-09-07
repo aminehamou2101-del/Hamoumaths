@@ -838,3 +838,115 @@ statusTd.textContent =
 tr.appendChild(statusTd);status,
 published_at,
 updated_at
+const lessonData = {
+    title:
+        $("lessonTitle").value.trim(),
+
+    content:
+        $("lessonContent").value.trim(),
+
+    video_url:
+        $("lessonVideo").value.trim() || null,
+
+    order_number:
+        Number(
+            $("lessonOrder").value || 1
+        ),
+
+    curriculum_id:
+        $("curriculumId").value,
+
+    level:
+        $("curriculumLevel").value,
+
+    subject:
+        $("curriculumSubject").value,
+
+    unit:
+        $("curriculumUnit").value,
+
+    topic:
+        $("curriculumTopic")
+            .selectedOptions[0]
+            ?.textContent || "",
+
+    created_by:
+        currentUser.id,
+
+    status:
+        "draft"
+};
+const exerciseData = {
+    title:
+        $("exerciseTitle").value.trim(),
+
+    question:
+        $("exerciseQuestion").value.trim(),
+
+    answer:
+        $("exerciseAnswer").value.trim(),
+
+    difficulty:
+        $("exerciseDifficulty").value,
+
+    curriculum_id:
+        $("curriculumId").value,
+
+    level:
+        $("curriculumLevel").value,
+
+    subject:
+        $("curriculumSubject").value,
+
+    unit:
+        $("curriculumUnit").value,
+
+    topic:
+        $("curriculumTopic")
+            .selectedOptions[0]
+            ?.textContent || "",
+
+    created_by:
+        currentUser.id,
+
+    status:
+        "draft"
+};
+const resourceData = {
+    title:
+        $("resourceTitle").value.trim(),
+
+    description:
+        $("resourceDescription")
+            .value
+            .trim() || null,
+
+    type:
+        $("resourceType").value,
+
+    file_url:
+        fileUrl,
+
+    uploaded_by:
+        currentUser.id,
+
+    curriculum_id:
+        $("curriculumId").value,
+
+    level:
+        $("curriculumLevel").value,
+
+    subject:
+        $("curriculumSubject").value,
+
+    unit:
+        $("curriculumUnit").value,
+
+    topic:
+        $("curriculumTopic")
+            .selectedOptions[0]
+            ?.textContent || "",
+
+    status:
+        "draft"
+};
