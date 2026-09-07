@@ -159,3 +159,6 @@
 <a href="${base}pages/search.html">
     🔎 البحث
 </a>
+<a href="${base}pages/curriculum.html">
+    📚 المنهج
+</a>
