@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>مركز التفوق | HAMOU MATH</title>
+
+    <link
+        rel="stylesheet"
+        href="../css/style.css"
+    >
+
+    <style>
+        .excellence-page {
+            width: min(1150px, 94%);
+            margin: 35px auto 80px;
+        }
+
+        .excellence-hero {
+            background:
+                linear-gradient(
+                    135deg,
+                    #0d47a1,
+                    #1565c0
+                );
+            color: white;
+            border-radius: 28px;
+            padding: 40px;
+            margin-bottom: 25px;
+        }
+
+        .excellence-hero h1 {
+            margin: 10px 0;
+            font-size: 38px;
+        }
+
+        .excellence-grid {
+            display: grid;
+            grid-template-columns:
+                repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+        }
+
+        .excellence-card {
+            background: var(--surface, #fff);
+            color: var(--text, #222);
+            border-radius: 22px;
+            padding: 25px;
+            box-shadow:
+                0 10px 30px rgba(0,0,0,.07);
+        }
+
+        .excellence-card h2 {
+            margin-top: 0;
+        }
+
+        .big-number {
+            font-size: 38px;
+            font-weight: 800;
+            color: #1565c0;
+        }
+
+        .task-list {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+
+        .task-list li {
+            padding: 12px 0;
+            border-bottom: 1px solid #e7edf5;
+        }
+
+        .task-list li:last-child {
+            border-bottom: 0;
+        }
+
+        .progress-track {
+            height: 14px;
+            background: #e8eef7;
+            border-radius: 20px;
+            overflow: hidden;
+            margin-top: 12px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0;
+            background:
+                linear-gradient(
+                    90deg,
+                    #1565c0,
+                    #00bcd4
+                );
+            transition: width .4s ease;
+        }
+
+        .mistake-item {
+            padding: 12px;
+            margin-top: 10px;
+            border-radius: 12px;
+            background: #f8fafc;
+        }
+
+        .action-btn {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 11px 18px;
+            border-radius: 12px;
+            background: #1565c0;
+            color: white;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+
+<body>
+
+<div id="hamou-navbar"></div>
+
+
+<main class="excellence-page">
+
+    <section class="excellence-hero">
+
+        <div>HAMOU MATH</div>
+
+        <h1>
+            🎯 مركز التفوق
+        </h1>
+
+        <p>
+            خطتك التعليمية الشخصية في مكان واحد.
+        </p>
+
+    </section>
+
+
+    <section class="excellence-grid">
+
+        <div class="excellence-card">
+
+            <h2>👤 مستواك</h2>
+
+            <div
+                id="studentName"
+                class="big-number"
+            >
+                ...
+            </div>
+
+            <p>
+                المستوى:
+                <strong id="studentLevel">1</strong>
+            </p>
+
+            <p>
+                ⭐
+                <strong id="studentXP">0</strong>
+                XP
+            </p>
+
+        </div>
+
+
+        <div class="excellence-card">
+
+            <h2>🎯 مهمة اليوم</h2>
+
+            <div
+                id="dailyTask"
+                class="big-number"
+            >
+                0/3
+            </div>
+
+            <p>
+                أكمل 3 تمارين اليوم.
+            </p>
+
+            <div class="progress-track">
+                <div
+                    id="dailyProgress"
+                    class="progress-fill"
+                ></div>
+            </div>
+
+            <a
+                class="action-btn"
+                href="exercises.html"
+            >
+                ابدأ التدريب
+            </a>
+
+        </div>
+
+
+        <div class="excellence-card">
+
+            <h2>🏆 هدفك التالي</h2>
+
+            <div
+                id="nextGoal"
+                class="big-number"
+            >
+                100 XP
+            </div>
+
+            <p id="goalText">
+                استمر في التعلم.
+            </p>
+
+        </div>
+
+
+        <div class="excellence-card">
+
+            <h2>📊 أداؤك</h2>
+
+            <p>
+                المحاولات:
+                <strong id="attempts">0</strong>
+            </p>
+
+            <p>
+                الصحيحة:
+                <strong id="correct">0</strong>
+            </p>
+
+            <p>
+                نسبة النجاح:
+                <strong id="successRate">0%</strong>
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <section class="excellence-card" style="margin-top:20px">
+
+        <h2>⚠️ تحتاج إلى المراجعة</h2>
+
+        <div id="mistakes">
+            جارٍ التحميل...
+        </div>
+
+    </section>
+
+
+    <section class="excellence-card" style="margin-top:20px">
+
+        <h2>📚 آخر نشاط</h2>
+
+        <ul
+            id="recentActivity"
+            class="task-list"
+        >
+            <li>جارٍ التحميل...</li>
+        </ul>
+
+    </section>
+
+</main>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="../js/supabase.js"></script>
+
+<script src="../js/theme.js"></script>
+
+<script src="../js/navbar.js"></script>
+
+<script src="../js/excellence.js"></script>
+
+</body>
+
+</html>
