@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width,initial-scale=1.0"
+    >
+
+    <title>محرر المحتوى | HAMOU MATH</title>
+
+    <link rel="icon" href="../assets/logo.svg">
+
+    <style>
+        body {
+            margin: 0;
+            background: #f4f8ff;
+            color: #172033;
+            font-family: Tahoma, Arial, sans-serif;
+        }
+
+        .container {
+            width: min(1100px, 94%);
+            margin: 30px auto 60px;
+        }
+
+        .hero {
+            background:
+                linear-gradient(
+                    135deg,
+                    #082b5c,
+                    #1565c0
+                );
+            color: white;
+            padding: 26px;
+            border-radius: 22px;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 {
+            margin: 0 0 7px;
+        }
+
+        .card {
+            background: white;
+            border: 1px solid #dbe5f1;
+            border-radius: 20px;
+            padding: 22px;
+            margin-bottom: 20px;
+            box-shadow:
+                0 12px 35px rgba(8,43,92,.07);
+        }
+
+        .field {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            font-weight: 700;
+            margin-bottom: 7px;
+        }
+
+        input,
+        textarea,
+        select {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 12px;
+            border: 1px solid #dbe5f1;
+            border-radius: 12px;
+            font: inherit;
+            outline: none;
+        }
+
+        textarea {
+            min-height: 230px;
+            resize: vertical;
+        }
+
+        .actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 9px;
+        }
+
+        button {
+            border: none;
+            border-radius: 12px;
+            padding: 11px 16px;
+            cursor: pointer;
+            font: inherit;
+            font-weight: 700;
+        }
+
+        .primary {
+            background: #1565c0;
+            color: white;
+        }
+
+        .secondary {
+            background: #e8f1ff;
+            color: #082b5c;
+        }
+
+        .success {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .warning {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .danger {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .status {
+            padding: 11px;
+            border-radius: 11px;
+            margin-top: 12px;
+            display: none;
+        }
+
+        .status.show {
+            display: block;
+        }
+
+        .status.ok {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .status.error {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .info {
+            background: #f8fbff;
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+            padding: 14px;
+            margin-bottom: 18px;
+        }
+
+        .preview {
+            border: 1px solid #dbe5f1;
+            border-radius: 15px;
+            padding: 20px;
+            background: #fff;
+            min-height: 150px;
+            line-height: 1.8;
+            white-space: pre-wrap;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        @media (max-width: 700px) {
+            .container {
+                width: 95%;
+            }
+
+            .card {
+                padding: 16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div id="hamou-navbar"></div>
+
+<main class="container">
+
+    <section class="hero">
+        <h1 id="pageTitle">
+            محرر المحتوى
+        </h1>
+
+        <p id="pageSubtitle">
+            تعديل ومراجعة ونشر محتوى HAMOU MATH
+        </p>
+    </section>
+
+    <section
+        id="accessStatus"
+        class="status"
+    ></section>
+
+    <section
+        id="editor"
+        class="hidden"
+    >
+
+        <div class="card">
+
+            <div class="info">
+
+                <strong>نوع المحتوى:</strong>
+                <span id="contentTypeLabel">
+                    -
+                </span>
+
+                <br>
+
+                <strong>الموضوع:</strong>
+                <span id="contentTopic">
+                    -
+                </span>
+
+            </div>
+
+            <div class="field">
+
+                <label for="title">
+                    العنوان
+                </label>
+
+                <input
+                    id="title"
+                    required
+                >
+
+            </div>
+
+            <div
+                id="lessonFields"
+                class="hidden"
+            >
+
+                <div class="field">
+
+                    <label for="content">
+                        محتوى الدرس
+                    </label>
+
+                    <textarea
+                        id="content"
+                    ></textarea>
+
+                </div>
+
+                <div class="field">
+
+                    <label for="videoUrl">
+                        رابط الفيديو
+                    </label>
+
+                    <input
+                        id="videoUrl"
+                        type="url"
+                        placeholder="https://youtube.com/..."
+                    >
+
+                </div>
+
+                <div class="field">
+
+                    <label for="orderNumber">
+                        ترتيب الدرس
+                    </label>
+
+                    <input
+                        id="orderNumber"
+                        type="number"
+                        min="1"
+                    >
+
+                </div>
+
+            </div>
+
+            <div
+                id="exerciseFields"
+                class="hidden"
+            >
+
+                <div class="field">
+
+                    <label for="question">
+                        السؤال
+                    </label>
+
+                    <textarea
+                        id="question"
+                    ></textarea>
+
+                </div>
+
+                <div class="field">
+
+                    <label for="answer">
+                        الإجابة الصحيحة
+                    </label>
+
+                    <textarea
+                        id="answer"
+                    ></textarea>
+
+                </div>
+
+                <div class="field">
+
+                    <label for="difficulty">
+                        الصعوبة
+                    </label>
+
+                    <select id="difficulty">
+
+                        <option value="easy">
+                            سهل
+                        </option>
+
+                        <option value="medium">
+                            متوسط
+                        </option>
+
+                        <option value="hard">
+                            صعب
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+            <div
+                id="resourceFields"
+                class="hidden"
+            >
+
+                <div class="field">
+
+                    <label for="description">
+                        الوصف
+                    </label>
+
+                    <textarea
+                        id="description"
+                    ></textarea>
+
+                </div>
+
+                <div class="field">
+
+                    <label for="resourceType">
+                        نوع المورد
+                    </label>
+
+                    <select id="resourceType">
+
+                        <option value="pdf">
+                            PDF
+                        </option>
+
+                        <option value="book">
+                            كتاب
+                        </option>
+
+                        <option value="exercise">
+                            ملف تمارين
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+            <div class="field">
+
+                <label for="status">
+                    حالة المحتوى
+                </label>
+
+                <select id="status">
+
+                    <option value="draft">
+                        مسودة
+                    </option>
+
+                    <option value="review">
+                        قيد المراجعة
+                    </option>
+
+                    <option value="published">
+                        منشور
+                    </option>
+
+                </select>
+
+            </div>
+
+            <div class="actions">
+
+                <button
+                    id="saveBtn"
+                    class="primary"
+                >
+                    حفظ التعديلات
+                </button>
+
+                <button
+                    id="previewBtn"
+                    class="secondary"
+                >
+                    معاينة
+                </button>
+
+                <button
+                    id="publishBtn"
+                    class="success"
+                >
+                    نشر
+                </button>
+
+                <button
+                    id="reviewBtn"
+                    class="warning"
+                >
+                    إرسال للمراجعة
+                </button>
+
+            </div>
+
+            <div
+                id="saveStatus"
+                class="status"
+            ></div>
+
+        </div>
+
+        <div class="card">
+
+            <h2>
+                معاينة الطالب
+            </h2>
+
+            <div
+                id="preview"
+                class="preview"
+            >
+                لا توجد معاينة بعد.
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="../js/supabase.js"></script>
+<script src="../js/theme.js"></script>
+<script src="../js/i18n.js"></script>
+<script src="../js/navbar.js"></script>
+<script src="../js/content-editor.js"></script>
+
+</body>
+</html>
