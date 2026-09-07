@@ -580,3 +580,9 @@
     }
 
 })();
+<button
+    type="button"
+    data-theme-toggle
+>
+    🌙
+</button>
