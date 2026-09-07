@@ -154,3 +154,6 @@
     );
 
 })();
+<a href="${base}pages/search.html">
+    🔎 البحث
+</a>
