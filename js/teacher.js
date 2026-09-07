@@ -469,6 +469,63 @@ alert("✅ تم إضافة التمرين بنجاح");
 
 
 }
+  const curriculumId =
+    window.HamouCurriculum
+        ?.getSelectedId();
 
+if (!curriculumId) {
+    throw new Error(
+        "يجب اختيار موضوع من المنهاج."
+    );
+}
+  const lessonData = {
+    title: lessonTitle.value.trim(),
+    content: lessonContent.value.trim(),
+    video_url:
+        lessonVideo.value.trim() || null,
+
+    curriculum_id: curriculumId,
+
+    level:
+        document.getElementById(
+            "curriculumLevel"
+        ).value,
+
+    subject:
+        document.getElementById(
+            "curriculumSubject"
+        ).value,
+
+    unit:
+        document.getElementById(
+            "curriculumUnit"
+        ).value,
+
+    topic:
+        document.getElementById(
+            "curriculumTopic"
+        ).selectedOptions[0]?.textContent || "",
+
+    order_number:
+        Number(
+            lessonOrder.value || 1
+        )
+};
+  
+const { data, error } =
+    await supabaseClient
+        .from("lessons")
+        .insert(lessonData)
+        .select()
+        .single();
+
+if (error) {
+    throw error;
+}
+
+console.log(
+    "تم إنشاء الدرس:",
+    data
+);
 
 }
