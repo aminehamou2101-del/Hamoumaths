@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="إدارة المنهاج الرسمي لمنصة HAMOU MATH"
+    >
+
+    <title>إدارة المنهاج | HAMOU MATH</title>
+
+    <link rel="icon" href="../assets/logo.svg">
+
+    <style>
+        :root {
+            --primary: #1565c0;
+            --secondary: #00bcd4;
+            --dark: #082b5c;
+            --bg: #f4f8ff;
+            --card: #ffffff;
+            --text: #172033;
+            --muted: #64748b;
+            --border: #dbe5f1;
+            --danger: #dc2626;
+            --success: #16a34a;
+            --shadow: 0 15px 40px rgba(8, 43, 92, .08);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family:
+                Tahoma,
+                Arial,
+                sans-serif;
+            background: var(--bg);
+            color: var(--text);
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .page {
+            width: min(1450px, 94%);
+            margin: 30px auto 60px;
+        }
+
+        .hero {
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--dark),
+                    var(--primary)
+                );
+            color: white;
+            border-radius: 24px;
+            padding: 28px;
+            box-shadow: var(--shadow);
+            margin-bottom: 22px;
+        }
+
+        .hero h1 {
+            margin: 0 0 8px;
+            font-size: 30px;
+        }
+
+        .hero p {
+            margin: 0;
+            opacity: .9;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns:
+                minmax(320px, 390px)
+                1fr;
+            gap: 22px;
+            align-items: start;
+        }
+
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 22px;
+            box-shadow: var(--shadow);
+        }
+
+        .card h2 {
+            margin-top: 0;
+            color: var(--dark);
+            font-size: 21px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        input,
+        textarea,
+        select {
+            width: 100%;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 12px 13px;
+            font-size: 15px;
+            outline: none;
+            background: white;
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            border-color: var(--primary);
+            box-shadow:
+                0 0 0 3px rgba(21, 101, 192, .10);
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 8px;
+        }
+
+        button {
+            border: 0;
+            border-radius: 12px;
+            padding: 11px 15px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: #e8f1ff;
+            color: var(--dark);
+        }
+
+        .btn-danger {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .btn-success {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .status {
+            margin-top: 14px;
+            padding: 11px 13px;
+            border-radius: 12px;
+            display: none;
+            font-size: 14px;
+        }
+
+        .status.show {
+            display: block;
+        }
+
+        .status.success {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .status.error {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .toolbar {
+            display: grid;
+            grid-template-columns:
+                1.4fr
+                1fr
+                1fr;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .table-wrap {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 850px;
+        }
+
+        th,
+        td {
+            padding: 12px 10px;
+            border-bottom: 1px solid var(--border);
+            text-align: right;
+            vertical-align: middle;
+        }
+
+        th {
+            background: #f8fbff;
+            color: var(--dark);
+            font-size: 13px;
+        }
+
+        td {
+            font-size: 14px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 5px 9px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .badge-active {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .badge-off {
+            background: #e2e8f0;
+            color: #475569;
+        }
+
+        .mini-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .mini-actions button {
+            padding: 7px 9px;
+            font-size: 12px;
+        }
+
+        .loading {
+            padding: 25px;
+            text-align: center;
+            color: var(--muted);
+        }
+
+        .empty {
+            padding: 30px;
+            text-align: center;
+            color: var(--muted);
+        }
+
+        .owner-only {
+            display: none;
+        }
+
+        @media (max-width: 980px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .toolbar {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .page {
+                width: 95%;
+            }
+
+            .hero {
+                padding: 21px;
+                border-radius: 18px;
+            }
+
+            .hero h1 {
+                font-size: 24px;
+            }
+
+            .card {
+                padding: 16px;
+                border-radius: 16px;
+            }
+
+            .row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="hamou-navbar"></div>
+
+    <main class="page">
+
+        <section class="hero">
+            <h1>إدارة المنهاج الرسمي</h1>
+            <p>
+                لوحة Owner لإدارة المستويات والوحدات والمواضيع
+                داخل منصة HAMOU MATH.
+            </p>
+        </section>
+
+        <div class="grid">
+
+            <!-- FORM -->
+            <section class="card owner-only" id="editorCard">
+
+                <h2 id="formTitle">
+                    إضافة عنصر جديد
+                </h2>
+
+                <form id="curriculumForm">
+
+                    <input
+                        type="hidden"
+                        id="itemId"
+                    >
+
+                    <div class="form-group">
+                        <label for="level">
+                            المستوى
+                        </label>
+
+                        <input
+                            id="level"
+                            required
+                            placeholder="مثال: السنة الأولى ثانوي"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="subject">
+                            المادة
+                        </label>
+
+                        <input
+                            id="subject"
+                            required
+                            placeholder="مثال: الرياضيات"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="unit">
+                            الوحدة
+                        </label>
+
+                        <input
+                            id="unit"
+                            required
+                            placeholder="اسم الوحدة"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="topic">
+                            الموضوع
+                        </label>
+
+                        <input
+                            id="topic"
+                            required
+                            placeholder="عنوان الموضوع"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description">
+                            الوصف
+                        </label>
+
+                        <textarea
+                            id="description"
+                            placeholder="وصف مختصر للموضوع"
+                        ></textarea>
+                    </div>
+
+                    <div class="row">
+
+                        <div class="form-group">
+                            <label for="orderNumber">
+                                الترتيب
+                            </label>
+
+                            <input
+                                type="number"
+                                id="orderNumber"
+                                min="1"
+                                value="1"
+                                required
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="isActive">
+                                الحالة
+                            </label>
+
+                            <select id="isActive">
+                                <option value="true">
+                                    نشط
+                                </option>
+
+                                <option value="false">
+                                    مخفي
+                                </option>
+                            </select>
+                        </div>
+
+                    </div>
+
+                    <div class="actions">
+
+                        <button
+                            type="submit"
+                            class="btn-primary"
+                        >
+                            حفظ
+                        </button>
+
+                        <button
+                            type="button"
+                            class="btn-secondary"
+                            id="resetBtn"
+                        >
+                            جديد
+                        </button>
+
+                    </div>
+
+                </form>
+
+                <div
+                    id="status"
+                    class="status"
+                ></div>
+
+            </section>
+
+            <!-- LIST -->
+            <section class="card">
+
+                <h2>
+                    عناصر المنهاج
+                </h2>
+
+                <div
+                    id="accessMessage"
+                    class="status error show"
+                    style="margin-bottom:15px"
+                >
+                    جارِ التحقق من صلاحيات الحساب...
+                </div>
+
+                <div class="toolbar">
+
+                    <input
+                        id="searchInput"
+                        placeholder="بحث في المنهاج..."
+                    >
+
+                    <select id="levelFilter">
+                        <option value="">
+                            كل المستويات
+                        </option>
+                    </select>
+
+                    <select id="statusFilter">
+                        <option value="">
+                            كل الحالات
+                        </option>
+
+                        <option value="true">
+                            نشط
+                        </option>
+
+                        <option value="false">
+                            مخفي
+                        </option>
+                    </select>
+
+                </div>
+
+                <div
+                    id="tableContainer"
+                    class="table-wrap"
+                >
+                    <div class="loading">
+                        جارِ تحميل المنهاج...
+                    </div>
+                </div>
+
+            </section>
+
+        </div>
+
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script src="../js/supabase.js"></script>
+    <script src="../js/theme.js"></script>
+    <script src="../js/i18n.js"></script>
+    <script src="../js/navbar.js"></script>
+    <script src="../js/curriculum-admin.js"></script>
+
+</body>
+</html>
